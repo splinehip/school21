@@ -1,0 +1,32 @@
+{
+    "folders": [{"path": "libft"},],
+    "settings": {
+        "42header.username": "cflorind",
+        "42header.email": "cflorind@student.21-school.ru",
+
+        "42norminette.command": "norminette", // Default: 'norminette'.
+        "42norminette.showErrors": "all", // Default: 'all'. ['all', 'one']
+        "42norminette.trace.server": "messages", // Default: 'messages'. ['messages', 'off', 'verbose']
+
+        "files.autoSave": "onFocusChange",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+  
+        "editor.formatOnSave": true,
+        "editor.autoIndent": "advanced",
+        "editor.detectIndentation": true,
+        "editor.formatOnPaste": true,
+        "editor.cursorBlinking": "phase",
+        "editor.rulers": [
+          {
+            "column": 80,
+            "color": "#400040",
+          },
+          {
+            "column": 105,
+            "color": "#494949"
+          },
+        ],
+        "editor.minimap.scale": 3,
+      },
+}
