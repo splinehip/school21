@@ -6,13 +6,14 @@
 /*   By: cflorind <cflorind@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/17 11:30:55 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/17 18:12:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 #define LIBFT_H
+#include <stddef.h>
 
-void *memset(void *buf, int c, size_t l)
+void *ft_memset(void *buf, int c, size_t l);
 
 #endif

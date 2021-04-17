@@ -1,5 +1,5 @@
 {
-    "folders": [{"path": "libft"},],
+    "folders": [{"path": "tests"}, {"path": "libft"},],
     "settings": {
         "42header.username": "cflorind",
         "42header.email": "cflorind@student.21-school.ru",
@@ -11,7 +11,7 @@
         "files.autoSave": "onFocusChange",
         "files.insertFinalNewline": true,
         "files.trimTrailingWhitespace": true,
-  
+
         "editor.formatOnSave": true,
         "editor.autoIndent": "advanced",
         "editor.detectIndentation": true,
