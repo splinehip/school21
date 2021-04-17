@@ -13,4 +13,6 @@
 #ifndef LIBFT_H
 #define LIBFT_H
 
+void *memset(void *buf, int c, size_t l)
+
 #endif
