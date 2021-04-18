@@ -4,13 +4,17 @@
         "42header.username": "cflorind",
         "42header.email": "marvin@42.fr",
 
-        "42norminette.command": "norminette", // Default: 'norminette'.
-        "42norminette.showErrors": "all", // Default: 'all'. ['all', 'one']
-        "42norminette.trace.server": "messages", // Default: 'messages'. ['messages', 'off', 'verbose']
+        "42norminette.command": "norminette",
+        "42norminette.showErrors": "all",
+        "42norminette.trace.server": "messages",
 
         "files.autoSave": "onFocusChange",
         "files.insertFinalNewline": true,
         "files.trimTrailingWhitespace": true,
+        "files.exclude": {
+          ".vscode": true,
+          "**/*.[od]": true,
+      },
 
         "editor.tabSize": 4,
         "editor.insertSpaces": false,
