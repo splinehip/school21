@@ -1,31 +1,33 @@
-SRCS	= ${wildcard srcs/*.c}
+NAME		= test.a
 
-OBJS	= ${SRCS:.c=.o}
+SRCS		= ${wildcard srcs/*.c}
 
-LIB		= ft
-LIBDIR	= ../../libft
+OBJS		= ${SRCS:.c=.o}
 
-CC		= cc
+LIB			= ft
+LIBDIR		= ../../libft
 
-CFLAGS	= -Wall -Wextra -Werror -Iincludes
+CC			= cc
 
-BIN		= test.a
+CFLAGS		= -Wall -Wextra -Werror -Iincludes
 
-RM		= rm -f
+OPTFLAGS	= -O2
 
-all:	${BIN}
+RM			= rm -f
 
-${BIN}:	${OBJS}
-		${CC} ${CFLAGS} main.c ${OBJS} -L${LIBDIR} -l${LIB} -o ${BIN}
+all:	${NAME}
 
-.c.o:
-		${CC} ${CFLAGS} -c  $< -o ${<:.c=.o}
+${NAME}:${OBJS}
+		${CC} ${CFLAGS} main.c ${OBJS} -L${LIBDIR} -l${LIB} -o ${NAME}
+
+%.o:	%.c
+		${CC} ${CFLAGS} -c  $< -o $@
 
 clean:
 		${RM} ${OBJS}
 
 fclean:	clean
-		${RM} ${BIN}
+		${RM} ${NAME}
 
 re:		fclean all
 

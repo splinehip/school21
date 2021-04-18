@@ -1,8 +1,8 @@
 #include "test.h"
 
-int main(void)
+int	main(void)
 {
-    test1();
-
-    return (0);
+	test1_memset();
+	test2_bzero();
+	return (0);
 }

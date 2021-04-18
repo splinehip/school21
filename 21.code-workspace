@@ -2,7 +2,7 @@
     "folders": [{"path": "tests"}, {"path": "libft"},],
     "settings": {
         "42header.username": "cflorind",
-        "42header.email": "cflorind@student.21-school.ru",
+        "42header.email": "marvin@42.fr",
 
         "42norminette.command": "norminette", // Default: 'norminette'.
         "42norminette.showErrors": "all", // Default: 'all'. ['all', 'one']

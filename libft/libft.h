@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <cflorind@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/16 16:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/18 12:45:20 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
+/*   Updated: 2021/04/18 15:50:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#ifndef LIBFT_H
+# define LIBFT_H
+# include <stddef.h>
 
-void	*ft_memset(void *buf, int c, size_t l)
-{
-	unsigned char	*buf_tmp;
+void	*ft_memset(void *buf, int c, size_t l);
+void	ft_bzero(void *buf, size_t l);
 
-	buf_tmp = (unsigned char *)buf;
-	while (l--)
-	{
-		*buf_tmp++ = (unsigned char)c;
-	}
-	return (buf);
-}
+#endif

@@ -1,29 +1,35 @@
-SRCS	= srcs/ft_memset.c
+NAME		= libft.a
 
-OBJS	= ${SRCS:.c=.o}
+SRCS		= ft_memset.c	ft_bzero.c
 
-CC		= cc
+OBJS		= ${SRCS:.c=.o}
 
-CFLAGS	= -Wall -Wextra -Werror -Iincludes
+D_FILES		= ${SRCS:.c=.d}
 
-RM		= rm -f
+CC			= cc
 
-NAME	= libft.a
+CFLAGS		= -Wall -Wextra -Werror
 
-all:	${NAME}
+OPTFLAGS	= -O2
 
-${NAME}:${OBJS}
-		ar -crs ${NAME} ${OBJS}
+RM			= rm -f
 
-.c.o:
-		${CC} ${CFLAGS} -c  $< -o ${<:.c=.o}
+all:		${NAME}
+
+${NAME}:	${OBJS}
+			ar -crs ${NAME} $?
+
+%.o:		%.c
+			${CC} ${CFLAGS} ${OPTFLAGS} -c  $< -o $@ -MD
+
+include ${wildcard ${D_FILES}}
 
 clean:
-		${RM} ${OBJS}
+			${RM} ${OBJS} ${D_FILES}
 
-fclean:	clean
-		${RM} ${NAME}
+fclean:		clean
+			${RM} ${NAME}
 
-re:		fclean all
+re:			fclean all
 
 .PHONY: all clean fclean re
