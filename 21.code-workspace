@@ -14,7 +14,7 @@
 
         "editor.tabSize": 4,
         "editor.insertSpaces": false,
-		    "editor.renderWhitespace": "all",
+        "editor.renderWhitespace": "all",
         "editor.cursorBlinking": "phase",
         "editor.rulers": [
           {
