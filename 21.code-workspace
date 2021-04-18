@@ -12,9 +12,9 @@
         "files.insertFinalNewline": true,
         "files.trimTrailingWhitespace": true,
 
-        "editor.formatOnSave": true,
-        "editor.autoIndent": "advanced",
-        "editor.detectIndentation": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false,
+		    "editor.renderWhitespace": "all",
         "editor.formatOnPaste": true,
         "editor.cursorBlinking": "phase",
         "editor.rulers": [
