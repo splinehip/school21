@@ -13,7 +13,8 @@
         "files.trimTrailingWhitespace": true,
         "files.exclude": {
           ".vscode": true,
-          "**/*.[od]": true,
+          "**/*.[oad]": true,
+          "**.gitignore": true,
       },
 
         "editor.tabSize": 4,
@@ -31,5 +32,9 @@
           },
         ],
         "editor.minimap.scale": 3,
+        "files.associations": {
+          "test.h": "c",
+          "libft.h": "c"
+        },
       },
 }

@@ -2,7 +2,8 @@ NAME		= libft.a
 
 SRCS		=	ft_memset.c\
 				ft_bzero.c\
-				ft_memcpy.c
+				ft_memcpy.c\
+				ft_memccpy.c
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -22,7 +23,7 @@ ${NAME}:	${OBJS}
 			ar -crs ${NAME} $?
 
 %.o:		%.c
-			${CC} ${CFLAGS} ${OPTFLAGS} -c  $< -o $@ -MD
+			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
 
 include ${wildcard ${D_FILES}}
 

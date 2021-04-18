@@ -8,5 +8,6 @@
 void	test1_memset(void);
 void	test2_bzero(void);
 void	test3_memcpy(void);
+void	test4_memccpy(void);
 
 #endif

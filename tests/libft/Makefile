@@ -15,7 +15,10 @@ OPTFLAGS	= -O2
 
 RM			= rm -f
 
-all:	${NAME}
+all:	libft ${NAME}
+
+libft:
+		cd ../../libft && make
 
 ${NAME}:${OBJS}
 		${CC} ${CFLAGS} main.c ${OBJS} -L${LIBDIR} -l${LIB} -o ${NAME}
