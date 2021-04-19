@@ -6,11 +6,25 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 17:32:44 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 19:15:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/19 20:47:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static size_t	ft_strnlen(const char *str, size_t max)
+{
+	size_t	str_len;
+
+	str_len = 0;
+	while (str_len < max)
+	{
+		if (str[str_len] == '\0')
+			return (str_len);
+		str_len++;
+	}
+	return (max);
+}
 
 size_t	ft_strlcat(char *dest, const char *src, size_t n)
 {

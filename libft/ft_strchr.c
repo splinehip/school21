@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnlen.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/19 19:15:33 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 19:15:57 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/19 20:09:02 by cflorind          #+#    #+#             */
+/*   Updated: 2021/04/19 20:17:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strnlen(const char *str, size_t max)
+char	*ft_strchr(const char *str, int c)
 {
-	size_t	str_len;
+	size_t	index;
 
-	str_len = 0;
-	while (str_len < max)
+	index = 0;
+	while (str[index] != '\0')
 	{
-		if (str[str_len] == '\0')
-			return (str_len);
-		str_len++;
+		if (str[index] == (char)c)
+			return ((char *)(str + index));
+		index++;
 	}
-	return (max);
+	return (NULL);
 }

@@ -16,5 +16,6 @@ void	test7_memcpm(void);
 void	test8_strlen(void);
 void	test9_strlcpy(void);
 void	test10_strlcat(void);
+void	test11_strchr(void);
 
 #endif
