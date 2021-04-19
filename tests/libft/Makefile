@@ -21,7 +21,7 @@ libft:
 		cd ../../libft && make
 
 ${NAME}:${OBJS}
-		${CC} ${CFLAGS} ${OBJS} -L${LIBDIR} -l${LIB} -o ${NAME}
+		${CC} ${CFLAGS} ${OBJS} -L${LIBDIR} -l${LIB} -lbsd -o ${NAME}
 
 %.o:	%.c
 		${CC} ${CFLAGS} -c  $< -o $@

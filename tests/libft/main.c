@@ -10,5 +10,6 @@ int	main(void)
 	test6_memchr();
 	test7_memcpm();
 	test8_strlen();
+	test9_strlcpy();
 	return (0);
 }
