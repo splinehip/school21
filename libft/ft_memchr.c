@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 12:43:47 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/19 12:44:15 by cflorind          #+#    #+#             */
+/*   Updated: 2021/04/19 13:10:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <stddef.h>
+#include "libft.h"
 
-void	*ft_memset(void *buf, int c, size_t l);
-void	ft_bzero(void *buf, size_t l);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	*ft_memccpy(void *dest, const void *src, int c, size_t n);
-void	*ft_memmove(void *dest, const void *src, size_t n);
-void	*ft_memchr(const void *src, int c, size_t n);
+void	*ft_memchr(const void *src, int c, size_t n)
+{
+	const unsigned char	*s;
 
-#endif
+	s = src;
+	while (n--)
+	{
+		if (*s++ == c)
+			return ((void *)--s);
+	}
+	return (NULL);
+}

@@ -7,5 +7,6 @@ int	main(void)
 	test3_memcpy();
 	test4_memccpy();
 	test5_memmove();
+	test6_memchr();
 	return (0);
 }
