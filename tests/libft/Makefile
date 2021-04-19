@@ -32,6 +32,9 @@ clean:
 fclean:	clean
 		${RM} ${NAME}
 
-re:		fclean all
+libft_re:
+		cd ../../libft && make fclean
+
+re:		libft_re fclean all
 
 .PHONY: all clean fclean re

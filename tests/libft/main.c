@@ -13,5 +13,6 @@ int	main(void)
 	test9_strlcpy();
 	test10_strlcat();
 	test11_strchr();
+	test12_strrchr();
 	return (0);
 }
