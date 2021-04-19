@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 19:24:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/18 21:00:17 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/19 13:26:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 
 	d = (unsigned char *)dest;
 	s = (const unsigned char *)src;
+	if (!dest && !src)
+		return (dest);
 	while (n--)
 	{
 		*d++ = *s++;
