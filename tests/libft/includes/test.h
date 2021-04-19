@@ -11,5 +11,6 @@ void	test3_memcpy(void);
 void	test4_memccpy(void);
 void	test5_memmove(void);
 void	test6_memchr(void);
+void	test7_memcpm(void);
 
 #endif

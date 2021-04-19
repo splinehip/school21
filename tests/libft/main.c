@@ -8,5 +8,6 @@ int	main(void)
 	test4_memccpy();
 	test5_memmove();
 	test6_memchr();
+	test7_memcpm();
 	return (0);
 }

@@ -16,6 +16,7 @@
           "**/*.[oad]": true,
           "**.gitignore": true,
       },
+        "C_Cpp.autocompleteAddParentheses": true,
 
         "editor.tabSize": 4,
         "editor.insertSpaces": false,

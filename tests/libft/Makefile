@@ -1,6 +1,6 @@
 NAME		= test.a
 
-SRCS		= ${wildcard srcs/*.c}
+SRCS		= main.c	${wildcard srcs/*.c}
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -21,7 +21,7 @@ libft:
 		cd ../../libft && make
 
 ${NAME}:${OBJS}
-		${CC} ${CFLAGS} main.c ${OBJS} -L${LIBDIR} -l${LIB} -o ${NAME}
+		${CC} ${CFLAGS} ${OBJS} -L${LIBDIR} -l${LIB} -o ${NAME}
 
 %.o:	%.c
 		${CC} ${CFLAGS} -c  $< -o $@
