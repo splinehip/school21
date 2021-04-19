@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strnlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/19 17:32:44 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 19:15:07 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/19 19:15:33 by cflorind          #+#    #+#             */
+/*   Updated: 2021/04/19 19:15:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t n)
+size_t	ft_strnlen(const char *str, size_t max)
 {
-	size_t	d_size;
-	size_t	s_size;
+	size_t	str_len;
 
-	d_size = ft_strnlen(dest, n);
-	s_size = ft_strlen(src);
-	if (d_size == n)
-		return (s_size + n);
-	if (s_size < n - d_size)
+	str_len = 0;
+	while (str_len < max)
 	{
-		ft_memcpy(dest + d_size, src, s_size + 1);
+		if (str[str_len] == '\0')
+			return (str_len);
+		str_len++;
 	}
-	else
-	{
-		ft_memcpy(dest + d_size, src, n - 1);
-		dest[d_size + n] = '\0';
-	}
-	return (d_size + s_size);
+	return (max);
 }

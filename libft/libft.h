@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 17:32:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/19 19:16:04 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int		ft_memcpm(const void *left, const void *rigth, size_t n);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t l);
 size_t	ft_strlcat(char *dest, const char *src, size_t n);
+size_t	ft_strnlen(const char *str, size_t max);
 
 #endif
