@@ -17,5 +17,6 @@ int	main(void)
 	test13_strnstr();
 	test14_strncmp();
 	test15_atoi();
+	test16_isalpha();
 	return (0);
 }

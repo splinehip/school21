@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 12:08:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/20 13:38:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ char	*ft_strrchr(const char *str, int c);
 char	*ft_strnstr(const char *str, const char *substr, size_t n);
 int		ft_strncmp(const char *str_1, const char *str_2, size_t n);
 int		ft_atoi(const char *str);
+int		ft_isalpha(int c);
 
 #endif

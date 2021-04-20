@@ -2,6 +2,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <ctype.h>
 # include <bsd/string.h>
 # include "../../../libft/libft.h"
 # define TEST_H
@@ -21,5 +22,6 @@ void	test12_strrchr(void);
 void	test13_strnstr(void);
 void	test14_strncmp(void);
 void	test15_atoi(void);
+void	test16_isalpha(void);
 
 #endif
