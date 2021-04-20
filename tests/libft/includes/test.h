@@ -25,5 +25,8 @@ void	test15_atoi(void);
 void	test16_isalpha(void);
 void	test17_isalnum(void);
 void	test18_isascii(void);
+void	test19_isprint(void);
+void	test20_toupper(void);
+void	test21_tolower(void);
 
 #endif

@@ -20,5 +20,9 @@ int	main(void)
 	test16_isalpha();
 	test17_isalnum();
 	test18_isascii();
+	test19_isprint();
+	test20_toupper();
+	test21_tolower();
+
 	return (0);
 }
