@@ -16,5 +16,6 @@ int	main(void)
 	test12_strrchr();
 	test13_strnstr();
 	test14_strncmp();
+	test15_atoi();
 	return (0);
 }

@@ -20,5 +20,6 @@ void	test11_strchr(void);
 void	test12_strrchr(void);
 void	test13_strnstr(void);
 void	test14_strncmp(void);
+void	test15_atoi(void);
 
 #endif
