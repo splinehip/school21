@@ -19,5 +19,6 @@ void	test10_strlcat(void);
 void	test11_strchr(void);
 void	test12_strrchr(void);
 void	test13_strnstr(void);
+void	test14_strncmp(void);
 
 #endif

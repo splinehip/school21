@@ -15,5 +15,6 @@ int	main(void)
 	test11_strchr();
 	test12_strrchr();
 	test13_strnstr();
+	test14_strncmp();
 	return (0);
 }
