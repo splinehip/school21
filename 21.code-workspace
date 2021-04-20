@@ -18,6 +18,9 @@
       },
         "C_Cpp.autocompleteAddParentheses": true,
 
+        "smartsemicolon.enable": true,
+        "smartsemicolon.autoLineChange": true,
+
         "editor.tabSize": 4,
         "editor.insertSpaces": false,
         "editor.renderWhitespace": "all",
@@ -35,7 +38,8 @@
         "editor.minimap.scale": 3,
         "files.associations": {
           "test.h": "c",
-          "libft.h": "c"
+          "libft.h": "c",
+          "cstdlib": "c"
         },
       },
 }

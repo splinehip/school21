@@ -6,12 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 17:13:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/20 19:36:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include <stdlib.h>
 # include <stddef.h>
 
 void	*ft_memset(void *buf, int c, size_t l);
@@ -36,5 +37,7 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+void	*ft_calloc(size_t n, size_t size);
+char	*ft_strdup(char *str);
 
 #endif

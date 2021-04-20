@@ -28,5 +28,7 @@ void	test18_isascii(void);
 void	test19_isprint(void);
 void	test20_toupper(void);
 void	test21_tolower(void);
+void	test22_calloc(void);
+void	test23_strdup(void);
 
 #endif

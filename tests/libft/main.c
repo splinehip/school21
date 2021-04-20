@@ -23,6 +23,8 @@ int	main(void)
 	test19_isprint();
 	test20_toupper();
 	test21_tolower();
+	test22_calloc();
+	test23_strdup();
 
 	return (0);
 }
