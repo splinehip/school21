@@ -14,5 +14,6 @@ int	main(void)
 	test10_strlcat();
 	test11_strchr();
 	test12_strrchr();
+	test13_strnstr();
 	return (0);
 }

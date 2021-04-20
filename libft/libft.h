@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 20:56:56 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/20 08:53:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t l);
 size_t	ft_strlcat(char *dest, const char *src, size_t n);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strrchr(const char *str, int c);
+char	*ft_strnstr(const char *str, const char *substr, size_t n);
 
 #endif
