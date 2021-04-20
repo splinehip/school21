@@ -23,5 +23,7 @@ void	test13_strnstr(void);
 void	test14_strncmp(void);
 void	test15_atoi(void);
 void	test16_isalpha(void);
+void	test17_isalnum(void);
+void	test18_isascii(void);
 
 #endif

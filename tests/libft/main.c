@@ -18,5 +18,7 @@ int	main(void)
 	test14_strncmp();
 	test15_atoi();
 	test16_isalpha();
+	test17_isalnum();
+	test18_isascii();
 	return (0);
 }
