@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 11:50:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 17:08:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:37:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		if (!inset(set, s1[rigth]))
 			break ;
 	}
-	res = ft_calloc(rigth - left + 2, sizeof(char));
+	res = (char *)ft_calloc(rigth - left + 2, sizeof(char));
 	if (res == NULL)
 		return (NULL);
 	ft_strlcpy(res, s1 + left, (rigth - left) + 2);
