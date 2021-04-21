@@ -27,5 +27,6 @@ int	main(void)
 	test23_strdup();
 	test24_substr();
 	test25_strjoin();
+	test26_strtrim();
 	return (0);
 }

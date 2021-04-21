@@ -6,11 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 11:15:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 11:25:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:04:35 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
 Синтаксис:
 int ft_strncmp(const char *str1, const char *str2, size_t n)
@@ -42,8 +43,11 @@ int	ft_strncmp(const char *str_1, const char *str_2, size_t n)
 	s2 = str_2;
 	while (*s1 == *s2 && *s1 != '\0' && *s2 != '\0' && n--)
 	{
-		s1++;
-		s2++;
+		if (n)
+		{
+			s1++;
+			s2++;
+		}
 	}
 	return (*s1 - *s2);
 }

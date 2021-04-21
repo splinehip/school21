@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 08:50:48 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 09:34:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/21 12:57:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ len - максимальная длина для копирования.
 Функция копирует подстроку из исходной строки s начиная с индекса start и
 длиной не более len. При успехе возвращает указатель на скопированную подстроку.
 */
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*subs;
 	size_t	subs_len;

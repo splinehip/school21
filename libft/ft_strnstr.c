@@ -6,24 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 08:50:22 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 10:22:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/21 13:34:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
-DSECRIPTION
-The strnstr() function locates the first occurrence of the null-termi-
-nated string SUBSTR in the string STR, where not more than len characters
-are searched. Characters that appear after a `\0' character are not
-searched. Since the strnstr() function is a FreeBSD specific API, it
-should only be used when portability is not a concern.
 
-RETURN VALUES
-     If	SUBSTR is an empty string, STR is returned; if SUBSTR occurs nowhere
-     in	STR, NULL is returned; otherwise a pointer to the first	character of
-     the first occurrence of SUBSTR is returned.
-*/
 static int	ft_check_substr(const char *s, const char *ss)
 {
 	const char	*s_tmp;
@@ -41,6 +29,22 @@ static int	ft_check_substr(const char *s, const char *ss)
 	return (1);
 }
 
+/*
+Аргументы:
+
+str – указатель на строку, в которой ведется поиск.
+substr – указатель на искомую строку.
+
+Возвращаемое значение:
+NULL – если строка substr не входит в строку str. Указатель на первое вхождение
+строки substr в строку str.
+
+Описание:
+Функция strnstr ищет первое вхождение строки (за исключением признак конца
+строки), на которую указывает аргумент substr, в строку , на которую указывает
+аргумент str. Если строка substr имеет нулевую длину, то функция вернет
+указатель на начало строки str.
+*/
 char	*ft_strnstr(const char *str, const char *substr, size_t n)
 {
 	const char	*res;
