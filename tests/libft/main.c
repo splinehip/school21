@@ -26,6 +26,6 @@ int	main(void)
 	test22_calloc();
 	test23_strdup();
 	test24_substr();
-
+	test25_strjoin();
 	return (0);
 }

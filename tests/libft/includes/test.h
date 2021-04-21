@@ -31,5 +31,5 @@ void	test21_tolower(void);
 void	test22_calloc(void);
 void	test23_strdup(void);
 void	test24_substr(void);
-
+void	test25_strjoin(void);
 #endif

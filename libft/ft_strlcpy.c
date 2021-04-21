@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:31:35 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 08:36:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/21 11:02:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t l)
 	if (l == 0)
 		return (ft_strlen(src));
 	count = 0;
-	while (count < l - 1)
+	while (src[count] != '\0' && count < l - 1)
 	{
 		dest[count] = src[count];
 		count++;
