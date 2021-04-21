@@ -9,11 +9,11 @@ void	test5_memmove(void)
 
 	printf("\nTest 5, memmove: src: %s, dest: %s\n", src, dest);
 	printf("Test 5, memmove resp: %s\n",
-			(char *)memmove(&dest[4], &src[2], 5));
+			(char *)memmove(&src[4], &src, 5));
 	printf("Test 5, memmove, res: src: %s, dest: %s\n", src, dest);
 
 	printf("\nTest 5, ft_memmove: src: %s, dest: %s\n", src1, dest1);
 	printf("Test 5, ft_memmove resp: %s\n",
-			(char *)ft_memmove(&dest1[4], &src1[2], 5));
+			(char *)ft_memmove(&src1[4], &src1, 5));
 	printf("Test 5, ft_memmove, res: src: %s, dest: %s\n", src1, dest1);
 }

@@ -14,7 +14,7 @@ void	test4_memccpy(void)
 	{
 		printf("NULL\n");
 	}
-
+	ft_memset(dest, '0', 11);
 	printf("\nTest 4.1 ft_memccpy: %s\n", src);
 	printf("Test 4.1 res: ");
 	if (ft_memccpy(dest, src, ' ', 6))
@@ -24,7 +24,7 @@ void	test4_memccpy(void)
 	{
 		printf("NULL\n");
 	}
-
+	ft_memset(dest, '0', 11);
 	printf("\nTest 4.2 memccpy: %s\n", src);
 	printf("Test 4.2 res: ");
 	if (memccpy(dest, src, '0', 6))
@@ -34,6 +34,7 @@ void	test4_memccpy(void)
 	{
 		printf("NULL\n");
 	}
+	ft_memset(dest, '0', 11);
 	printf("\nTest 4.2 ft_memccpy: %s\n", src);
 	printf("Test 4.2 res: ");
 	if (ft_memccpy(dest, src, '0', 6))

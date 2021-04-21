@@ -6,35 +6,51 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 11:38:25 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/19 13:29:34 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/22 01:57:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*
+Аргументы:
+dest – указатель на массив в который будут скопированы данные.
+src – указатель на массив источник копируемых данных.
+n – количество байт для копирования.
+
+Возвращаемое значение:
+Функция возвращает указатель на массив, в который скопированы данные.
+
+Описание:
+Функция memmove копирует n байт из массива (области памяти), на который
+указывает аргумент src, в массив (область памяти), на который указывает аргумент
+dest. При этом массивы (области памяти) могут пересекаться.
+*/
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
 	unsigned char		*d;
 	const unsigned char	*s;
+	unsigned char		*s_copy;
 
 	d = dest;
-	s = src;
 	if (!dest && !src)
 		return (dest);
 	if (dest > src)
 	{
-		while (n--)
+		s = (unsigned char *)ft_calloc(n, sizeof(unsigned char));
+		if (s != NULL)
 		{
-			*d++ = *s++;
+			s_copy = ft_memcpy((unsigned char *)s, src, n);
+			while (n--)
+				*d++ = *s++;
+			free(s_copy);
 		}
 	}
 	else
 	{
-		while (n)
-		{
-			n--;
-			d[n] = s[n];
-		}
+		s = src;
+		while (n--)
+			*d++ = *s++;
 	}
 	return (dest);
 }
