@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:31:35 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 20:59:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/21 08:36:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t l)
 {
 	size_t		count;
 
+	if (!dest || !src)
+		return (0);
+	if (l == 0)
+		return (ft_strlen(src));
 	count = 0;
 	while (count < l - 1)
 	{
