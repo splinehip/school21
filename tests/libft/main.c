@@ -25,6 +25,7 @@ int	main(void)
 	test21_tolower();
 	test22_calloc();
 	test23_strdup();
+	test24_substr();
 
 	return (0);
 }

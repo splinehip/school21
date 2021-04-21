@@ -30,5 +30,6 @@ void	test20_toupper(void);
 void	test21_tolower(void);
 void	test22_calloc(void);
 void	test23_strdup(void);
+void	test24_substr(void);
 
 #endif
