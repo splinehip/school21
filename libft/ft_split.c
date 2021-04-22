@@ -6,13 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 09:41:03 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 14:11:13 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/22 14:42:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-unsigned int	c_count(const char *s, const char c)
+static unsigned int	c_count(const char *s, const char c)
 {
 	const char		*s_tmp;
 	unsigned int	res;
@@ -27,7 +27,7 @@ unsigned int	c_count(const char *s, const char c)
 	return (res);
 }
 
-int	set_res_item(char **res_item, char *s, char *set, size_t n)
+static int	set_res_item(char **res_item, char *s, char *set, size_t n)
 {
 	char	*item;
 
@@ -45,7 +45,7 @@ int	set_res_item(char **res_item, char *s, char *set, size_t n)
 	return (1);
 }
 
-int	res_get(char **res, char *s_trim, char c, char *set)
+static int	res_get(char **res, char *s_trim, char c, char *set)
 {
 	size_t	i;
 	char	*s;
@@ -68,7 +68,7 @@ int	res_get(char **res, char *s_trim, char c, char *set)
 	return (1);
 }
 
-void	free_res(char **res)
+static void	free_res(char **res)
 {
 	int	i;
 
