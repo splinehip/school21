@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 11:50:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 17:37:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/22 22:43:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	left = 0;
 	rigth = ft_strlen(s1);
 	while (s1[left] != '\0' && inset(set, s1[left]))
-	{
 		left++;
-	}
+	if (s1[left] == '\0')
+		return ((char *)ft_calloc(1, sizeof(char)));
 	while (rigth--)
 	{
 		if (!inset(set, s1[rigth]))
