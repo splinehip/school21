@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 19:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 19:32:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/22 15:18:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void	*ft_calloc(size_t n, size_t size)
 
 	res = (void *)malloc(n * size);
 	if (res != NULL)
-		return (ft_memset(res, 0, n * size));
+		return (ft_memset(res, '\0', n * size));
 	return (NULL);
 }

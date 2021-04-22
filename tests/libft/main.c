@@ -29,5 +29,6 @@ int	main(void)
 	test25_strjoin();
 	test26_strtrim();
 	test27_split();
+	test28_itoa();
 	return (0);
 }
