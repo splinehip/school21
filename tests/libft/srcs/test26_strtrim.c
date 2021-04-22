@@ -2,7 +2,7 @@
 
 void	test26_strtrim(void)
 {
-	char	str[] = "!!!&&Hello World!}*";
+	char	str[] = "Hello World";
 	char	set[] = "!&}*";
 	char	*str_trimed;
 
