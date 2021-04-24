@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 12:08:26 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 14:23:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/23 14:58:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_atoi(const char *str)
 	if (*s == '-' || *s == '+')
 	{
 		if (*s == '-')
-			n = -1;
+			n = 1;
 		s++;
 	}
 	while (*s >= '0' && *s <= '9')
@@ -67,7 +67,7 @@ int	ft_atoi(const char *str)
 		res = res * 10 + (*s - 48);
 		s++;
 	}
-	if (n % 2 != 0)
+	if (n)
 		res *= -1;
 	return (res);
 }

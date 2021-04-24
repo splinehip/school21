@@ -30,5 +30,6 @@ int	main(void)
 	test26_strtrim();
 	test27_split();
 	test28_itoa();
+	test29_strmapi();
 	return (0);
 }

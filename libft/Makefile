@@ -7,7 +7,7 @@ SRCS		=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
 				ft_memmove.c	ft_strchr.c		ft_isdigit.c	ft_calloc.c\
 				ft_memchr.c		ft_strrchr.c	ft_isalnum.c	ft_strdup.c\
 				ft_substr.c		ft_strjoin.c	ft_strtrim.c	ft_split.c\
-				ft_itoa.c
+				ft_itoa.c		ft_strmapi.c
 
 OBJS		= ${SRCS:.c=.o}
 
