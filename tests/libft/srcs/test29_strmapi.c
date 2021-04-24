@@ -16,6 +16,9 @@ void	test29_strmapi(void)
 	if (res == NULL)
 		printf("Test 29, strmapi res is NULL\n");
 	else
+	{
 		printf("Test 29, strmapi, res: %s | res len: %ld\n",
 				res, ft_strlen(res));
+			free(res);
+	}
 }
