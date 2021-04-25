@@ -11,8 +11,8 @@ void	test15_atoi(void)
 	char str7[] = "abr";
 	char str8[] = "	123";
 	char str9[] = "--124";
-	char str10[] = "-124";
-	char str11[] = "+4294967296";
+	char str10[] = "-2147483649";
+	char str11[] = "+2147483648";
 
 	printf("\nTest15 atoi, str is: %s\nint is: %d\n", str1, atoi(str1));
 	printf("\nTest15 atoi, str is: %s\nint is: %d\n", str2, atoi(str2));

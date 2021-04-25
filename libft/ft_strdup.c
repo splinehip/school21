@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 19:37:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 21:00:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 12:40:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strdup(char *str)
 	char	*str_dup;
 
 	str_len = ft_strlen(str) + 1;
-	str_dup = (char *)malloc(str_len * sizeof(char));
+	str_dup = (char *)ft_calloc(str_len, sizeof(char));
 	if (str_dup != NULL)
 	{
 		ft_strlcpy(str_dup, str, str_len);

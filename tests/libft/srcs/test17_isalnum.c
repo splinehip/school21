@@ -6,7 +6,7 @@ void	test17_isalnum(void)
 	char	*s;
 
 	s = &str[0];
-	while (*s != '\0')
+	while (*s)
 	{
 		printf("\nTest 17, isalnum, str: %s, char: %c\n", str, *s);
 		printf("Test 17, isalnum, res: %d\n", isalnum(*s));

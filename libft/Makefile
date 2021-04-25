@@ -33,10 +33,13 @@ ${NAME}:	${OBJS}
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
 
+so:			${OBJS}
+			${CC} ${OBJS} -shared -o libft.so
+
 include ${wildcard ${D_FILES}}
 
 clean:
-			${RM} ${OBJS} ${D_FILES}
+			${RM} ${OBJS} ${D_FILES} libft.so
 
 fclean:		clean
 			${RM} ${NAME}
