@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 20:53:48 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 15:05:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 15:50:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@ c – код искомого символа.
 */
 char	*ft_strrchr(const char *str, int c)
 {
-	size_t	str_len;
+	size_t	index;
 
-	str_len = ft_strlen(str) + 1;
-	while (str_len > 0)
+	if (str == NULL)
+		return (NULL);
+	index = ft_index(str);
+	if (c == 0)
+		return ((char *)(str + index));
+	while (index--)
 	{
-		if (str[str_len] == (char)c)
-			return ((char *)(str + str_len));
-		str_len--;
+		if (str[index] == (char)c)
+			return ((char *)(str + index));
 	}
-	if (str[str_len] == (char)c)
-		return ((char *)(str + str_len));
 	return (NULL);
 }

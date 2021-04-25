@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 20:09:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 13:47:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 15:51:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_strchr(const char *str, int c)
 {
 	const char	*s;
 
+	if (str == NULL)
+		return (NULL);
 	s = str;
 	while (1)
 	{
