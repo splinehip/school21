@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:07:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 11:38:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 23:09:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ new - указатель на новый элемент списка котор�
 Функция получает первый элемент переданного списка lst и добавляет перед ним
 новый элемент new.
 */
-void	ft_lstadd_front(t_list **list, t_list *new)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (list && *list && new)
+	if (lst != NULL)
 	{
-		new->next = *list;
-		*list = new;
+		if (*lst == NULL)
+			*lst = (t_list *)ft_calloc(1, sizeof(t_list));
+		if (new == NULL)
+			new = (t_list *)ft_calloc(1, sizeof(t_list));
+		new->next = *lst;
+		*lst = new;
 	}
 }

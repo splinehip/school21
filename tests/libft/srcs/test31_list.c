@@ -39,14 +39,17 @@ void	test31_list(void)
 {
 	t_list	*list;
 	t_list	*list2;
+	t_list	*list3 = NULL;
 	t_list	*tmp_list;
 	int		i;
 	char	s1[] = "Hello World!";
 	char	s2[] = "Mister Pushkin";
 	char	s3[] = "Mister Tolstoy";
+	char	s4[] = "Mister Lermontov";
 	char	*str1;
 	char	*str2;
 	char	*str3;
+	char	*str4;
 
 	str1 = ft_memcpy((char *)ft_calloc(ft_strlen(s1) +1, sizeof(char)), s1,
 						ft_strlen(s1));
@@ -54,6 +57,8 @@ void	test31_list(void)
 						ft_strlen(s2));
 	str3 = ft_memcpy((char *)ft_calloc(ft_strlen(s3) + 1, sizeof(char)), s3,
 						ft_strlen(s3));
+	str4 = ft_memcpy((char *)ft_calloc(ft_strlen(s4) + 1, sizeof(char)), s4,
+						ft_strlen(s4));
 
 	printf("\nTest 31, listnew\n");
 	list = ft_lstnew(str1);
@@ -70,7 +75,7 @@ void	test31_list(void)
 		tmp_list = tmp_list->next;
 	}
 
-	printf("Test 32, lstsize: %d\n", ft_lstsize(list));
+	printf("Test 31, lstsize: %d\n", ft_lstsize(list));
 
 	printf("Test 31, lstlast, last list element->content: %s\n",
 			(char *)ft_lstlast(list)->content);
@@ -85,7 +90,19 @@ void	test31_list(void)
 				i++, (char *)tmp_list->content);
 		tmp_list = tmp_list->next;
 	}
-	printf("Test 32, lstsize: %d\n\n", ft_lstsize(list));
+	printf("Test 31, lstsize: %d\n\n", ft_lstsize(list));
+
+	printf("Test 31, lstadd_back NULL\n");
+	ft_lstadd_back(&list3, ft_lstnew(str4));
+	i = 0;
+	tmp_list = list3;
+	while (tmp_list)
+	{
+		printf("Test 31, list item %d, item->content: %s\n",
+				i++, (char *)tmp_list->content);
+		tmp_list = tmp_list->next;
+	}
+	ft_lstclear(&list3, del);
 
 	printf("Test 31, lstiter\n");
 	ft_lstiter(list, lstiter);
@@ -100,7 +117,7 @@ void	test31_list(void)
 
 	printf("Test 31, lstmap\n");
 	list2 = ft_lstmap(list, lstmap, del);
-	printf("Test 32, list2 size %d\n", ft_lstsize(list2));
+	printf("Test 31, list2 size %d\n", ft_lstsize(list2));
 	i = 0;
 	tmp_list = list2;
 	while (tmp_list)
@@ -119,7 +136,7 @@ void	test31_list(void)
 		tmp_list = tmp_list->next;
 	}
 	tmp_list->next = NULL;
-	printf("Test 32, lstsize: %d\n", ft_lstsize(list));
+	printf("Test 31, lstsize: %d\n", ft_lstsize(list));
 	i = 0;
 	tmp_list = list;
 	while (tmp_list)
@@ -136,4 +153,22 @@ void	test31_list(void)
 	printf("Test 31, lstclear\n");
 	ft_lstclear(&list2, del);
 	printf("Test 31, list2 size: %d\n", ft_lstsize(list));
+
+
+	t_list *l = ((void*)0);
+	t_list *n = ft_lstnew(strdup("OK"));
+
+	ft_lstadd_back(&l, n);
+	if (l == n && !strcmp(l->content, "OK"))
+	{
+		free(l->next);
+		free(l);
+		printf("\nLIST NULL TEST_SUCCESS\n");
+	}
+	else
+	{
+		free(l->next);
+		free(l);
+		printf("LIST NULL TEST_FAILED\n");
+	}
 }
