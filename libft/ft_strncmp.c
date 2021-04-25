@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 11:15:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 17:04:35 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 16:24:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int	ft_strncmp(const char *str_1, const char *str_2, size_t n)
 			s2++;
 		}
 	}
-	return (*s1 - *s2);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

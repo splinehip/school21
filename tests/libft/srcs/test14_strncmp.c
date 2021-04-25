@@ -2,8 +2,8 @@
 
 void	test14_strncmp(void)
 {
-	char	str_1[] = "hello world";
-	char	str_2[] = "hello world";
+	char	str_1[] = "\200";
+	char	str_2[] = "\0";
 	char	str_3[] = "hello";
 
 	printf("\nTest 14, strncmp, str_1: %s, str_2: %s\n", str_1, str_2);
