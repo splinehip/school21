@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 19:37:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 12:40:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 22:39:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*ft_strdup(char *str)
 	size_t	str_len;
 	char	*str_dup;
 
+	if (str == NULL)
+		return (NULL);
 	str_len = ft_strlen(str) + 1;
 	str_dup = (char *)ft_calloc(str_len, sizeof(char));
 	if (str_dup != NULL)

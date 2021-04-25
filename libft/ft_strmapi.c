@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 17:15:46 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/24 12:15:54 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 22:44:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 	char	*res;
 	size_t	i;
 
+	if (s == NULL || f == NULL)
+		return (NULL);
 	i = 0;
 	res = (char *)ft_calloc(ft_strlen(s) + 1, sizeof(char));
 	if (res == NULL)

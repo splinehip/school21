@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 13:32:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/24 13:37:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 22:45:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ fd - номер дескриптора файла для записи.
 */
 void	ft_putstr_fd(char *s, int fd)
 {
-	write(fd, s, ft_strlen(s));
+	if (s != NULL)
+		write(fd, s, ft_strlen(s));
 }
