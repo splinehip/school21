@@ -7,7 +7,7 @@ OBJS		= ${SRCS:.c=.o}
 LIB			= ft
 LIBDIR		= ../../libft
 
-CC			= cc
+CC			= clang
 
 CFLAGS		= -Wall -Wextra -Werror -Iincludes
 

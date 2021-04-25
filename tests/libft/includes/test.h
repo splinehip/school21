@@ -37,4 +37,5 @@ int		test27_split(void);
 void	test28_itoa(void);
 void	test29_strmapi(void);
 void	test30_puts(void);
+void	test31_list(void);
 #endif
