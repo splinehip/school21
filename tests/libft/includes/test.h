@@ -3,9 +3,12 @@
 # include <stdio.h>
 # include <string.h>
 # include <ctype.h>
+#include <stdbool.h>
 # include <bsd/string.h>
 # include "../../../libft/libft.h"
 # define TEST_H
+
+char* itoa (unsigned long long  value,  char str[],  int radix);
 
 void	test1_memset(void);
 void	test2_bzero(void);

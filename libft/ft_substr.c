@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 08:50:48 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 12:57:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 21:23:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ len - максимальная длина для копирования.
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*subs;
-	size_t	subs_len;
 
-	if (!s || len == 0)
+	if (s == NULL || len == 0)
 		return (NULL);
-	subs_len = ft_strlen(s) + 1 - start;
-	subs = (void *)ft_calloc(subs_len, sizeof(char));
+	if (start >= ft_strlen(s) + 1)
+		return ((char *)ft_calloc(1, sizeof(char)));
+	subs = (char *)ft_calloc(len + 1, sizeof(char));
 	if (subs == NULL)
 		return (NULL);
-	ft_strlcpy(subs, s + start, subs_len);
-	if (!ft_strncmp(subs, s + start, subs_len))
+	ft_strlcpy(subs, s + start, len + 1);
+	if (!ft_strncmp(subs, s + start, len))
 		return (subs);
 	return (NULL);
 }

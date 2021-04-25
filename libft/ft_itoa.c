@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 14:46:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 21:30:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/25 20:50:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	setstr(char *res, unsigned long long dev,
 					unsigned long long n_ull, int n)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (n < 0)
@@ -26,7 +26,7 @@ static void	setstr(char *res, unsigned long long dev,
 	}
 	else
 	{
-		while (n_ull != 0)
+		while (dev != 1)
 		{
 			dev /= 10;
 			res[i++] = n_ull / dev + 48;
