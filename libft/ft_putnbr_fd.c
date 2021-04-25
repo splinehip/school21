@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 13:39:17 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 22:32:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 01:00:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,25 @@ fd - номер дескриптора файла для записи.
 void	ft_putnbr_fd(int n, int fd)
 {
 	int					i;
-	unsigned long long	n_ull;
+	unsigned long long	ulln;
 	unsigned long long	dev;
 	char				res[12];
 
 	i = 0;
 	dev = 10;
-	n_ull = n;
+	ulln = n;
 	if (n < 0)
 	{
 		res[i++] = '-';
-		n_ull *= -1;
+		ulln *= -1;
 	}
-	while (n_ull % dev != n_ull)
+	while (ulln % dev != ulln)
 		dev *= 10;
 	while (dev != 1)
 	{
 		dev /= 10;
-		res[i++] = n_ull / dev + 48;
-		n_ull = n_ull % dev;
+		res[i++] = ulln / dev + 48;
+		ulln = ulln % dev;
 	}
 	write(fd, &res, i);
 }
