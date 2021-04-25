@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:07:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 23:09:21 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 00:17:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,21 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 {
 	if (lst != NULL)
 	{
-		if (*lst == NULL)
-			*lst = (t_list *)ft_calloc(1, sizeof(t_list));
-		if (new == NULL)
-			new = (t_list *)ft_calloc(1, sizeof(t_list));
-		new->next = *lst;
-		*lst = new;
+		if (*lst != NULL && new != NULL)
+		{
+			new->next = *lst;
+			*lst = new;
+		}
+		else
+		{
+			if (*lst == NULL && new != NULL)
+				*lst = new;
+			if (*lst != NULL && new == NULL)
+			{
+				new = (t_list *)ft_calloc(1, sizeof(t_list));
+				new->next = *lst;
+				*lst = new;
+			}
+		}
 	}
 }

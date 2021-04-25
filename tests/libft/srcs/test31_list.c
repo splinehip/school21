@@ -161,14 +161,27 @@ void	test31_list(void)
 	ft_lstadd_back(&l, n);
 	if (l == n && !strcmp(l->content, "OK"))
 	{
-		free(l->next);
-		free(l);
-		printf("\nLIST NULL TEST_SUCCESS\n");
+		ft_lstclear(&l, del);
+		printf("\nLIST NULL BACK TEST_SUCCESS\n");
 	}
 	else
 	{
-		free(l->next);
-		free(l);
-		printf("LIST NULL TEST_FAILED\n");
+		ft_lstclear(&l, del);
+		printf("LIST NULL BACK TEST_FAILED\n");
+	}
+
+	l = ((void*)0);
+	n = ft_lstnew(strdup("OK"));
+
+	ft_lstadd_front(&l, n);
+	if (l == n && !strcmp(l->content, "OK"))
+	{
+		ft_lstclear(&l, del);
+		printf("\nLIST NULL FRONT TEST_SUCCESS\n");
+	}
+	else
+	{
+		ft_lstclear(&l, del);
+		printf("LIST NULL FRONT TEST_FAILED\n");
 	}
 }
