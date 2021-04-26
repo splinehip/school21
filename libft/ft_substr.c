@@ -6,24 +6,26 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 08:50:48 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 14:07:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:50:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-s - указатель на исходную строку.
-start - индекс символа в исходной строке, с которого начинать копирование.
-len - максимальная длина для копирования.
+Arguments:
+s is a pointer to the original string.
+start - the character index in the source line from which to start copying.
+len is the maximum length to copy.
 
-Возвращаемое значение:
-Возвращает указатель на скопированную подстроку или NULL если копирование не
-удалось.
+Return value:
+Returns a pointer to the copied substring, or NULL if copying is not
+succeeded.
 
-Описание:
-Функция копирует подстроку из исходной строки s начиная с индекса start и
-длиной не более len. При успехе возвращает указатель на скопированную подстроку.
+Description:
+The function copies a substring from the original string s starting at index
+start and length at most len. On success, returns a pointer to the copied
+substring.
 */
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {

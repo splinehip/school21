@@ -6,24 +6,24 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 17:13:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 11:47:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:30:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"libft.h"
 
 /*
-Аргументы:
-lst - указатель на элемент списка.
-f - указатель на функцию обработки поля content элемента списка.
+Arguments:
+lst is a pointer to a list item.
+f - pointer to the function for processing the content field of the list item.
 
-Возвращаемые значение:
-Нет.
+Returned value:
+Not.
 
-Описание:
-Функция получает элемент переданного списка lst и применяет к его полю
-content функцию f. Функция обрабатывает всех потомков элемента спсика lst пока
-не дойдет до конца списка.
+Description:
+The function gets an element of the passed list lst and applies to its field
+content function f. The function processes all descendants of the lst list
+element so far will not make it to the end of the list.
 */
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {

@@ -6,23 +6,23 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:25:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 01:02:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:29:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-lst - указатель на указатель элемента списка.
-new - указатель на новый элемент списка который необходимо добавить.
+Arguments:
+lst is a pointer to a pointer to a list item.
+new - a pointer to a new list item to be added.
 
-Возвращаемые значение:
-Нет.
+Returned value:
+Not.
 
-Описание:
-Функция находит последний элемент переданного списка lst и добавляет в его
-конец новый элемент new.
+Description:
+The function finds the last element of the passed list lst and adds to it
+end new element new.
 */
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {

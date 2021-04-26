@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 09:41:03 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 12:45:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:41:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,20 @@ static void	free_res(char **res)
 }
 
 /*
-Аргументы:
-s - указатель на строку которую необходимо разбить на строки.
-c - символ разделитель, по которому разбивать строку.
+Arguments:
+s - pointer to the string to be split into lines.
+c - the delimiter character by which to split the string.
 
-Возвращаемые значения:
-Функция возврщает указатель на массив содержащий указатели на новые строки,
-последний элеменет массива указывает на NULL. Если разбить строку не удалось
-возвращается NULL.
+Returned values:
+The function returns a pointer to an array containing pointers to new lines,
+the last element of the array points to NULL. If the line break fails
+NULL is returned.
 
-Описание:
-Функция разбивает строку s на строки по символу переданному в с. Возвращает
-массив указателей на получившиеся строки с указателем на NULL у последнего
-элемента массива. Если разбить строку не удалось возвращает NULL.
+Description:
+The function splits the string s into lines according to the character passed
+to s. Returns an array of pointers to the resulting strings with a pointer
+to NULL for the last one array element. Returns NULL if the string cannot be
+split.
 */
 char	**ft_split(const char *s, char c)
 {

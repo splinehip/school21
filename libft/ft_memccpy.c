@@ -6,29 +6,29 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 19:24:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 01:06:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:34:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-dest – указатель на массив в который будут скопированы данные.
-src – указатель на массив источник копируемых данных.
-c – код символа, при встрече которого копирование завершается.
-n – количество байт для копирования.
+Arguments:
+dest is a pointer to the array into which the data will be copied.
+src - pointer to the array of the source of the copied data.
+c - the code of the character, upon meeting which the copying is completed.
+n is the number of bytes to copy.
 
-Возвращаемое значение:
-Функция возвращает указатель на следующий символ в dest после c или NULL, если
-c не был найден в первых n символах src.
+Returned value:
+The function returns a pointer to the next character in dest after c or NULL if
+c was not found in the first n characters of src.
 
-Описание:
-Функция копирует данные из массива (области памяти), на который указывает
-аргумент src, в массив (область памяти), на который указывает аргумент dest пока
-не встретится символ, код которого соответствует указанному в аргументе c или
-пока не будет скопировано n байт данных.
-Если массивы перекрываются, результат копирования будет не определен.
+Description:
+The function copies data from the array (memory area) that it points to
+the src argument, into the array (memory area) pointed to by the dest argument
+while no character is found whose code matches the one specified in the argument
+c, or until n bytes of data have been copied.
+If the arrays overlap, the result of the copy will be undefined.
 */
 void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {

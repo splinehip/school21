@@ -6,23 +6,24 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:01:08 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 16:48:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:46:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-str - указатель на строку, длину которой необходимо вычислить.
+Arguments:
+str is a pointer to the string whose length needs to be calculated.
 
-Возвращаемое значение:
-Количество символов в строке до первого вхождения символа конца строки.
+Return value:
+The number of characters in the string before the first occurrence of the
+end-of-line character.
 
-Описание:
-Функция strlen вычисляет количество символов в строке до первого вхождения
-символа конца строки. При этом символ конца строки не входит в подсчитанное
-количество символов.
+Description:
+The strlen function calculates the number of characters in a string before the
+first occurrence end-of-line character. In this case, the end-of-line character
+is not included in the counted characters.
 */
 size_t	ft_strlen(const char *str)
 {

@@ -6,25 +6,25 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 17:49:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 23:55:25 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:37:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-dest – указатель на массив в который будут скопированы данные.
-src – указатель на массив источник копируемых данных.
-n – количество байт для копирования.
+Arguments:
+dest is a pointer to the array into which the data will be copied.
+src - pointer to the array of the source of the copied data.
+n is the number of bytes to copy.
 
-Возвращаемое значение:
-Функция возвращает указатель на массив, в который скопированы данные.
+Return value:
+The function returns a pointer to the array into which the data was copied.
 
-Описание:
-Функция memcpy копирует n байт из массива (области памяти), на который указывает
-аргумент src, в массив (область памяти), на который указывает аргумент dest.
-Если массивы перекрываются, результат копирования будет не определен.
+Description:
+The memcpy function copies n bytes from the array (memory area) that it points
+to the src argument to the array (memory area) pointed to by dest.
+If the arrays overlap, the result of the copy will be undefined.
 */
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

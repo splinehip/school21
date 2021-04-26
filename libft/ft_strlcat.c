@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 17:32:44 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 18:31:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:44:39 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,23 @@ static size_t	ft_strnlen(const char *str, size_t max)
 }
 
 /*
-Аргументы:
+Arguments:
 
-dest – указатель на массив в который будет добавлена строка.
-src – указатель на массив из которого будет скопирована строка.
-n – размер массива dest.
+dest is a pointer to an array to which the string will be added.
+src - pointer to the array from which the string will be copied.
+n is the size of the dest array.
 
-Возвращаемое значение:
-Функция возвращает сумму длин строк dest и src.
+Returned value:
+The function returns the sum of the lengths of the strings dest and src.
 
-Описание:
-Функция добавляет в строку, на которую указывает аргумент dest, строку, на
-которую указывает аргумент src, пока не встретится символ конца строки или пока
-не будет добавлено n - заполненная часть dest - 1 символов.
-Гарантируется установка символа конца строки в конце объединенных строк.
-Для корректной работы функции, ей необходимо передавать только нультерминальные
-строки.
-Если строки перекрываются, результат объединения будет не определен.
+Description:
+The function adds to the string pointed to by the argument dest, a string, to
+pointed to by src until an end-of-line character is encountered, or until
+no n - padded part dest - 1 characters will be added.
+It is guaranteed to set the end-of-line character at the end of concatenated
+lines. For the function to work correctly, it only needs to pass zero-terminal
+strings.
+If the lines overlap, the result of the concatenation will be undefined.
 */
 size_t	ft_strlcat(char *dest, const char *src, size_t n)
 {

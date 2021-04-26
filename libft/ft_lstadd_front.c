@@ -6,23 +6,23 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:07:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 00:17:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:29:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-lst - указатель на указатель первого элемента списка.
-new - указатель на новый элемент списка который необходимо добавить.
+Arguments:
+lst is a pointer to a pointer to the first item in the list.
+new - a pointer to a new list item to be added.
 
-Возвращаемые значение:
-Нет.
+Returned value:
+Not.
 
-Описание:
-Функция получает первый элемент переданного списка lst и добавляет перед ним
-новый элемент new.
+Description:
+The function gets the first element of the passed list lst and adds before it
+new element new.
 */
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {

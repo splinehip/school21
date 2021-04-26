@@ -6,25 +6,25 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 11:38:25 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 01:57:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:37:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-dest – указатель на массив в который будут скопированы данные.
-src – указатель на массив источник копируемых данных.
-n – количество байт для копирования.
+Arguments:
+dest is a pointer to the array into which the data will be copied.
+src - pointer to the array of the source of the copied data.
+n is the number of bytes to copy.
 
-Возвращаемое значение:
-Функция возвращает указатель на массив, в который скопированы данные.
+Return value:
+The function returns a pointer to the array into which the data was copied.
 
-Описание:
-Функция memmove копирует n байт из массива (области памяти), на который
-указывает аргумент src, в массив (область памяти), на который указывает аргумент
-dest. При этом массивы (области памяти) могут пересекаться.
+Description:
+The memmove function copies n bytes from the array (memory area) to which
+points to the src argument, into the array (memory area) pointed to by the
+argument dest. In this case, arrays (memory areas) can intersect.
 */
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {

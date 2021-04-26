@@ -6,23 +6,23 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:37:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 11:45:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:30:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-lst - указатель на элемент списка.
-del - указатель на функцию удаления поля content элемента списка.
+Arguments:
+lst is a pointer to a list item.
+del is a pointer to the function to remove the content field of the list item.
 
-Возвращаемые значение:
-Нет.
+Returned value:
+Not.
 
-Описание:
-Функция получает элемент переданного списка lst и применяет к его полю
-content функцию del, после чего удаляет сам элемент.
+Description:
+The function gets an element of the passed list lst and applies to its field
+content function del, and then deletes the element itself.
 */
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {

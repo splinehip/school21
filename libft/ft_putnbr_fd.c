@@ -6,18 +6,19 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 13:39:17 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 01:00:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:40:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*
-Аргументы:
-n - число для записи, из диапазона int.
-fd - номер дескриптора файла для записи.
 
-Описание:
-Функция записывает преданный int n в фаил с дескриптором fd.
+/*
+Arguments:
+n is the number to write, from the int range.
+fd is the file descriptor number to write.
+
+Description:
+The function writes the given int n to the file with the descriptor fd.
 */
 void	ft_putnbr_fd(int n, int fd)
 {

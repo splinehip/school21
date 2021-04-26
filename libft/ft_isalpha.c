@@ -6,24 +6,25 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 13:39:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 15:29:56 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:25:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-int c - код символа, который необходимо проверить.
+Arguments:
+int c - the code of the character to be checked.
 
-Возвращаемое значение:
-Возвращаются ненулевые значения, если проверяемый символ c попадает в
-соответствующий класс символов, в противном случае возвращается ноль.
+Returned value:
+Nonzero values are returned if the checked character c falls within
+the appropriate character class, otherwise zero is returned.
 
-Описание:
-Проверяет символ на принадлежность к алфавитным символам; в стандартном
-окружении "C" это эквивалентно (isupper(c) || islower(c)). В некоторых системах
-могут существовать дополнительные символы, для которых isalpha() верно, т.е.
-буквы могут не находиться ни в верхнем, ни в нижнем регистре.
+Description:
+Checks a character for alphabetic characters in standard
+in the "C" environment this is equivalent to (isupper (c) || islower (c)).
+On some systems there may be additional characters for which isalpha () is
+true, i.e. letters can be neither uppercase nor lowercase.
 */
 int	ft_isalpha(int c)
 {

@@ -6,26 +6,26 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 13:57:14 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 18:18:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:22:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-buf - указатель на область памяти который необходимо заполнить.
-l - размер buf.
+Arguments:
+buf is a pointer to the memory area to be filled.
+l is the size of buf.
 
-Возвращаемые значения:
-Фунция не возвращает значения.
+Returned values:
+The function does not return a value.
 
-Описание:
-Функция заполняет первые l байт области, начинающейся с buf, нулями (байты,
-содержащие '\\0').
-Эта функция устарела (отмечена как УСТАРЕВШАЯ в POSIX.1-2001): в новых
-программах следует использовать memset(3). В POSIX.1-2008 определение bzero()
-удалено.
+Description:
+The function fills the first l bytes of the area starting with buf with zeros
+(bytes, containing '\\ 0').
+This function is deprecated (marked DEPRECATED in POSIX.1-2001): new
+programs should use memset (3). POSIX.1-2008 definition of bzero ()
+removed.
 */
 void	ft_bzero(void *buf, size_t l)
 {

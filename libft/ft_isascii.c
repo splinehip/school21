@@ -6,24 +6,25 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:39:22 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 15:47:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:26:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-int c - код символа, который необходимо проверить.
+Arguments:
+int c - the code of the character to be checked.
 
-Возвращаемое значение:
-Возвращаются ненулевые значения, если проверяемый символ c попадает в
-соответствующий класс символов (соответствуют 7-битному коду US-ASCII-символов
-между 0 и восьмеричным 0177 включительно (или являются US-ASCII-символами)),
-в противном случае возвращается ноль.
+Return value:
+Nonzero values are returned if the checked character c falls within
+corresponding character class (correspond to 7-bit US-ASCII characters
+between 0 and 0177 octal inclusive (or are US-ASCII characters)),
+otherwise, zero is returned.
 
-Описание:
-Проверяет, является ли c 7-битным unsigned char, значение которого попадает в
-таблицу символов ASCII. Эта функция является расширением BSD и расширением SVID.
+Description:
+Checks if c is a 7-bit unsigned char whose value falls into
+ASCII character table. This feature is a BSD extension and an SVID extension.
 */
 int	ft_isascii(int c)
 {

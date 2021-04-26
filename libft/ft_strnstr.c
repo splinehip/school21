@@ -6,28 +6,29 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 08:50:22 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 19:35:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:48:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
+Arguments:
 
-str – указатель на строку, в которой ведется поиск.
-substr – указатель на искомую строку.
-n - количество символов для поиска.
+str is a pointer to the string being searched.
+substr is a pointer to the search string.
+n is the number of characters to search.
 
-Возвращаемое значение:
-NULL – если строка substr не входит в строку str. Указатель на первое вхождение
-строки substr в строку str.
+Returned value:
+NULL - if string substr is not included in string str. Pointer to first
+occurrence substr strings to str string.
 
-Описание:
-Функция strnstr ищет первое вхождение строки (за исключением символа конца
-строки), на которую указывает аргумент substr, в строку , на которую указывает
-аргумент str. Поиск в str выполнятестся не блоее n символов. Если строка substr
-имеет нулевую длину, то функция вернет указатель на начало строки str.
+Description:
+The strnstr function searches for the first occurrence of a string (excluding
+the end character string) pointed to by substr to the string pointed to
+argument str. The search in str is not performed in n characters. If the string
+substr has zero length, the function will return a pointer to the beginning of
+the string str.
 */
 char	*ft_strnstr(const char *str, const char *substr, size_t n)
 {

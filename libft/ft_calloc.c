@@ -6,27 +6,28 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 19:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 23:33:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:23:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-size_t n - количество блоков памяти.
-size_t size - размер блока.
+Arguments:
+size_t n - number of memory blocks.
+size_t size - block size.
 
-Возвращаемое значение:
-Возвращает указатель на первый байт выделенной области. Выделенная память
-инициализируется нуль-терминатором '\\0'. Если памяти недо­статочно для
-удовлетворения запроса, то возвращается нулевой указатель. Всегда важно
-прове­рять возвращаемое значение на его равенство NULL, прежде чем использовать
-этот указатель.
+Returned value:
+Returns a pointer to the first byte of the selection. Allocated memory
+initialized with the null terminator '\\ 0'. If there is not enough memory for
+satisfying the request, a null pointer is returned. Always important
+check the return value for its NULL equality before using
+this pointer.
 
-Описание:
-Размер выделенной памяти ра­вен величине n*size, где size задается в байтах.
-Это означает, что функция ft_calloc() выделяет достаточно памяти для массива из
-n объектов каждый размером size байт.
+Description:
+The size of the allocated memory is equal to n * size, where size is specified
+in bytes. This means that the ft_calloc () function allocates enough memory for
+the array from n objects, each size bytes.
 */
 void	*ft_calloc(size_t n, size_t size)
 {

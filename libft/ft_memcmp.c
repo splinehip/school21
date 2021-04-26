@@ -6,33 +6,34 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:49:28 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 23:31:36 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:36:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
+Arguments:
 
-left, rigth – указатели на сравниваемые массивы.
-n – размер сравниваемой части массива в байтах.
+left, rigth - pointers to compared arrays.
+n is the size of the compared part of the array in bytes.
 
-Возвращаемое значение:
-0 – если сравниваемые части массивов идентичны.
+Returned value:
+0 - if the compared parts of the arrays are identical.
 
-Положительное число, если при сравнении массивов встретился отличный байт и байт
-из массива, на который указывает аргумент left, больше байта из массива, на
-который указывает аргумент rigth.
+A positive number if a different byte and a byte are encountered when comparing
+arrays from the array pointed to by the left argument is more byte from the
+array, by which specifies the rigth argument.
 
-Отрицательное число, если при сравнении массивов встретился отличный байт и байт
-из массива, на который указывает аргумент left, меньше байта из массива, на
-который указывает аргумент rigth.
+A negative number if a different byte and a byte are encountered when comparing
+arrays from the array pointed to by left is less than a byte from the array, by
+which specifies the rigth argument.
 
-Описание:
-Функция побайтно сравнивает два массива (области памяти), на которые указывают
-аргументы left и rigth. Каждый байт массива определяется типом unsigned char.
-Сравнение продолжается, пока не будут проверено n байт или пока не встретятся
-отличающиеся байты.
+Description:
+The function compares the two arrays (memory areas) pointed to by byte
+arguments left and rigth. Each byte of the array is defined as an unsigned char
+type. The comparison continues until n bytes have been checked or until
+differing bytes.
 */
 int	ft_memcmp(const void *left, const void *rigth, size_t n)
 {

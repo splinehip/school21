@@ -6,21 +6,22 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:14:05 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 17:23:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:51:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-int c - код символа, который необходимо привести к верхнему регистру.
+Arguments:
+int c - character code to be converted to upper case.
 
-Возвращаемое значение:
-Возвращает соответствующий верхнему регистру эквивалент символа c, если
-c — это буква нижнего регистра. В противном случае c возвращается неизмененным.
+Return value:
+Returns the uppercase equivalent of c if
+c is a lowercase letter. Otherwise, c is returned unchanged.
 
-Описание:
-Проверяет, является ли символ буквой, если да, приводит к верхнему регистру.
+Description:
+Checks if a character is a letter, if so, converts to uppercase.
 */
 int	ft_toupper(int c)
 {

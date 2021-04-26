@@ -6,22 +6,22 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:21:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 11:48:55 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:31:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-lst - указатель на элемент списка.
+Arguments:
+lst is a pointer to a list item.
 
-Возвращаемые значение:
-Указатель на последний элемент списка lst.
+Returned value:
+Pointer to the last element of the lst list.
 
-Описание:
-Функция получает элемент переданного списка lst и проходит по списку до
-последнего элемента и возвращает указатель на последний элемент.
+Description:
+The function gets an element of the passed list lst and iterates through the
+list until last element and returns a pointer to the last element.
 */
 t_list	*ft_lstlast(t_list *lst)
 {

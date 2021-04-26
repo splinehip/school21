@@ -6,23 +6,24 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 10:04:17 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 13:59:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:43:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-s1 - указатель на первую строку.
-s2 - указатель на вторую строку.
+Arguments:
+s1 is a pointer to the first line.
+s2 is a pointer to the second line.
 
-Возвращаемые значения:
-Возвращает указатель на новую, конкатенированную строку, NULL если не удалось
-выполнить конкатенацию строк.
+Returned values:
+Returns a pointer to a new, concatenated string, NULL if failed
+perform string concatenation.
 
-Описание:
-Функция выполняет объединение двух строк (конкатенацию) и возвращает указатель
-на итоговую строку. Если не удалось объеденить строки возвращает NULL.
+Description:
+The function performs the concatenation of two strings (concatenation) and
+returns a pointer to the final row. Returns NULL if string concatenation failed.
 */
 char	*ft_strjoin(const char *s1, char const *s2)
 {

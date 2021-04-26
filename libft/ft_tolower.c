@@ -6,21 +6,22 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:23:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/20 17:38:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:51:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-int c - код символа, который необходимо привести к нижнему регистру.
+Arguments:
+int c - the code of the character to be converted to lowercase.
 
-Возвращаемое значение:
-Возвращает соответствующий нижнему регистру эквивалент символа c, если
-c — это буква верхнего регистра. В противном случае c возвращается неизмененным.
+Return value:
+Returns the lowercase equivalent of c if
+c is an uppercase letter. Otherwise, c is returned unchanged.
 
-Описание:
-Проверяет, является ли символ буквой, если да, приводит к нижнему регистру.
+Description:
+Checks if a character is a letter, if so, converts to lowercase.
 */
 int	ft_tolower(int c)
 {

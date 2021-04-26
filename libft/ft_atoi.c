@@ -6,44 +6,44 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 12:08:26 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 13:13:29 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:21:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-int atoi (const char *str);
+Arguments:
+str is a pointer to the string to be converted to a number.
 
-Аргументы:
-str – указатель на строку, которую необходимо преобразовать в число.
+Returned value:
+The function returns a number - the result of converting a string, if at the
+beginning lines content number. If at the beginning of a line there is a
+character that is not digit, the function returns zero.
 
-Возвращаемое значение:
-Функция возвращает число - результат преобразование строки, если в начале
-строки содержится число. Если в начале строки стоит символ не являющейся
-цифрой, то функци возвращает ноль.
+Description:
+The atoi () function converts the argument pointed to by str to a number
+of type int. A transformation is encountered when a character that is not
+a digit or when the entire string is converted. If the first character of the
+string is not digit, then the function will return 0 and exit.
+The string must start or directly with a numeric stick,
+or any combination of whitespace characters.
 
-Описание:
-Функция atoi () преобразует строку, на которую указывает аргумент str, в число
-типа int. Преобразование заканчивается, когда встречается символ не являющейся
-цифрой или, когда будет преобразована вся строка. Если первый символ строки не
-цифра, то функция вернет 0 и завершит работу.
-Строка должна начинаться или непосредственно с числовой последовательности,
-или с любого сочетания пробельных символов.
+If the number is in the range of the maximum type or minimum size of the number
+int, then the function returns, respectively, the maximum or minimum allowed
+number for int type. The returned value depends on the hardware platform at
+which the program runs.
 
-Если число в строке превышает максимальный или минимальный размер числа типа
-int, то функция возвращает соответственно максимально или минимально допустимое
-число для типа int. Возвращаемая величина зависит от аппаратной платформы на
-которой запускается программа.
+It differs from the atol () function in the type of the returned number and as
+a consequence the maximum long string to convert. For atoi, the return number
+is of type int, and accordingly 16 or 32 bits, depending on the hardware
+the platform on which the program runs. For atol, the returned number is
+long int type, which is always 32-bit, regardless of architecture
+CPU.
 
-От функции atol () отличается типом возвращаемого числа и как следствие
-макимальной длинной преобразуемой строки. Для atoi возвращаемое число имеет тип
-int, а соответственно разрядность 16 или 32 бита в зависимости от аппаратной
-платформы, на которой запускается программа. Для atol возвращаемое число имеет
-тип long int, который всегда 32 разрядный, не зависимо от архитектуры
-процессора.
-
-Так, на пример, в результате преобразования строки "217bg12" будет получено
-число 217, а при преобразовании строки "b237пр" будет получено число 0.
+So, for example, as a result of converting the string "217bg12" you will get
+number 217, and when converting the string "b237pr", the number 0 will be
+obtained.
 */
 int	ft_atoi(const char *str)
 {

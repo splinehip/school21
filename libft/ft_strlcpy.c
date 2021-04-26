@@ -6,23 +6,24 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:31:35 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 11:02:49 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:45:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-dest – указатель на строку, в которую будут скопированы данные.
-src – указатель на строку источник копируемых данных.
-l - размер строки dest.
+Arguments:
+dest is a pointer to the string to which the data will be copied.
+src - pointer to the string source of the copied data.
+l is the size of the string dest.
 
-Возвращаемое значение:
-Функция возвращает размер строки src.
+Return value:
+The function returns the size of the src string.
 
-Описание:
-Функция ft_strlcpy копирует из строки src в буфер dest не более чем l - 1
-символов и гарантированно устанавливает в конец строки нулевой символ.
+Description:
+Ft_strlcpy copies at most l - 1 from src to dest buffer
+characters and is guaranteed to set a null character at the end of the string.
 */
 size_t	ft_strlcpy(char *dest, const char *src, size_t l)
 {

@@ -6,33 +6,30 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 11:15:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 13:22:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:47:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Синтаксис:
-int ft_strncmp(const char *str1, const char *str2, size_t n)
+Arguments:
+str1, str2 - pointers to compared strings.
+size_t n - number of characters to compare.
 
-Аргументы:
-str1, str2 – указатели на сравниваемые строки.
-size_t n – количество символов для сравнения.
+Returned value:
+0 - if the first n characters of the compared strings are identical.
 
-Возвращаемое значение:
-0 – если первые n символов сравниваемых строк идентичны.
+A positive number - if there are differences in the first n characters of the
+compared strings and the code of the first different character in string str1 is
+greater than the code of the character by the same positions in string str2.
 
-Положительное число – если в первых n символах сравниваемых строк есть отличия
-и код первого отличающегося символа в строке str1 больше кода символа на той же
-позиции в строке str2.
+Negative number - there are differences and a code in the first n characters of
+the compared strings the first different character in string str1 is less than
+the character code on the same positions in string str2.
 
-Отрицательное число – в первых n символах сравниваемых строк есть отличия и код
-первого отличающегося символа в строке str1 меньше кода символа на той же
-позиции в строке str2.
-
-Если были проверены n символов или обе сравниваемые строки закончились, и
-отличий не было, то сравнение прекращается и возвращается ноль.
+If n characters were checked, or if both compared strings ended, and
+there were no differences, then the comparison stops and zero is returned.
 */
 int	ft_strncmp(const char *str_1, const char *str_2, size_t n)
 {

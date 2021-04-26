@@ -6,26 +6,26 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 14:46:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 00:59:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:28:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-n - целое число со знаком которое необходимо перобразовать в строку.
+Arguments:
+n is a signed integer to be converted to a string.
 
-Возвращаемые значения:
-Функция возвращает указатель на строку содержащую строковое представление числа.
-Если не удалось преобразовать число в строку возвращается NULL.
+Returned values:
+The function returns a pointer to a string containing the string representation
+of a number. If the number cannot be converted to a string, NULL is returned.
 
-Описание:
-Функция переводит целое число со знаком размера int в строкове представление и
-возвращает указатель на строку. Если преобразование не удалось возвращается
-NULL.
-Если переданное n выходит за диапазон int (-2147483648, +2147483647), то
-поведение будет не определеным.
+Description:
+The function translates a signed integer of size int into a string
+representation and returns a pointer to a string. If the conversion failed, it
+returns NULL.
+If the passed n is out of range int (-2147483648, +2147483647), then the
+behavior will be undefined.
 */
 char	*ft_itoa(int n)
 {

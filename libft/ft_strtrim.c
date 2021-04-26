@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 11:50:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 22:43:02 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:50:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ static	int	inset(const char *set, const char c)
 }
 
 /*
-Аргументы:
-s1 - указатель на строку в которой необходимо удалить символы.
-set - указатель на строку с символами для удаления.
+Arguments:
+s1 - pointer to the string in which you want to remove characters.
+set is a pointer to a string with characters to delete.
 
-Возвращаемые значения:
-Возвращается указатель на новую строку без симоволов из set в начале и конце
-строки. Если не удалось выделить память - NULL.
+Returned values:
+Returns a pointer to a new line without characters from set at the beginning
+and end strings. If it was not possible to allocate memory - NULL.
 
-Описание:
-Функция удаляет из исходной строки, в начале и конце строки, символы из set и
-возвращает указатель на новую, обрезанную строку. Если не удалось выделить
-память или скопировать строку возвращается NULL.
+Description:
+The function removes from the original string, at the beginning and end of the
+string, characters from set and returns a pointer to a new, truncated string.
+If it was not possible to allocate memory or copy string returns NULL.
 */
 char	*ft_strtrim(char const *s1, char const *set)
 {

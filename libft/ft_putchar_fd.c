@@ -6,19 +6,19 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 13:12:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/24 14:06:10 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:38:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-c - код смивола для записи.
-fd - номер дескриптора файла для записи.
+Arguments:
+c - character code for writing.
+fd is the file descriptor number to write.
 
-Описание:
-Функция записывает преданный символ с в фаил с дескриптором fd.
+Description:
+The function writes the committed character c to file with descriptor fd.
 */
 void	ft_putchar_fd(char c, int fd)
 {

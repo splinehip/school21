@@ -6,25 +6,25 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 17:15:46 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 22:44:17 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:46:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-s - указатель на строку к элементам которой необходимо применить f.
-f - указатель на функцию обработки элементов строки s.
+Arguments:
+s - a pointer to a string to which you want to apply f.
+f is a pointer to a function for processing elements of string s.
 
-Возвращаемые значения:
-Функция возвращает указатель на строку элементы которой были обработаны
-функцией f. Если не удалось выделить память возвращается NULL.
+Returned values:
+The function returns a pointer to a string whose elements have been processed
+function f. NULL is returned if memory allocation failed.
 
-Описание:
-Функция последовательно применяет переданную ее функцию f к элементам строки s
-и возвращает указатель на новую строку с обработанными элементами. Если не
-удалось выделить память для новой строки возвращается NULL.
+Description:
+The function sequentially applies the passed function f to the elements of the
+string s and returns a pointer to a new line with processed items. If not
+managed to allocate memory for new row returned NULL.
 */
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {

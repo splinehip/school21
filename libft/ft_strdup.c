@@ -6,23 +6,24 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 19:37:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 22:39:43 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:42:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /*
-Аргументы:
-str – указатель на дублируемую строку.
+Arguments:
+str is a pointer to the duplicated string.
 
-Возвращаемое значение:
-NULL – если не удалость выделить память под новую строку или скопировать строку
-на которую указывает аргумент str. Указатель на дублирующую строку.
+Return value:
+NULL - if it is not possible to allocate memory for a new line or copy a line
+pointed to by the str argument. A pointer to a duplicate string.
 
-Описание:
-Функция strdup дублирует строку, на которую указывает аргумент str.
-Память под дубликат строки выделяется с помощью функции malloc, и по окончанию
-работы с дубликатом должна быть очищена с помощью функции free.
+Description:
+The strdup function duplicates the string pointed to by the str argument.
+Memory for a duplicate string is allocated using the malloc function, and at
+the end work with a duplicate should be cleaned up with the free function.
 */
 char	*ft_strdup(char *str)
 {

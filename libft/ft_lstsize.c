@@ -6,22 +6,22 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 15:11:36 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 12:03:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 16:33:42 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-Аргументы:
-lst - указатель на элемент списка.
+Arguments:
+lst is a pointer to a list item.
 
-Возвращаемые значение:
-Количество элементов в списке  lst.
+Returned value:
+The number of items in the lst list.
 
-Описание:
-Функция получает укатель на первый элемент переданного списка lst проходит до
-его конца и возвращает полученное количество элементов списка.
+Description:
+The function receives a pointer to the first element of the passed list lst goes
+to its end and returns the resulting number of elements in the list.
 */
 int	ft_lstsize(t_list *lst)
 {
