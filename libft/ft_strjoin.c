@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 10:04:17 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/21 12:56:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 13:59:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,21 @@ s2 - указатель на вторую строку.
 */
 char	*ft_strjoin(const char *s1, char const *s2)
 {
-	char		*joined_str;
-	size_t		joined_str_len;
+	char		*res;
+	size_t		len;
 
 	if (!s1 || !s2)
 		return (NULL);
-	joined_str_len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	joined_str = (char *)ft_calloc(joined_str_len, sizeof(char));
-	if (joined_str == NULL)
+	if (*s1 == '\0' && *s2 == '\0')
+		return ((char *)ft_calloc(1, sizeof(char)));
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	res = (char *)ft_calloc(len, sizeof(char));
+	if (res == NULL)
 		return (NULL);
-	ft_strlcpy(joined_str, s1, ft_strlen(s1) + 1);
-	ft_strlcpy(joined_str + ft_strlen(s1), s2, ft_strlen(s2) + 1);
-	if (!ft_strncmp(joined_str, s1, ft_strlen(s1)) && !ft_strncmp(
-			joined_str + ft_strlen(s1) + 1, s2, joined_str_len - ft_strlen(s2)))
+	ft_strlcpy(res, s1, len);
+	ft_strlcpy(res + ft_strlen(s1), s2, len);
+	if (ft_strncmp(res, s1, ft_strlen(s1)) || ft_strncmp(
+			res + ft_strlen(s1), s2, ft_strlen(s2)))
 		return (NULL);
-	return (joined_str);
+	return (res);
 }

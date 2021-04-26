@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 11:15:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/25 22:42:39 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 13:22:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_strncmp(const char *str_1, const char *str_2, size_t n)
 	const char	*s1;
 	const char	*s2;
 
-	if (str_1 == NULL || str_2 == NULL)
+	if (str_1 == NULL || str_2 == NULL || n == 0)
 		return (0);
 	s1 = str_1;
 	s2 = str_2;
