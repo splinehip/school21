@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 09:41:03 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/22 23:24:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/26 12:45:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,6 @@ static int	res_get(char **res, char *s_trim, char c, char *set)
 	char	*s;
 	char	*s_start;
 
-	if (ft_strlen(s_trim) == 0)
-	{
-		res[0] = (char *)ft_calloc(1, sizeof(char));
-		return (res[0] != NULL);
-	}
 	i = 0;
 	s = s_trim;
 	s_start = s;
@@ -106,11 +101,14 @@ char	**ft_split(const char *s, char c)
 
 	if (!s || !c)
 		return (NULL);
-	set[0] = c;
-	set[1] = '\0';
-	s_trim = ft_strtrim(s, set);
-	if (s_trim == NULL)
+	if (!ft_strlcpy(set, &c, 2))
 		return (NULL);
+	s_trim = ft_strtrim(s, set);
+	if (s_trim == NULL || ft_strlen(s_trim) == 0)
+	{
+		res = (char **)ft_calloc(1, sizeof(char *));
+		return (res);
+	}
 	res = (char **)ft_calloc(c_count(s_trim, c) + 2, sizeof(char *));
 	if (res == NULL)
 		return (NULL);
