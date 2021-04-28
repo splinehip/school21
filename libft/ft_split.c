@@ -6,13 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 09:41:03 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 16:41:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/04/28 23:27:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static unsigned int	c_count(const char *s, const char c)
+static unsigned int	strs_qty(const char *s, const char c)
 {
 	const char		*s_tmp;
 	unsigned int	res;
@@ -27,29 +27,27 @@ static unsigned int	c_count(const char *s, const char c)
 	return (res);
 }
 
-static int	set_res_item(char **res_item, char *s, char *set, size_t n)
+static char	*get_s_trim(const char *s, char *set)
 {
-	char	*item;
+	char	*res;
 
-	item = (char *)ft_calloc(n, sizeof(char));
-	if (item == NULL)
-		return (0);
-	ft_strlcpy(item, s, n);
-	*res_item = ft_strtrim(item, set);
-	if (res_item == NULL)
+	res = ft_strtrim(s, set);
+	if (res == NULL)
+		return (res);
+	if (ft_strlen(res) == 0)
 	{
-		free(item);
-		return (0);
+		free(res);
+		res = NULL;
 	}
-	free(item);
-	return (1);
+	return (res);
 }
 
-static int	res_get(char **res, char *s_trim, char c, char *set)
+static int	get_res(char **res, char *s_trim, char c, char *set)
 {
 	size_t	i;
 	char	*s;
 	char	*s_start;
+	char	*item;
 
 	i = 0;
 	s = s_trim;
@@ -58,10 +56,14 @@ static int	res_get(char **res, char *s_trim, char c, char *set)
 	{
 		if ((s[-1] == c && *s != c) || *s == '\0')
 		{
-			if (!set_res_item(
-					&res[i], s_start, set, (s - s_start) / sizeof(char) + 1))
+			item = (char *)ft_calloc((s - s_start) / sizeof(char) + 1,
+					sizeof(char));
+			if (!ft_strlcpy(item, s_start, (s - s_start) / sizeof(char) + 1))
 				return (0);
-			i++;
+			res[i++] = ft_strtrim(item, set);
+			free(item);
+			if (res[i - 1] == NULL)
+				return (0);
 			s_start = s;
 		}
 	}
@@ -96,29 +98,27 @@ split.
 */
 char	**ft_split(const char *s, char c)
 {
-	char			**res;
-	char			set[2];
-	char			*s_trim;
+	char	**res;
+	char	set[2];
+	char	*s_trim;
 
-	if (!s || !c)
-		return (NULL);
+	if (s == NULL || *s == 0)
+		return ((char **)ft_calloc(1, sizeof(char *)));
 	if (!ft_strlcpy(set, &c, 2))
-		return (NULL);
-	s_trim = ft_strtrim(s, set);
-	if (s_trim == NULL || ft_strlen(s_trim) == 0)
 	{
-		res = (char **)ft_calloc(1, sizeof(char *));
+		res = (char **)ft_calloc(2, sizeof(char *));
+		if (res != NULL)
+			res[0] = ft_strdup(s);
 		return (res);
 	}
-	res = (char **)ft_calloc(c_count(s_trim, c) + 2, sizeof(char *));
+	s_trim = get_s_trim(s, set);
+	if (s_trim == NULL)
+		return ((char **)ft_calloc(1, sizeof(char *)));
+	res = (char **)ft_calloc(strs_qty(s_trim, c) + 2, sizeof(char *));
 	if (res == NULL)
 		return (NULL);
-	if (!res_get(res, s_trim, c, set))
-	{
+	if (!get_res(res, s_trim, c, set))
 		free_res(res);
-		free(s_trim);
-		return (NULL);
-	}
 	free(s_trim);
 	return (res);
 }

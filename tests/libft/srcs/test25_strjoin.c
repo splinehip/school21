@@ -2,8 +2,8 @@
 
 void	test25_strjoin(void)
 {
-	char	str1[] = "Hello ";
-	char	str2[] = "World!";
+	char	str1[] = "Hello";
+	char	str2[] = "\0";
 	char	*joined_str;
 
 	printf("\nTest 25, ft_strjoin, str1: %s, str2: %s\n", str1, str2);

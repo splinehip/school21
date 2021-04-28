@@ -8,14 +8,17 @@ SRCS		=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
 				ft_memchr.c		ft_strrchr.c	ft_isalnum.c	ft_strdup.c\
 				ft_substr.c		ft_strjoin.c	ft_strtrim.c	ft_split.c\
 				ft_itoa.c		ft_strmapi.c	ft_putchar_fd.c	ft_putstr_fd.c\
-				ft_putendl_fd.c	ft_putnbr_fd.c	ft_lstadd_front.c\
-				ft_lstnew.c		ft_lstsize.c	ft_lstadd_back.c\
-				ft_lstlast.c	ft_lstdelone.c	ft_lstclear.c	ft_lstiter.c\
-				ft_lstmap.c
+				ft_putendl_fd.c	ft_putnbr_fd.c
+
+SRCS_B		=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c\
+				ft_lstadd_back.c	ft_lstlast.c		ft_lstdelone.c\
+				ft_lstclear.c		ft_lstiter.c 		ft_lstmap.c
 
 OBJS		= ${SRCS:.c=.o}
 
-D_FILES		= ${SRCS:.c=.d}
+OBJS_B		= ${SRCS_B:.c=.o}
+
+D_FILES		= ${SRCS:.c=.d} ${SRCS_B:.c=.d}
 
 CC			= clang
 
@@ -30,20 +33,23 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			ar -crs ${NAME} $?
 
+bonus:
+			@make OBJS='${OBJS_B}' all
+
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
 
-so:			${OBJS}
-			${CC} ${OBJS} -shared -o libft.so
+so:			${OBJS} ${OBJS_B}
+			${CC} ${OBJS} ${OBJS_B} -shared -o libft.so
 
 include ${wildcard ${D_FILES}}
 
 clean:
-			${RM} ${OBJS} ${D_FILES} libft.so
+			${RM} ${OBJS} ${OBJS_B} ${D_FILES} libft.so
 
 fclean:		clean
 			${RM} ${NAME}
 
 re:			fclean all
 
-.PHONY: all so clean fclean re
+.PHONY: all bonus so clean fclean re

@@ -18,7 +18,7 @@ RM			= rm -f
 all:	libft ${NAME}
 
 libft:
-		cd ../../libft && make
+		cd ../../libft && make && make bonus
 
 ${NAME}:${OBJS}
 		${CC} ${CFLAGS} ${OBJS} -L${LIBDIR} -l${LIB} -lbsd -o ${NAME}
@@ -33,7 +33,7 @@ fclean:	clean
 		${RM} ${NAME}
 
 libft_re:
-		cd ../../libft && make fclean
+		cd ../../libft && make re && make bonus
 
 re:		libft_re fclean all
 

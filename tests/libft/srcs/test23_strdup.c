@@ -2,7 +2,7 @@
 
 void	test23_strdup(void)
 {
-	char	s[] = "Hello World!";
+	char	s[] = "Hello";
 	char 	*s_dup;
 
 	s_dup = strdup(s);
