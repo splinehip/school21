@@ -1,5 +1,5 @@
 {
-    "folders": [{"path": "tests"}, {"path": "libft"},],
+    "folders": [{"path": "tests"}, {"path": "libft"}, {"path": "ft_printf"}],
     "settings": {
         "42header.username": "cflorind",
         "42header.email": "marvin@42.fr",
