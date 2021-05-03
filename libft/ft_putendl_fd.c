@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 13:35:15 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 16:39:39 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/03 13:52:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Description:
 The function writes the given string s by adding a shortcut character (\\n) to
 file with descriptor fd.
 */
-void	ft_putendl_fd(char *s, int fd)
+void	ft_putendl_fd(const char *s, int fd)
 {
 	if (s != NULL)
 	{
