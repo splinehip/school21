@@ -1,6 +1,6 @@
 NAME		= test.a
 
-SRCS		= main.c
+SRCS		= ${wildcard *.c}
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -14,6 +14,7 @@ OPTFLAGS	= -O2
 
 RM			= rm -f
 
+
 all:		${NAME}
 
 ${NAME}:	${OBJS}
@@ -25,17 +26,20 @@ ${NAME}:	${OBJS}
 
 include ${wildcard ${D_FILES}}
 
+libft:
+			@cd ../../ft_printf && make
+
 libft_re:
 			cd ../../ft_printf && make re
 
 clean:
 			${RM} ${OBJS} ${D_FILES}
-			cd ../../ft_printf && make clean
 
 fclean:		clean
 			${RM} ${NAME}
-			cd ../../ft_printf && make fclean
 
-re:			libft_re fclean all
+re:			libft fclean all
+
+reall:		libft_re fclean all
 
 .PHONY: all so clean fclean re libft_re
