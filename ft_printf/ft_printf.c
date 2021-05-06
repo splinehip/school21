@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:46:19 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/06 16:04:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/06 17:19:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,29 @@ static int	isconvsymbol(unsigned char end)
 	return (0);
 }
 
-static char	**init_split_res(const char *s)
+static char	**init_split_res(const char *s, size_t i, size_t j)
 {
-	char		**res;
-	const char	*end;
-	size_t		i;
+	char	**res;
+	size_t	start;
 
-	i = 0;
-	end = s;
-	while (*end != 0)
+	start = 0;
+	while (s[j] != 0)
 	{
-		if (!isconvsymbol(*end) && (isconvsymbol(end[1]) || end[1] == 0))
+		if (s[j + 1] == 0)
 			i++;
-		else if (*end == '%' && isconvsymbol(end[1]))
+		else if (s[j] == '%' && s[start] != '%')
 		{
 			i++;
-			end++;
+			start = j--;
 		}
-		end++;
+		else if (isconvsymbol(s[j]) && s[start] == '%')
+		{
+			while (!isconvsymbol(s[++j]) && s[j] != 0)
+				;
+			i++;
+			start = j + 1;
+		}
+		j++;
 	}
 	res = (char **)ft_calloc(i + 1, sizeof(char **));
 	return (res);
@@ -52,12 +57,12 @@ static int	set_split_res(const char *s, char **res, size_t i, size_t j)
 	{
 		if (s[j + 1] == 0)
 			res[i++] = ft_substr(s, start, j - start + 1);
-		else if (isconvsymbol(s[j]) && s[start] != '%')
+		else if (s[j] == '%' && s[start] != '%')
 		{
 			res[i++] = ft_substr(s, start, j - start);
 			start = j--;
 		}
-		else if (isconvsymbol(s[j]))
+		else if (isconvsymbol(s[j]) && s[start] == '%')
 		{
 			while (!isconvsymbol(s[++j]) && s[j] != 0)
 				;
@@ -79,7 +84,7 @@ static char	**ssplit(const char *s)
 
 	i = 0;
 	j = 0;
-	res = init_split_res(s);
+	res = init_split_res(s, i, j);
 	if (res == NULL)
 		return (NULL);
 	if (set_split_res(s, res, i, j) == 0)

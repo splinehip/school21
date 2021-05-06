@@ -3,7 +3,7 @@
 void	test01_parser(void)
 {
 	size_t	i;
-	char	*s[18];
+	char	*s[21];
 
 	s[0] = "%%";
 	s[1] = "%%%%";
@@ -22,7 +22,10 @@ void	test01_parser(void)
 	s[14] = "\\AAA%%WWW%-0.3dDDD\\";
 	s[15] = "AAA%d%u%c%%WWW%d%x";
 	s[16] = "\nAAA%d%u%c%%WWW%d%x\n";
-	s[17] = NULL;
+	s[17] = "%%d%%";
+	s[18] = "%%d%u";
+	s[19] = "Hello World%%";
+	s[20] = NULL;
 	i = 0;
 	while (s[i] != NULL)
 	{
