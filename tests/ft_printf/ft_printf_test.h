@@ -5,4 +5,5 @@
 
 void	test01_parser(void);
 void	test02_prc_conversion(void);
+void	test03_c_conversion(void);
 #endif
