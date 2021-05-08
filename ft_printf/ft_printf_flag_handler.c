@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_chandler.c                               :+:      :+:    :+:   */
+/*   ft_printf_flag_handler.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 12:08:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/07 14:48:05 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/08 10:00:01 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/08 18:04:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_printf_chandler(char *res, const char *ssi, va_list ap)
+char	*ft_printf_flag_handler(const char *ssi, va_list ap)
 {
-	if (ft_strlen(ssi) == 2)
-		res = ft_strjoinchr(res, va_arg(ap, int));
-	return (res);
+	int	width;
+	int	precision;
+
+	width = 0;
+	precision = -1;
+	ft_printf_wp_handler(ssi, &width, &precision, ap);
+	ft_putstr_fd("\nWIDTH: ", 1);
+	ft_putnbr_fd(width, 1);
+	ft_putstr_fd("\nPRECISION: ", 1);
+	ft_putnbr_fd(precision, 1);
+	ft_putchar_fd('\n', 1);
+	return (ft_strdup("STRDUP\n"));
 }

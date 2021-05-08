@@ -6,19 +6,11 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:46:19 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/07 15:16:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/08 18:21:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static int	isconvsymbol(unsigned char end)
-{
-	if (end == 'c' || end == 's' || end == 'p' || end == 'd' || end == 'i'
-		|| end == 'u' || end == 'x' || end == 'X' || end == '%')
-		return (1);
-	return (0);
-}
 
 static char	**init_split_res(const char *s, size_t i, size_t j)
 {
@@ -35,9 +27,9 @@ static char	**init_split_res(const char *s, size_t i, size_t j)
 			i++;
 			start = j--;
 		}
-		else if (isconvsymbol(s[j]) && s[start] == '%')
+		else if (ft_printf_isconvsymbol(s[j]) && s[start] == '%')
 		{
-			while (!isconvsymbol(s[++j]) && s[j] != 0)
+			while (!ft_printf_isconvsymbol(s[++j]) && s[j] != 0)
 				;
 			i++;
 			start = j + 1;
@@ -62,9 +54,9 @@ static int	set_split_res(const char *s, char **res, size_t i, size_t j)
 			res[i++] = ft_substr(s, start, j - start);
 			start = j--;
 		}
-		else if (isconvsymbol(s[j]) && s[start] == '%')
+		else if (ft_printf_isconvsymbol(s[j]) && s[start] == '%')
 		{
-			while (!isconvsymbol(s[++j]) && s[j] != 0)
+			while (!ft_printf_isconvsymbol(s[++j]) && s[j] != 0)
 				;
 			res[i++] = ft_substr(s, start, j - start + 1);
 			start = j + 1;

@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_getconversion.c                          :+:      :+:    :+:   */
+/*   ft_printf_isconvsymbol.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 11:57:28 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/08 15:08:17 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/08 18:29:14 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/08 18:29:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_printf_getconversion(char *res, const char *ssi, va_list ap)
+int	ft_printf_isconvsymbol(unsigned char c)
 {
-	if (ssi[ft_strlen(ssi) - 1] == 'c')
-		res = ft_printf_c_handler(res, ssi, ap);
-	return (res);
+	if (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i'
+		|| c == 'u' || c == 'x' || c == 'X' || c == '%')
+		return (1);
+	return (0);
 }
