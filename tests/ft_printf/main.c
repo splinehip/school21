@@ -10,6 +10,8 @@ int	main(void)
 	//printf("\nTest ft_strjoinch %s\n", ft_strjoinch("TEST ", '!'));
 	test03_c_conversion();
 	test04_wp_handler();
-	printf("\nHello%-10c\n", '!');
+	test05_s_handler();
+	int	n = 10;
+	printf("POINTER: %p\n", &n);
 	return 0;
 }
