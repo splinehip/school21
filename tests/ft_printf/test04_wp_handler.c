@@ -54,6 +54,6 @@ void	test04_wp_handler(void)
 
 	printf("\n=================== Test 04 wp handler 11 ===================\n");
 	printf("Get wp from va and str\n");
-	printf("Fromat str is: %s\n", "Hello World%*.5c, 10, !");
-	ft_printf("Hello World%*.5c\n", 10, '!');
+	printf("Fromat str is: %s\n", "Hello World%+*.5c, 10, !");
+	ft_printf("Hello World%+*.5c\n", 10, '!');
 }

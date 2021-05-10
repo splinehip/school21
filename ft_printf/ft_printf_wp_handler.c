@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 15:06:18 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/08 19:18:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/10 16:36:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,6 @@ void	ft_printf_wp_handler(const char *ssi, int *w, int *p, va_list ap)
 			*w = va_arg(ap, int);
 	}
 	get_wp_from_str(ssi, w, p);
+	if (*w < 0)
+		*w = 0;
 }
