@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:46:19 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/08 18:21:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/11 18:24:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_printf(const char *s, ...)
 	va_start(ap, s);
 	ss = ssplit(s);
 	res = NULL;
-	res = ft_printf_getres((const char **)ss, res, ap);
+	res = ft_printf_getres((const char **)ss, &res, ap);
 	va_end(ap);
 	len = 0;
 	while (ss[len] != NULL)

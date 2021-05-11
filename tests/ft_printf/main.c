@@ -12,8 +12,11 @@ int	main(void)
 	test04_wp_handler();
 	test05_s_handler();
 	test06_di_handler();
+
+	ft_printf("\nHello %s %d%%%c\n\n", "World", 100, '!');
+
 	int	n = 10;
+	ft_printf("POINTER: %i\n", &n);
 	printf("POINTER: %p\n", &n);
-	printf("Hello %*.*s\n", 10, 3, "World!");
 	return 0;
 }
