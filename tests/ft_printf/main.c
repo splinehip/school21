@@ -14,6 +14,6 @@ int	main(void)
 	test06_di_handler();
 	int	n = 10;
 	printf("POINTER: %p\n", &n);
-	printf("Hello %*.*s", 10, 3, "World!\n");
+	printf("Hello %*.*s\n", 10, 3, "World!");
 	return 0;
 }

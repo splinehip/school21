@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 21:40:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/11 14:26:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/11 15:40:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,23 @@ static void	set_precision(char **fres, char **s, int precision)
 	ps = ft_memset(ps, '0', (size_t)precision - ft_strlen(*s));
 	if (ps != NULL)
 	{
+		if ((*s)[0] == '-')
+		{
+			(*s)[0] = '0';
+			tmp = ps;
+			ps = ft_strjoin("-", ps);
+			free(tmp);
+		}
 		tmp = *s;
 		*s = ft_strjoin(ps, *s);
 		free(tmp);
-		free(ps);
-		if (*s == NULL)
-		{
-			free(*fres);
-			*fres = NULL;
-		}
+		if (ps != NULL)
+			free(ps);
 	}
-	else
+	if (ps == NULL)
 	{
 		free(*fres);
-		free(*s);
-		fres = NULL;
+		*fres = NULL;
 	}
 }
 
@@ -81,13 +83,15 @@ static void	s_fres(char **fres, char **s, int width, int precision)
 				(*fres)[0] = '\0';
 		}
 	}
-	else
+	if (*fres == NULL || *s == NULL)
 	{
 		if (*fres != NULL)
+		{
 			free(*fres);
+			*fres = NULL;
+		}
 		if (*s != NULL)
 			free(*s);
-		*fres = NULL;
 	}
 }
 
