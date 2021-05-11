@@ -8,4 +8,5 @@ void	test02_prc_conversion(void);
 void	test03_c_conversion(void);
 void	test04_wp_handler(void);
 void	test05_s_handler(void);
+void	test06_di_handler(void);
 #endif

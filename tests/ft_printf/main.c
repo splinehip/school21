@@ -11,7 +11,9 @@ int	main(void)
 	test03_c_conversion();
 	test04_wp_handler();
 	test05_s_handler();
+	test06_di_handler();
 	int	n = 10;
 	printf("POINTER: %p\n", &n);
+	printf("Hello %*.*s", 10, 3, "World!\n");
 	return 0;
 }

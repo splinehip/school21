@@ -11,4 +11,19 @@ void	test05_s_handler(void)
 	printf("Fromat str is: %s\n", "Hello %-10s, \"World!\"");
 	ft_printf("Hello %-10s\n", "World!");
 	printf("Hello %-10s\n", "World!");
+
+	printf("\n=================== Test 05 s handler 03 ===================\n");
+	printf("Fromat str is: %s\n", "Hello %-10.3s, \"World!\"");
+	ft_printf("Hello %-10.3s\n", "World!");
+	printf("Hello %-10.3s\n", "World!");
+
+	printf("\n=================== Test 05 s handler 04 ===================\n");
+	printf("Fromat str is: %s\n", "Hello %10.3s, \"World!\"");
+	ft_printf("Hello %10.3s\n", "World!");
+	printf("Hello %10.3s\n", "World!");
+
+	printf("\n=================== Test 05 s handler 05 ===================\n");
+	printf("Fromat str is: %s\n", "Hello %-10.s, \"World!\"");
+	ft_printf("Hello %-10.s\n", "World!");
+	printf("Hello %-10.s\n", "World!");
 }
