@@ -1,9 +1,10 @@
 NAME		= libftprintf.a
 
-SRCS		= ft_printf.c	ft_printf_isconvsymbol.c	ft_printf_getres.c\
-			  ft_printf_getconversion.c	ft_printf_flag_handler.c\
-			  ft_printf_wp_handler.c	ft_printf_c_handler.c\
-			  ft_printf_s_handler.c	ft_printf_di_handler.c
+SRCS		= ft_printf.c					ft_printf_get_conversions.c\
+			  ft_printf_update_args_res.c	ft_printf_aplay_handlers.c\
+			  ft_printf_flag_handler.c		ft_printf_wp_handler.c\
+			  ft_printf_c_handler.c			ft_printf_s_handler.c\
+			  ft_printf_di_handler.c
 
 OBJS		= ${SRCS:.c=.o}
 

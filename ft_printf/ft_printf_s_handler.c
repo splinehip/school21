@@ -6,56 +6,77 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 16:50:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/11 12:28:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/16 18:51:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	s_fres(char *fres, char *s, int width, int precision)
+static char	*set_fres(char *fres, char *s, t_args *args)
 {
-	if (fres != NULL && s != NULL)
+	char	*res;
+
+	res = NULL;
+	if (fres == NULL || s == NULL)
+		return (NULL);
+	if ((*args).p >= 0 && (size_t)(*args).p < ft_strlen(s))
+		s[(*args).p] = '\0';
+	if ((*args).align_left && (size_t)(*args).w > ft_strlen(s))
 	{
-		if (precision >= 0 && (size_t)precision < ft_strlen(s))
-			s[precision] = '\0';
-		if ((size_t)width > ft_strlen(s))
-			fres[(size_t)width - ft_strlen(s)] = '\0';
+		fres += ft_strlen(s);
+		res = ft_strjoin(s, fres);
+	}
+	else if ((*args).w > 0 && (size_t)(*args).w > ft_strlen(s))
+	{
+		fres[(size_t)(*args).w - ft_strlen(s)] = '\0';
+		res = ft_strjoin(fres, s);
 	}
 	else
-	{
-		if (fres != NULL)
-			free(fres);
-		fres = NULL;
-		if (s != NULL)
-			free(s);
-	}
+		res = ft_strdup(s);
+	return (res);
 }
 
-char	*ft_printf_s_handler(char *res, const char *ssi, va_list ap)
+static void	get_res(t_args *args, const char *ssi, va_list ap)
 {
 	char	*fres;
 	char	*s;
-	char	*tmp;
-	int		width;
-	int		precision;
+	char	*tmp_fres;
+	char	*tmp_s;
 
-	if (ft_strlen(ssi) == 2)
-		res = ft_strjoin(res, va_arg(ap, char *));
-	else
+	fres = ft_printf_flag_handler(args, ssi, ap);
+	s = ft_strdup(va_arg(ap, char *));
+	tmp_fres = fres;
+	tmp_s = s;
+	fres = set_fres(fres, s, args);
+	if (tmp_fres != NULL)
+		free(tmp_fres);
+	if (tmp_s != NULL)
+		free(tmp_s);
+	if (fres == NULL)
 	{
-		fres = ft_printf_flag_handler(ssi, &width, &precision, ap);
-		s = ft_strdup(va_arg(ap, char *));
-		s_fres(fres, s, width, precision);
-		if (fres == NULL)
-			return (NULL);
-		tmp = fres;
-		fres = ft_strjoin(fres, s);
-		free(tmp);
-		free(s);
-		if (fres == NULL)
-			return (NULL);
-		res = ft_strjoin(res, fres);
-		free(fres);
+		(*args).res = NULL;
+		return ;
 	}
-	return (res);
+	(*args).len += ft_strlen(fres);
+	ft_printf_update_args_res(args, fres, 3);
+	free(fres);
+}
+
+void	ft_printf_s_handler(t_args *args, const char *ssi, va_list ap)
+{
+	char	*s;
+
+	(*args).old_len = (*args).len;
+	if (ft_strlen(ssi) == 2)
+	{
+		s = va_arg(ap, char *);
+		if (s == NULL)
+			(*args).res = NULL;
+		if (s == NULL)
+			return ;
+		(*args).len += ft_strlen(s);
+		ft_printf_update_args_res(args, s, 3);
+	}
+	else
+		get_res(args, ssi, ap);
 }

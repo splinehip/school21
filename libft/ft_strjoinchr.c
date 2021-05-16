@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 12:14:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/07 14:46:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/12 14:11:30 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*ft_strjoinchr(char *res, char c)
 {
 	char	*tmp;
 
-	if (res == NULL && c == 0)
-		return (NULL);
+	if (res != NULL && c == 0)
+		return (ft_strdup(res));
 	if (res == NULL)
 		return (ft_memcpy((char *)ft_calloc(2, sizeof(char)), &c, 1));
 	tmp = (char *)ft_calloc(ft_strlen(res) + 2, sizeof(char));
@@ -42,10 +42,7 @@ char	*ft_strjoinchr(char *res, char c)
 	}
 	if (tmp != NULL && ft_strlen(tmp) == ft_strlen(res) + 1)
 		return (tmp);
-	else
-	{
-		if (tmp != NULL)
-			free(tmp);
-		return (NULL);
-	}
+	if (tmp != NULL)
+		free(tmp);
+	return (NULL);
 }

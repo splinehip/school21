@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 10:00:01 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/11 00:13:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/15 22:06:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,26 @@ static int	isdi(const char *ssi)
 	return (0);
 }
 
-char	*ft_printf_flag_handler(const char *ssi, int *w, int *p, va_list ap)
+char	*ft_printf_flag_handler(t_args *args, const char *ssi, va_list ap)
 {
 	char	*res;
 
-	*w = 0;
-	*p = -1;
-	ft_printf_wp_handler(ssi, w, p, ap);
-	res = (char *)ft_calloc(*w + 1, sizeof(char));
+	ft_printf_wp_handler(args, ssi, ap);
+	if (hasflag(ssi, '-'))
+		(*args).align_left = 1;
+	res = (char *)ft_calloc((*args).w + 1, sizeof(char));
+	res = ft_memset(res, ' ', (*args).w);
 	if (res == NULL)
 		return (NULL);
-	res = ft_memset(res, ' ', *w);
-	if (hasflag(ssi, '0') && needzero(ssi))
-		res = ft_memset(res, '0', *w);
-	if (hasflag(ssi, '-'))
-		res[0] = '\0';
-	if ((hasflag(ssi, ' ') || hasflag(ssi, '+')) && isdi(ssi))
-	{
-		if (hasflag(ssi, '+'))
-			res = to_fild("+", res);
-		else
-			res = to_fild(" ", res);
-	}
-	if (res != NULL && hasflag(ssi, '#') && ssi[ft_strlen(ssi) - 1] == 'x')
+	if (hasflag(ssi, '0') && (*args).align_left == 0 && needzero(ssi))
+		res = ft_memset(res, '0', (*args).w);
+	if (hasflag(ssi, '+') && isdi(ssi))
+		res = to_fild("+", res);
+	else if (hasflag(ssi, ' ') && isdi(ssi))
+		res = to_fild(" ", res);
+	if (hasflag(ssi, '#') && ssi[ft_strlen(ssi) - 1] == 'x')
 		res = to_fild("0x", res);
-	if (res != NULL && hasflag(ssi, '#') && ssi[ft_strlen(ssi) - 1] == 'X')
+	if (hasflag(ssi, '#') && ssi[ft_strlen(ssi) - 1] == 'X')
 		res = to_fild("0X", res);
 	return (res);
 }

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_isconvsymbol.c                           :+:      :+:    :+:   */
+/*   ft_printf_aplay_handlers.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/08 18:29:14 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/08 18:29:16 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/07 11:57:28 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/16 17:32:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf_isconvsymbol(unsigned char c)
+void	ft_printf_aplay_handlers(t_args *args, const char *ssi, va_list ap)
 {
-	if (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i'
-		|| c == 'u' || c == 'x' || c == 'X' || c == '%')
-		return (1);
-	return (0);
+	if (ssi[ft_strlen(ssi) - 1] == 'c')
+		ft_printf_c_handler(args, ssi, ap);
+	else if (ssi[ft_strlen(ssi) - 1] == 's')
+		ft_printf_s_handler(args, ssi, ap);
+	else if (ssi[ft_strlen(ssi) - 1] == 'd' || ssi[ft_strlen(ssi) - 1] == 'i')
+		ft_printf_di_handler(args, ssi, ap);
+	else
+		(*args).res = NULL;
 }
