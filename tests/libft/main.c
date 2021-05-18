@@ -33,6 +33,7 @@ int	main(void)
 	test29_strmapi();
 	test30_puts();
 	test31_list();
+	test32_uitoa();
 	printf("POW RES: %lld, %lld\n", ft_uintpow(2, 0), ft_uintpow(2, 32));
 	int n;
 	n = 10;

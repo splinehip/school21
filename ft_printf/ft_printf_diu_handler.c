@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_di_handler.c                             :+:      :+:    :+:   */
+/*   ft_printf_diu_handler.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 21:40:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/16 18:50:32 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/18 13:23:15 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/18 15:04:42 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,55 +92,54 @@ static void	width_handler(char **pfres, char **ps, t_args *args)
 
 static void	get_res(char **pfres, char **ps, t_args *args)
 {
-	if (*ps == NULL && *pfres != NULL)
-		free(*pfres);
-	if (*ps == NULL)
-		return ;
-	precision_handler(ps, args, (*args).p);
-	if (*ps == NULL)
+	if (*pfres != NULL)
 	{
-		(*args).res = NULL;
-		free(*pfres);
-		return ;
+		precision_handler(ps, args, (*args).p);
+		if (*ps == NULL)
+		{
+			(*args).res = NULL;
+			free(*pfres);
+			return ;
+		}
+		width_handler(pfres, ps, args);
+		if (*pfres == NULL)
+		{
+			(*args).res = NULL;
+			free(*ps);
+			return ;
+		}
 	}
-	width_handler(pfres, ps, args);
-	if (*pfres == NULL)
-	{
-		(*args).res = NULL;
+	else
+		*pfres = *ps;
+	if (*pfres != *ps)
 		free(*ps);
-		return ;
-	}
 	(*args).len += ft_strlen(*pfres);
 	ft_printf_update_args_res(args, *pfres, 3);
 	free(*pfres);
-	free(*ps);
 }
 
-void	ft_printf_di_handler(t_args *args, const char *ssi, va_list ap)
+void	ft_printf_diu_handler(t_args *args, const char *ssi, va_list ap)
 {
 	char	*s;
 	char	*fres;
 
 	s = NULL;
+	fres = NULL;
 	(*args).old_len = (*args).len;
-	if (ft_strlen(ssi) == 2)
-	{
-		s = ft_itoa(va_arg(ap, int));
-		if (s == NULL)
-			(*args).res = NULL;
-		if (s == NULL)
-			return ;
-		(*args).len += ft_strlen(s);
-		ft_printf_update_args_res(args, s, 3);
-		free(s);
-	}
-	else
-	{
+	if (ft_strlen(ssi) != 2)
 		fres = ft_printf_flag_handler(args, ssi, ap);
+	if (ssi[ft_strlen(ssi) - 1] == 'u')
+		s = ft_uitoa(va_arg(ap, unsigned int));
+	else
+		s = ft_itoa(va_arg(ap, int));
+	if ((fres == NULL && ft_strlen(ssi) != 2) || s == NULL)
+	{
+		(*args).res = NULL;
 		if (fres != NULL)
-			s = ft_itoa(va_arg(ap, int));
-		if (fres == NULL || s == NULL)
-			(*args).res = NULL;
-		get_res(&fres, &s, args);
+			free(fres);
+		if (s != NULL)
+			free(s);
+		return ;
 	}
+	get_res(&fres, &s, args);
 }

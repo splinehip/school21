@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 14:46:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 16:28:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/18 13:55:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ behavior will be undefined.
 */
 char	*ft_itoa(int n)
 {
-	int					i;
-	unsigned long long	ulln;
-	unsigned long long	dev;
-	char				res[12];
+	int		i;
+	t_ulli	ulln;
+	t_ulli	dev;
+	char	res[12];
 
 	ft_memset(res, '\0', 12);
 	i = 0;

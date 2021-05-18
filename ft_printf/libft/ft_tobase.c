@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:12:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 11:09:02 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/18 12:49:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ base - the base of the system in which the number is represented.
 tobase - the base of the system to which the number must be converted.
 ... is the number to be represented in the tobase number system, maybe
 passed as unsingned int or char *str. If passed as unsingned int
-then 10 must be passed to base.
+then 10 must be passed to first base argument.
+MIN BASE 2  -  MAX BASE 64.
 
 Returned values:
 The function returns a string representing a number in the specified number

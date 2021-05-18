@@ -9,6 +9,7 @@ int	main(void)
 	test05_s_handler();
 	test06_di_handler();
 	test07_p_handler();
+	test08_u_handler();
 
 	return 0;
 }

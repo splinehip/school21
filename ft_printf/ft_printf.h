@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:14:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/17 22:08:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/18 15:07:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_printf_wp_handler(t_args *args, const char *ssi, va_list ap);
 char	*ft_printf_flag_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_c_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_s_handler(t_args *args, const char *ssi, va_list ap);
-void	ft_printf_di_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_diu_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_p_handler(t_args *args, const char *ssi, va_list ap);
 
 #endif

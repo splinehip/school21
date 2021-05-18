@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/17 21:51:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/18 13:59:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_ulli	ft_uintpow(int nb, int pow);
 char	*ft_tobase(unsigned int base, unsigned int tobase, ...);
 char	*ft_strljoinchr(char *res, char c);
 void	ft_strtolower(char **str);
+char	*ft_uitoa(unsigned int n);
 
 typedef struct s_list
 {
