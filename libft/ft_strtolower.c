@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/24 13:32:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/03 13:52:23 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/17 21:47:16 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/17 22:01:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-Arguments:
-s is a pointer to the string to write.
-fd is the file descriptor number to write.
-
-Description:
-The function writes the given string s to a file with descriptor fd.
-*/
-void	ft_putstr_fd(const char *s, int fd)
+void	ft_strtolower(char **str)
 {
-	if (s != NULL)
-		write(fd, s, ft_strlen(s));
+	char	*s;
+
+	if (str == NULL || *str == NULL)
+		return ;
+	s = *str;
+	while (*s != 0)
+	{
+		*s = ft_tolower(*s);
+		s++;
+	}
 }

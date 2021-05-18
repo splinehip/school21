@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoinchr.c                                    :+:      :+:    :+:   */
+/*   ft_strljoinchr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 12:14:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/12 14:11:30 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/17 18:17:24 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/17 18:23:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ union returns NULL.
 
 Description:
 The function performs the concatenation of a string and character into a new
-string. Symbol appended to the end of the line. On success, a pointer to a new
-line is returned. If the join fails, NULL is returned.
+string. Symbol appended to the begining of the string. On success, a pointer to
+a new line is returned. If the join fails, NULL is returned.
 */
-char	*ft_strjoinchr(char *res, char c)
+char	*ft_strljoinchr(char *res, char c)
 {
 	char	*tmp;
 
@@ -37,8 +37,8 @@ char	*ft_strjoinchr(char *res, char c)
 	tmp = (char *)ft_calloc(ft_strlen(res) + 2, sizeof(char));
 	if (tmp != NULL)
 	{
-		ft_memcpy(tmp, res, ft_strlen(res));
-		ft_memcpy(tmp + ft_strlen(res), &c, 1);
+		tmp[0] = c;
+		ft_memcpy(tmp + 1, res, ft_strlen(res));
 	}
 	if (tmp != NULL && ft_strlen(tmp) == ft_strlen(res) + 1)
 		return (tmp);

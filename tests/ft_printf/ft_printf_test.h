@@ -9,4 +9,5 @@ void	test03_c_conversion(void);
 void	test04_wp_handler(void);
 void	test05_s_handler(void);
 void	test06_di_handler(void);
+void	test07_p_handler(void);
 #endif

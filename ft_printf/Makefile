@@ -4,13 +4,13 @@ SRCS		= ft_printf.c					ft_printf_get_conversions.c\
 			  ft_printf_update_args_res.c	ft_printf_aplay_handlers.c\
 			  ft_printf_flag_handler.c		ft_printf_wp_handler.c\
 			  ft_printf_c_handler.c			ft_printf_s_handler.c\
-			  ft_printf_di_handler.c
+			  ft_printf_di_handler.c		ft_printf_p_handler.c
 
 OBJS		= ${SRCS:.c=.o}
 
 D_FILES		= ${SRCS:.c=.d}
 
-CC			= cc
+CC			= clang
 
 CFLAGS		= -Wall -Wextra -Werror
 

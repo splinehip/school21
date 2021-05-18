@@ -33,5 +33,11 @@ int	main(void)
 	test29_strmapi();
 	test30_puts();
 	test31_list();
+	printf("POW RES: %lld, %lld\n", ft_uintpow(2, 0), ft_uintpow(2, 32));
+	int n;
+	n = 10;
+	char *res;
+	printf(("\nFT_TOBASE() is: %s, printf p: %p\n"), res = ft_tobase(10, 16, &n), &n);
+	free(res);
 	return (0);
 }

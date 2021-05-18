@@ -6,15 +6,20 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/07 14:46:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/18 12:32:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# define __ULLINT_TYPE__ unsigned long long int
+# include "libft_base.h"
 # include <stdlib.h>
 # include <stddef.h>
+# include <stdarg.h>
 # include <unistd.h>
+
+typedef __ULLINT_TYPE__	t_ulli;
 
 void	*ft_memset(void *buf, int c, size_t l);
 void	ft_bzero(void *buf, size_t l);
@@ -51,6 +56,10 @@ void	ft_putstr_fd(const char *s, int fd);
 void	ft_putendl_fd(const char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_strjoinchr(char *res, char c);
+t_ulli	ft_uintpow(int nb, int pow);
+char	*ft_tobase(unsigned int base, unsigned int tobase, ...);
+char	*ft_strljoinchr(char *res, char c);
+void	ft_strtolower(char **str);
 
 typedef struct s_list
 {
@@ -67,4 +76,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
 #endif
