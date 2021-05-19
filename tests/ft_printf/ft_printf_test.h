@@ -11,4 +11,5 @@ void	test05_s_handler(void);
 void	test06_di_handler(void);
 void	test07_p_handler(void);
 void	test08_u_handler(void);
+void	test09_xX_handler(void);
 #endif

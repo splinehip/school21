@@ -6,11 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:12:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 12:49:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:31:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "libft_ft_tobase.h"
 
 static t_ulli	get_base_10(unsigned int base, char *n_str)
 {

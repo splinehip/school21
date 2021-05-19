@@ -6,14 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 13:59:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:31:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # define __ULLINT_TYPE__ unsigned long long int
-# include "libft_base.h"
 # include <stdlib.h>
 # include <stddef.h>
 # include <stdarg.h>

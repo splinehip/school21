@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 16:50:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/16 18:51:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:07:55 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	*set_fres(char *fres, char *s, t_args *args)
 	res = NULL;
 	if (fres == NULL || s == NULL)
 		return (NULL);
+	if (ft_strncmp(s, "(null)", 6) == 0 && (*args).p >= 0 && (*args).p < 6)
+		s[0] = '\0';
 	if ((*args).p >= 0 && (size_t)(*args).p < ft_strlen(s))
 		s[(*args).p] = '\0';
 	if ((*args).align_left && (size_t)(*args).w > ft_strlen(s))
@@ -45,6 +47,8 @@ static void	get_res(t_args *args, const char *ssi, va_list ap)
 
 	fres = ft_printf_flag_handler(args, ssi, ap);
 	s = ft_strdup(va_arg(ap, char *));
+	if (s == NULL)
+		s = ft_strdup("(null)");
 	tmp_fres = fres;
 	tmp_s = s;
 	fres = set_fres(fres, s, args);
@@ -71,9 +75,7 @@ void	ft_printf_s_handler(t_args *args, const char *ssi, va_list ap)
 	{
 		s = va_arg(ap, char *);
 		if (s == NULL)
-			(*args).res = NULL;
-		if (s == NULL)
-			return ;
+			s = "(null)";
 		(*args).len += ft_strlen(s);
 		ft_printf_update_args_res(args, s, 3);
 	}

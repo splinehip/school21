@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 21:20:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/16 18:49:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/19 09:27:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	get_substr(const char *s, char **substr, size_t *i, size_t *pstart)
 	}
 }
 
-static void	aplay_handlers(const char *substr, t_args *args, va_list ap)
+static void	apply_handlers(const char *substr, t_args *args, va_list ap)
 {
 	char	*args_res;
 
@@ -57,7 +57,7 @@ static void	aplay_handlers(const char *substr, t_args *args, va_list ap)
 	if (substr[0] == '%' && substr[1] == '%')
 		ft_printf_update_args_res(args, substr, 0);
 	else if (substr[0] == '%')
-		ft_printf_aplay_handlers(args, substr, ap);
+		ft_printf_apply_handlers(args, substr, ap);
 	else
 		ft_printf_update_args_res(args, substr, 1);
 	if (args_res != NULL)
@@ -83,7 +83,7 @@ void	ft_printf_get_conversions(const char *s, t_args *args, va_list ap)
 			(*args).res = NULL;
 			break ;
 		}
-		aplay_handlers((const char *)substr, args, ap);
+		apply_handlers((const char *)substr, args, ap);
 		free(substr);
 		substr = NULL;
 		if ((*args).res == NULL)

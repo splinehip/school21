@@ -1,6 +1,6 @@
-#ifndef LIBFT_BASE_H
-# define LIBFT_BASE_H
-static const char	*g_BASE[65] =
+#ifndef LIBFT_FT_TOBASE_H
+# define LIBFT_FT_TOBASE_H
+const char	*g_BASE[65] =
 {
 	"",
 	"",

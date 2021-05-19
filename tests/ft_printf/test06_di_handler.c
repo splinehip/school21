@@ -180,4 +180,12 @@ void	test06_di_handler(void)
 	n2 = printf("%0*d", -7, -54);
 	printf("\nRES LEN: %d, %d\n", n1, n2);
 	ft_printf("\n");
+
+	printf("\n=================== Test 06 di handler 23 ===================\n");
+	printf("Format str is: %s\n", " %+-03d , 0");
+	n1 = ft_printf("%+-03d", 0);
+	printf("\n");
+	n2 = printf("%+-3d", 0);
+	printf("\nRES LEN: %d, %d\n", n1, n2);
+	ft_printf("\n");
 }

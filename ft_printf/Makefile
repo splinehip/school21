@@ -1,16 +1,23 @@
 NAME		= libftprintf.a
 
 SRCS		= ft_printf.c					ft_printf_get_conversions.c\
-			  ft_printf_update_args_res.c	ft_printf_aplay_handlers.c\
+			  ft_printf_update_args_res.c	ft_printf_apply_handlers.c\
 			  ft_printf_flag_handler.c		ft_printf_wp_handler.c\
 			  ft_printf_c_handler.c			ft_printf_s_handler.c\
 			  ft_printf_diu_handler.c		ft_printf_p_handler.c\
+			  ft_printf_xX_handler.c
 
 OBJS		= ${SRCS:.c=.o}
 
 D_FILES		= ${SRCS:.c=.d}
 
-CC			= clang
+LIBFTD		= ./libft
+
+LIBFT_OBJS	= ${LIBFTD}/*.o
+
+LIBFT_DFLS	= ${LIBFTD}/*.d
+
+CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
@@ -18,29 +25,29 @@ OPTFLAGS	= -O2
 
 RM			= rm -f
 
-all:		${NAME}
+all:		libft ${NAME}
 
-${NAME}:	${OBJS}
-			@cd ./libft && make
-			@cp ./libft/libft.a ./${NAME}
-			ar -rs ${NAME} $?
+${NAME}:	${LIBFT_OBJS} ${LIBFT_DFLS} ${OBJS}
+			ar -crs ${NAME} ${LIBFT_OBJS} $?
 
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
 
-include ${wildcard ${D_FILES}}
+include ${wildcard ${D_FILES} ${LIBFT_DFLS}}
 
-libft_re:
-			@cd ./libft && make re
+bonus:		all
+
+libft:
+			@make -C libft
 
 clean:
-			@cd ./libft && make clean
 			${RM} ${OBJS} ${D_FILES}
+			@make -C libft clean
 
 fclean:		clean
-			@cd ./libft && make fclean
 			${RM} ${NAME}
+			@make -C libft fclean
 
-re:			libft_re fclean all
+re:			fclean all
 
-.PHONY: all so clean fclean re libft_re
+.PHONY: all bonuse clean fclean re libft

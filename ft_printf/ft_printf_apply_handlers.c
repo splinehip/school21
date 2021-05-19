@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_aplay_handlers.c                         :+:      :+:    :+:   */
+/*   ft_printf_apply_handlers.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:57:28 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 15:03:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/19 14:55:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_printf_aplay_handlers(t_args *args, const char *ssi, va_list ap)
+void	ft_printf_apply_handlers(t_args *args, const char *ssi, va_list ap)
 {
 	if (ssi[ft_strlen(ssi) - 1] == 'c')
 		ft_printf_c_handler(args, ssi, ap);
@@ -23,6 +23,8 @@ void	ft_printf_aplay_handlers(t_args *args, const char *ssi, va_list ap)
 		ft_printf_diu_handler(args, ssi, ap);
 	else if (ssi[ft_strlen(ssi) - 1] == 'p')
 		ft_printf_p_handler(args, ssi, ap);
+	else if (ssi[ft_strlen(ssi) - 1] == 'x' || ssi[ft_strlen(ssi) - 1] == 'X')
+		ft_printf_xX_handler(args, ssi, ap);
 	else
 		(*args).res = NULL;
 }
