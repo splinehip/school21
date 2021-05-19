@@ -7,15 +7,17 @@ SRCS		= ft_printf.c					ft_printf_get_conversions.c\
 			  ft_printf_diu_handler.c		ft_printf_p_handler.c\
 			  ft_printf_xX_handler.c
 
-OBJS		= ${SRCS:.c=.o}
+OBJS		:= ${SRCS:.c=.o}
 
-D_FILES		= ${SRCS:.c=.d}
+D_FILES		:= ${SRCS:.c=.d}
 
 LIBFTD		= ./libft
 
-LIBFT_OBJS	= ${LIBFTD}/*.o
+LIBFT_SRCS	:= ${shell find ${LIBFTD} -name '*.c'}
 
-LIBFT_DFLS	= ${LIBFTD}/*.d
+LIBFT_OBJS	:=  ${LIBFT_SRCS:.c=.o}
+
+LIBFT_DFLS	:=  ${LIBFT_SRCS:.c=.d}
 
 CC			= cc
 
@@ -25,10 +27,10 @@ OPTFLAGS	= -O2
 
 RM			= rm -f
 
-all:		libft ${NAME}
+all:		libft ${LIBFT_OBJS} ${LIBFT_DFLS} ${NAME}
 
-${NAME}:	${LIBFT_OBJS} ${LIBFT_DFLS} ${OBJS}
-			ar -crs ${NAME} ${LIBFT_OBJS} $?
+${NAME}:	${LIBFT_OBJS} ${OBJS}
+			ar -crs ${NAME} $?
 
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
@@ -38,16 +40,16 @@ include ${wildcard ${D_FILES} ${LIBFT_DFLS}}
 bonus:		all
 
 libft:
-			@make -C libft
+			@make -C ${LIBFTD} bonus
 
 clean:
 			${RM} ${OBJS} ${D_FILES}
-			@make -C libft clean
+			@make -C ${LIBFTD} clean
 
 fclean:		clean
 			${RM} ${NAME}
-			@make -C libft fclean
+			@make -C ${LIBFTD} fclean
 
 re:			fclean all
 
-.PHONY: all bonuse clean fclean re libft
+.PHONY: all bonus clean fclean re libft

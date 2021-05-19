@@ -21,7 +21,7 @@ OBJS_B		= ${SRCS_B:.c=.o}
 
 D_FILES		= ${SRCS:.c=.d} ${SRCS_B:.c=.d}
 
-CC			= clang
+CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
@@ -34,7 +34,7 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			ar -crs ${NAME} $?
 
-bonus:
+bonus:		all
 			@make OBJS='${OBJS_B}' all
 
 %.o:		%.c

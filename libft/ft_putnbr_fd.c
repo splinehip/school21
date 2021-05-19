@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/24 13:39:17 by cflorind          #+#    #+#             */
-/*   Updated: 2021/04/26 16:40:26 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/19 17:03:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ void	ft_putnbr_fd(int n, int fd)
 		res[i++] = ulln / dev + 48;
 		ulln = ulln % dev;
 	}
-	write(fd, &res, i);
+	(void)(write(fd, &res, i) + 1);
 }
