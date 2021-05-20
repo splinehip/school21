@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 19:28:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 12:29:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/20 17:45:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ static char	*get_s(va_list ap)
 		return (res);
 	tmp = res;
 	if (ft_strncmp(res, "0", 1) == 0)
-		res = ft_strdup("(nil)");
+	{
+		if (MAC_OS)
+			res = ft_strdup("0x0");
+		else
+			res = ft_strdup("(nil)");
+	}
 	else
 		res = ft_strjoin("0x", res);
 	if (tmp != NULL)

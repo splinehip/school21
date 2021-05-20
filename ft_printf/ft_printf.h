@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:14:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/20 17:25:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/20 17:45:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # include <stdarg.h>
 # include "./libft/libft.h"
 # ifdef __APPLE__
-#  define APPLE 1
+#  define MAC_OS 1
 # else
-#  define APPLE 0
+#  define MAC_OS 0
 # endif
 
 typedef struct s_args
