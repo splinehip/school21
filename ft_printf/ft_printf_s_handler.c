@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 16:50:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/19 14:07:55 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/20 17:25:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static char	*set_fres(char *fres, char *s, t_args *args)
 	res = NULL;
 	if (fres == NULL || s == NULL)
 		return (NULL);
-	if (ft_strncmp(s, "(null)", 6) == 0 && (*args).p >= 0 && (*args).p < 6)
+	if (ft_strncmp(s, "(null)", 6) == 0 && APPLE == 0
+		&& (*args).p >= 0 && (*args).p < 6)
 		s[0] = '\0';
 	if ((*args).p >= 0 && (size_t)(*args).p < ft_strlen(s))
 		s[(*args).p] = '\0';

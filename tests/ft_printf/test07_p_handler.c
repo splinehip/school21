@@ -31,7 +31,7 @@ void	test07_p_handler(void)
 	printf("\nRES LEN: %d, %d\n", n1, n2);
 	ft_printf("\n");
 
-	/*printf("\n=================== Test 07 p handler 04 ===================\n");
+	printf("\n=================== Test 07 p handler 04 ===================\n");
 	printf("Format str is: %s\n", " %10p %10p , 1, -1");
 	n1 = ft_printf(" %10p %10p ", 1, -1);
 	printf("\n");
@@ -45,5 +45,5 @@ void	test07_p_handler(void)
 	printf("\n");
 	n2 = printf(" %10p %-10p ", 0, 0);
 	printf("\nRES LEN: %d, %d\n", n1, n2);
-	ft_printf("\n");*/
+	ft_printf("\n");
 }
