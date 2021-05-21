@@ -68,4 +68,12 @@ void	test05_s_handler(void)
 	n2 = printf(" %-4s %4s ", "123", "4567");
 	printf("\nRES LEN: %d, %d\n", n1, n2);
 	ft_printf("\n");
+
+	printf("\n=================== Test 05 s handler 09 ===================\n");
+	printf("Format str is: %s\n", " %-9.1s , NULL");
+	n1 = ft_printf(" %-9.1s ", NULL);
+	printf("\n");
+	n2 = printf(" %-9.1s ", NULL);
+	printf("\nRES LEN: %d, %d\n", n1, n2);
+	ft_printf("\n");
 }

@@ -8,7 +8,7 @@ D_FILES		= ${SRCS:.c=.d}
 
 CC			= clang
 
-CFLAGS		= -Wformat
+CFLAGS		= -Wall -Wextra -Werror
 
 OPTFLAGS	= -O2
 

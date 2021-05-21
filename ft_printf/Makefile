@@ -11,13 +11,9 @@ OBJS		:= ${SRCS:.c=.o}
 
 D_FILES		:= ${SRCS:.c=.d}
 
-LIBFTD		= ./libft
+LIBFTD		:= ./libft
 
-LIBFT_SRCS	:= ${shell find ${LIBFTD} -name '*.c'}
-
-LIBFT_OBJS	:=  ${LIBFT_SRCS:.c=.o}
-
-LIBFT_DFLS	:=  ${LIBFT_SRCS:.c=.d}
+LIBFT		:= ${LIBFTD}/libft.a
 
 CC			= cc
 
@@ -27,15 +23,17 @@ OPTFLAGS	= -O2
 
 RM			= rm -f
 
-all:		libft ${LIBFT_OBJS} ${LIBFT_DFLS} ${NAME}
 
-${NAME}:	${LIBFT_OBJS} ${OBJS}
+all:		libft ${NAME}
+
+${NAME}:	${OBJS}
+			@cp -r ${LIBFT} ${NAME}
 			ar -crs ${NAME} $?
 
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
 
-include ${wildcard ${D_FILES} ${LIBFT_DFLS}}
+include ${wildcard ${D_FILES}}
 
 bonus:		all
 
