@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:14:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/20 17:45:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/22 08:15:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ void	ft_printf_s_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_diu_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_p_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_xX_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_prc_handler(t_args *args, const char *ssi, va_list ap);
 
 #endif

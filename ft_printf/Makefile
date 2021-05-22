@@ -5,7 +5,7 @@ SRCS		= ft_printf.c					ft_printf_get_conversions.c\
 			  ft_printf_flag_handler.c		ft_printf_wp_handler.c\
 			  ft_printf_c_handler.c			ft_printf_s_handler.c\
 			  ft_printf_diu_handler.c		ft_printf_p_handler.c\
-			  ft_printf_xX_handler.c
+			  ft_printf_xX_handler.c		ft_printf_prc_handler.c
 
 OBJS		:= ${SRCS:.c=.o}
 

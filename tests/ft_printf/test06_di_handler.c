@@ -6,10 +6,10 @@ void	test06_di_handler(void)
 	int n2;
 
 	printf("\n=================== Test 06 di handler 01 ===================\n");
-	printf("Format str is: %s\n", "Hello %d, 10");
-	n1 = ft_printf("Hello %d\n", 10);
+	printf("Format str is: %s\n", "Hello %d, -2147483648");
+	n1 = ft_printf("Hello %d\n", -2147483648);
 	printf("\n");
-	n2 = printf("Hello %d\n", 10);
+	n2 = printf("Hello %ld\n", -2147483648);
 	printf("\nRES LEN: %d, %d\n", n1, n2);
 	ft_printf("\n");
 
@@ -183,9 +183,9 @@ void	test06_di_handler(void)
 
 	printf("\n=================== Test 06 di handler 23 ===================\n");
 	printf("Format str is: %s\n", " %+-03d , 0");
-	n1 = ft_printf("%+-03d", 0);
+	n1 = ft_printf("%-03d", 0);
 	printf("\n");
-	n2 = printf("%+-3d", 0);
+	n2 = printf("%-3d", 0);
 	printf("\nRES LEN: %d, %d\n", n1, n2);
 	ft_printf("\n");
 }

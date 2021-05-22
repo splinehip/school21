@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:57:28 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/19 14:55:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/22 09:23:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ft_printf_apply_handlers(t_args *args, const char *ssi, va_list ap)
 		ft_printf_p_handler(args, ssi, ap);
 	else if (ssi[ft_strlen(ssi) - 1] == 'x' || ssi[ft_strlen(ssi) - 1] == 'X')
 		ft_printf_xX_handler(args, ssi, ap);
+	else if (ssi[ft_strlen(ssi) - 1] == '%')
+		ft_printf_prc_handler(args, ssi, ap);
 	else
 		(*args).res = NULL;
 }

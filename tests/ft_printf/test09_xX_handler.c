@@ -36,4 +36,12 @@ void	test09_xX_handler(void)
 	n2 = printf("%.0x", 5);
 	printf("\nRES LEN: %d, %d\n", n1, n2);
 	ft_printf("\n");
+
+	printf("\n=================== Test 09 xX handler 04 ===================\n");
+	printf("Format str is: %s\n", "%#.10x, 5");
+	n1 = ft_printf("%#.10x", 5);
+	printf("\n");
+	n2 = printf("%#.10x", 5);
+	printf("\nRES LEN: %d, %d\n", n1, n2);
+	ft_printf("\n");
 }

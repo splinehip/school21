@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 21:20:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/19 09:27:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/22 09:35:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ static void	apply_handlers(const char *substr, t_args *args, va_list ap)
 	char	*args_res;
 
 	args_res = (*args).res;
-	if (substr[0] == '%' && substr[1] == '%')
-		ft_printf_update_args_res(args, substr, 0);
-	else if (substr[0] == '%')
+	if (substr[0] == '%')
 		ft_printf_apply_handlers(args, substr, ap);
 	else
-		ft_printf_update_args_res(args, substr, 1);
+	{
+		(*args).old_len = (*args).len;
+		(*args).len += ft_strlen(substr);
+		ft_printf_update_args_res(args, substr, 3);
+	}
 	if (args_res != NULL)
 		free(args_res);
 }

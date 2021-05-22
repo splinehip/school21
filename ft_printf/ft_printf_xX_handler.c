@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:47:20 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 21:20:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/22 09:58:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	width_handler(char **pfres, char **ps, t_args *args)
 			ft_memcpy(fres + (*args).w - ft_strlen(s), s, ft_strlen(s));
 		*pfres = ft_strdup(fres);
 	}
-	else if ((fres[1] == 'x' || fres[1] == 'X'))
+	else if (ft_strlen(fres) > 0 && (fres[1] == 'x' || fres[1] == 'X'))
 	{
 		fres[2] = 0;
 		*pfres = ft_strjoin(fres, s);

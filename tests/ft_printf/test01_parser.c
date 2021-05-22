@@ -3,7 +3,7 @@
 void	test01_parser(void)
 {
 	size_t	i;
-	char	*s[21];
+	char	*s[22];
 
 	s[0] = "%%";
 	s[1] = "%%%%";
@@ -25,7 +25,8 @@ void	test01_parser(void)
 	s[17] = "%%d%%";
 	s[18] = "%%d%u";
 	s[19] = "Hello World%%";
-	s[20] = NULL;
+	s[20] = "%%%5%%-05%%%%*.*%Hello";
+	s[21] = NULL;
 	i = 0;
 	while (s[i] != NULL)
 	{

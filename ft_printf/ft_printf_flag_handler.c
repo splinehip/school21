@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 10:00:01 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/18 21:26:17 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/22 14:48:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,20 @@ char	*ft_printf_flag_handler(t_args *args, const char *ssi, va_list ap)
 	ft_printf_wp_handler(args, ssi, ap);
 	if (hasflag(ssi, '-'))
 		(*args).align_left = 1;
-	res = (char *)ft_calloc((*args).w + 2, sizeof(*res));
+	res = (char *)ft_calloc((*args).w + 1, sizeof(*res));
 	res = ft_memset(res, ' ', (*args).w);
 	if (res == NULL)
 		return (NULL);
+	if (ssi[ft_strlen(ssi) - 1] == '%')
+		return (res);
 	if (hasflag(ssi, '0') && (*args).align_left == 0 && needzero(ssi))
 		res = ft_memset(res, '0', (*args).w);
 	if (hasflag(ssi, '+') && isdi(ssi))
 		res = to_fild("+", res);
-	else if (hasflag(ssi, ' ') && isdi(ssi))
+	else if (hasflag(ssi, ' ') && isdi(ssi) && (*args).w == 0)
 		res = to_fild(" ", res);
+	else if (hasflag(ssi, ' ') && isdi(ssi) && (*args).w > 0)
+		res[0] = ' ';
 	if (hasflag(ssi, '#') && ssi[ft_strlen(ssi) - 1] == 'x')
 		res = to_fild("0x", res);
 	if (hasflag(ssi, '#') && ssi[ft_strlen(ssi) - 1] == 'X')
