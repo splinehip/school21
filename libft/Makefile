@@ -1,6 +1,6 @@
 NAME		= libft.a
 
-SRCS		=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
+SRCS_BASE	:=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
 				ft_bzero.c		ft_strlen.c		ft_strncmp.c	ft_isprint.c\
 				ft_memcpy.c		ft_strlcpy.c	ft_atoi.c		ft_toupper.c\
 				ft_memccpy.c	ft_strlcat.c	ft_isalpha.c	ft_tolower.c\
@@ -11,17 +11,29 @@ SRCS		=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
 				ft_putendl_fd.c	ft_putnbr_fd.c	ft_strjoinchr.c	ft_uintpow.c\
 				ft_tobase.c		ft_strtolower.c	ft_uitoa.c		ft_strljoinchr.c
 
-SRCS_B		=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c\
+SRCS_LSTD	:= ./list/
+
+SRCS_LST	:=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c\
 				ft_lstadd_back.c	ft_lstlast.c		ft_lstdelone.c\
 				ft_lstclear.c		ft_lstiter.c 		ft_lstmap.c
 
+SRCS_PTFD	:= ./ft_printf/
+
+SRCS_PTF	:= ft_printf.c					ft_printf_get_conversions.c\
+			  ft_printf_update_args_res.c	ft_printf_apply_handlers.c\
+			  ft_printf_flag_handler.c		ft_printf_wp_handler.c\
+			  ft_printf_c_handler.c			ft_printf_s_handler.c\
+			  ft_printf_diu_handler.c		ft_printf_p_handler.c\
+			  ft_printf_xX_handler.c		ft_printf_prc_handler.c
+
+SRCS		= ${SRCS_BASE} ${addprefix ${SRCS_LSTD}, ${SRCS_LST}}\
+			  ${addprefix ${SRCS_PTFD}, ${SRCS_PTF}}
+
 OBJS		= ${SRCS:.c=.o}
 
-OBJS_B		= ${SRCS_B:.c=.o}
+D_FILES		= ${SRCS:.c=.d}
 
-D_FILES		= ${SRCS:.c=.d} ${SRCS_B:.c=.d}
-
-CC			= clang
+CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
@@ -34,14 +46,11 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			ar -crs ${NAME} $?
 
-bonus:
-			@make OBJS='${OBJS_B}' all
-
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
 
-so:			${OBJS} ${OBJS_B}
-			${CC} ${OBJS} ${OBJS_B} -shared -o libft.so
+so:			${OBJS}
+			${CC} ${OBJS} -shared -o libft.so
 
 include ${wildcard ${D_FILES}}
 
@@ -53,4 +62,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY: all bonus so clean fclean re
+.PHONY: all so clean fclean re

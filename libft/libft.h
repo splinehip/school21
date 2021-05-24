@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/19 14:31:13 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/24 12:21:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include <stddef.h>
 # include <stdarg.h>
 # include <unistd.h>
+
+# ifdef __APPLE__
+#  define MAC_OS 1
+# else
+#  define MAC_OS 0
+# endif
 
 typedef __ULLINT_TYPE__	t_ulli;
 
@@ -76,5 +82,28 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+typedef struct s_args
+{
+	int			p;
+	long int	w;
+	char		*res;
+	size_t		len;
+	size_t		old_len;
+	size_t		align_left;
+}				t_args;
+
+int		ft_printf(const char *s, ...);
+void	ft_printf_get_conversions(const char *s, t_args *args, va_list ap);
+void	ft_printf_update_args_res(t_args *args, const char *s, int code);
+void	ft_printf_apply_handlers(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_wp_handler(t_args *args, const char *ssi, va_list ap);
+char	*ft_printf_flag_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_c_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_s_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_diu_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_p_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_xX_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_prc_handler(t_args *args, const char *ssi, va_list ap);
 
 #endif

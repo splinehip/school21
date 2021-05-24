@@ -18,7 +18,7 @@ RM			= rm -f
 all:		libft ${NAME}
 
 ${NAME}:	${OBJS}
-			${CC} ${CFLAGS} ${OBJS} -L../../ft_printf -lftprintf -o ${NAME}
+			${CC} ${CFLAGS} ${OBJS} -L../../libft -lft -o ${NAME}
 
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
@@ -26,14 +26,16 @@ ${NAME}:	${OBJS}
 include ${wildcard ${D_FILES}}
 
 libft:
-			@make -C ../../ft_printf re
+			@make -C ../../libft
 
 clean:
 			${RM} ${OBJS} ${D_FILES}
+			@make -C ../../libft clean
 
 fclean:		clean
 			${RM} ${NAME}
+			@make -C ../../libft fclean
 
 re:			libft fclean all
 
-.PHONY: all so clean fclean re libft
+.PHONY: all clean fclean re libft

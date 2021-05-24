@@ -7,7 +7,7 @@ OBJS		= ${SRCS:.c=.o}
 LIB			= ft
 LIBDIR		= ../../libft
 
-CC			= clang
+CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror -Iincludes
 
@@ -18,7 +18,7 @@ RM			= rm -f
 all:	libft ${NAME}
 
 libft:
-		cd ../../libft && make && make bonus
+		@make -C ../../libft
 
 ${NAME}:${OBJS}
 		${CC} ${CFLAGS} ${OBJS} -L${LIBDIR} -l${LIB} -lbsd -o ${NAME}
@@ -28,13 +28,12 @@ ${NAME}:${OBJS}
 
 clean:
 		${RM} ${OBJS}
+		@make -C ../../libft clean
 
 fclean:	clean
 		${RM} ${NAME}
+		@make -C ../../libft fclean
 
-libft_re:
-		cd ../../libft && make re && make bonus
-
-re:		libft_re fclean all
+re:		fclean all
 
 .PHONY: all clean fclean re
