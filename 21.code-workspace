@@ -1,5 +1,5 @@
 {
-    "folders": [{"path": "tests"}, {"path": "libft"}, {"path": "ft_gnl"}],
+    "folders": [{"path": "tests"}, {"path": "libft"}, {"path": "ft_gnl"},],
     "settings": {
         "42header.username": "cflorind",
         "42header.email": "marvin@42.fr",
@@ -15,6 +15,7 @@
           ".vscode": true,
           "**/*.[oad]": true,
           "**.gitignore": true,
+          "**/*.out": true,
       },
         "C_Cpp.autocompleteAddParentheses": true,
 

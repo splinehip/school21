@@ -1,0 +1,24 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "GCC: build ft_gnl_test",
+            "command": "make",
+            "args": [
+                "re",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/ft_gnl_test"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "GCC: build ft_gnl_test"
+        }
+    ],
+    "version": "2.0.0"
+}

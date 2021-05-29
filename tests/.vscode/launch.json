@@ -1,0 +1,29 @@
+{
+	// Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+	// Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+	// Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "GCC: Сборка и отладка ft_gnl",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/ft_gnl_test/test.out",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}/ft_gnl_test",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Включить автоматическое форматирование для gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			],
+			"preLaunchTask": "GCC: build ft_gnl_test",
+			"miDebuggerPath": "/usr/bin/gdb"
+		}
+	]
+}
