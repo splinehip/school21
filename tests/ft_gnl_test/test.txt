@@ -1,2 +1,7 @@
 123456789
 abcdefgjh
+
+str1
+
+str2 = str1
+gnl(str1)

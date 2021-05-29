@@ -6,12 +6,11 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:47:55 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/29 12:44:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/29 18:33:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static inline int	line_join_buf(char **line, t_vars *vars)
 {
@@ -26,7 +25,6 @@ static inline int	line_join_buf(char **line, t_vars *vars)
 		if (tmp == NULL)
 		{
 			*line = _free(*line, NULL);
-			vars->res = -1;
 			vars->_return = -1;
 			return (1);
 		}
@@ -73,10 +71,8 @@ static inline void	*init_vars(char **line, t_vars **vars, size_t k)
 	if (vars != NULL && *vars != NULL)
 	{
 		(*vars)->k = k;
-		if (*line != NULL)
-			*line[0] = 0;
-		else
-			*line = (char *)ft_calloc(1, sizeof(char));
+		(*vars)->_return = -1;
+		*line = (char *)ft_calloc(1, sizeof(char));
 		if (*line != NULL)
 		{
 			if ((*vars)->i == BUFFER_SIZE)
@@ -84,11 +80,11 @@ static inline void	*init_vars(char **line, t_vars **vars, size_t k)
 			(*vars)->j = (*vars)->i;
 			if ((*vars)->buf == NULL)
 				(*vars)->buf = (char *)ft_calloc(BUFFER_SIZE, sizeof(char));
+			if ((*vars)->buf != NULL)
+				(*vars)->_return = 0;
+			else
+				*line = _free(*line, NULL);
 		}
-		if (*line == NULL || (*vars)->buf == NULL)
-			(*vars)->_return = -1;
-		else
-			(*vars)->_return = 0;
 	}
 	return (NULL);
 }
@@ -132,7 +128,7 @@ int	get_next_line(int fd, char **line)
 	vars_array_handler(line, fd, &vars, 0);
 	while (vars != NULL)
 	{
-		if (vars->_return != -1 && (vars->i == 0 || BUFFER_SIZE == 1))
+		if (vars->_return != -1 && vars->i == 0)
 			vars->res = read(fd, vars->buf, BUFFER_SIZE);
 		buf_handler(line, vars);
 		if (vars->_return)
