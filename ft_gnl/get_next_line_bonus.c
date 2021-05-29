@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:47:55 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/29 20:21:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/05/29 20:28:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static inline void	*vars_array_handler(char **line, int fd, t_vars **vars,
 
 	if (fd == -1)
 		vars_array[k] = _free(vars_array[k]->buf, vars_array[k]);
-	else if (*vars == NULL || (*vars != NULL && (*vars)->fd != fd))
+	else
 	{
 		while (vars_array[k] != NULL)
 			k++;

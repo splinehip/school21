@@ -10,7 +10,7 @@ D_FILES		= ${SRCS:.c=.d}
 
 CC			= cc
 
-CFLAGS		= -g -Wall -Wextra -Werror -D BUFFER_SIZE=1 -I../../ft_gnl
+CFLAGS		= -g -Wall -Wextra -Werror -D BUFFER_SIZE=100 -I../../ft_gnl
 
 OPTFLAGS	= -O0
 
