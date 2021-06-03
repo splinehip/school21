@@ -1,5 +1,18 @@
 {
-    "folders": [{"path": "tests"}, {"path": "libft"}, {"path": "ft_gnl"},],
+    "folders": [
+      {
+        "path": "tests"
+      },
+      {
+        "path": "libft"
+      },
+      {
+        "path": "ft_gnl"
+      },
+      {
+        "path": "born2root"
+      },
+    ],
     "settings": {
         "42header.username": "cflorind",
         "42header.email": "marvin@42.fr",
