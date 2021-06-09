@@ -12,6 +12,9 @@
       {
         "path": "born2root"
       },
+      {
+        "path": "pipex"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
