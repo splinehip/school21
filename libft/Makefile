@@ -9,7 +9,8 @@ SRCS_BASE	:=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
 				ft_substr.c		ft_strjoin.c	ft_strtrim.c	ft_split.c\
 				ft_itoa.c		ft_strmapi.c	ft_putchar_fd.c	ft_putstr_fd.c\
 				ft_putendl_fd.c	ft_putnbr_fd.c	ft_strjoinchr.c	ft_uintpow.c\
-				ft_tobase.c		ft_strtolower.c	ft_uitoa.c		ft_strljoinchr.c
+				ft_tobase.c		ft_strtolower.c	ft_uitoa.c		ft_strljoinchr.c\
+				ft_free.c		ft_gnl.c
 
 SRCS_LSTD	:= ./list/
 

@@ -3,7 +3,8 @@
 # include <stdio.h>
 # include <string.h>
 # include <ctype.h>
-#include <stdbool.h>
+# include <fcntl.h>
+# include <stdbool.h>
 # include <bsd/string.h>
 # include "../../../libft/libft.h"
 # define TEST_H
@@ -42,4 +43,5 @@ void	test29_strmapi(void);
 void	test30_puts(void);
 void	test31_list(void);
 void	test32_uitoa(void);
+void	test33_gnl(int argc);
 #endif

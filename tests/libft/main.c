@@ -1,7 +1,8 @@
 #include "includes/test.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
+	(void)argv;
 	test1_memset();
 	test2_bzero();
 	test3_memcpy();
@@ -40,5 +41,6 @@ int	main(void)
 	char *res;
 	printf(("\nFT_TOBASE() is: %s, printf p: %p\n"), res = ft_tobase(10, 16, &n), &n);
 	free(res);
+	test33_gnl(argc);
 	return (0);
 }

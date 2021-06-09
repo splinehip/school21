@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/24 12:21:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/09 13:47:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 #  define MAC_OS 1
 # else
 #  define MAC_OS 0
+# endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 64
 # endif
 
 typedef __ULLINT_TYPE__	t_ulli;
@@ -105,5 +109,19 @@ void	ft_printf_diu_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_p_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_xX_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_prc_handler(t_args *args, const char *ssi, va_list ap);
+
+typedef struct s_vars
+{
+	int		i;
+	int		j;
+	int		fd;
+	int		res;
+	int		_return;
+	size_t	k;
+	char	*buf;
+}			t_vars;
+
+int		ft_gnl(int fd, char **line);
+void	*ft_free(void *_p1, void *_p2);
 
 #endif

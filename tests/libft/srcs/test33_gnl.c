@@ -1,16 +1,12 @@
-#include <fcntl.h>
-#include <stdio.h>
+#include "../includes/test.h"
 
-#include "../../ft_gnl/get_next_line.h"
-
-int	main(int argc, char **argv)
+void	test33_gnl(int argc)
 {
 	int		fd;
 	int		fd2;
 	int		res;
 	char	*line;
 
-	(void)argv;
 	fd = 0;
 	fd2 = 0;
 	if (argc == 1)
@@ -22,7 +18,7 @@ int	main(int argc, char **argv)
 	{
 		while (1)
 		{
-			res = get_next_line(fd, &line);
+			res = ft_gnl(fd, &line);
 			if (res >= 0)
 			{
 				printf("RES success: %d\n", res);
@@ -33,7 +29,7 @@ int	main(int argc, char **argv)
 				}
 				free(line);
 			}
-			res = get_next_line(fd2, &line);
+			res = ft_gnl(fd2, &line);
 			if (res >= 0)
 			{
 				printf("RES success: %d\n", res);
