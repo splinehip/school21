@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:01:29 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/14 15:56:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/21 11:41:31 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ static inline int	set_args(char *s, t_pipex *args)
 	return (1);
 }
 
-static inline int	get_args(char **argv, char **envp, t_pipex *args,
-									int *i)
+static inline int	get_args(char **argv, char **envp, t_pipex *args, int *i)
 {
-	char		*tmp;
+	char	*tmp;
 
 	tmp = ft_strchr(argv[*i], ' ');
 	if (tmp != NULL)
@@ -48,10 +47,7 @@ static inline int	get_args(char **argv, char **envp, t_pipex *args,
 		if (tmp != NULL)
 			return (set_args(tmp + 1, args));
 		else
-		{
-			args->argv[1] = "";
-			args->argv[2] = NULL;
-		}
+			args->argv[1] = NULL;
 		return (1);
 	}
 	return (0);

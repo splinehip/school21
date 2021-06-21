@@ -13,6 +13,7 @@ typedef struct s_pipex
 {
 	char	*path;
 	char	*argv[255];
+	int		pipefd[2];
 }			t_pipex;
 
 int	path_handler(char **envp, char *name, char *cmd, t_pipex *args);
