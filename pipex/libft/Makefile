@@ -36,9 +36,9 @@ D_FILES		= ${SRCS:.c=.d}
 
 CC			= cc
 
-CFLAGS		= -g -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 
-OPTFLAGS	= -O0
+OPTFLAGS	= -O2
 
 RM			= rm -f
 

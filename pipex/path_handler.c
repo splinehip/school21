@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 19:28:26 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/14 15:39:58 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/21 12:14:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	path_handler(char **envp, char *name, char *cmd, t_pipex *args)
 
 	if (envp == NULL || cmd == NULL || args == NULL)
 		return (0);
+	paths = NULL;
 	i = 0;
 	while (envp[i] != NULL)
 	{

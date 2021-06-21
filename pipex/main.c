@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 18:46:38 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/21 11:37:35 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/21 12:19:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,9 @@ int	main(int argc, char **argv, char **envp)
 	int		res;
 	t_pipex	args;
 
-	pipe(args.pipefd);
+	(void)(pipe(args.pipefd) + 1);
 	args.path = NULL;
+	args.argv[0] = NULL;
 	res = check_files(argc, argv);
 	while (res == 0 && argv_handler(argv, envp, &args))
 	{
