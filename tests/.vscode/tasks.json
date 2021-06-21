@@ -18,6 +18,23 @@
                 "isDefault": true
             },
             "detail": "GCC: build ft_gnl_test"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка pipex",
+            "command": "make",
+            "args": ["all"],
+            "options": {
+                "cwd": "${workspaceFolder}/../pipex"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка pipex"
         }
     ],
     "version": "2.0.0"
