@@ -6,17 +6,22 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 18:46:38 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/24 12:01:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/24 12:37:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static inline void	check_fd(char **argv, int fd)
+static inline void	check_fd(char **argv, t_pipex args, int fd, int i)
 {
 	if (fd == -1)
 	{
-		ft_printf("%s: %s: %s\n", argv[0], argv[1], strerror(errno));
+		ft_printf("%s: %s: %s\n", argv[0], argv[i], strerror(errno));
+		fd = 0;
+		while (args.argv[fd++] != NULL)
+			args.argv[fd - 1] = ft_free(args.argv[fd - 1], NULL);
+		free(args.argv[0]);
+		free(args.path);
 		exit(errno);
 	}
 }
@@ -28,7 +33,7 @@ static inline void	redirect_io(int argc, char **argv, t_pipex args, int n)
 	if (n == 1)
 	{
 		fd = open(argv[1], O_RDONLY);
-		check_fd(argv, fd);
+		check_fd(argv, args, fd, 1);
 		dup2(fd, 0);
 		close(fd);
 	}
@@ -37,7 +42,7 @@ static inline void	redirect_io(int argc, char **argv, t_pipex args, int n)
 	if (n == argc - 3)
 	{
 		fd = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0664);
-		check_fd(argv, fd);
+		check_fd(argv, args, fd, argc - 1);
 		dup2(fd, 1);
 		close(fd);
 	}
