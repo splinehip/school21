@@ -6,11 +6,20 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 18:46:38 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/21 12:19:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/24 12:01:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static inline void	check_fd(char **argv, int fd)
+{
+	if (fd == -1)
+	{
+		ft_printf("%s: %s: %s\n", argv[0], argv[1], strerror(errno));
+		exit(errno);
+	}
+}
 
 static inline void	redirect_io(int argc, char **argv, t_pipex args, int n)
 {
@@ -19,6 +28,7 @@ static inline void	redirect_io(int argc, char **argv, t_pipex args, int n)
 	if (n == 1)
 	{
 		fd = open(argv[1], O_RDONLY);
+		check_fd(argv, fd);
 		dup2(fd, 0);
 		close(fd);
 	}
@@ -26,7 +36,8 @@ static inline void	redirect_io(int argc, char **argv, t_pipex args, int n)
 		dup2(args.pipefd[0], 0);
 	if (n == argc - 3)
 	{
-		fd = open(argv[argc - 1], O_RDWR);
+		fd = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0664);
+		check_fd(argv, fd);
 		dup2(fd, 1);
 		close(fd);
 	}
@@ -53,35 +64,6 @@ static inline int	run_child(int argc, char **argv, char **envp, t_pipex args)
 	return (0);
 }
 
-static inline int	check_files(int argc, char **argv)
-{
-	int	fd;
-
-	if (argc > 4)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd == -1)
-		{
-			ft_printf("%s: %s: %s\n", argv[0], argv[1], strerror(errno));
-			return (errno);
-		}
-		close(fd);
-		fd = open(argv[argc - 1], O_RDWR | O_CREAT, 0664);
-		if (fd == -1)
-		{
-			ft_printf("%s: %s: %s\n", argv[0], argv[argc - 1], strerror(errno));
-			return (errno);
-		}
-		close(fd);
-	}
-	else
-	{
-		ft_printf("%s: %s\n", argv[0], strerror(EINVAL));
-		return (EINVAL);
-	}
-	return (0);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
@@ -91,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)(pipe(args.pipefd) + 1);
 	args.path = NULL;
 	args.argv[0] = NULL;
-	res = check_files(argc, argv);
+	res = 0;
 	while (res == 0 && argv_handler(argv, envp, &args))
 	{
 		res = run_child(argc, argv, envp, args);
