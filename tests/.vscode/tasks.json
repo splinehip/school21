@@ -35,6 +35,23 @@
                 "isDefault": true
             },
             "detail": "C/C++: gcc сборка pipex"
+        },
+                {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка push_swap",
+            "command": "make",
+            "args": ["all"],
+            "options": {
+                "cwd": "${workspaceFolder}/../push_swap"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка push_swap"
         }
     ],
     "version": "2.0.0"

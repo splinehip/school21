@@ -6,13 +6,14 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/09 13:47:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/06/28 16:01:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # define __ULLINT_TYPE__ unsigned long long int
+# define __LINT_TYPE__ long int
 # include <stdlib.h>
 # include <stddef.h>
 # include <stdarg.h>
@@ -29,6 +30,7 @@
 # endif
 
 typedef __ULLINT_TYPE__	t_ulli;
+typedef __LINT_TYPE__	t_lint;
 
 void	*ft_memset(void *buf, int c, size_t l);
 void	ft_bzero(void *buf, size_t l);
@@ -45,6 +47,7 @@ char	*ft_strrchr(const char *str, int c);
 char	*ft_strnstr(const char *str, const char *substr, size_t n);
 int		ft_strncmp(const char *str_1, const char *str_2, size_t n);
 int		ft_atoi(const char *str);
+t_lint	ft_atol(const char *str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);

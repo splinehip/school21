@@ -2,7 +2,8 @@ NAME		= push_swap
 
 LIBFT		= ./libft
 
-SRCS		= main.c
+SRCS		= main.c	argv_handler.c	find_largest.c	ft_rotate.c	push.c\
+			  swap.c	sort_stack.c	print_stack.c	is_sorted.c
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -12,7 +13,7 @@ CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
-OPTFLAGS	= -O2
+OPTFLAGS	=
 
 RM			= rm -f
 
