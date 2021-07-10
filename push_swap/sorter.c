@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_largest.c                                     :+:      :+:    :+:   */
+/*   sorter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/28 18:26:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/29 11:24:40 by cflorind         ###   ########.fr       */
+/*   Created: 2021/06/29 14:04:23 by cflorind          #+#    #+#             */
+/*   Updated: 2021/07/10 10:56:34 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	find_largest(int **stack, int size, int stack_size)
+void	sort_stack(t_stack *stack)
 {
-	int	i;
-	int	res;
-	int	largest;
-
-	i = size - stack_size;
-	res = i;
-	largest = *stack[i];
-	while (i < size)
+	stack->next = 0;
+	first_split_a(stack);
+	stack->unsort_top = s_idx(stack, A, 0);
+	while (stack->next < stack->size)
 	{
-		if (*stack[i] > largest)
-		{
-			res = i;
-			largest = *stack[i];
-		}
-		i++;
+		split_b(stack);
+		split_remain_unsorted_a(stack);
 	}
-	return (res);
 }

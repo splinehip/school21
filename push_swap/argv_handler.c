@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 14:11:03 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/28 17:16:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/07/03 16:53:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ static inline void	free_stack(t_stack *stack, int j)
 	while (j >= 0)
 	{
 		free(stack->a[j]);
-		free(stack->b[j--]);
+		free(stack->b[j]);
+		free(stack->s[j--]);
 	}
 	free(stack->a);
 	free(stack->b);
+	free(stack->s);
 }
 
 static inline int	isalldigit(char *s)
@@ -68,6 +70,7 @@ int	argv_handler(char **argv, t_stack *stack)
 		{
 			stack->a[j] = ft_calloc(1, sizeof(int));
 			stack->b[j] = ft_calloc(1, sizeof(int));
+			stack->s[j] = ft_calloc(1, sizeof(int));
 			if (invalid_number(stack, argv[i], j++))
 			{
 				free_stack(stack, --j);

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 10:54:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/29 11:09:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/07/06 18:53:15 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	push_a(t_stack *stack, int count)
 {
 	if (count <= 0 || stack->size_b == 0)
 		return ;
+	stack->op += count;
 	while (count-- != 0 && stack->size_b != 0)
 	{
 		ft_printf("pa\n");
@@ -30,6 +31,7 @@ void	push_b(t_stack *stack, int count)
 {
 	if (count <= 0 || stack->size_a == 0)
 		return ;
+	stack->op += count;
 	while (count-- != 0 && stack->size_a != 0)
 	{
 		ft_printf("pb\n");
@@ -40,7 +42,7 @@ void	push_b(t_stack *stack, int count)
 	}
 }
 
-void	push(t_stack *stack, int count, char name)
+void	push(t_stack *stack, char name, int count)
 {
 	if (name == 'a')
 		push_a(stack, count);
