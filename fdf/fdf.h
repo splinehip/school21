@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorter.c                                           :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/29 14:04:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/07/10 17:33:38 by cflorind         ###   ########.fr       */
+/*   Created: 2021/07/13 12:33:37 by cflorind          #+#    #+#             */
+/*   Updated: 2021/07/13 12:35:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#ifndef FDF_H
+# define FDF_H
+# include "./libft/libft.h"
+# include "./minilibx/mlx.h"
 
-void	sort_stack(t_stack *stack)
-{
-	stack->next = 0;
-	first_split_a(stack);
-	stack->unsort_top = s_idx(stack, A, 0);
-	while (stack->next < stack->size)
-	{
-		split_b(stack);
-		split_remain_unsorted_a(stack);
-	}
-}
+int	main(int argc, char **argv);
+
+#endif

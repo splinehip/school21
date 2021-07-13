@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorter.c                                           :+:      :+:    :+:   */
+/*   ft_uintpow.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/29 14:04:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/07/10 17:33:38 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/17 11:58:01 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/17 13:28:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-void	sort_stack(t_stack *stack)
+t_ulli	ft_uintpow(int nb, int pow)
 {
-	stack->next = 0;
-	first_split_a(stack);
-	stack->unsort_top = s_idx(stack, A, 0);
-	while (stack->next < stack->size)
+	t_ulli	i;
+	t_ulli	res;
+
+	i = 1;
+	res = nb;
+	if (pow < 0)
+		return (0);
+	if (pow == 0)
+		return (1);
+	if (pow == 1)
+		return (nb);
+	while (i < (t_ulli)pow)
 	{
-		split_b(stack);
-		split_remain_unsorted_a(stack);
+		res *= nb;
+		i++;
 	}
+	return (res);
 }

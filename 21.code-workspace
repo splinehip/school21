@@ -18,6 +18,9 @@
       {
         "path": "push_swap"
       },
+      {
+        "path": "fdf"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",

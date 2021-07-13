@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorter.c                                           :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/29 14:04:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/07/10 17:33:38 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/17 21:47:16 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/17 22:01:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-void	sort_stack(t_stack *stack)
+void	ft_strtolower(char **str)
 {
-	stack->next = 0;
-	first_split_a(stack);
-	stack->unsort_top = s_idx(stack, A, 0);
-	while (stack->next < stack->size)
+	char	*s;
+
+	if (str == NULL || *str == NULL)
+		return ;
+	s = *str;
+	while (*s != 0)
 	{
-		split_b(stack);
-		split_remain_unsorted_a(stack);
+		*s = ft_tolower(*s);
+		s++;
 	}
 }

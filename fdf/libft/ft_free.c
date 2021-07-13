@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorter.c                                           :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/29 14:04:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/07/10 17:33:38 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/25 18:19:32 by cflorind          #+#    #+#             */
+/*   Updated: 2021/06/09 13:46:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-void	sort_stack(t_stack *stack)
+/*
+Arguments:
+_p1, _p2 - pointers to freed memory.
+
+Returned values:
+The function returns NULL.
+
+Description:
+The function takes two pointers to the memory to be freed, calls free for them
+and returns NULL.
+*/
+void	*ft_free(void *_p1, void *_p2)
 {
-	stack->next = 0;
-	first_split_a(stack);
-	stack->unsort_top = s_idx(stack, A, 0);
-	while (stack->next < stack->size)
-	{
-		split_b(stack);
-		split_remain_unsorted_a(stack);
-	}
+	free(_p1);
+	free(_p2);
+	return (NULL);
 }

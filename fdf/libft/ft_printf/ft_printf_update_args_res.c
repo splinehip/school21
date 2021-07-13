@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorter.c                                           :+:      :+:    :+:   */
+/*   ft_printf_update_args_res.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/29 14:04:23 by cflorind          #+#    #+#             */
-/*   Updated: 2021/07/10 17:33:38 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/13 16:31:12 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/24 12:24:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../libft.h"
 
-void	sort_stack(t_stack *stack)
+inline void	ft_printf_update_args_res(t_args *args, const char *s, int code)
 {
-	stack->next = 0;
-	first_split_a(stack);
-	stack->unsort_top = s_idx(stack, A, 0);
-	while (stack->next < stack->size)
-	{
-		split_b(stack);
-		split_remain_unsorted_a(stack);
-	}
+	(void)code;
+	(*args).res = ft_memmove(
+			(char *)ft_calloc((*args).len, sizeof(char)),
+			(*args).res, (*args).old_len);
+	ft_memmove((*args).res + (*args).old_len, s,
+		(*args).len - (*args).old_len);
 }
