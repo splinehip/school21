@@ -4,7 +4,11 @@ LIBFT		= ./libft
 
 MINILIBX	= ./minilibx
 
-SRCS		= main.c
+SRCS		= main.c\
+			  hooks/hooks_reg.c 	hooks/close_win.c	hooks/key_press.c\
+			  hooks/mouse_btn.c	hooks/mouse_move.c	hooks/ptr_enter_win.c\
+			  hooks/ptr_leave_win.c	hooks/key_reales.c\
+			  draw_point.c	trgb.c
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -14,9 +18,11 @@ CC			= cc
 
 INC_DIRS	= -L${LIBFT} -L${MINILIBX}
 
+INC_LIBS	= -lft -lmlx -lXext -lX11 -lm -lz
+
 CFLAGS		= -g -Wall -Wextra -Werror
 
-OPTFLAGS	=
+OPTFLAGS	= -O3
 
 RM			= rm -f
 
@@ -24,7 +30,7 @@ RM			= rm -f
 all:		libs ${NAME}
 
 ${NAME}:	${OBJS}
-			${CC} ${CFLAGS} ${OBJS} ${INC_DIRS} -lft -lmlx -lXext -lX11 -o ${NAME}
+			${CC} ${CFLAGS} ${OBJS} ${INC_DIRS} ${INC_LIBS} -o ${NAME}
 
 %.o:		%.c
 			${CC} ${CFLAGS} ${OPTFLAGS} -c $< -o $@ -MD
