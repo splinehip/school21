@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/04 15:50:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/11 14:49:15 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef struct s_fdf
 	int		ctrl;
 }	t_fdf;
 
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
+
 void	hooks_reg(t_fdf *vars);
 int		key_press(int keycode, t_fdf *vars);
 int		key_reales(int keycode, t_fdf *vars);
@@ -41,5 +47,6 @@ int		ptr_leave_win(t_fdf *vars);
 int		close_win(t_fdf *vars);
 int		trgb(int t, int r, int g, int b);
 void	draw_point(t_fdf *vars, int x, int y, int color);
+void	draw_line(t_point start, t_point end, t_fdf *vars);
 
 #endif
