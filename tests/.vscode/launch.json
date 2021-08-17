@@ -72,6 +72,27 @@
 			],
 			"preLaunchTask": "C/C++: gcc сборка push_swap",
 			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			"name": "gcc - Сборка и отладка fdf",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/../fdf/fdf",
+			"args": ["./maps/42.fdf"],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Включить автоматическое форматирование для gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			],
+			"preLaunchTask": "C/C++: gcc сборка fdf",
+			"miDebuggerPath": "/usr/bin/gdb"
 		}
 	]
 }

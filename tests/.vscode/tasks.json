@@ -36,7 +36,7 @@
             },
             "detail": "C/C++: gcc сборка pipex"
         },
-                {
+        {
             "type": "cppbuild",
             "label": "C/C++: gcc сборка push_swap",
             "command": "make",
@@ -52,6 +52,23 @@
                 "isDefault": true
             },
             "detail": "C/C++: gcc сборка push_swap"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка fdf",
+            "command": "make",
+            "args": ["all"],
+            "options": {
+                "cwd": "${workspaceFolder}/../fdf"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка fdf"
         }
     ],
     "version": "2.0.0"

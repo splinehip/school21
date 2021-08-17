@@ -8,7 +8,7 @@ SRCS		= main.c\
 			  hooks/hooks_reg.c 	hooks/close_win.c	hooks/key_press.c\
 			  hooks/mouse_btn.c		hooks/mouse_move.c	hooks/ptr_enter_win.c\
 			  hooks/ptr_leave_win.c	hooks/key_reales.c	trgb.c\
-			  draw_point.c			draw_line.c
+			  draw_point.c			draw_line.c			argv_handler.c
 
 OBJS		= ${SRCS:.c=.o}
 
