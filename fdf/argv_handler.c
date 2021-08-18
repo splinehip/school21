@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:33:45 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/17 18:27:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/17 18:54:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static inline int	map_size(int fd, t_fdf *vars)
 	free(line);
 	close(fd);
 	vars->map_size_x = j - 1;
-	vars->map_size_y = i - 1;
 	return (i);
 }
 
@@ -76,6 +75,7 @@ static inline void	read_map(int fd, t_fdf *vars)
 		free(s_line);
 	}
 	free(line);
+	vars->map_size_y = j - 1;
 }
 
 void	argv_handler(char *file, t_fdf *vars)
