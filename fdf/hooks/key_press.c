@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 12:14:14 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/17 19:28:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/18 18:05:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	key_press(int keycode, t_fdf *vars)
 		vars->ctrl = 1;
 	if (keycode == ESC)
 		close_win(vars);
-	if (keycode == UP)
+	/* if (keycode == UP)
 	{
 		vars->map_scale += 2;
 		display_map(vars);
@@ -34,5 +34,15 @@ int	key_press(int keycode, t_fdf *vars)
 		vars->map_scale -= 2;
 		display_map(vars);
 	}
+	if (keycode == P)
+	{
+		vars->line_display_map = 0;
+		display_map(vars);
+	}
+	if (keycode == L)
+	{
+		vars->line_display_map = 1;
+		display_map(vars);
+	} */
 	return (0);
 }

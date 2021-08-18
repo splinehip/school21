@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/18 10:14:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/18 20:16:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ enum	e_axis
 	X = 0,
 	Y = 1,
 	Z = 2,
+	COLOR = 2,
 };
 
 typedef struct s_fdf
@@ -36,12 +37,13 @@ typedef struct s_fdf
 	int		endian;
 	int		screen_size_x;
 	int		screen_size_y;
-	int		**map;
+	int		***map;
 	int		map_size_x;
 	int		map_size_y;
 	int		map_max_z;
 	int		map_min_z;
 	int		map_scale;
+	int		display_line;
 	int		ctrl;
 }	t_fdf;
 
@@ -61,8 +63,8 @@ int		ptr_leave_win(t_fdf *vars);
 int		close_win(t_fdf *vars);
 int		trgb(int t, int r, int g, int b);
 void	draw_point(t_fdf *vars, int x, int y, int color);
-void	draw_line(t_point start, t_point end, t_fdf *vars);
+void	draw_line(t_fdf *vars, t_point start, t_point end, int color);
 void	argv_handler(char *file, t_fdf *vars);
-void	display_map(t_fdf *vars);
+//void	display_map(t_fdf *vars);
 
 #endif

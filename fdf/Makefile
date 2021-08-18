@@ -9,7 +9,7 @@ SRCS		= main.c\
 			  hooks/mouse_btn.c		hooks/mouse_move.c	hooks/ptr_enter_win.c\
 			  hooks/ptr_leave_win.c	hooks/key_reales.c	trgb.c\
 			  draw_point.c			draw_line.c			argv_handler.c\
-			  display_map.c
+			  #display_map.c
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -23,7 +23,7 @@ INC_LIBS	= -lft -lmlx -lXext -lX11 -lm -lz
 
 CFLAGS		= -g -Wall -Wextra -Werror
 
-OPTFLAGS	= -O3
+#OPTFLAGS	= -O3
 
 RM			= rm -f
 

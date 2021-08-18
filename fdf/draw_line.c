@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 14:39:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/15 16:42:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/18 11:15:42 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ static inline void	draw_at_y(struct s_draw_line args, t_fdf *vars)
 	}
 }
 
-void	draw_line(t_point start, t_point end, t_fdf *vars)
+void	draw_line(t_fdf *vars, t_point start, t_point end, int color)
 {
 	struct s_draw_line	args;
 
 	init_args(&args, start, end);
 	if (args.len == 0)
-		draw_point(vars, start.x, start.y, trgb(0, 125, 125, 125));
+		draw_point(vars, start.x, start.y, color);
 	if (args.len_x >= args.len_y)
 		draw_at_x(args, vars);
 	else

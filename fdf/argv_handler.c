@@ -6,13 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:33:45 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/17 18:54:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/18 21:38:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static inline int	map_size(int fd, t_fdf *vars)
+static inline void	map_size(int fd, t_fdf *vars)
 {
 	int		i;
 	int		j;
@@ -21,71 +21,75 @@ static inline int	map_size(int fd, t_fdf *vars)
 
 	i = 0;
 	j = 0;
+	vars->map_size_x = 0;
 	while (ft_gnl(fd, &line) > 0)
 	{
-		s_line = ft_split(line, ' ');
-		j = 0;
-		while (s_line[j] != NULL)
-			free(s_line[j++]);
-		i += j;
+		if (vars->map_size_x == 0)
+		{
+			s_line = ft_split(line, ' ');
+			j = 0;
+			while (s_line[j] != NULL)
+				free(s_line[j++]);
+			vars->map_size_x = j - 1;
+			free(s_line);
+		}
+		i++;
 		free(line);
-		free(s_line);
 	}
 	free(line);
 	close(fd);
-	vars->map_size_x = j - 1;
-	return (i);
+	vars->map_size_y = i - 1;
 }
 
-static inline void	get_xyz(t_fdf *vars, char **s_line, int j)
+static inline void	read_xyz(t_fdf *vars, char **s_line, int i)
 {
-	int			k;
-	static int	i;
+	int	j;
 
-	k = 0;
-	while (s_line[k] != NULL)
+	j = 0;
+	while (s_line[j] != NULL)
 	{
-		vars->map[i] = ft_calloc(3, sizeof(int));
-		vars->map[i][X] = k;
-		vars->map[i][Y] = j;
-		vars->map[i][Z] = ft_atoi(s_line[k]);
-		if (vars->map[i][Z] < vars->map_min_z)
-			vars->map_min_z = vars->map[i][Z];
-		if (vars->map[i][Z] > vars->map_max_z)
-			vars->map_max_z = vars->map[i][Z];
-		i++;
-		free(s_line[k++]);
+		if (vars->map[i] == NULL)
+			vars->map[i] = ft_calloc(vars->map_size_x + 2, sizeof(int *));
+		vars->map[i][j] = ft_calloc(3, sizeof(int));
+		vars->map[i][j][X] = j;
+		vars->map[i][j][Y] = i;
+		vars->map[i][j][Z] = ft_atoi(s_line[j]);
+		if (vars->map[i][j][Z] < vars->map_min_z)
+			vars->map_min_z = vars->map[i][j][Z];
+		if (vars->map[i][j][Z] > vars->map_max_z)
+			vars->map_max_z = vars->map[i][j][Z];
+		free(s_line[j++]);
 	}
 }
 
 static inline void	read_map(int fd, t_fdf *vars)
 {
-	int		j;
+	int		i;
 	char	*line;
 	char	**s_line;
 
-	j = 0;
+	i = 0;
 	line = NULL;
 	while (ft_gnl(fd, &line) > 0)
 	{
 		s_line = ft_split(line, ' ');
-		get_xyz(vars, s_line, j);
-		j++;
+		read_xyz(vars, s_line, i);
+		i++;
 		free(line);
 		free(s_line);
 	}
 	free(line);
-	vars->map_size_y = j - 1;
 }
 
 void	argv_handler(char *file, t_fdf *vars)
 {
-	int		fd;
+	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return ;
-	vars->map = ft_calloc(map_size(fd, vars) + 1, sizeof(int *));
+	map_size(fd, vars);
+	vars->map = ft_calloc(vars->map_size_y + 2, sizeof(int *));
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return ;
