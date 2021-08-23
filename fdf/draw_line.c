@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 14:39:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/18 11:15:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/23 19:41:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,15 @@ static inline void	init_args(struct s_draw_line *args,
 		args->len = args->len_y;
 }
 
-static inline void	draw_at_x(struct s_draw_line args, t_fdf *vars)
+static inline void	draw_at_x(struct s_draw_line args, t_fdf *vars,
+	t_point start, t_point end)
 {
 	args.d = -args.len_x;
 	args.len++;
 	while (args.len--)
 	{
-		draw_point(vars, args.x, args.y, trgb(0, 125, 125, 125));
+		draw_point(vars, args.x, args.y,
+			gradient(args.len_x, args.x - start.x, start, end));
 		args.x += args.dx;
 		args.d += 2 * args.len_y;
 		if (args.d > 0)
@@ -66,13 +68,15 @@ static inline void	draw_at_x(struct s_draw_line args, t_fdf *vars)
 	}
 }
 
-static inline void	draw_at_y(struct s_draw_line args, t_fdf *vars)
+static inline void	draw_at_y(struct s_draw_line args, t_fdf *vars,
+	t_point start, t_point end)
 {
 	args.d = -args.len_y;
 	args.len++;
 	while (args.len--)
 	{
-		draw_point(vars, args.x, args.y, trgb(0, 125, 125, 125));
+		draw_point(vars, args.x, args.y,
+			gradient(args.len_y, args.y - start.y, start, end));
 		args.y += args.dy;
 		args.d += 2 * args.len_x;
 		if (args.d > 0)
@@ -83,15 +87,15 @@ static inline void	draw_at_y(struct s_draw_line args, t_fdf *vars)
 	}
 }
 
-void	draw_line(t_fdf *vars, t_point start, t_point end, int color)
+void	draw_line(t_fdf *vars, t_point start, t_point end)
 {
 	struct s_draw_line	args;
 
 	init_args(&args, start, end);
 	if (args.len == 0)
-		draw_point(vars, start.x, start.y, color);
+		draw_point(vars, start.x, start.y, start.color);
 	if (args.len_x >= args.len_y)
-		draw_at_x(args, vars);
+		draw_at_x(args, vars, start, end);
 	else
-		draw_at_y(args, vars);
+		draw_at_y(args, vars, start, end);
 }

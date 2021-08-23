@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/18 20:16:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/23 16:18:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_fdf
 	int		map_max_z;
 	int		map_min_z;
 	int		map_scale;
+	int		map_z_scale;
 	int		display_line;
 	int		ctrl;
 }	t_fdf;
@@ -51,6 +52,8 @@ typedef struct s_point
 {
 	int	x;
 	int	y;
+	int	z;
+	int	color;
 }	t_point;
 
 void	hooks_reg(t_fdf *vars);
@@ -62,9 +65,16 @@ int		ptr_enter_win(t_fdf *vars);
 int		ptr_leave_win(t_fdf *vars);
 int		close_win(t_fdf *vars);
 int		trgb(int t, int r, int g, int b);
+int		get_t(int trgb);
+int		get_r(int trgb);
+int		get_g(int trgb);
+int		get_b(int trgb);
+int		color(int map_min_z, int map_max_z, int z);
+int		gradient(int delta, int step, t_point start, t_point end);
 void	draw_point(t_fdf *vars, int x, int y, int color);
-void	draw_line(t_fdf *vars, t_point start, t_point end, int color);
+void	draw_line(t_fdf *vars, t_point start, t_point end);
 void	argv_handler(char *file, t_fdf *vars);
-//void	display_map(t_fdf *vars);
+void	display_map(t_fdf *vars);
+void	draw_map(t_fdf *vars, t_point offset);
 
 #endif

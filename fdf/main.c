@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:19 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/18 21:44:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/23 16:29:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv)
 		argv_handler(argv[1], &vars);
 	vars.ctrl = 0;
 	vars.map_scale = 10;
+	vars.map_z_scale = 1;
 	vars.display_line = 1;
 	vars.mlx = mlx_init();
 	mlx_get_screen_size(vars.mlx, &vars.screen_size_x, &vars.screen_size_y);
@@ -49,7 +50,7 @@ int	main(int argc, char **argv)
 	vars.img = mlx_new_image(vars.mlx, vars.screen_size_x, vars.screen_size_y);
 	vars.img_addr = mlx_get_data_addr(vars.img, &vars.bits_per_pixel,
 			&vars.length, &vars.endian);
-	//display_map(&vars);
+	display_map(&vars);
 	hooks_reg(&vars);
 	mlx_loop(vars.mlx);
 	free_vars(&vars);
