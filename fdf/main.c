@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:19 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/23 16:29:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/24 12:38:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 		argv_handler(argv[1], &vars);
 	vars.ctrl = 0;
 	vars.map_scale = 10;
-	vars.map_z_scale = 1;
+	vars.map_z_scale = 0;
 	vars.display_line = 1;
 	vars.mlx = mlx_init();
 	mlx_get_screen_size(vars.mlx, &vars.screen_size_x, &vars.screen_size_y);

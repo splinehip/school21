@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 12:14:14 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/23 20:23:48 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/24 12:43:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 static inline void	map_controls(t_fdf *vars, int keycode)
 {
 	if (keycode == UP)
-		vars->map_scale += 2;
+		vars->map_scale += 1;
 	else if (keycode == DOWN)
-		vars->map_scale -= 2;
+		vars->map_scale -= 1;
 	else if (keycode == P)
 		vars->display_line = 0;
 	else if (keycode == L)
 		vars->display_line = 1;
 	else if (keycode == PLUS)
-		vars->map_z_scale += 2;
+		vars->map_z_scale = 1;
 	else if (keycode == MINUS)
-		vars->map_z_scale -= 2;
+		vars->map_z_scale = -1;
 	display_map(vars);
 }
 

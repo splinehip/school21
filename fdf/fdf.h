@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/23 16:18:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/24 13:18:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ enum	e_axis
 	X = 0,
 	Y = 1,
 	Z = 2,
-	COLOR = 2,
+};
+
+enum e_base_colors
+{
+	BLUE	= 0x0000ff,
+	GREEN	= 0x00ff00,
+	YELOW	= 0xffff00,
+	BROWN	= 0x52361b,
 };
 
 typedef struct s_fdf
@@ -55,6 +62,13 @@ typedef struct s_point
 	int	z;
 	int	color;
 }	t_point;
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
 
 void	hooks_reg(t_fdf *vars);
 int		key_press(int keycode, t_fdf *vars);
