@@ -78,7 +78,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/../fdf/fdf",
-			"args": ["./maps/42.fdf"],
+			"args": ["${workspaceFolder}/../fdf/maps/pylone.fdf",],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

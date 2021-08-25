@@ -85,7 +85,9 @@
           "string": "cpp",
           "system_error": "cpp",
           "typeinfo": "cpp",
-          "utility": "cpp"
+          "utility": "cpp",
+          "bit": "c",
+          "limits": "c"
         },
       },
 }

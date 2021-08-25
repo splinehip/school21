@@ -6,13 +6,18 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 10:48:30 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/24 13:18:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/08/25 11:56:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+# include <errno.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <math.h>
+# include <string.h>
 # include "key_codes.h"
 # include "events_masks.h"
 # include "./libft/libft.h"
@@ -53,6 +58,8 @@ typedef struct s_fdf
 	int		map_z_scale;
 	int		display_line;
 	int		ctrl;
+	int		iso;
+	double	alfa;
 }	t_fdf;
 
 typedef struct s_point
@@ -87,8 +94,12 @@ int		color(int map_min_z, int map_max_z, int z);
 int		gradient(int delta, int step, t_point start, t_point end);
 void	draw_point(t_fdf *vars, int x, int y, int color);
 void	draw_line(t_fdf *vars, t_point start, t_point end);
-void	argv_handler(char *file, t_fdf *vars);
+int		argv_handler(char *file, t_fdf *vars);
 void	display_map(t_fdf *vars);
 void	draw_map(t_fdf *vars, t_point offset);
+void	rotate_x(t_fdf *vars, int ix, int iy, double alfa);
+void	rotate_y(t_fdf *vars, int ix, int iy, double alfa);
+void	rotate_z(t_fdf *vars, int ix, int iy, double alfa);
+void	iso(t_fdf *vars, int ix, int iy);
 
 #endif
