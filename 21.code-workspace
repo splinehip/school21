@@ -21,6 +21,9 @@
       {
         "path": "fdf"
       },
+      {
+        "path": "philo"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
