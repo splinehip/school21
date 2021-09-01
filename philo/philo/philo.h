@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/31 14:40:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/09/01 23:59:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ typedef struct s_args
 	int	time_to_sleep;
 	int	time_each_philosopher_must_eat;
 }	t_args;
+
+typedef struct s_philo
+{
+	int						pid;
+	t_args					*args;
+	const struct timeval	*start_time;
+}	t_philo;
 
 int	argv_handler(int argc, char **argv, t_args *args);
 
