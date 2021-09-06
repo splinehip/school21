@@ -1,6 +1,7 @@
 NAME		= philo
 
-SRCS		= main.c		argv_handler.c\
+SRCS		= main.c		argv_handler.c		time_stamp.c\
+			  philo.c
 
 OBJS		= ${SRCS:.c=.o}
 

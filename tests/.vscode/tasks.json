@@ -69,6 +69,23 @@
                 "isDefault": true
             },
             "detail": "C/C++: gcc сборка fdf"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка philo",
+            "command": "make",
+            "args": ["all"],
+            "options": {
+                "cwd": "${workspaceFolder}/../philo/philo"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка philo"
         }
     ],
     "version": "2.0.0"

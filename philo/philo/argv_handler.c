@@ -6,30 +6,11 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/08/31 14:41:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/09/06 18:56:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static inline int	has_no_numeric(char **argv)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (argv[++i] != NULL)
-	{
-		j = 0;
-		while (argv[i][j] != 0)
-		{
-			if (argv[i][j] < 48 || argv[i][j] > 57)
-				return (1);
-			j++;
-		}
-	}
-	return (0);
-}
 
 static inline int	ft_atol(const char *str)
 {
@@ -58,7 +39,34 @@ static inline int	ft_atol(const char *str)
 	return (res);
 }
 
-static inline void 	set_args(char **argv, t_args *args)
+static inline int	check_values(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (argv[++i] != NULL)
+	{
+		if (ft_atol(argv[i]) <= 0)
+		{
+			printf("Invalid some arguments value: negative or zero...\n");
+			return (1);
+		}
+		j = 0;
+		while (argv[i][j] != 0)
+		{
+			if (argv[i][j] < 48 || argv[i][j] > 57)
+			{
+				printf("Error: Only numeric arguments acceptable.\n");
+				return (1);
+			}
+			j++;
+		}
+	}
+	return (0);
+}
+
+static inline void 	set_param(char **argv, t_param *param)
 {
 	int	i;
 
@@ -66,31 +74,36 @@ static inline void 	set_args(char **argv, t_args *args)
 	while (argv[++i] != NULL)
 	{
 		if (i == 1)
-			args->number_of_philosophers = ft_atol(argv[i]);
+			param->number_of_philosophers = ft_atol(argv[i]);
 		else if (i == 2)
-			args->time_to_die = ft_atol(argv[i]);
+			param->time_to_die = ft_atol(argv[i]);
 		else if (i == 3)
-			args->time_to_eat = ft_atol(argv[i]);
+			param->time_to_eat = ft_atol(argv[i]) * 1000;
 		else if (i == 4)
-			args->time_to_sleep = ft_atol(argv[i]);
+			param->time_to_sleep = ft_atol(argv[i]) * 1000;
 		else if (i == 5)
-			args->time_each_philosopher_must_eat = ft_atol(argv[i]);
+			param->each_philosopher_must_eat = ft_atol(argv[i]);
 	}
+	if (i == 5)
+		param->each_philosopher_must_eat = 0;
 }
 
-int	argv_handler(int argc, char **argv, t_args *args)
+int	argv_handler(int argc, char **argv, t_param *param)
 {
-	if (argc != 6)
+	if (argc < 5 || argc > 6)
 	{
-		printf("Invalid number of arguments. Must be 5 but entered: %i\n",
+		printf("Invalid number of arguments. Must be 4 or 5 but entered: %i\n",
 			argc - 1);
 		return (1);
 	}
-	if (has_no_numeric(argv))
+	if (check_values(argv))
+		return (1);
+	set_param(argv, param);
+	if (param->number_of_philosophers == 1)
 	{
-		printf("Invalid arguments. Only numeric arguments acceptable.\n");
+		usleep(param->time_to_die);
+		printf("%u ms 1 is died\n", param->time_to_die / 1000);
 		return (1);
 	}
-	set_args(argv, args);
 	return (0);
 }

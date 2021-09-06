@@ -93,6 +93,27 @@
 			],
 			"preLaunchTask": "C/C++: gcc сборка fdf",
 			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			"name": "gcc - Сборка и отладка philo",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/../philo/philo/philo",
+			"args": ["2", "800", "200", "200",],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Включить автоматическое форматирование для gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			],
+			"preLaunchTask": "C/C++: gcc сборка philo",
+			"miDebuggerPath": "/usr/bin/gdb"
 		}
 	]
 }
