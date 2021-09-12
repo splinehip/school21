@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/09/06 18:56:26 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/09/10 13:59:42 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	argv_handler(int argc, char **argv, t_param *param)
 	if (param->number_of_philosophers == 1)
 	{
 		usleep(param->time_to_die);
-		printf("%u ms 1 is died\n", param->time_to_die / 1000);
+		printf("%u ms 1 is died\n", param->time_to_die);
 		return (1);
 	}
 	return (0);
