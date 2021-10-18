@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/09/10 11:38:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 00:19:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <pthread.h>
 # define UINT unsigned int
 
+typedef enum e_bool
+{
+	false,
+	true,
+}	t_bool;
+
 typedef struct s_param
 {
 	UINT			number_of_philosophers;
@@ -30,33 +36,45 @@ typedef struct s_param
 	struct timeval	start_time;
 }	t_param;
 
-typedef struct s_table
+typedef struct s_mxs
 {
-	pthread_mutex_t	*mx_forks;
-}	t_table;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	stop;
+	pthread_mutex_t	eated_count;
+}	t_mxs;
 
 typedef struct s_philo
 {
-	int				id;
-	UINT			count_eat;
-	UINT			last_eat;
-	int				fork_l;
-	int				fork_r;
-	UINT			*died;
-	const t_param	*param;
-	t_table			*table;
+	int		id;
+	UINT	count_eat;
+	UINT	last_eat;
+	int		fork_l;
+	int		fork_r;
+	t_bool	died;
+	UINT	*eated_count;
+	t_bool	*stop;
+	t_param	*param;
+	t_mxs	*mxs;
 }	t_philo;
 
 typedef struct s_args
 {
-	UINT	died;
 	t_param	param;
 	t_philo	*philo;
-	t_table	table;
+	t_mxs	mxs;
+	t_bool	stop;
+	UINT	eated_count;
 }	t_args;
+
+typedef struct s_targs
+{
+	pthread_t	*threads;
+	t_args		*args;
+}	t_targs;
 
 int		argv_handler(int argc, char **argv, t_param *param);
 UINT	time_stamp(const struct timeval *start);
 void	start_philo(void *args);
+void	start_threads(void *targs);
 
 #endif

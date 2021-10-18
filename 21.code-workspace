@@ -62,6 +62,7 @@
           },
         ],
         "editor.minimap.scale": 3,
+        "editor.bracketPairColorization.enabled": true,
         "files.associations": {
           "test.h": "c",
           "libft.h": "c",
