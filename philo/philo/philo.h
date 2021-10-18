@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 00:19:36 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 00:47:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,13 @@ typedef struct s_philo
 
 typedef struct s_args
 {
-	t_param	param;
-	t_philo	*philo;
-	t_mxs	mxs;
-	t_bool	stop;
-	UINT	eated_count;
-}	t_args;
-
-typedef struct s_targs
-{
+	t_param		param;
+	t_philo		*philo;
+	t_mxs		mxs;
+	t_bool		stop;
+	UINT		eated_count;
 	pthread_t	*threads;
-	t_args		*args;
-}	t_targs;
+}	t_args;
 
 int		argv_handler(int argc, char **argv, t_param *param);
 UINT	time_stamp(const struct timeval *start);

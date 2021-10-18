@@ -6,26 +6,26 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:01:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/18 23:28:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 00:56:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static inline void	start_serial(pthread_t *threads, t_args *args)
+static inline void	start_serial(t_args *args)
 {
 	UINT	i;
 
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 	{
-		pthread_create(&threads[i], NULL, (void *)&start_philo,
+		pthread_create(&args->threads[i], NULL, (void *)&start_philo,
 			(void *)&args->philo[i]);
 		i++;
 	}
 }
 
-static inline void	start_differ(pthread_t *threads, t_args *args)
+static inline void	start_differ(t_args *args)
 {
 	UINT	i;
 	UINT	k;
@@ -41,7 +41,7 @@ static inline void	start_differ(pthread_t *threads, t_args *args)
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 	{
-		pthread_create(&threads[i], NULL, (void *)&start_philo,
+		pthread_create(&args->threads[i], NULL, (void *)&start_philo,
 			(void *)&args->philo[i]);
 		i += 2;
 		usleep(k);
@@ -49,7 +49,7 @@ static inline void	start_differ(pthread_t *threads, t_args *args)
 	i = 1;
 	while (i < args->param.number_of_philosophers)
 	{
-		pthread_create(&threads[i], NULL, (void *)&start_philo,
+		pthread_create(&args->threads[i], NULL, (void *)&start_philo,
 			(void *)&args->philo[i]);
 		i += 2;
 	}
@@ -96,23 +96,21 @@ static inline void	monitor_stop_and_eat(t_args *args)
 	}
 }
 
-void	start_threads(void *targs)
+void	start_threads(void *_args)
 {
 	UINT		i;
 	t_args		*args;
-	pthread_t	*threads;
 
-	args = ((t_targs *)targs)->args;
-	threads = ((t_targs *)targs)->threads;
+	args = (t_args *)_args;
 	if (args->param.number_of_philosophers % 2 == 0)
-		start_serial(threads, args);
+		start_serial(args);
 	else
-		start_differ(threads, args);
+		start_differ(args);
 	if (args->param.each_philosopher_must_eat == 0)
 		monitor_stop(args);
 	else
 		monitor_stop_and_eat(args);
 	i = 0;
 	while (i < args->param.number_of_philosophers)
-		pthread_join(threads[i++], NULL);
+		pthread_join(args->threads[i++], NULL);
 }
