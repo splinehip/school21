@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 00:49:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 13:44:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 		printf("\nStop simulation, %u philosophers eated %u times.\n\n",
 			args.eated_count, args.param.each_philosopher_must_eat);
 	if (args.stop)
-		printf("\nStop simulation, some philosopher(s) die(s).\n\n");
+		printf("\nStop simulation, philosopher died.\n\n");
 	free(args.threads);
 	free(args.philo);
 	free(args.mxs.forks);

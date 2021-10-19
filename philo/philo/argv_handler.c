@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/09/16 13:46:34 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 18:25:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static inline int	check_values(char **argv)
 	return (0);
 }
 
-static inline void 	set_param(char **argv, t_param *param)
+static inline void	set_param(char **argv, t_param *param)
 {
 	int	i;
 

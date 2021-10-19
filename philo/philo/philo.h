@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 00:47:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 14:33:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_philo
 	int		id;
 	UINT	count_eat;
 	UINT	last_eat;
+	UINT	current_time;
 	int		fork_l;
 	int		fork_r;
 	t_bool	died;

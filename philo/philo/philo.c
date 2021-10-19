@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 00:11:58 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/19 18:47:30 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,18 @@ static inline t_bool	stop_is_false(t_philo *philo)
 
 static inline void	eating(t_philo *philo)
 {
-	UINT	current_time;
-
 	pthread_mutex_lock(&philo->mxs->stop);
-	current_time = time_stamp(&philo->param->start_time);
-	philo->died = current_time - philo->last_eat > philo->param->time_to_die;
+	philo->died = philo->current_time - philo->last_eat
+		> philo->param->time_to_die;
 	pthread_mutex_unlock(&philo->mxs->stop);
 	if (stop_is_false(philo) == false || philo->died)
 	{
-		if (stop_is_false(philo))
-			printf("%u\t%i is died\n", time_stamp(&philo->param->start_time),
-				philo->id);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
 	}
 	else
 	{
-		philo->last_eat = current_time;
+		philo->last_eat = philo->current_time;
 		printf("%u\t%i has taken a forks\n%u\t%i is eating\n",
 			philo->last_eat, philo->id, philo->last_eat, philo->id);
 		usleep(philo->param->time_to_eat);
@@ -63,6 +58,15 @@ static inline t_bool	stop_eating(t_philo *philo)
 	return (false);
 }
 
+static inline void	please_wait(t_philo *philo)
+{
+	if (time_stamp(&philo->param->start_time) - philo->last_eat
+		< philo->param->time_to_die - 5)
+		usleep((philo->param->time_to_die
+				- (time_stamp(&philo->param->start_time) - philo->last_eat) - 5)
+			* 1000);
+}
+
 void	start_philo(void *args)
 {
 	t_philo	*philo;
@@ -72,6 +76,7 @@ void	start_philo(void *args)
 	{
 		pthread_mutex_lock(&philo->mxs->forks[philo->fork_l]);
 		pthread_mutex_lock(&philo->mxs->forks[philo->fork_r]);
+		philo->current_time = time_stamp(&philo->param->start_time);
 		eating(philo);
 		if (stop_eating(philo))
 			break ;
@@ -81,8 +86,11 @@ void	start_philo(void *args)
 				time_stamp(&philo->param->start_time), philo->id);
 			usleep(philo->param->time_to_sleep);
 			if (stop_is_false(philo))
+			{
 				printf("%u\t%i is thinking\n",
 					time_stamp(&philo->param->start_time), philo->id);
+				please_wait(philo);
+			}
 		}
 	}
 }
