@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/21 16:38:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/21 16:42:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ static inline void	eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->mxs->stop);
 	if (stop_is_false(philo) == false || philo->died)
 	{
-		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
+		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
 	}
 	else
 	{
 		philo->last_eat = time_stamp(&philo->param->start_time);
 		printf("%u %i is eating\n", philo->last_eat, philo->id);
 		usleep(philo->param->time_to_eat);
-		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
+		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
 		philo->count_eat += 1;
 	}
 }
