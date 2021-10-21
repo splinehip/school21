@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:01:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 18:25:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/21 14:08:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static inline void	monitor_stop(t_args *args)
 		pthread_mutex_unlock(&args->mxs.stop);
 		if (args->stop)
 		{
+			usleep(1000);
 			printf("%u\t%i is died\n", args->philo[i - 1].current_time, i);
 			break ;
 		}
@@ -44,6 +45,7 @@ static inline void	monitor_stop_and_eat(t_args *args)
 		pthread_mutex_unlock(&args->mxs.stop);
 		if (args->stop)
 		{
+			usleep(1000);
 			printf("%u\t%i is died\n", args->philo[i - 1].current_time, i);
 			break ;
 		}

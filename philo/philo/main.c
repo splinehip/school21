@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 13:44:17 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/21 14:58:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ static inline void	init_args(t_args *args)
 
 static inline void	init_forks(t_args *args, UINT i)
 {
-	if (i == args->param.number_of_philosophers - 1)
+	if (i == 0)
 	{
-		args->philo[i].fork_l = 0;
-		args->philo[i].fork_r = i;
+		args->philo[i].fork_l = i;
+		args->philo[i].fork_r = args->param.number_of_philosophers - 1;
 	}
 	else
 	{
-		args->philo[i].fork_l = i;
-		args->philo[i].fork_r = i + 1;
+		args->philo[i].fork_l = i - 1;
+		args->philo[i].fork_r = i;
 	}
 }
 
@@ -54,6 +54,11 @@ static inline void	init_philosophers(t_args *args)
 		args->philo[i].id = i + 1;
 		args->philo[i].last_eat = 0;
 		args->philo[i].count_eat = 0;
+		args->philo[i].time_to_think = args->param.time_to_die
+			- (args->param.time_to_eat / 1000)
+			- (args->param.time_to_sleep / 1000);
+		if (args->philo[i].time_to_think < 5)
+			args->philo[i].time_to_think = 5;
 		args->philo[i].died = 0;
 		args->philo[i].param = &args->param;
 		args->philo[i].mxs = &args->mxs;

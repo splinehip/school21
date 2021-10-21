@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/19 18:47:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/21 16:38:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,23 @@ static inline void	eating(t_philo *philo)
 	pthread_mutex_unlock(&philo->mxs->stop);
 	if (stop_is_false(philo) == false || philo->died)
 	{
-		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
+		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
 	}
 	else
 	{
-		philo->last_eat = philo->current_time;
-		printf("%u\t%i has taken a forks\n%u\t%i is eating\n",
-			philo->last_eat, philo->id, philo->last_eat, philo->id);
+		philo->last_eat = time_stamp(&philo->param->start_time);
+		printf("%u %i is eating\n", philo->last_eat, philo->id);
 		usleep(philo->param->time_to_eat);
-		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_l]);
+		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_r]);
 		philo->count_eat += 1;
 	}
 }
 
 static inline t_bool	stop_eating(t_philo *philo)
 {
-	if (stop_is_false(philo) && philo->param->each_philosopher_must_eat > 0
-		&& philo->count_eat == philo->param->each_philosopher_must_eat)
+	if (philo->count_eat == philo->param->each_philosopher_must_eat)
 	{
 		pthread_mutex_lock(&philo->mxs->eated_count);
 		*philo->eated_count += 1;
@@ -58,13 +56,14 @@ static inline t_bool	stop_eating(t_philo *philo)
 	return (false);
 }
 
-static inline void	please_wait(t_philo *philo)
+static inline void	thinking(t_philo *philo)
 {
-	if (time_stamp(&philo->param->start_time) - philo->last_eat
-		< philo->param->time_to_die - 5)
-		usleep((philo->param->time_to_die
-				- (time_stamp(&philo->param->start_time) - philo->last_eat) - 5)
-			* 1000);
+	if (stop_is_false(philo))
+	{
+		printf("%u %i is thinking\n", time_stamp(&philo->param->start_time),
+			philo->id);
+		usleep((philo->time_to_think / 2) * 1000);
+	}
 }
 
 void	start_philo(void *args)
@@ -74,23 +73,24 @@ void	start_philo(void *args)
 	philo = (t_philo *)args;
 	while (stop_is_false(philo))
 	{
+		if (philo->param->each_philosopher_must_eat > 0 && stop_eating(philo))
+			break ;
 		pthread_mutex_lock(&philo->mxs->forks[philo->fork_l]);
+		if (stop_is_false(philo))
+			printf("%u %i has taken a fork\n",
+				time_stamp(&philo->param->start_time), philo->id);
 		pthread_mutex_lock(&philo->mxs->forks[philo->fork_r]);
 		philo->current_time = time_stamp(&philo->param->start_time);
 		eating(philo);
-		if (stop_eating(philo))
-			break ;
-		if (stop_is_false(philo))
+		if (philo->died == false)
 		{
-			printf("%u\t%i is sleeping\n",
-				time_stamp(&philo->param->start_time), philo->id);
-			usleep(philo->param->time_to_sleep);
 			if (stop_is_false(philo))
 			{
-				printf("%u\t%i is thinking\n",
+				printf("%u %i is sleeping\n",
 					time_stamp(&philo->param->start_time), philo->id);
-				please_wait(philo);
+				usleep(philo->param->time_to_sleep);
 			}
+			thinking(philo);
 		}
 	}
 }
