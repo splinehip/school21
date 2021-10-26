@@ -99,7 +99,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/../philo/philo/philo",
-			"args": ["2", "410", "200", "200", "3",],
+			"args": ["5", "800", "200", "200", "100",],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

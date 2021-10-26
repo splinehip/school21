@@ -1,7 +1,7 @@
 NAME		= philo
 
-SRCS		= main.c		argv_handler.c		time_stamp.c\
-			  philo.c		start_threads.c
+SRCS		= main.c		argv_handler.c		philo.c		start_threads.c\
+			  write_msg.c
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -9,9 +9,9 @@ D_FILES		= ${SRCS:.c=.d}
 
 CC			= cc
 
-CFLAGS		= -g -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 
-#OPTFLAGS	= -O3
+OPTFLAGS	= -O3
 
 RM			= rm -f
 

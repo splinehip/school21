@@ -6,78 +6,66 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:01:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/21 14:08:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:45:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static inline void	monitor_stop(t_args *args)
+static inline t_bool	eated_count(t_args *args, register UINT epme,
+	register UINT i)
 {
-	UINT	i;
-
-	i = 0;
-	while (true)
-	{
-		pthread_mutex_lock(&args->mxs.stop);
-		args->stop = args->philo[i++].died;
-		pthread_mutex_unlock(&args->mxs.stop);
-		if (args->stop)
-		{
-			usleep(1000);
-			printf("%u\t%i is died\n", args->philo[i - 1].current_time, i);
-			break ;
-		}
-		if (i == args->param.number_of_philosophers)
-			i = 0;
-	}
+	pthread_mutex_lock(&args->philo[i].mx_eated_count);
+	if (args->philo[i].count_eat == epme)
+		args->eated_count++;
+	pthread_mutex_unlock(&args->philo[i].mx_eated_count);
+	return (args->eated_count == args->param.number_of_philosophers);
 }
 
-static inline void	monitor_stop_and_eat(t_args *args)
+static inline void	monitor(t_args *args, register UINT epme)
 {
-	UINT	i;
+	register UINT	i;
+	register UINT	nofp;
 
 	i = 0;
+	nofp = args->param.number_of_philosophers;
 	while (true)
 	{
-		pthread_mutex_lock(&args->mxs.stop);
-		args->stop = args->philo[i++].died;
-		pthread_mutex_unlock(&args->mxs.stop);
-		if (args->stop)
+		pthread_mutex_lock(&args->philo[i].mx_died);
+		if (args->philo[i].died)
 		{
-			usleep(1000);
-			printf("%u\t%i is died\n", args->philo[i - 1].current_time, i);
+			pthread_mutex_unlock(&args->philo[i].mx_died);
+			pthread_mutex_lock(&args->mxs.stop);
+			args->stop = true;
+			pthread_mutex_unlock(&args->mxs.stop);
 			break ;
 		}
-		pthread_mutex_lock(&args->mxs.eated_count);
-		if (args->eated_count == args->param.number_of_philosophers)
-		{
-			pthread_mutex_unlock(&args->mxs.eated_count);
+		pthread_mutex_unlock(&args->philo[i].mx_died);
+		if (epme && eated_count(args, epme, i))
 			break ;
-		}
-		pthread_mutex_unlock(&args->mxs.eated_count);
-		if (i == args->param.number_of_philosophers)
+		if (++i == nofp)
 			i = 0;
 	}
+	if (args->stop)
+		printf("%u\t%i%s", args->philo[i].time_stamp, i + 1, MSG_DIED);
 }
 
 void	start_threads(void *_args)
 {
-	UINT		i;
-	t_args		*args;
+	register UINT	i;
+	t_args			*args;
 
 	args = (t_args *)_args;
 	i = 0;
+	gettimeofday(&args->param.start_time, NULL);
 	while (i < args->param.number_of_philosophers)
 	{
+		pthread_mutex_lock(&args->mxs.start);
 		pthread_create(&args->threads[i], NULL, (void *)&start_philo,
 			(void *)&args->philo[i]);
 		i++;
 	}
-	if (args->param.each_philosopher_must_eat == 0)
-		monitor_stop(args);
-	else
-		monitor_stop_and_eat(args);
+	monitor(args, args->param.each_philosopher_must_eat);
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 		pthread_join(args->threads[i++], NULL);
