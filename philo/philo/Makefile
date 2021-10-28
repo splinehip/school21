@@ -1,6 +1,6 @@
 NAME		= philo
 
-SRCS		= main.c		argv_handler.c		philo.c		start_threads.c\
+SRCS		= main.c		argv_handler.c		threads.c		philo.c\
 			  write_msg.c
 
 OBJS		= ${SRCS:.c=.o}

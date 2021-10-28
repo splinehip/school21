@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/26 13:42:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/28 14:43:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ static inline void	init_args(t_args *args)
 	args->philo = malloc(args->param.number_of_philosophers * sizeof(t_philo));
 	args->mxs.forks = malloc(args->param.number_of_philosophers
 			* sizeof(pthread_mutex_t));
-	args->eated_count = 0;
-	args->stop = false;
+	args->id = 0;
+	args->died = 0;
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 		pthread_mutex_init(&args->mxs.forks[i++], NULL);
 	pthread_mutex_init(&args->mxs.start, NULL);
-	pthread_mutex_init(&args->mxs.stop, NULL);
 	pthread_mutex_init(&args->mxs.mx_stdout, NULL);
 }
 
@@ -55,12 +54,10 @@ static inline void	init_philosophers(t_args *args)
 		args->philo[i].id = i + 1;
 		args->philo[i].last_eat = 0;
 		args->philo[i].count_eat = 0;
-		args->philo[i].died = 0;
+		args->philo[i].done = 0;
 		args->philo[i].param = &args->param;
 		args->philo[i].mxs = &args->mxs;
-		args->philo[i].stop = &args->stop;
-		pthread_mutex_init(&args->philo[i].mx_died, NULL);
-		pthread_mutex_init(&args->philo[i].mx_eated_count, NULL);
+		pthread_mutex_init(&args->philo[i].mx_done, NULL);
 		init_forks(args, i++);
 	}
 }
@@ -76,11 +73,12 @@ int	main(int argc, char **argv)
 	init_philosophers(&args);
 	pthread_create(&main, NULL, (void *)&start_threads, (void *)&args);
 	pthread_join(main, NULL);
-	if (args.stop == false && args.param.each_philosopher_must_eat > 0)
+	usleep(500);
+	if (args.died == false)
 		printf("\n\033[32mStop simulation, %u philosophers eated %u times.\
-			\033[0m\n\n",
-			args.eated_count, args.param.each_philosopher_must_eat);
-	if (args.stop)
+			\033[0m\n\n", args.param.number_of_philosophers,
+			args.param.each_philosopher_must_eat);
+	if (args.died)
 		printf("\n\033[31mStop simulation, philosopher died.\033[0m\n\n");
 	free(args.threads);
 	free(args.philo);
