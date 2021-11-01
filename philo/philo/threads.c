@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:01:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/28 17:45:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/01 18:33:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline void	monitor(t_args *args, register UINT epme)
 		}
 	}
 	if (args->died)
-		printf("%lu\t%i%s", args->philo[i].time_stamp, i + 1, MSG_DIED);
+		printf("%lu\t%i%s\n", args->philo[i].time_stamp, i + 1, MSG_DIED);
 }
 
 void	start_threads(void *_args)
@@ -52,11 +52,19 @@ void	start_threads(void *_args)
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 	{
-		pthread_mutex_lock(&args->mxs.start);
 		pthread_create(&args->threads[i], NULL, (void *)&start_philo,
 			(void *)&args->philo[i]);
-		pthread_detach(args->threads[i++]);
-		pthread_mutex_unlock(&args->mxs.start);
+		pthread_detach(args->threads[i]);
+		i += 2;
+	}
+	usleep(1000);
+	i = 1;
+	while (i < args->param.number_of_philosophers)
+	{
+		pthread_create(&args->threads[i], NULL, (void *)&start_philo,
+			(void *)&args->philo[i]);
+		pthread_detach(args->threads[i]);
+		i += 2;
 	}
 	monitor(args, args->param.each_philosopher_must_eat);
 }

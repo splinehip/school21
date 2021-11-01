@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/28 17:39:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/29 13:23:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_param
 typedef struct s_mxs
 {
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	start;
 	pthread_mutex_t	mx_stdout;
 }	t_mxs;
 

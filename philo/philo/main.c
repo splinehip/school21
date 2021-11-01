@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/28 14:43:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/10/29 13:24:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static inline void	init_args(t_args *args)
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 		pthread_mutex_init(&args->mxs.forks[i++], NULL);
-	pthread_mutex_init(&args->mxs.start, NULL);
 	pthread_mutex_init(&args->mxs.mx_stdout, NULL);
 }
 

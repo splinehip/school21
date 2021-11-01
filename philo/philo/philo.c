@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/28 17:57:48 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:04:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ void	start_philo(void *args)
 	t_philo			*philo;
 	register UINT	epme;
 
-	pthread_mutex_lock(&((t_philo *)args)->mxs->start);
 	philo = (t_philo *)args;
 	epme = philo->param->each_philosopher_must_eat;
-	pthread_mutex_unlock(&((t_philo *)args)->mxs->start);
 	while (true)
 	{
 		if (take_forks(philo) == false)
@@ -86,6 +84,9 @@ void	start_philo(void *args)
 		if (write_msg(time_stamp(philo->param->start_time), philo,
 				MSG_THINKING, SIZE_MSG_THINKING) == false)
 			break ;
+		if (time_stamp(philo->param->start_time) - philo->last_eat
+			<= philo->param->time_to_die / 10 * 8)
+			usleep(10000);
 	}
 	pthread_mutex_lock(&philo->mx_done);
 	philo->done = true;
