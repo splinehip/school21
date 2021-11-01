@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 14:25:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/01 19:23:54 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/01 19:34:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_bool	write_msg(register ULINT time, t_philo *philo, char *msg,
 		while (j <= msg_size)
 			res_msg[i++] = msg[j++];
 		pthread_mutex_lock(&philo->mxs->mx_stdout);
-		(void)(write(0, res_msg, --i) + 1);
+		(void)(write(1, res_msg, --i) + 1);
 		pthread_mutex_unlock(&philo->mxs->mx_stdout);
 		return (true);
 	}

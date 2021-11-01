@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/01 19:04:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/01 20:02:31 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static inline t_bool	eating(t_philo *philo, register UINT epme)
 	if (write_msg(philo->time_stamp, philo, MSG_EATING,
 			SIZE_MSG_EATING) == false)
 	{
-		printf("id: %u, die stamp: %lu\n", philo->id, philo->time_stamp);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_2]);
 		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_1]);
 		return (false);
@@ -49,7 +48,6 @@ static inline t_bool	eating(t_philo *philo, register UINT epme)
 	usleep(philo->param->time_to_eat);
 	pthread_mutex_unlock(&philo->mxs->forks[philo->fork_2]);
 	pthread_mutex_unlock(&philo->mxs->forks[philo->fork_1]);
-	philo->time_stamp = time_stamp(philo->param->start_time);
 	if (epme)
 		philo->count_eat++;
 	return (true);
@@ -57,6 +55,7 @@ static inline t_bool	eating(t_philo *philo, register UINT epme)
 
 static inline t_bool	sleeping(t_philo *philo)
 {
+	philo->time_stamp = time_stamp(philo->param->start_time);
 	if (write_msg(philo->time_stamp, philo,
 			MSG_SLEEPING, SIZE_MSG_SLEEPING) == false)
 		return (false);
@@ -86,7 +85,7 @@ void	start_philo(void *args)
 			break ;
 		if (time_stamp(philo->param->start_time) - philo->last_eat
 			<= philo->param->time_to_die / 10 * 8)
-			usleep(10000);
+			usleep(1000);
 	}
 	pthread_mutex_lock(&philo->mx_done);
 	philo->done = true;

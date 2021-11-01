@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/29 13:24:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/01 20:07:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv)
 	init_philosophers(&args);
 	pthread_create(&main, NULL, (void *)&start_threads, (void *)&args);
 	pthread_join(main, NULL);
-	usleep(500);
+	usleep(1000);
 	if (args.died == false)
 		printf("\n\033[32mStop simulation, %u philosophers eated %u times.\
 			\033[0m\n\n", args.param.number_of_philosophers,
@@ -82,5 +82,5 @@ int	main(int argc, char **argv)
 	free(args.threads);
 	free(args.philo);
 	free(args.mxs.forks);
-	return (0);
+	exit(0);
 }
