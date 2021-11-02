@@ -6,13 +6,20 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/02 12:45:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 17:20:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static inline void	init_args(t_args *args)
+static inline	void	free_mem(t_args *args)
+{
+	free(args->threads);
+	free(args->philo);
+	free(args->mxs.forks);
+}
+
+static inline t_bool	init_args(t_args *args)
 {
 	UINT	i;
 
@@ -21,13 +28,19 @@ static inline void	init_args(t_args *args)
 	args->philo = malloc(args->param.number_of_philosophers * sizeof(t_philo));
 	args->mxs.forks = malloc(args->param.number_of_philosophers
 			* sizeof(pthread_mutex_t));
-	args->id = 0;
-	args->died = 0;
+	if (args->threads == NULL || args->philo == NULL || args->mxs.forks == NULL)
+	{
+		free_mem(args);
+		printf("\nMemory allocation failed.\n\n");
+		return (false);
+	}
+	args->died = false;
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 		pthread_mutex_init(&args->mxs.forks[i++], NULL);
 	pthread_mutex_init(&args->mxs.mx_died, NULL);
 	pthread_mutex_init(&args->mxs.mx_stdout, NULL);
+	return (true);
 }
 
 static inline void	init_forks(t_args *args, UINT i)
@@ -67,21 +80,26 @@ int	main(int argc, char **argv)
 {
 	t_args		args;
 	pthread_t	main;
+	t_bool		th_error;
 
 	if (argv_handler(argc, argv, &args.param))
 		return (1);
-	init_args(&args);
+	if (init_args(&args) == false)
+		return (1);
 	init_philosophers(&args);
-	pthread_create(&main, NULL, (void *)&start_threads, (void *)&args);
-	pthread_join(main, NULL);
-	if (args.died == false)
+	if (pthread_create(&main, NULL, (void *)&start_threads, (void *)&args))
+	{
+		free_mem(&args);
+		printf("\nMain tread creation failed.\n\n");
+		return (1);
+	}
+	pthread_join(main, (void **)&th_error);
+	if (th_error == false && args.died == false)
 		printf("\n\033[32mStop simulation, %u philosophers eated %u times.\
 			\033[0m\n\n", args.param.number_of_philosophers,
 			args.param.each_philosopher_must_eat);
-	if (args.died)
+	if (th_error == false && args.died)
 		printf("\n\033[31mStop simulation, philosopher died.\033[0m\n\n");
-	free(args.threads);
-	free(args.philo);
-	free(args.mxs.forks);
+	free_mem(&args);
 	return (0);
 }

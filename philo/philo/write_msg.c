@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 14:25:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/02 12:41:01 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 16:47:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_bool	write_msg(register ULINT time, t_philo *philo, char *msg,
 	if (time - philo->last_eat <= philo->param->time_to_die)
 	{
 		i = uitoa(time, 0, &res_msg[0]);
-		res_msg[i++] = ' ';
+		res_msg[i++] = '\t';
 		i = uitoa(philo->id, i, &res_msg[0]);
 		j = 0;
 		while (j <= msg_size)

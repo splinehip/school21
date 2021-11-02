@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/02 12:39:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 17:19:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_philo
 
 typedef struct s_args
 {
-	UINT		id;
 	t_bool		died;
 	t_param		param;
 	t_philo		*philo;
@@ -82,7 +81,7 @@ typedef struct s_args
 }	t_args;
 
 int		argv_handler(int argc, char **argv, t_param *param);
-void	start_threads(void *targs);
+t_bool	start_threads(void *targs);
 void	start_philo(void *args);
 t_bool	write_msg(ULINT time, t_philo *philo, char *msg, int msg_size);
 
