@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/01 20:07:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 12:45:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static inline void	init_args(t_args *args)
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 		pthread_mutex_init(&args->mxs.forks[i++], NULL);
+	pthread_mutex_init(&args->mxs.mx_died, NULL);
 	pthread_mutex_init(&args->mxs.mx_stdout, NULL);
 }
 
@@ -54,6 +55,7 @@ static inline void	init_philosophers(t_args *args)
 		args->philo[i].last_eat = 0;
 		args->philo[i].count_eat = 0;
 		args->philo[i].done = 0;
+		args->philo[i].died = &args->died;
 		args->philo[i].param = &args->param;
 		args->philo[i].mxs = &args->mxs;
 		pthread_mutex_init(&args->philo[i].mx_done, NULL);
@@ -72,7 +74,6 @@ int	main(int argc, char **argv)
 	init_philosophers(&args);
 	pthread_create(&main, NULL, (void *)&start_threads, (void *)&args);
 	pthread_join(main, NULL);
-	usleep(1000);
 	if (args.died == false)
 		printf("\n\033[32mStop simulation, %u philosophers eated %u times.\
 			\033[0m\n\n", args.param.number_of_philosophers,
@@ -82,5 +83,5 @@ int	main(int argc, char **argv)
 	free(args.threads);
 	free(args.philo);
 	free(args.mxs.forks);
-	exit(0);
+	return (0);
 }

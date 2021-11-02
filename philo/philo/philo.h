@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/29 13:23:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 12:39:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_param
 typedef struct s_mxs
 {
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	mx_died;
 	pthread_mutex_t	mx_stdout;
 }	t_mxs;
 
@@ -64,6 +65,7 @@ typedef struct s_philo
 	int				fork_1;
 	int				fork_2;
 	t_bool			done;
+	t_bool			*died;
 	t_param			*param;
 	t_mxs			*mxs;
 	pthread_mutex_t	mx_done;
@@ -72,7 +74,7 @@ typedef struct s_philo
 typedef struct s_args
 {
 	UINT		id;
-	UINT		died;
+	t_bool		died;
 	t_param		param;
 	t_philo		*philo;
 	t_mxs		mxs;
