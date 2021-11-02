@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:01:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/02 17:58:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 18:10:39 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static inline void	error(t_args *args, register int i)
 	while (j < i)
 		pthread_join(args->threads[j++], NULL);
 	printf(
-		"\n\033[31mStop simulatiom, philo %u thread creation failed.\033[0m\n\n",
+		"\n\033[31mStop simulation, philo %u thread creation failed.\033[0m\n\n",
 		args->philo[i].id);
 }
 
