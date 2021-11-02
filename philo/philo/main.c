@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/02 17:20:10 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 17:58:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv)
 {
 	t_args		args;
 	pthread_t	main;
-	t_bool		th_error;
+	ULLINT		th_error;
 
 	if (argv_handler(argc, argv, &args.param))
 		return (1);
