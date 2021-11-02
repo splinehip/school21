@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/01 20:02:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 13:14:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	start_philo(void *args)
 			break ;
 		if (time_stamp(philo->param->start_time) - philo->last_eat
 			<= philo->param->time_to_die / 10 * 8)
-			usleep(1000);
+			usleep(500);
 	}
 	pthread_mutex_lock(&philo->mx_done);
 	philo->done = true;

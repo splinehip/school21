@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/10/26 14:49:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/02 13:35:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static inline int	ft_atol(const char *str)
 	while (*s >= '0' && *s <= '9')
 	{
 		res = res * 10 + (*s - 48);
+		if (res > __INT_MAX__)
+			return (false);
 		s++;
 	}
 	if (n)
@@ -49,7 +51,8 @@ static inline int	check_values(char **argv)
 	{
 		if (ft_atol(argv[i]) <= 0)
 		{
-			printf("Invalid some arguments value: negative or zero...\n");
+			printf("Error value [ %s ]: long, negative, zero or has alpha...\n",
+				argv[i]);
 			return (1);
 		}
 		j = 0;
@@ -57,13 +60,14 @@ static inline int	check_values(char **argv)
 		{
 			if (argv[i][j] < 48 || argv[i][j] > 57)
 			{
-				printf("Error: Only numeric arguments acceptable.\n");
-				return (1);
+				printf("Error value [ %s ]: Argument has alpha...\n",
+					argv[i]);
+				return (true);
 			}
 			j++;
 		}
 	}
-	return (0);
+	return (false);
 }
 
 static inline void	set_param(char **argv, t_param *param)
@@ -94,16 +98,16 @@ int	argv_handler(int argc, char **argv, t_param *param)
 	{
 		printf("Invalid number of arguments. Must be 4 or 5 but entered: %i\n",
 			argc - 1);
-		return (1);
+		return (true);
 	}
 	if (check_values(argv))
-		return (1);
+		return (true);
 	set_param(argv, param);
 	if (param->number_of_philosophers == 1)
 	{
 		usleep(param->time_to_die * 1000);
 		printf("%u ms 1 is died\n", param->time_to_die);
-		return (1);
+		return (true);
 	}
-	return (0);
+	return (false);
 }
