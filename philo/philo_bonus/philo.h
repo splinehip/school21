@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:36:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/07 18:33:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/07 19:42:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <fcntl.h>
 # include <semaphore.h>
 # include <signal.h>
-# include <errno.h>
 
 # define UINT unsigned int
 # define ULINT unsigned long int
@@ -38,7 +37,8 @@
 # define SIZE_MSG_THINKING		22
 # define MSG_DIED				"\033[31m died\033[0m\n"
 # define MAX_MSG_SIZE			100
-# define S_DONE_NAME_PFX		"/philo_"
+# define MSG_PROCESSES_ERROR	"\n\033[31mStop simulation, philo %u process \
+creation failed.\033[0m\n\n"
 
 typedef enum e_bool
 {

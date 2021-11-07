@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 14:01:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/07 18:32:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/07 19:38:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static inline void	monitor(t_args *args, register UINT i)
 		waitpid(args->pids[i], &args->exit_status[i], WNOHANG);
 		if (args->exit_status[i] > 0)
 		{
-			args->died = true;
 			i = 0;
 			while (i < args->param.number_of_philosophers)
 				kill(args->pids[i++], SIGKILL);
+			args->died = true;
 			return ;
 		}
 		else if (args->exit_status[i] == false)
@@ -40,20 +40,11 @@ static inline void	monitor(t_args *args, register UINT i)
 	}
 }
 
-static inline void	error(t_args *args, register UINT i)
+static inline t_bool	start(t_args *args)
 {
+	register UINT	i;
 	register UINT	j;
 
-	j = 0;
-	while (j < i)
-		kill(args->pids[j++], SIGKILL);
-	printf(
-		"\n\033[31mStop simulation, philo %u process creation failed.\033[0m\n\n",
-		args->philo[i].id);
-}
-
-static inline t_bool	start(t_args *args, register UINT i)
-{
 	i = 0;
 	while (i < args->param.number_of_philosophers)
 	{
@@ -62,7 +53,10 @@ static inline t_bool	start(t_args *args, register UINT i)
 			start_philo(args, &args->philo[i]);
 		else if (args->pids[i] < 0)
 		{
-			error(args, i);
+			j = 0;
+			while (j < i)
+				kill(args->pids[j++], SIGKILL);
+			printf(MSG_PROCESSES_ERROR, args->philo[i].id);
 			return (true);
 		}
 		i++;
@@ -76,7 +70,7 @@ t_bool	start_processes(t_args *args)
 
 	gettimeofday(&stamp, NULL);
 	args->param.start_time = stamp.tv_sec * 1000 + stamp.tv_usec / 1000;
-	if (start(args, 0))
+	if (start(args))
 		return (true);
 	monitor(args, 0);
 	return (false);

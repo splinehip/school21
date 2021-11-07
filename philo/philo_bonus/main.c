@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/07 18:19:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/07 19:42:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static inline	void	free_mem(t_args *args)
 	free(args->philo);
 	free(args->pids);
 	free(args->exit_status);
-	sem_unlink("/table");
-	sem_unlink("/forks");
-	sem_unlink("/stdout");
 	sem_close(args->sems.table);
 	sem_close(args->sems.forks);
 	sem_close(args->sems.s_stdout);
+	sem_unlink("/table");
+	sem_unlink("/forks");
+	sem_unlink("/stdout");
 }
 
 static inline t_bool	init_args(t_args *args)
@@ -39,7 +39,7 @@ static inline t_bool	init_args(t_args *args)
 		|| args->sems.table == SEM_FAILED || args->sems.forks == SEM_FAILED
 		|| args->sems.s_stdout == SEM_FAILED)
 	{
-		printf("\nMemory allocation for args failed: %s.\n\n", strerror(errno));
+		printf("\nMemory allocation for args failed.\n\n");
 		free_mem(args);
 		return (false);
 	}

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/07 18:33:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/07 19:22:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,10 @@ void	start_philo(t_args *args, t_philo *philo)
 			break ;
 		if (epme && philo->count_eat == epme)
 			break ;
-		if (write_msg(time_stamp(philo->param->start_time), philo,
+		philo->time_stamp = time_stamp(philo->param->start_time);
+		if (write_msg(philo->time_stamp, philo,
 				MSG_THINKING, SIZE_MSG_THINKING) == false)
 			break ;
-		if (time_stamp(philo->param->start_time) - philo->last_eat
-			<= philo->param->time_to_die / 10 * 8)
-			usleep(1000);
 	}
 	exit(exit_status(args, philo));
 }
