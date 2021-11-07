@@ -73,11 +73,11 @@
         {
             "type": "cppbuild",
             "label": "C/C++: gcc сборка philo",
-            "command": "make",
-            "args": ["all"],
             "options": {
                 "cwd": "${workspaceFolder}/../philo/philo"
             },
+            "command": "make",
+            "args": ["all"],
             "problemMatcher": [
                 "$gcc"
             ],
@@ -86,7 +86,24 @@
                 "isDefault": true
             },
             "detail": "C/C++: gcc сборка philo"
-        }
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка philo_bonus",
+            "options": {
+                "cwd": "${workspaceFolder}/../philo/philo_bonus"
+            },
+            "command": "make",
+            "args": ["all"],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка philo_bonus"
+        },
     ],
     "version": "2.0.0"
 }
