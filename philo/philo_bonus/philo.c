@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/07 19:22:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/08 13:15:15 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ static inline t_bool	take_forks(t_philo *philo)
 	sem_wait(philo->sems->forks);
 	sem_post(philo->sems->table);
 	philo->time_stamp = time_stamp(philo->param->start_time);
+	if (write_msg(philo->time_stamp, philo, MSG_TAKEN_FORK,
+			SIZE_MSG_TAKEN_FORK) == false)
+	{
+		sem_post(philo->sems->forks);
+		sem_post(philo->sems->forks);
+		return (false);
+	}
 	return (true);
 }
 

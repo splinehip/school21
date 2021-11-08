@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 14:30:43 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/02 17:47:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/08 13:22:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ static inline t_bool	take_forks(t_philo *philo)
 	}
 	pthread_mutex_lock(&philo->mxs->forks[philo->fork_2]);
 	philo->time_stamp = time_stamp(philo->param->start_time);
+	if (write_msg(philo->time_stamp, philo, MSG_TAKEN_FORK,
+			SIZE_MSG_TAKEN_FORK) == false)
+	{
+		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_2]);
+		pthread_mutex_unlock(&philo->mxs->forks[philo->fork_1]);
+		return (false);
+	}
 	return (true);
 }
 

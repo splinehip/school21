@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:46:27 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/07 19:42:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/08 13:09:04 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ static inline t_bool	init_args(t_args *args)
 	args->pids = malloc(args->param.number_of_philosophers * sizeof(pid_t));
 	args->exit_status = malloc(
 			args->param.number_of_philosophers * sizeof(int));
+	sem_unlink("/table");
+	sem_unlink("/forks");
+	sem_unlink("/stdout");
 	args->sems.table = sem_open("/table", O_CREAT, O_RDWR, (UINT)1);
 	args->sems.forks = sem_open("/forks", O_CREAT, O_RDWR,
 			args->param.number_of_philosophers);
