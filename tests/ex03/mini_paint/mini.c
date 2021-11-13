@@ -1,6 +1,6 @@
-# include "mini_paint.h"
+# include "mini.h"
 
-void	draw_cicle(t_mini_paint *args)
+void	draw_cicle(t_args *args)
 {
 	int	x;
 	int	y;
@@ -16,8 +16,7 @@ void	draw_cicle(t_mini_paint *args)
 			if (args->d <= 0.00000000)
 			{
 				if (args->d > -1.00000000
-					|| (args->d <= -1.00000000
-						&& args->style == 'C'))
+					|| (args->d <= -1.00000000 && args->style == 'C'))
 					args->map[x + y * args->width] = args->smb;
 			}
 			x++;
@@ -27,7 +26,7 @@ void	draw_cicle(t_mini_paint *args)
 
 }
 
-int	draw_map(FILE *f, t_mini_paint *args)
+int	draw_map(FILE *f, t_args *args)
 {
 	int	i;
 	int	res;
@@ -35,24 +34,23 @@ int	draw_map(FILE *f, t_mini_paint *args)
 	args->map = malloc(args->width * args->height * sizeof(char));
 	if (args->map == NULL)
 	{
-		free(args->map);
+		fclose(f);
 		return (1);
 	}
 	memset(args->map, args->bg, args->width * args->height * sizeof(char));
-	res = 0;
-	while(fscanf(f, "%['c', 'C'] %f %f %f %c\n", &args->style,
-		&args->x, &args->y, &args->r,
-		&args->smb) == 5)
+	while((res = fscanf(f, "%['c', 'C'] %f %f %f %c ", &args->style,
+		&args->x, &args->y, &args->r, &args->smb)) == 5)
 	{
 		if (args->r <= 0.00000000)
 		{
+			fclose(f);
 			free(args->map);
+			printf("Error: Operation file corrupted\n");
 			return (1);
 		}
 		draw_cicle(args);
-		res = 1;
 	}
-	if (res)
+	if (res < 0)
 	{
 		i = 0;
 		while (i < args->height)
@@ -61,27 +59,34 @@ int	draw_map(FILE *f, t_mini_paint *args)
 			write(1, "\n", 1);
 			i++;
 		}
-		res = 0;
+		fclose(f);
+		free(args->map);
+		return (0);
 	}
-	free(args->map);
 	fclose(f);
-	return (res);
+	free(args->map);
+	printf("Error: Operation file corrupted\n");
+	return (1);
 }
 
-int	argv_handler(char *file)
+int	main(int argc, char **argv)
 {
-	FILE			*f;
-	t_mini_paint	args;
-	char			c[10];
+	FILE	*f;
+	t_args	args;
 
-	f = fopen(file, "r");
+	if (argc != 2)
+	{
+		printf("Error: argument\n");
+		return (1);
+	}
+	f = fopen(argv[1], "r");
 	if (f == NULL)
 	{
 		printf("Error: Operation file corrupted\n");
 		return (1);
 	}
-	if ((fscanf(f, "%d %d %c%[$\n]",
-		&args.width, &args.height, &args.bg, &c[0]) != 4))
+	if (fscanf(f, "%d %d %c\n",
+		&args.width, &args.height, &args.bg) != 3)
 	{
 		fclose(f);
 		printf("Error: Operation file corrupted\n");
@@ -95,14 +100,4 @@ int	argv_handler(char *file)
 		return (1);
 	}
 	return (draw_map(f, &args));
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		printf("Error: argument\n");
-		return (1);
-	}
-	return (argv_handler(argv[1]));
 }
