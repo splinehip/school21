@@ -1,6 +1,6 @@
 # include "mini.h"
 
-void	draw_cicle(t_args *args)
+static inline void	draw_cicle(t_args *args)
 {
 	int	x;
 	int	y;
@@ -26,7 +26,7 @@ void	draw_cicle(t_args *args)
 
 }
 
-int	draw_map(FILE *f, t_args *args)
+static inline int	draw_map(FILE *f, t_args *args)
 {
 	int	i;
 	int	res;
