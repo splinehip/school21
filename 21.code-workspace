@@ -24,6 +24,9 @@
       {
         "path": "philo"
       },
+      {
+        "path": "minishell"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
