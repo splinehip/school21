@@ -45,7 +45,7 @@ static inline int	draw_map(FILE *f, t_args *args)
 		{
 			fclose(f);
 			free(args->map);
-			printf("Error: Operation file corrupted\n");
+			write(1,"Error: Operation file corrupted\n", 32);
 			return (1);
 		}
 		draw_cicle(args);
@@ -65,7 +65,7 @@ static inline int	draw_map(FILE *f, t_args *args)
 	}
 	fclose(f);
 	free(args->map);
-	printf("Error: Operation file corrupted\n");
+	write(1,"Error: Operation file corrupted\n", 32);
 	return (1);
 }
 
@@ -76,27 +76,27 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		printf("Error: argument\n");
+		write(1, "Error: argument\n", 16);
 		return (1);
 	}
 	f = fopen(argv[1], "r");
 	if (f == NULL)
 	{
-		printf("Error: Operation file corrupted\n");
+		write(1,"Error: Operation file corrupted\n", 32);
 		return (1);
 	}
 	if (fscanf(f, "%d %d %c\n",
 		&args.width, &args.height, &args.bg) != 3)
 	{
 		fclose(f);
-		printf("Error: Operation file corrupted\n");
+		write(1,"Error: Operation file corrupted\n", 32);
 		return (1);
 	}
 	if (args.width <= 0 || args.width > 300 || args.height <= 0
 		|| args.height > 300)
 	{
 		fclose(f);
-		printf("Error: Operation file corrupted\n");
+		write(1,"Error: Operation file corrupted\n", 32);
 		return (1);
 	}
 	return (draw_map(f, &args));
