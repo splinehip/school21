@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/17 21:47:16 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/17 22:01:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#include "libft.h"
 
-int	main(int argc, char **argv);
+void	ft_strtolower(char **str)
+{
+	char	*s;
 
-#endif
+	if (str == NULL || *str == NULL)
+		return ;
+	s = *str;
+	while (*s != 0)
+	{
+		*s = ft_tolower(*s);
+		s++;
+	}
+}

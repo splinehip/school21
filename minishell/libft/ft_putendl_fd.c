@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/24 13:35:15 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/03 13:52:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#include "libft.h"
 
-int	main(int argc, char **argv);
+/*
+Arguments:
+s is a pointer to the string to write.
+fd is the file descriptor number to write.
 
-#endif
+Description:
+The function writes the given string s by adding a shortcut character (\\n) to
+file with descriptor fd.
+*/
+void	ft_putendl_fd(const char *s, int fd)
+{
+	if (s != NULL)
+	{
+		ft_putstr_fd(s, fd);
+		ft_putchar_fd('\n', fd);
+	}
+}

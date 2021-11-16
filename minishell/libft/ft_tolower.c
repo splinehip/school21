@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/20 17:23:50 by cflorind          #+#    #+#             */
+/*   Updated: 2021/04/26 16:51:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#include "libft.h"
 
-int	main(int argc, char **argv);
+/*
+Arguments:
+int c - the code of the character to be converted to lowercase.
 
-#endif
+Return value:
+Returns the lowercase equivalent of c if
+c is an uppercase letter. Otherwise, c is returned unchanged.
+
+Description:
+Checks if a character is a letter, if so, converts to lowercase.
+*/
+int	ft_tolower(int c)
+{
+	if (c >= 65 && c <= 90)
+		return (c + 32);
+	return (c);
+}

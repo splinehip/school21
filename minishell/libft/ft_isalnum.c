@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/20 15:24:09 by cflorind          #+#    #+#             */
+/*   Updated: 2021/04/26 16:24:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#include "libft.h"
 
-int	main(int argc, char **argv);
+/*
+Arguments:
+int c - the code of the character to be checked.
 
-#endif
+Return value:
+Nonzero values are returned if the checked character c falls within
+the appropriate character class, otherwise zero is returned.
+
+Description:
+Checks a character to be a text character; the call is equivalent
+(isalpha (c) || isdigit (c)).
+*/
+int	ft_isalnum(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c));
+}

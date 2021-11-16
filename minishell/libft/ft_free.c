@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/05/25 18:19:32 by cflorind          #+#    #+#             */
+/*   Updated: 2021/06/09 13:46:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#include "libft.h"
 
-int	main(int argc, char **argv);
+/*
+Arguments:
+_p1, _p2 - pointers to freed memory.
 
-#endif
+Returned values:
+The function returns NULL.
+
+Description:
+The function takes two pointers to the memory to be freed, calls free for them
+and returns NULL.
+*/
+void	*ft_free(void *_p1, void *_p2)
+{
+	free(_p1);
+	free(_p2);
+	return (NULL);
+}

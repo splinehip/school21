@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/04/24 13:32:09 by cflorind          #+#    #+#             */
+/*   Updated: 2021/05/19 17:02:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#include "libft.h"
 
-int	main(int argc, char **argv);
+/*
+Arguments:
+s is a pointer to the string to write.
+fd is the file descriptor number to write.
 
-#endif
+Description:
+The function writes the given string s to a file with descriptor fd.
+*/
+void	ft_putstr_fd(const char *s, int fd)
+{
+	if (s != NULL)
+		(void)(write(fd, s, ft_strlen(s)) + 1);
+}
