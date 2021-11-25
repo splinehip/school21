@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   argv_handler.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:19 by cflorind         ###   ########.fr       */
+/*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
+/*   Updated: 2021/11/25 15:06:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "./libft/libft.h"
+#ifndef ARGV_HANDLER_H
+# define ARGV_HANDLER_H
 
-int	main(int argc, char **argv);
+int	argv_handler(void);
 
 #endif
