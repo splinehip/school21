@@ -23,7 +23,6 @@ OPTFLAGS	= -O3
 RM			= rm -rf
 
 vpath %.c ${SRCS_DIR}
-vpath %.o ${OBJS_DIR}
 
 all:		libft ${NAME}
 
