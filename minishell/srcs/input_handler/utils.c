@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/25 14:51:00 by cflorind         ###   ########.fr       */
+/*   Created: 2021/11/28 14:29:01 by cflorind          #+#    #+#             */
+/*   Updated: 2021/11/28 14:31:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
 
-int	main(int argc, char **argv)
+#include "libft/libft.h"
+#include "input_handler.h"
+
+void	test_func(void)
 {
-	ft_printf("Hello! Programm name %s, argc: %i\n", argv[0], argc);
-	argv_handler();
-	return (0);
+	printf("Hello from input_handler/utils.c!\n");
 }

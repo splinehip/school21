@@ -1,54 +1,49 @@
-NAME		= minishell
+include makefile.srcs
 
-LIBFT		= ./libs/libft
+NAME		= minishell
 
 SRCS_DIR	= srcs
 
 OBJS_DIR	= objs
 
-SRCS		= minishell.c	argv_handler/main.c
+OBJS		= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
 
-OBJS		= ${SRCS:.c=.o}
+LIBS		= libs/libft/libft.a
 
-D_FILES		= ${SRCS:.c=.d}
+INC_LIBS	= $(addprefix -L, $(dir ${LIBS})) -lft
+
+INC_HEADERS	= -Iheaders -Ilibs
 
 CC			= cc
 
-INCLUDES	= -I./headers
-
 CFLAGS		= -Wall -Wextra -Werror
 
-OPTFLAGS	= -O3
+OPTFLAGS	= -O3 -MMD -MP
 
 RM			= rm -rf
 
-vpath %.c ${SRCS_DIR}
 
-all:		libft ${NAME}
+all:		$(dir ${LIBS}) ${NAME}
 
-${NAME}:	${OBJS}
-			${CC} ${CFLAGS} $(addprefix ${OBJS_DIR}/, ${OBJS}) \
-			-L${LIBFT} -lft -o ${NAME}
+${NAME}:	${OBJS} ${LIBS}
+			${CC} ${CFLAGS} ${OBJS} -o ${NAME} ${INC_LIBS}
 
-%.o:		%.c
-			@mkdir -p ${OBJS_DIR}/${@D}
-			${CC} ${CFLAGS} ${OPTFLAGS} ${INCLUDES} -c $< -o ${OBJS_DIR}/$@ -MD
+.SECONDEXPANSION:
+${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
+			@mkdir -p ${@D}
+			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
 
-include $(wildcard ${D_FILES})
+$(dir ${LIBS}):
+			@make -C $@ $(MAKECMDGOALS)
 
-libft:
-			@make -C ${LIBFT}
-
-rmobjs:
+clean:		$(dir ${LIBS})
 			${RM} ${OBJS_DIR}
 
-clean:		rmobjs
-			@make -C ${LIBFT} clean
-
-fclean:		rmobjs
-			${RM} ${NAME}
-			@make -C ${LIBFT} fclean
+fclean:		$(dir ${LIBS})
+			${RM} ${OBJS_DIR} ${NAME}
 
 re:			fclean all
 
-.PHONY: all libft rmobjs clean fclean re
+.PHONY: all $(dir ${LIBS}) clean fclean re
+
+-include ${OBJS:.o=.d}

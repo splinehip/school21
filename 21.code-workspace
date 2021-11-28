@@ -67,7 +67,6 @@
         "editor.minimap.scale": 3,
         "editor.bracketPairColorization.enabled": true,
         "files.associations": {
-          "test.h": "c",
           "libft.h": "c",
           "cstdlib": "c",
           "*.tcc": "c",
@@ -94,7 +93,9 @@
           "typeinfo": "cpp",
           "utility": "cpp",
           "bit": "c",
-          "limits": "c"
+          "limits": "c",
+          "stdarg.h": "c",
+          "makefile.*": "makefile",
         },
       },
 }

@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argv_handler.h                                     :+:      :+:    :+:   */
+/*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/25 15:06:25 by cflorind         ###   ########.fr       */
+/*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
+/*   Updated: 2021/11/28 14:32:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGV_HANDLER_H
-# define ARGV_HANDLER_H
+#include <stdio.h>
 
-int	argv_handler(void);
+#include "input_handler.h"
 
-#endif
+int	input_handler(void)
+{
+	printf("QQQQQQQQQQQQQQQ\n");
+	test_func();
+	return (0);
+}

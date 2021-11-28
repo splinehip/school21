@@ -1,0 +1,13 @@
+# MAIN
+MAIN	= main.c
+# end MAIN
+
+# INPUT_HANDLER
+INPUT_HANDLER_DIR	= input_handler
+INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
+input_handler.c	utils.c)
+# end INPUT_HANDLER
+
+# SRCS
+SRCS		= ${MAIN} ${INPUT_HANDLER}
+# end SRCS

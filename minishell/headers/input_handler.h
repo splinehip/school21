@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argv_handler.c                                     :+:      :+:    :+:   */
+/*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/25 15:05:49 by cflorind         ###   ########.fr       */
+/*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
+/*   Updated: 2021/11/28 14:31:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef INPUT_HANDLER_H
+# define INPUT_HANDLER_H
 
-int	argv_handler(void)
-{
-	printf("QQQQQQQQQQQQQQQ\n");
-	return (0);
-}
+int		input_handler(void);
+void	test_func(void);
+
+#endif
