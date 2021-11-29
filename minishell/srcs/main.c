@@ -6,11 +6,11 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/28 14:24:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/29 13:21:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "libft.h"
 #include "input_handler.h"
 #include "minishell.h"
 

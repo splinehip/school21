@@ -12,7 +12,7 @@ LIBS		= libs/libft/libft.a
 
 INC_LIBS	= $(addprefix -L, $(dir ${LIBS})) -lft
 
-INC_HEADERS	= -Iheaders -Ilibs
+INC_HEADERS	= -Iheaders $(addprefix -I, $(dir ${LIBS}))
 
 CC			= cc
 
