@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/26 19:37:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:45:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_printf_c_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_s_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_diu_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_p_handler(t_args *args, const char *ssi, va_list ap);
-void	ft_printf_xX_handler(t_args *args, const char *ssi, va_list ap);
+void	ft_printf_xx_handler(t_args *args, const char *ssi, va_list ap);
 void	ft_printf_prc_handler(t_args *args, const char *ssi, va_list ap);
 
 typedef struct s_vars

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 11:12:04 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/19 14:31:02 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:41:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static t_ulli	get_base_10(unsigned int base, char *n_str)
 	while (n_str[i] != 0)
 	{
 		j = 0;
-		while (g_BASE[base][j] != n_str[i] && g_BASE[base][j] != 0)
+		while (g_base[base][j] != n_str[i] && g_base[base][j] != 0)
 			j++;
-		if (g_BASE[base][j] == 0)
+		if (g_base[base][j] == 0)
 			return (0);
 		res += j * ft_uintpow(base, len - i);
 		i++;
@@ -49,7 +49,7 @@ static char	*get_to_base(unsigned int base, t_ulli n)
 	while (n != 0)
 	{
 		tmp = res;
-		res = ft_strljoinchr(res, g_BASE[base][n % base]);
+		res = ft_strljoinchr(res, g_base[base][n % base]);
 		n /= base;
 		if (tmp != NULL)
 			free(tmp);

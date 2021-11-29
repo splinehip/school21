@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:47:20 by cflorind          #+#    #+#             */
-/*   Updated: 2021/05/24 12:24:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:45:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void	get_res(char **pfres, char **ps, t_args *args)
 	free(*pfres);
 }
 
-void	ft_printf_xX_handler(t_args *args, const char *ssi, va_list ap)
+void	ft_printf_xx_handler(t_args *args, const char *ssi, va_list ap)
 {
 	char	*s;
 	char	*fres;

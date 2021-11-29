@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:47:55 by cflorind          #+#    #+#             */
-/*   Updated: 2021/06/09 14:14:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:36:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static inline void	buf_handler(char **line, t_vars *vars)
 		vars->i++;
 	if (line_join_buf(line, vars))
 		return ;
-	if (vars->res != 0 && vars->i <= vars->res - 1 && vars->buf[vars->i] == '\n')
+	if (vars->res != 0 && vars->i <= vars->res - 1 && vars->buf[vars->i] == 10)
 		vars->_return = 2;
 	else if (vars->res == 0 && (vars->i == 0 || vars->i == vars->res - 1))
 	{
