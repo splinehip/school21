@@ -1,26 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/02 17:52:44 by cflorind         ###   ########.fr       */
+/*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
+/*   Updated: 2021/12/02 18:11:35 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
+
+#include "bool.h"
 #include "input_handler.h"
-#include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+static inline int	parse_string(t_actions *actions, char *str)
 {
-	char	end;
+	(void)str;
+	actions->type = expand;
+	return (true);
+}
 
-	(void)env;
-	end = 10;
-	ft_printf("Hello! Programm name %s, argc: %i%c", argv[0], argc, end);
-	input_handler(argv);
-	return (0);
+t_actions	*parser(char **argv)
+{
+	int			i;
+	t_actions	*actions;
+
+	actions = malloc(sizeof(t_actions));
+	if (actions == false)
+		return (NULL);
+	i = 0;
+	while (argv[i])
+	{
+		if (parse_string(actions, argv[i]) == false)
+			return (0);
+		i++;
+	}
+	return (actions);
 }

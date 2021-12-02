@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bool.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/02 17:52:44 by cflorind         ###   ########.fr       */
+/*   Created: 2021/12/02 17:44:46 by cflorind          #+#    #+#             */
+/*   Updated: 2021/12/02 17:47:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "input_handler.h"
-#include "minishell.h"
+#ifndef BOOL_H
+# define BOOL_H
 
-int	main(int argc, char **argv, char **env)
+typedef enum e_bool
 {
-	char	end;
+	false,
+	true,
+}	t_bool;
 
-	(void)env;
-	end = 10;
-	ft_printf("Hello! Programm name %s, argc: %i%c", argv[0], argc, end);
-	input_handler(argv);
-	return (0);
-}
+#endif

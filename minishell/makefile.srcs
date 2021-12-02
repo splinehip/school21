@@ -5,7 +5,7 @@ MAIN	= main.c
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
-input_handler.c	utils.c)
+input_handler.c		parser.c	utils.c)
 # end INPUT_HANDLER
 
 # SRCS
