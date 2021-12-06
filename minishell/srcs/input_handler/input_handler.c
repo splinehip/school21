@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 12:01:33 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 12:24:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 int	input_handler(char *cmd, char **env)
 {
-	(void)env;
-	printf("STR: %s\n", cmd);
+	parser(cmd, env);
 	return (0);
 }

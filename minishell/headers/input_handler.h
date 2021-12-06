@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 12:00:39 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 12:24:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct s_args_exec_pipe
 }	t_args_exec_pipe;
 
 int			input_handler(char *cmd, char **env);
-t_actions	*parser(char *cmd);
+t_actions	*parser(char *cmd, char **env);
 void		test_func(void);
 
 #endif
