@@ -5,7 +5,7 @@ MAIN	= main.c
 # BUILTINS
 BUILTINS_DIR	= builtins/env
 BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
-get_env.c	set_env.c)
+get_env.c	set_env.c	unset_env.c)
 # end BUILTINS
 
 # INPUT_HANDLER
