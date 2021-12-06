@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 20:53:10 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 22:09:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char **argv, char **_env)
 	(void)argc;
 	(void)argv;
 	env_dup(&env, _env);
-	set_env("LES", "0", env);
+	set_env("LES", "0", &env);
 	while (true)
 	{
 		msg = get_msg(env);
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **_env)
 		if (cmd != NULL && ft_strlen(cmd))
 			add_history(cmd);
 		res = ft_itoa(input_handler(cmd, env));
-		set_env("LES", res, env);
+		set_env("LES", res, &env);
 		free(res);
 		free(msg);
 		free(cmd);

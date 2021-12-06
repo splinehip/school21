@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 20:39:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 22:08:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,28 @@
 #include "libft.h"
 #include "builtins.h"
 
-static inline void	upgrade_env(
-	char *name, char *value, char **new, char ***env)
+static inline void	upgrade(
+	char *name, char *value, char ***new, char ***env)
 {
 	int		i;
-	char	*tmp_name;
-	char	*env_var;
 	char	**tmp;
+	char	*env_var;
 
 	i = 0;
-	while (new[i])
+	while ((*env)[i])
 		i++;
-	tmp_name = ft_strjoinchr(name, '=');
-	env_var = ft_strjoin(tmp_name, value);
-	if (env_var != NULL)
-		new[i++] = ft_strdup(env_var);
-	else
-		new[i++] = ft_strdup("1");
-	new[i] = NULL;
+	name = ft_strjoinchr(name, '=');
+	env_var = ft_strjoin(name, value);
+	(*new)[i] = ft_strdup(env_var);
+	(*new)[++i] = NULL;
 	tmp = *env;
-	*env = new;
-	i = 0;
-	while (tmp[i])
-		free(tmp[i++]);
-	free(tmp_name);
+	*env = *new;
+	free(tmp);
+	free(name);
 	free(env_var);
 }
 
-static inline void	append_env(char *name, char *value, char ***env)
+static inline void	append(char *name, char *value, char ***env)
 {
 	int		i;
 	char	**new;
@@ -50,7 +44,7 @@ static inline void	append_env(char *name, char *value, char ***env)
 	i = 0;
 	while ((*env)[i++])
 		;
-	new = malloc(i * sizeof(char **));
+	new = malloc((i + 1) * sizeof(char *));
 	if (new == NULL)
 		return ;
 	i = 0;
@@ -60,10 +54,10 @@ static inline void	append_env(char *name, char *value, char ***env)
 		i++;
 	}
 	new[i] = NULL;
-	upgrade_env(name, value, new, env);
+	upgrade(name, value, &new, env);
 }
 
-static inline void	update_env(char *name, char *value, char **env)
+static inline void	update(char *name, char *value, char **env)
 {
 	int		i;
 	char	*env_i;
@@ -86,15 +80,15 @@ static inline void	update_env(char *name, char *value, char **env)
 	return ;
 }
 
-void	set_env(char *name, char *value, char **env)
+void	set_env(char *name, char *value, char ***env)
 {
 	char	*tmp;
 
 	if (name == NULL || value == NULL)
 		return ;
-	tmp = get_env(name, env);
+	tmp = get_env(name, *env);
 	if (tmp == NULL)
-		return (append_env(name, value, &env));
+		return (append(name, value, env));
 	free(tmp);
-	update_env(name, value, env);
+	update(name, value, *env);
 }
