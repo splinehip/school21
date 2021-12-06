@@ -6,22 +6,21 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 12:24:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 18:15:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_HANDLER_H
 # define INPUT_HANDLER_H
 
-enum								e_controls;
-enum								e_actions;
-enum								e_builtins;
-typedef struct s_actions			t_actions;
-typedef struct s_redirect			t_redirect;
-typedef struct s_args_expand		t_args_expand;
-typedef struct s_args_builtins		t_args_builtins;
-typedef struct s_args_execute		t_args_execute;
-typedef struct s_args_exec_pipe		t_args_exc_pipe;
+enum						e_controls;
+enum						e_actions;
+enum						e_builtins;
+typedef struct s_redirect	t_redirect;
+typedef struct s_builtins	t_builtins;
+typedef struct s_execute	t_execute;
+typedef union args			t_a_args;
+typedef struct s_actions	t_actions;
 
 enum e_controls
 {
@@ -60,44 +59,40 @@ enum e_redirects
 	output_append,
 };
 
-typedef struct s_actions
-{
-	int		type;
-	void	*args;
-}	t_actions;
-
 typedef struct s_redirect
 {
 	int		type;
 	char	*target;
 }	t_redirect;
 
-typedef struct s_args_expand
-{
-	char	*name;
-}	t_args_expand;
-
-typedef struct s_args_builtins
+typedef struct s_builtins
 {
 	int		name;
 	char	**args;
 	char	**options;
-}	t_args_builtins;
+}	t_builtins;
 
-typedef struct s_args_execute
+typedef struct s_execute
 {
-	int			path;
-	char		**args;
+	char		**argv;
 	t_redirect	*redirect;
-}	t_args_execute;
+}	t_execute;
 
-typedef struct s_args_exec_pipe
+typedef union args
 {
-	t_args_execute	*args;
-}	t_args_exec_pipe;
+	t_builtins	b_args;
+	t_execute	exc_args;
+}	t_a_args;
+
+typedef struct s_actions
+{
+	int			type;
+	t_a_args	*args;
+}	t_actions;
 
 int			input_handler(char *cmd, char **env);
-t_actions	*parser(char *cmd, char **env);
+t_actions	*parse_cmd(char *cmd, char **env);
+int			do_actions(t_actions *actions, char **env);
 void		test_func(void);
 
 #endif

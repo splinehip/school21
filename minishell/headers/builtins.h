@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_handler.c                                    :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 15:28:40 by cflorind         ###   ########.fr       */
+/*   Created: 2021/12/06 14:21:50 by cflorind          #+#    #+#             */
+/*   Updated: 2021/12/06 18:18:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-#include "bool.h"
-#include "input_handler.h"
+int		do_pwd(char **env);
+void	set_env(char *name, char *value, char **env);
+char	*get_env(char *name, char **env);
+char	*get_env_value(char *name, char **env);
 
-int	input_handler(char *cmd, char **env)
-{
-	if (cmd == NULL)
-		return (0);
-	return (do_actions(parse_cmd(cmd, env), env));
-}
+#endif

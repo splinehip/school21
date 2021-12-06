@@ -18,7 +18,7 @@ CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
-OPTFLAGS	= -O3 -MMD -MP
+OPTFLAGS	= -MMD -MP -g
 
 RM			= rm -rf
 

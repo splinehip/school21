@@ -2,12 +2,18 @@
 MAIN	= main.c
 # end MAIN
 
+# BUILTINS
+BUILTINS_DIR	= builtins/env
+BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
+get_env.c	set_env.c)
+# end BUILTINS
+
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
-input_handler.c		parser.c	utils.c)
+input_handler.c	parse_cmd.c	do_actions.c	utils.c)
 # end INPUT_HANDLER
 
 # SRCS
-SRCS		= ${MAIN} ${INPUT_HANDLER}
+SRCS		= ${MAIN} ${BUILTINS} ${INPUT_HANDLER}
 # end SRCS
