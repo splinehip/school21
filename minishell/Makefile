@@ -10,7 +10,7 @@ OBJS		= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
 
 LIBS		= libs/libft/libft.a
 
-INC_LIBS	= $(addprefix -L, $(dir ${LIBS})) -lft
+INC_LIBS	= $(addprefix -L, $(dir ${LIBS})) -lft -lreadline
 
 INC_HEADERS	= -Iheaders $(addprefix -I, $(dir ${LIBS}))
 

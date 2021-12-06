@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/02 18:11:35 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 12:02:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,11 @@ static inline int	parse_string(t_actions *actions, char *str)
 	return (true);
 }
 
-t_actions	*parser(char **argv)
+t_actions	*parser(char *cmd)
 {
-	int			i;
 	t_actions	*actions;
 
-	actions = malloc(sizeof(t_actions));
-	if (actions == false)
-		return (NULL);
-	i = 0;
-	while (argv[i])
-	{
-		if (parse_string(actions, argv[i]) == false)
-			return (0);
-		i++;
-	}
+	(void)cmd;
+	actions = NULL;
 	return (actions);
 }
