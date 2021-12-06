@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:04:24 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 21:27:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 22:45:34 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,13 @@ char	*get_env(char *name, char **env)
 
 char	*get_env_value(char *name, char **env)
 {
-	int	i;
+	char	*tmp;
+	char	*res;
 
-	i = 0;
-	name = ft_strjoinchr(name, '=');
-	while (name && env[i])
-	{
-		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
-		{
-			free(name);
-			return (ft_strdup(env[i] + ft_strlen(name)));
-		}
-		i++;
-	}
-	return (NULL);
+	res = NULL;
+	tmp = get_env(name, env);
+	if (tmp)
+		res = ft_strdup(ft_strchr(tmp, '=') + 1);
+	free(tmp);
+	return (res);
 }
