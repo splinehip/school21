@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 20:51:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/06 20:53:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ static inline void	env_dup(char ***env, char **_env)
 	(*env)[--i] = NULL;
 	while (--i >= 0)
 	{
-		printf("I: %i\n", i);
-		printf("%s\n", _env[i]);
 		(*env)[i] = ft_strdup(_env[i]);
 		if ((*env)[i] == NULL)
 		{
