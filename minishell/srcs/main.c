@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/07 12:14:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:17:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	main(int argc, char **argv, char **_env)
 		if (cmd != NULL && ft_strlen(cmd))
 			add_history(cmd);
 		res = ft_itoa(input_handler(cmd, env));
+		res = ft_itoa(do_pwd(env));
 		set_env("LES", res, &env);
 		free(res);
 		free(msg);
