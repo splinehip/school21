@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 23:12:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/07 11:38:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,11 @@
 #include "libft.h"
 #include "builtins.h"
 
-static inline void	upgrade(
-	char *name, char *value, char ***new, char ***env)
-{
-	int		i;
-	char	**tmp;
-	char	*env_var;
-
-	i = 0;
-	while ((*env)[i])
-		i++;
-	name = ft_strjoinchr(name, '=');
-	env_var = ft_strjoin(name, value);
-	(*new)[i] = ft_strdup(env_var);
-	(*new)[++i] = NULL;
-	tmp = *env;
-	*env = *new;
-	free(tmp);
-	free(name);
-	free(env_var);
-}
-
 static inline void	append(char *name, char *value, char ***env)
 {
 	int		i;
 	char	**new;
+	char	**tmp;
 
 	i = 0;
 	while ((*env)[i++])
@@ -53,8 +33,14 @@ static inline void	append(char *name, char *value, char ***env)
 		new[i] = (*env)[i];
 		i++;
 	}
-	new[i] = NULL;
-	upgrade(name, value, &new, env);
+	name = ft_strjoinchr(name, '=');
+	value = ft_strjoin(name, value);
+	new[i] = value;
+	new[++i] = NULL;
+	tmp = *env;
+	*env = new;
+	free(tmp);
+	free(name);
 }
 
 static inline void	update(char *name, char *value, char **env)

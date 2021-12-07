@@ -3,9 +3,9 @@ MAIN	= main.c
 # end MAIN
 
 # BUILTINS
-BUILTINS_DIR	= builtins/env
+BUILTINS_DIR	= builtins
 BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
-get_env.c	set_env.c	unset_env.c)
+env/get_env.c	env/set_env.c	env/unset_env.c)
 # end BUILTINS
 
 # INPUT_HANDLER
