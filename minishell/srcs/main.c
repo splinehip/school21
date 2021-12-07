@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 23:27:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/07 11:54:44 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	main(int argc, char **argv, char **_env)
 		if (cmd != NULL && ft_strlen(cmd))
 			add_history(cmd);
 		res = ft_itoa(input_handler(cmd, env));
+		res = ft_itoa(do_pwd(env));
 		set_env("LES", res, &env);
 		free(res);
 		free(msg);
