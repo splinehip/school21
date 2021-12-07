@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 23:27:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/07 12:14:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,25 @@
 
 static inline char	*get_msg(char **env)
 {
-	char	*tmp;
+	char	*home;
+	char	*old_res;
 	char	*res;
 
-	tmp = get_env_value("PWD", env);
-	res = ft_strjoin(PFX_MSG, tmp);
-	free(tmp);
-	tmp = res;
+	res = get_env_value("PWD", env);
+	home = get_env_value("HOME", env);
+	if (ft_strncmp(res, home, ft_strlen(home)) == 0)
+	{
+		old_res = res;
+		res = ft_strljoinchr(res + ft_strlen(home), '~');
+		free(old_res);
+	}
+	free(home);
+	old_res = res;
 	res = ft_strjoin(res, "$ ");
-	free(tmp);
+	free(old_res);
+	old_res = res;
+	res = ft_strjoin(PFX_MSG, res);
+	free(old_res);
 	if (res == NULL)
 		return (PFX_MSG);
 	return (res);
