@@ -6,12 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 18:15:54 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 13:22:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_HANDLER_H
 # define INPUT_HANDLER_H
+# define BUF_SIZE 1024
 
 enum						e_controls;
 enum						e_actions;
@@ -28,8 +29,11 @@ enum e_controls
 	single_quote	= (int)'\'',
 	left_corner		= (int)'<',
 	right_corner	= (int)'>',
+	escape			= (int)'\\',
 	pipes			= (int)'|',
-	env_var			= (int)'$',
+	expand_var		= (int)'$',
+	space			= (int)' ',
+	endl			= (int)'\0',
 };
 
 enum e_actions
@@ -92,6 +96,7 @@ typedef struct s_actions
 
 int			input_handler(char *cmd, char **env);
 t_actions	*parse_cmd(char *cmd, char **env);
+char		*expand_vars(char *cmd, char **env);
 int			do_actions(t_actions *actions, char **env);
 void		test_func(void);
 

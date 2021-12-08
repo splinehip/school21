@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:44:46 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/02 17:47:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 13:06:56 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ typedef enum e_bool
 {
 	false,
 	true,
+	sucsses = 0,
+	unsucsses,
 }	t_bool;
 
 #endif

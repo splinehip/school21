@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 15:35:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 13:32:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "libft.h"
 #include "bool.h"
+#include "builtins.h"
 #include "input_handler.h"
 
 static inline void	set_actions(t_actions *t_actions, char **s_cmd)
@@ -46,13 +47,30 @@ static inline void	set_actions(t_actions *t_actions, char **s_cmd)
 
 t_actions	*parse_cmd(char *cmd, char **env)
 {
+	int			i;
 	char		**s_cmd;
 	t_actions	*actions;
 
 	(void)env;
 	actions = NULL;
+	cmd = expand_vars(cmd, env);
+	if (cmd == NULL)
+	{
+		ft_printf("Expanding var error.\n");
+		return (actions);
+	}
+	ft_printf("EXPANDED CMD: '%s'\n", cmd);
 	s_cmd = ft_split(cmd, ' ');
-	set_actions(actions, s_cmd);
+	if (s_cmd == NULL)
+	{
+		ft_printf("Spliting cdm error.\n");
+		return (actions);
+	}
+	//set_actions(actions, s_cmd);
+	free(cmd);
+	i = 0;
+	while (s_cmd[i])
+		free(s_cmd[i++]);
 	free(s_cmd);
 	return (actions);
 }
