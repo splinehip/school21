@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/08 15:36:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 17:11:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_actions
 int			input_handler(char *cmd, char **env);
 t_actions	*parse_cmd(char *cmd, char **env);
 int			do_expand(char *cmd, t_iter *iter, char **env);
-int			drop_buf(t_iter *iter);
+int			drop_buf(char *cmd, t_iter *iter);
 int			do_actions(t_actions *actions, char **env);
 void		test_func(void);
 

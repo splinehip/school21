@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:33:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/08 14:34:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 17:11:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-inline int	drop_buf(t_iter *iter)
+inline int	drop_buf(char *cmd, t_iter *iter)
 {
 	char	*tmp;
 
+	if (cmd[iter->i] == ends && iter->buf[iter->j - 1] == space)
+		iter->buf[iter->j - 1] = ends;
 	tmp = iter->res;
 	iter->res = ft_strjoin(iter->res, iter->buf);
 	free(tmp);

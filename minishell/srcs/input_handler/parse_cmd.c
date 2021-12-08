@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/08 16:03:26 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 17:13:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-static inline int	is_insertable(char c, t_iter *iter)
+static inline int	is_insertable(char c, char *cmd, t_iter *iter)
 {
 	if (iter->in_qoutes == single_quote)
 		return (true);
 	else if (iter->in_qoutes == quote && c != dollar)
 		return (true);
-	else if (iter->in_qoutes == false && c != dollar && c != escape)
+	else if (iter->in_qoutes == false && c != dollar && c != escape
+		&& (c != space || cmd[iter->i - 1] != space))
 		return (true);
 	return (false);
 }
@@ -46,19 +47,23 @@ static inline char	*do_parse(char *cmd, char **env)
 	iter.j = 0;
 	iter.in_qoutes = false;
 	iter.res = NULL;
+	while (cmd[iter.i] == space)
+		iter.i++;
 	while (cmd[iter.i])
 	{
-		if (is_insertable(cmd[iter.i], &iter))
+		if (is_insertable(cmd[iter.i], cmd, &iter))
 		{
-			iter.buf[iter.j++] = cmd[iter.i];
+			iter.buf[iter.j++] = cmd[iter.i++];
 			iter.buf[iter.j] = 0;
-			iter.i++;
 		}
 		else if (is_expandable(cmd[iter.i++], &iter))
+		{
 			if (do_expand(cmd, &iter, env) == unsucsses)
 				break ;
-		if (iter.j == BUF_SIZE || cmd[iter.i] == 0)
-			if (drop_buf(&iter) == unsucsses)
+			iter.i += iter.l;
+		}
+		if (iter.j == BUF_SIZE || cmd[iter.i] == ends)
+			if (drop_buf(cmd, &iter) == unsucsses)
 				break ;
 		printf("I: %i, BUF: '%s'\n", iter.i, iter.buf);
 	}
@@ -73,7 +78,7 @@ t_actions	*parse_cmd(char *cmd, char **env)
 	cmd = do_parse(cmd, env);
 	if (cmd == NULL)
 	{
-		ft_printf("Expanding var error.\n");
+		ft_printf("Parse cmd error.\n");
 		return (actions);
 	}
 	ft_printf("EXPANDED CMD: '%s'\n", cmd);
