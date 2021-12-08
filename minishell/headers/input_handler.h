@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/08 13:22:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/08 15:36:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 enum						e_controls;
 enum						e_actions;
 enum						e_builtins;
+typedef struct s_iter		t_iter;
 typedef struct s_redirect	t_redirect;
 typedef struct s_builtins	t_builtins;
 typedef struct s_execute	t_execute;
@@ -31,9 +32,13 @@ enum e_controls
 	right_corner	= (int)'>',
 	escape			= (int)'\\',
 	pipes			= (int)'|',
-	expand_var		= (int)'$',
+	dollar			= (int)'$',
 	space			= (int)' ',
-	endl			= (int)'\0',
+	tab				= (int)'\t',
+	endl			= (int)'\n',
+	vtab			= (int)'\v',
+	cr				= (int)'\r',
+	ends			= (int)'\0',
 };
 
 enum e_actions
@@ -62,6 +67,18 @@ enum e_redirects
 	output,
 	output_append,
 };
+
+typedef struct s_iter
+{
+	int		i;
+	int		j;
+	int		l;
+	int		in_qoutes;
+	char	buf[BUF_SIZE];
+	char	*name;
+	char	*value;
+	char	*res;
+}	t_iter;
 
 typedef struct s_redirect
 {
@@ -96,7 +113,8 @@ typedef struct s_actions
 
 int			input_handler(char *cmd, char **env);
 t_actions	*parse_cmd(char *cmd, char **env);
-char		*expand_vars(char *cmd, char **env);
+int			do_expand(char *cmd, t_iter *iter, char **env);
+int			drop_buf(t_iter *iter);
 int			do_actions(t_actions *actions, char **env);
 void		test_func(void);
 
