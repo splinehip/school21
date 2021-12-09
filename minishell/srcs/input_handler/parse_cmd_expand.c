@@ -6,11 +6,9 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/08 17:07:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/09 16:19:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 #include "libft.h"
 #include "bool.h"
@@ -20,13 +18,12 @@
 static inline void	get_value(char *cmd, t_iter *iter, char **env)
 {
 	iter->l = iter->i;
-	while (ft_isalnum(cmd[iter->l]))
+	while (ft_isalnum(cmd[iter->l + 1]))
 		iter->l++;
-	iter->l = iter->l - iter->i;
-	printf("i: %i, l: %i\n", iter->i, iter->l);
-	iter->name = ft_substr(cmd, iter->i, iter->l);
+	iter->name = ft_substr(cmd, iter->i + 1, iter->l - iter->i);
 	iter->value = get_env_value(iter->name, env);
-	printf("name: '%s', value: '%s'\n", iter->name, iter->value);
+	if (iter->in_qoutes == quote && cmd[iter->l + 1] == quote)
+		iter->l++;
 	free(iter->name);
 }
 
@@ -45,7 +42,7 @@ inline int	do_expand(
 		iter->buf[iter->j] = 0;
 		if (iter->j == BUF_SIZE)
 		{
-			if (drop_buf(cmd, iter) == unsucsses)
+			if (drop_buf(iter) == unsucsses)
 			{
 				free(iter->value);
 				return (unsucsses);

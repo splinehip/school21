@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parse_cmd_is_quotes.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/09 16:32:45 by cflorind         ###   ########.fr       */
+/*   Created: 2021/12/09 11:35:24 by cflorind          #+#    #+#             */
+/*   Updated: 2021/12/09 16:21:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# define PFX_MSG "\033[32mminishell:\033[33m"
-# define POSFX_MSG "\033[32m$\033[39m "
+#include "bool.h"
+#include "input_handler.h"
 
-int	main(int argc, char **argv, char **env);
-
-#endif
+inline int	is_quotes(char *cmd, t_iter *iter)
+{
+	if (cmd[iter->i] == quote || cmd[iter->i] == single_quote)
+	{
+		if (iter->i == 0)
+			return (true);
+		else if (cmd[iter->i - 1] != escape)
+			return (true);
+	}
+	return (false);
+}

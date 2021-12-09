@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/07 12:43:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/09 16:31:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline char	*get_msg(char **env)
 	}
 	free(home);
 	old_res = res;
-	res = ft_strjoin(res, "$ ");
+	res = ft_strjoin(res, POSFX_MSG);
 	free(old_res);
 	old_res = res;
 	res = ft_strjoin(PFX_MSG, res);
