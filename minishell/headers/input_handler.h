@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/09 11:37:34 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:59:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ typedef struct s_actions
 int			input_handler(char *cmd, char **env);
 t_actions	*parse_cmd(char *cmd, char **env);
 char		*do_parse(char *cmd, char **env);
-int			is_quotes(char *cmd, t_iter *iter);
+void		check_quotes(char *cmd, t_iter *iter);
 int			do_expand(char *cmd, t_iter *iter, char **env);
 int			drop_buf(t_iter *iter);
 int			do_actions(t_actions *actions, char **env);

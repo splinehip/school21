@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/09 16:21:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/10 18:33:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 #include "builtins.h"
 #include "input_handler.h"
 
+static inline int	insertable_space_or_escape(char c, char *cmd, t_iter *iter)
+{
+	if (c == space)
+	{
+		if (iter->i - 1 != 0
+			&& cmd[iter->i - 1] == space && cmd[iter->i - 2] == escape)
+			return (true);
+		if (cmd[iter->i - 1] != space || cmd[iter->i - 1] == escape)
+			return (true);
+	}
+	else if (c == escape && iter->i && cmd[iter->i - 1] == escape
+		&& cmd[iter->i + 1] != escape)
+		return (true);
+	return (false);
+}
+
 static inline int	insertable(char c, char *cmd, t_iter *iter)
 {
 	if (iter->in_qoutes == single_quote)
@@ -25,19 +41,19 @@ static inline int	insertable(char c, char *cmd, t_iter *iter)
 			|| (c == single_quote && iter->i && cmd[iter->i - 1] == escape))
 			return (true);
 	if (iter->in_qoutes == quote)
-		if ((c != quote && c != dollar && c != escape)
+		if ((c != escape && c != quote && c != dollar)
 			|| (c == escape && cmd[iter->i + 1] != quote)
-			|| (c == quote && iter->i && cmd[iter->i - 1] == escape))
+			|| ((c == quote || c == dollar)
+				&& iter->i && cmd[iter->i - 1] == escape))
 			return (true);
 	if (iter->in_qoutes == false)
 	{
-		if (c == dollar && iter->i && cmd[iter->i - 1] != escape)
-			return (false);
-		if (c == escape && iter->i && cmd[iter->i - 1] != escape)
-			return (false);
-		if (c == space || cmd[iter->i - 1] != space)
+		if (c != space && c != escape && c != dollar)
 			return (true);
-		if (c != dollar && c != escape)
+		if (c == space || c == escape)
+			if (insertable_space_or_escape(c, cmd, iter))
+				return (true);
+		if (c == dollar && iter->i && cmd[iter->i - 1] == escape)
 			return (true);
 	}
 	return (false);
@@ -49,40 +65,10 @@ static inline int	expandable(char c, char *cmd, t_iter *iter)
 	{
 		if (iter->i == 0)
 			return (true);
-		if (cmd[iter->i - 2] != escape)
+		if (cmd[iter->i - 1] != escape)
 			return (true);
-		return (false);
 	}
 	return (false);
-}
-
-static inline void	check_quotes(char *cmd, t_iter *iter)
-{
-	char	*pchar;
-
-	if (iter->i != iter->k)
-		return ;
-	pchar = NULL;
-	if (is_quotes(cmd, iter))
-	{
-		iter->k = cmd + iter->i - cmd + 1;
-		while (true)
-		{
-			pchar = ft_strchr(cmd + iter->k, cmd[iter->i]);
-			if (pchar && *(pchar - 1) == escape)
-				iter->k = pchar - cmd + 1;
-			else if (pchar)
-			{
-				iter->k = pchar - cmd + 1;
-				iter->in_qoutes = *pchar;
-				return ;
-			}
-			else if (pchar == NULL)
-				break ;
-		}
-	}
-	iter->k = iter->i + 1;
-	iter->in_qoutes = false;
 }
 
 static inline void	init_iter(char **cmd, t_iter *iter)

@@ -13,7 +13,7 @@ pwd/do_pwd.c)
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
-input_handler.c		parse_cmd.c	parse_cmd_do.c	parse_cmd_is_quotes.c\
+input_handler.c		parse_cmd.c	parse_cmd_do.c	parse_cmd_check_quotes.c\
 parse_cmd_expand.c	parse_cmd_drop_buf.c		do_actions.c	utils.c)
 # end INPUT_HANDLER
 
