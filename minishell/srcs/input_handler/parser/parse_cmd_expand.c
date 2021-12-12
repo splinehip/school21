@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 19:49:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 21:11:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@
 static inline void	get_value(char *cmd, t_iter *iter, char **env)
 {
 	iter->l = iter->i;
-	if (cmd[iter->l + 1] == '0')
+	if (ft_isdigit(cmd[iter->l + 1]))
 	{
 		iter->l++;
-		iter->value = ft_strdup("minishell");
+		if (cmd[iter->l + 1] == '0')
+			iter->value = ft_strdup("minishell");
+		else
+			iter->value = NULL;
 		return ;
 	}
 	while (ft_isalnum(cmd[iter->l + 1]))
