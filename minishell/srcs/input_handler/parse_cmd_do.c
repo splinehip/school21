@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/10 18:33:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 15:20:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,27 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-static inline int	insertable_space_or_escape(char c, char *cmd, t_iter *iter)
+static inline int	insertable_controls(char c, char *cmd, t_iter *iter)
 {
 	if (c == space)
 	{
-		if (iter->i - 1 != 0
-			&& cmd[iter->i - 1] == space && cmd[iter->i - 2] == escape)
+		if (cmd[iter->i - 1] == space && escaped(cmd, iter->i - 1))
 			return (true);
-		if (cmd[iter->i - 1] != space || cmd[iter->i - 1] == escape)
+		if (cmd[iter->i - 1] != space || escaped(cmd, iter->i))
 			return (true);
 	}
-	else if (c == escape && iter->i && cmd[iter->i - 1] == escape
-		&& cmd[iter->i + 1] != escape)
+	else if (c == escape)
+	{
+		if (iter->in_qoutes == false && escaped(cmd, iter->i))
+			return (true);
+		else if (iter->in_qoutes == false
+			&& escaped(cmd, iter->i) == false && cmd[iter->i + 1] == ends)
+			return (true);
+		if (iter->in_qoutes == quote)
+			if (escaped(cmd, iter->i))
+				return (true);
+	}
+	else if (escaped(cmd, iter->i))
 		return (true);
 	return (false);
 }
@@ -36,24 +45,20 @@ static inline int	insertable_space_or_escape(char c, char *cmd, t_iter *iter)
 static inline int	insertable(char c, char *cmd, t_iter *iter)
 {
 	if (iter->in_qoutes == single_quote)
-		if ((c != single_quote && c != escape)
-			|| (c == escape && cmd[iter->i + 1] != single_quote)
-			|| (c == single_quote && iter->i && cmd[iter->i - 1] == escape))
+		if (c != single_quote)
 			return (true);
 	if (iter->in_qoutes == quote)
-		if ((c != escape && c != quote && c != dollar)
-			|| (c == escape && cmd[iter->i + 1] != quote)
-			|| ((c == quote || c == dollar)
-				&& iter->i && cmd[iter->i - 1] == escape))
+	{
+		if (c != quote && c != escape && c != dollar)
 			return (true);
+		if (insertable_controls(c, cmd, iter))
+			return (true);
+	}
 	if (iter->in_qoutes == false)
 	{
 		if (c != space && c != escape && c != dollar)
 			return (true);
-		if (c == space || c == escape)
-			if (insertable_space_or_escape(c, cmd, iter))
-				return (true);
-		if (c == dollar && iter->i && cmd[iter->i - 1] == escape)
+		else if (insertable_controls(c, cmd, iter))
 			return (true);
 	}
 	return (false);
