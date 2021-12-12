@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 19:21:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 20:28:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,20 @@ static inline int	insertable_controls(char c, char *cmd, t_iter *iter)
 		if (cmd[iter->i - 1] != space || escaped(cmd, iter->i))
 			return (true);
 	}
-	else if (c == escape)
+	if (c == escape)
 	{
 		if (iter->in_qoutes == false && escaped(cmd, iter->i))
 			return (true);
-		else if (iter->in_qoutes == false
-			&& escaped(cmd, iter->i) == false && cmd[iter->i + 1] == ends)
+		if (iter->in_qoutes == false && escaped(cmd, iter->i) == false
+			&& cmd[iter->i + 1] == ends)
 			return (true);
 		if (iter->in_qoutes == quote && escaped(cmd, iter->i))
 			return (true);
-		else if (iter->in_qoutes == quote && escaped(cmd, iter->i) == false)
+		if (iter->in_qoutes == quote && escaped(cmd, iter->i) == false
+			&& cmd[iter->i + 1] != quote)
 			return (true);
 	}
-	else if (escaped(cmd, iter->i))
+	if (escaped(cmd, iter->i))
 		return (true);
 	return (false);
 }
