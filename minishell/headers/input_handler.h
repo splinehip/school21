@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 14:26:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 16:35:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,5 @@ int			escaped(char *cmd, int i);
 int			do_expand(char *cmd, t_iter *iter, char **env);
 int			drop_buf(t_iter *iter);
 int			do_actions(t_actions *actions, char **env);
-void		test_func(void);
 
 #endif
