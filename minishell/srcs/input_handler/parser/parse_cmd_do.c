@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 20:28:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 20:32:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static inline int	expandable(char c, char *cmd, t_iter *iter)
 	{
 		if (iter->i == 0)
 			return (true);
-		if (cmd[iter->i - 1] != escape)
+		if (escaped(cmd, iter->i) == false)
 			return (true);
 	}
 	return (false);
