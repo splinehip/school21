@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 20:34:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 20:38:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline int	insertable_controls(char c, char *cmd, t_iter *iter)
 		if (iter->in_qoutes == quote && escaped(cmd, iter->i))
 			return (true);
 		if (iter->in_qoutes == quote && escaped(cmd, iter->i) == false
-			&& cmd[iter->i + 1] != quote)
+			&& cmd[iter->i + 1] != quote && cmd[iter->i + 1] != escape)
 			return (true);
 	}
 	if (escaped(cmd, iter->i))
