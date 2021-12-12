@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:24 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 16:32:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:33:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ inline void	check_quotes(char *cmd, t_iter *iter)
 		while (true)
 		{
 			pchar = ft_strchr(cmd + iter->k, cmd[iter->i]);
-			if (is_closed_quotes(pchar, cmd, pchar - cmd))
+			if (is_closed_quotes(pchar, cmd, pchar - cmd) == false)
 				iter->k = pchar - cmd + 1;
 			else if (pchar)
 			{

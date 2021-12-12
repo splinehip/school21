@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 20:58:06 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 14:16:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:20:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,16 @@ inline int	escaped(char *cmd, int i)
 {
 	int	j;
 
-	j = i;
-	while (j > 0 && cmd[j - 1] == escape)
-		j--;
-	if ((i - j) % 2 != 0)
+	if (i-- == 0)
+		return (false);
+	j = 0;
+	while (i >= 0)
+	{
+		if (cmd[i] == escape)
+			j++;
+		i--;
+	}
+	if (j % 2 != 0)
 		return (true);
 	return (false);
 }

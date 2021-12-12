@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 16:13:49 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:21:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ static inline int	insertable_controls(char c, char *cmd, t_iter *iter)
 		else if (iter->in_qoutes == false
 			&& escaped(cmd, iter->i) == false && cmd[iter->i + 1] == ends)
 			return (true);
-		if (iter->in_qoutes == quote)
-			if (escaped(cmd, iter->i))
-				return (true);
+		if (iter->in_qoutes == quote && escaped(cmd, iter->i))
+			return (true);
+		else if (iter->in_qoutes == quote && escaped(cmd, iter->i) == false)
+			return (true);
 	}
 	else if (escaped(cmd, iter->i))
 		return (true);
@@ -49,6 +50,7 @@ static inline int	insertable(char c, char *cmd, t_iter *iter)
 			return (true);
 	if (iter->in_qoutes == quote)
 	{
+		ft_printf("c: %c, inq: %i\n", c, iter->in_qoutes);
 		if (c != quote && c != escape && c != dollar)
 			return (true);
 		if (insertable_controls(c, cmd, iter))
