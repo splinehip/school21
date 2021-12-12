@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 17:46:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 17:57:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static inline void	free_args(struct s_main *args, int del_env)
 {
 	int	i;
 
-	if (del_env == exit_built)
+	if (del_env == true)
 	{
 		i = 0;
 		while (args->env[i] != NULL)
@@ -117,7 +117,7 @@ int	main(int argc, char **argv, char **_env)
 		args.res = get_env_value("LES", args.env);
 		if (ft_strncmp(args.res, "6", 1) == 0)
 		{
-			free_args(&args, exit_built);
+			free_args(&args, true);
 			exit(6);
 		}
 		free_args(&args, false);
