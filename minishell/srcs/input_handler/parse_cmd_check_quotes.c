@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:24 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 16:13:33 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 16:32:31 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static inline int	is_open_quotes(char *cmd, t_iter *iter)
 	return (false);
 }
 
-static inline int	is_escaped_quotes(char *pchar, char *cmd, int i)
+static inline int	is_closed_quotes(char *pchar, char *cmd, int i)
 {
-	if (pchar == NULL || *pchar == single_quote)
+	if (pchar == NULL)
 		return (false);
 	if (escaped(cmd, i))
 		return (true);
@@ -50,7 +50,7 @@ inline void	check_quotes(char *cmd, t_iter *iter)
 		while (true)
 		{
 			pchar = ft_strchr(cmd + iter->k, cmd[iter->i]);
-			if (is_escaped_quotes(pchar, cmd, pchar - cmd))
+			if (is_closed_quotes(pchar, cmd, pchar - cmd))
 				iter->k = pchar - cmd + 1;
 			else if (pchar)
 			{
