@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/09 16:31:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/12 17:46:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 #include "builtins.h"
 #include "input_handler.h"
 #include "minishell.h"
+
+struct s_main
+{
+	char	*cmd;
+	char	*msg;
+	char	*res;
+	char	**env;
+};
 
 static inline char	*get_msg(char **env)
 {
@@ -73,28 +81,46 @@ static inline void	env_dup(char ***env, char **_env)
 	}
 }
 
+static inline void	free_args(struct s_main *args, int del_env)
+{
+	int	i;
+
+	if (del_env == exit_built)
+	{
+		i = 0;
+		while (args->env[i] != NULL)
+			free(args->env[i++]);
+		free(args->env);
+	}
+	free(args->msg);
+	free(args->cmd);
+	free(args->res);
+}
+
 int	main(int argc, char **argv, char **_env)
 {
-	char	*cmd;
-	char	*msg;
-	char	*res;
-	char	**env;
+	struct s_main	args;
 
 	(void)argc;
 	(void)argv;
-	env_dup(&env, _env);
-	set_env("LES", "0", &env);
+	env_dup(&args.env, _env);
+	set_env("LES", "0", &args.env);
 	while (true)
 	{
-		msg = get_msg(env);
-		cmd = readline(msg);
-		if (cmd != NULL && ft_strlen(cmd))
-			add_history(cmd);
-		res = ft_itoa(input_handler(cmd, env));
-		set_env("LES", res, &env);
-		free(res);
-		free(msg);
-		free(cmd);
+		args.msg = get_msg(args.env);
+		args.cmd = readline(args.msg);
+		if (args.cmd != NULL && ft_strlen(args.cmd))
+			add_history(args.cmd);
+		args.res = ft_itoa(input_handler(args.cmd, args.env));
+		set_env("LES", args.res, &args.env);
+		free(args.res);
+		args.res = get_env_value("LES", args.env);
+		if (ft_strncmp(args.res, "6", 1) == 0)
+		{
+			free_args(&args, exit_built);
+			exit(6);
+		}
+		free_args(&args, false);
 	}
 	return (0);
 }
