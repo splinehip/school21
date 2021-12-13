@@ -24,9 +24,9 @@ RM			= rm -rf
 
 OS_NAME		:= $(shell uname -s)
 
-ifeq ($(OS_NAME),Darwin)
-	INC_HEADERS		+= -I/usr/local/opt/readline/include
-	INC_LIBS		+= -L/usr/local/opt/readline/lib
+ifeq ($(OS_NAME), Darwin)
+	INC_HEADERS		+= -Ilibs/readline/include
+	INC_LIBS		+= -Llibs/readline/lib
 endif
 
 all:		$(dir ${LIBS}) ${NAME}
