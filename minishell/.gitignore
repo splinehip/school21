@@ -1,4 +1,5 @@
 # Other
+.vscode/
 
 # Prerequisites
 *.d
@@ -20,7 +21,6 @@
 
 # Libraries
 *.lib
-*.a
 *.la
 *.lo
 
@@ -28,7 +28,6 @@
 *.dll
 *.so
 *.so.*
-*.dylib
 
 # Executables
 *.exe
