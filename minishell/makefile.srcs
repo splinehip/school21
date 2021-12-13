@@ -6,7 +6,7 @@ MAIN	= main.c
 BUILTINS_DIR	= builtins
 BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
 env/get_env.c	env/set_env.c	env/unset_env.c	\
-pwd/do_pwd.c)
+do_pwd.c)
 
 # end BUILTINS
 
