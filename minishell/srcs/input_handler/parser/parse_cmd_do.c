@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/13 12:55:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:46:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ inline char	*do_parse(char *cmd, char **env)
 	init_iter(&cmd, &iter);
 	while (cmd[iter.i])
 	{
-		check_quotes(cmd, &iter);
+		do_check_quotes(cmd, &iter);
 		if (insertable(cmd[iter.i], cmd, &iter))
 		{
 			iter.buf[iter.j++] = cmd[iter.i];
@@ -110,14 +110,14 @@ inline char	*do_parse(char *cmd, char **env)
 		}
 		else if (expandable(cmd[iter.i], cmd, &iter))
 		{
-			if (do_expand(cmd, &iter, env) == unsucsses)
+			if (do_expand_env(cmd, &iter, env) == unsucsses)
 				break ;
 			iter.i = iter.l;
 			if (iter.i >= iter.k)
 				iter.k = iter.i + 1;
 		}
 		if (iter.j == BUF_SIZE || cmd[iter.i + 1] == ends)
-			if (drop_buf(&iter) == unsucsses)
+			if (do_drop_buf(&iter) == unsucsses)
 				break ;
 		iter.i++;
 	}

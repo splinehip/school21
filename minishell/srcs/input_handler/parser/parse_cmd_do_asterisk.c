@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd_asteriks.c                               :+:      :+:    :+:   */
+/*   parse_cmd_do_asterisk.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/13 18:26:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:49:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 #include "bool.h"
 #include "input_handler.h"
 
-inline void	add_asteriks_to_expand(char *cmd, t_iter *iter)
+inline char	*do_parse_whith_asterisk(char *cmd, char **env)
 {
-	if (iter->in_qoutes != false)
-		return ;
-	if (escaped(cmd, iter->i))
-		return ;
+	(void)cmd;
+	(void)env;
+	return (NULL);
 }

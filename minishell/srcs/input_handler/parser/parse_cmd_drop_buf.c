@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:33:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/09 10:25:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:50:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-inline int	drop_buf(t_iter *iter)
+inline int	do_drop_buf(t_iter *iter)
 {
 	char	*tmp;
 

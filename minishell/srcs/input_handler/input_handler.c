@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/06 15:28:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:31:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ int	input_handler(char *cmd, char **env)
 {
 	if (cmd == NULL)
 		return (0);
-	return (do_actions(parse_cmd(cmd, env), env));
+	return (do_actions(do_actions_build(cmd, env), env));
 }

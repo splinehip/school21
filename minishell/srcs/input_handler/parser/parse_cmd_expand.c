@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/13 12:40:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:48:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline void	get_value(char *cmd, t_iter *iter, char **env)
 	free(iter->name);
 }
 
-inline int	do_expand(
+inline int	do_expand_env(
 	char *cmd, t_iter *iter, char **env)
 {
 	int	i;
@@ -51,7 +51,7 @@ inline int	do_expand(
 		iter->buf[iter->j] = 0;
 		if (iter->j == BUF_SIZE)
 		{
-			if (drop_buf(iter) == unsucsses)
+			if (do_drop_buf(iter) == unsucsses)
 			{
 				free(iter->value);
 				return (unsucsses);

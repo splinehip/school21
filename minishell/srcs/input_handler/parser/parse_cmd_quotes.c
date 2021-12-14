@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:24 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/13 12:18:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:27:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static inline int	is_open_quotes(char *cmd, t_iter *iter)
 	return (false);
 }
 
-inline void	check_quotes(char *cmd, t_iter *iter)
+inline void	do_check_quotes(char *cmd, t_iter *iter)
 {
 	char	*pchar;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/13 17:54:48 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/14 11:45:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ enum e_controls
 	pipes			= (int)'|',
 	dollar			= (int)'$',
 	space			= (int)' ',
+	asterisk			= (int)'*',
 	tab				= (int)'\t',
 	endl			= (int)'\n',
 	vtab			= (int)'\v',
@@ -113,12 +114,14 @@ typedef struct s_actions
 }	t_actions;
 
 int			input_handler(char *cmd, char **env);
-t_actions	*parse_cmd(char *cmd, char **env);
+char		*parse_cmd(char *cmd, char **env);
 char		*do_parse(char *cmd, char **env);
-void		check_quotes(char *cmd, t_iter *iter);
+char		*do_parse_whith_asterisk(char *cmd, char **env);
+void		do_check_quotes(char *cmd, t_iter *iter);
 int			escaped(char *cmd, int i);
-int			do_expand(char *cmd, t_iter *iter, char **env);
-int			drop_buf(t_iter *iter);
+int			do_expand_env(char *cmd, t_iter *iter, char **env);
+int			do_drop_buf(t_iter *iter);
+t_actions	*do_actions_build(char *cmd, char **env);
 int			do_actions(t_actions *actions, char **env);
 
 #endif
