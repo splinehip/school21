@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/15 16:27:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:13:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,28 @@ static inline int	idx(int i, int direction)
 	return (i + 1);
 }
 
+static inline int	do_break(
+	char *cmd, t_extract *args, int direction, int quot_count)
+{
+	int	*i;
+
+	if (direction == left)
+		i = &args->start;
+	else
+		i = &args->end;
+	if (direction == left && *i == args->prev_end)
+		return (true);
+	if (cmd[idx(*i, direction)] == space
+		&& quot_count % 2 == 0
+		&& escaped(cmd, idx(*i, direction)) == false)
+	{
+		if (direction == rigth)
+			*i += 1;
+		return (true);
+	}
+	return (false);
+}
+
 static inline int	find(char *cmd, t_extract *args, int *i, int direction)
 {
 	int		quot_count;
@@ -36,22 +58,18 @@ static inline int	find(char *cmd, t_extract *args, int *i, int direction)
 
 	quot_count = 0;
 	quot_type = 0;
-	while (cmd[*i] != ends && cmd[*i] >= args->prev_end)
+	while (cmd[*i] != ends)
 	{
-		if (cmd[idx(*i, direction)] == space
-			&& escaped(cmd, idx(*i, direction)) == false
-			&& quot_count % 2 == 0)
-			break ;
 		if (cmd[idx(*i, direction)] == quote
 			|| cmd[idx(*i, direction)] == single_quote)
 		{
 			if (quot_type == 0)
 				quot_type = cmd[idx(*i, direction)];
 			if (cmd[idx(*i, direction)] == quot_type
-				&& escaped(cmd, cmd[idx(*i, direction)]) == false)
+				&& escaped(cmd, idx(*i, direction)) == false)
 				quot_count++;
 		}
-		if (direction == left && *i == args->prev_end)
+		if (do_break(cmd, args, direction, quot_count))
 			break ;
 		*i = idx(*i, direction);
 	}
