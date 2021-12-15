@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/14 17:09:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:46:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ static inline char	**do_extract(char *cmd, char **env)
 {
 	t_extract	args;
 
-	args.start = 0;
 	args.prev_end = 0;
 	args.res = NULL;
-	args.pchar = ft_strchr(cmd + args.start, asterisk);
+	args.pchar = ft_strchr(cmd, asterisk);
 	while (args.pchar)
 	{
 		if (get_template_border(cmd, &args) == sucsses)
@@ -62,8 +61,9 @@ static inline char	**do_extract(char *cmd, char **env)
 				break ;
 			}
 		}
+		ft_printf("EEE: start: %i, end: %i\n", args.start, args.end);
 		args.prev_end = args.end;
-		args.pchar = ft_strchr(cmd + args.end + 1, asterisk);
+		args.pchar = ft_strchr(cmd + args.end, asterisk);
 	}
 	return (args.res);
 }
