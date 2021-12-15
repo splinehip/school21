@@ -10,7 +10,7 @@ OBJS		= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
 
 LIBS		= libs/libft/libft.a
 
-INC_LIBS	= $(addprefix -L, $(dir ${LIBS})) -lft -lreadline
+INC_LIBS	= $(addprefix -L, $(dir ${LIBS}))
 
 INC_HEADERS	= -Iheaders $(addprefix -I, $(dir ${LIBS}))
 
@@ -25,9 +25,11 @@ RM			= rm -rf
 OS_NAME		:= $(shell uname -s)
 
 ifeq ($(OS_NAME), Darwin)
-	INC_HEADERS		+= -Ilibs/readline/include
-	INC_LIBS		+= -Llibs/readline/lib
+	INC_HEADERS		+= -Ilibs/libreadline/include
+	INC_LIBS		+= -Llibs/libreadline/lib -lncurses
 endif
+
+INC_LIBS	+=  -lft -lreadline
 
 all:		$(dir ${LIBS}) ${NAME}
 
@@ -47,6 +49,7 @@ clean:		$(dir ${LIBS})
 
 fclean:		$(dir ${LIBS})
 			${RM} ${OBJS_DIR} ${NAME}
+			${RM} minishell.dSYM
 
 re:			fclean all
 

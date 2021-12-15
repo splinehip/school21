@@ -1,5 +1,7 @@
 # Other
 .vscode/
+*/readline-master/
+*/libreadline/share/
 
 # Prerequisites
 *.d
