@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/15 15:53:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:27:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static inline int	find(char *cmd, t_extract *args, int *i, int direction)
 		{
 			if (quot_type == 0)
 				quot_type = cmd[idx(*i, direction)];
-			if (cmd[idx(*i, direction)] == quot_type)
+			if (cmd[idx(*i, direction)] == quot_type
+				&& escaped(cmd, cmd[idx(*i, direction)]) == false)
 				quot_count++;
 		}
 		if (direction == left && *i == args->prev_end)

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/15 15:46:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:00:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static inline int	update_extracted_res(t_extract *args, char *cmd, char **env)
 	template_str = ft_substr(cmd, args->start, args->end - args->start);
 	if (template_str == NULL)
 		return (unsucsses);
-	ft_printf("ext: %s\n", template_str);
+	ft_printf("ext: >%s<\n", template_str);
 	free(template_str);
 	return (sucsses);
 }
