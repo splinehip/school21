@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/14 11:45:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:52:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 enum						e_controls;
 enum						e_actions;
 enum						e_builtins;
+typedef struct s_extract	t_extract;
 typedef struct s_iter		t_iter;
 typedef struct s_redirect	t_redirect;
 typedef struct s_builtins	t_builtins;
@@ -34,7 +35,7 @@ enum e_controls
 	pipes			= (int)'|',
 	dollar			= (int)'$',
 	space			= (int)' ',
-	asterisk			= (int)'*',
+	asterisk		= (int)'*',
 	tab				= (int)'\t',
 	endl			= (int)'\n',
 	vtab			= (int)'\v',
@@ -68,6 +69,15 @@ enum e_redirects
 	output,
 	output_append,
 };
+
+typedef struct s_extract
+{
+	int		start;
+	int		end;
+	int		prev_end;
+	char	**res;
+	char	*pchar;
+}	t_extract;
 
 typedef struct s_iter
 {
@@ -121,6 +131,7 @@ void		do_check_quotes(char *cmd, t_iter *iter);
 int			escaped(char *cmd, int i);
 int			do_expand_env(char *cmd, t_iter *iter, char **env);
 int			do_drop_buf(t_iter *iter);
+int			get_template_border(char *cmd, t_extract *args);
 t_actions	*do_actions_build(char *cmd, char **env);
 int			do_actions(t_actions *actions, char **env);
 

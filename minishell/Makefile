@@ -8,11 +8,22 @@ OBJS_DIR	= objs
 
 OBJS		= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
 
-LIBS		= libs/libft/libft.a
+LIBFT		= libs/libft/libft.a
 
-INC_LIBS	= $(addprefix -L, $(dir ${LIBS}))
+LIBREADLINE	= libs/libreadline
 
-INC_HEADERS	= -Iheaders $(addprefix -I, $(dir ${LIBS}))
+INC_HEADERS	= -Iheaders -I$(dir ${LIBFT})
+
+INC_LIBS_DIR	= -L$(dir ${LIBFT})
+
+INC_LIBS	=  -lft -lreadline
+
+OS_NAME		:= $(shell uname -s)
+ifeq ($(OS_NAME), Darwin)
+	INC_HEADERS		+= -I${LIBREADLINE}/include
+	INC_LIBS_DIR	+= -L${LIBREADLINE}/lib
+	INC_LIBS		+= -lncurses
+endif
 
 CC			= cc
 
@@ -22,37 +33,27 @@ OPTFLAGS	= -MMD -MP -g
 
 RM			= rm -rf
 
-OS_NAME		:= $(shell uname -s)
+all:		$(dir ${LIBFT}) ${NAME}
 
-ifeq ($(OS_NAME), Darwin)
-	INC_HEADERS		+= -Ilibs/libreadline/include
-	INC_LIBS		+= -Llibs/libreadline/lib -lncurses
-endif
-
-INC_LIBS	+=  -lft -lreadline
-
-all:		$(dir ${LIBS}) ${NAME}
-
-${NAME}:	${OBJS} ${LIBS}
-			${CC} ${CFLAGS} ${OBJS} -o ${NAME} ${INC_LIBS}
+${NAME}:	${OBJS} ${LIBFT}
+			${CC} ${CFLAGS} ${OBJS} -o ${NAME} ${INC_LIBS_DIR} ${INC_LIBS}
 
 .SECONDEXPANSION:
 ${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
 			@mkdir -p ${@D}
 			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
 
-$(dir ${LIBS}):
+$(dir ${LIBFT}):
 			@make -C $@ $(MAKECMDGOALS)
 
-clean:		$(dir ${LIBS})
+clean:		$(dir ${LIBFT})
 			${RM} ${OBJS_DIR}
 
-fclean:		$(dir ${LIBS})
-			${RM} ${OBJS_DIR} ${NAME}
-			${RM} minishell.dSYM
+fclean:		clean
+			${RM} ${NAME} ${NAME}.dSYM
 
 re:			fclean all
 
-.PHONY: all $(dir ${LIBS}) clean fclean re
+.PHONY: all $(dir ${LIBFT}) clean fclean re
 
 -include ${OBJS:.o=.d}

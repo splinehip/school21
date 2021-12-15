@@ -41,7 +41,7 @@
         "files.trimTrailingWhitespace": true,
         "files.exclude": {
           ".vscode": true,
-          "**/*.[oad]": true,
+          "**/*.[od]": true,
           "**.gitignore": true,
           "**/*.out": true,
       },

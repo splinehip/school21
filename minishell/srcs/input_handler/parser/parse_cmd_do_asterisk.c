@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/14 15:00:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:09:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,6 @@
 #include "libft.h"
 #include "bool.h"
 #include "input_handler.h"
-
-struct s_extract_templates
-{
-	int		start;
-	int		end;
-	int		prev_end;
-	char	**res;
-	char	*pchar;
-};
 
 static inline void	free_extracted(char ***extracted)
 {
@@ -37,8 +28,7 @@ static inline void	free_extracted(char ***extracted)
 	free(*extracted);
 }
 
-static inline int	update_extracted_res(
-	struct s_extract_templates *args, char *cmd, char **env)
+static inline int	update_extracted_res(t_extract *args, char *cmd, char **env)
 {
 	char	*template_str;
 	char	*parsed_str;
@@ -55,7 +45,7 @@ static inline int	update_extracted_res(
 
 static inline char	**do_extract(char *cmd, char **env)
 {
-	struct s_extract_templates	args;
+	t_extract	args;
 
 	args.start = 0;
 	args.prev_end = 0;
@@ -63,19 +53,16 @@ static inline char	**do_extract(char *cmd, char **env)
 	args.pchar = ft_strchr(cmd + args.start, asterisk);
 	while (args.pchar)
 	{
-		args.start = args.pchar - cmd - 1;
-		args.end = args.pchar - cmd + 1;
-		while (cmd[args.start] != space && args.start - 1 >= 0)
-			args.start--;
-		while (cmd[args.end] != space)
-			args.end++;
-		args.prev_end = args.end;
-		if (update_extracted_res(&args, cmd, env) == unsucsses)
+		if (get_template_border(cmd, &args) == sucsses)
 		{
-			free_extracted(&args.res);
-			args.res = NULL;
-			break ;
+			if (update_extracted_res(&args, cmd, env) == unsucsses)
+			{
+				free_extracted(&args.res);
+				args.res = NULL;
+				break ;
+			}
 		}
+		args.prev_end = args.end;
 		args.pchar = ft_strchr(cmd + args.end + 1, asterisk);
 	}
 	return (args.res);
