@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 15:26:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:24:56 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-inline char	has_opened_quots(char *cmd, int start, int end)
+inline char	has_opened_quotes(char *cmd, int start, int end)
 {
 	char	*quote_type;
 
@@ -28,7 +28,10 @@ inline char	has_opened_quots(char *cmd, int start, int end)
 		if (cmd[start] == quote || cmd[start] == single_quote)
 		{
 			if (quote_type == NULL)
-				quote_type = &cmd[start];
+			{
+				if (escaped(cmd, start) == false)
+					quote_type = &cmd[start];
+			}
 			else if (cmd[start] == *quote_type)
 			{
 				if (*quote_type == single_quote)
@@ -52,11 +55,11 @@ static inline char	escaped_eof(char *cmd)
 	return (0);
 }
 
-static inline char	has_opened_quots_or_escaped_eof(char *cmd)
+static inline char	has_opened_quotes_or_escaped_eof(char *cmd)
 {
 	if (escaped_eof(cmd))
 		return (escape);
-	return (has_opened_quots(cmd, 0, ft_strlen(cmd)));
+	return (has_opened_quotes(cmd, 0, ft_strlen(cmd)));
 }
 
 inline char	*parse_cmd(char *cmd, char **env)
@@ -65,7 +68,7 @@ inline char	*parse_cmd(char *cmd, char **env)
 	char	*res;
 
 	res = NULL;
-	checker_res = has_opened_quots_or_escaped_eof(cmd);
+	checker_res = has_opened_quotes_or_escaped_eof(cmd);
 	if (checker_res)
 	{
 		if (checker_res == escape)

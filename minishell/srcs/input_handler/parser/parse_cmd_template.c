@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_template.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 18:12:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:24:56 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static inline void	find_start(char *cmd, t_extract *args)
 
 	quote_type = NULL;
 	args->start = args->pchar - cmd;
-	open_quote = has_opened_quots(cmd, args->prev_end, args->start);
+	open_quote = has_opened_quotes(cmd, args->prev_end, args->start);
 	if (open_quote)
 	{
 		while (args->start >= args->prev_end)
@@ -73,7 +73,7 @@ static inline void	find_end(char *cmd, t_extract *args)
 
 	quote_type = NULL;
 	args->end = args->pchar - cmd;
-	open_quote = has_opened_quots(cmd, args->end, ft_strlen(cmd));
+	open_quote = has_opened_quotes(cmd, args->end, ft_strlen(cmd));
 	if (open_quote)
 	{
 		while (cmd[args->end] != ends)
