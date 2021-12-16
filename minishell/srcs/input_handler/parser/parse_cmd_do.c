@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_do.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 18:46:40 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/16 20:27:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static inline int	insertable_controls(char c, char *cmd, t_iter *iter)
 	if (c == escape)
 	{
 		if (iter->in_qoutes == false)
-			if (escaped(cmd, iter->i)
-				|| (escaped(cmd, iter->i) == false && cmd[iter->i + 1] == ends))
+			if (escaped(cmd, iter->i))
 				return (true);
 		if (iter->in_qoutes == quote)
 			if (escaped(cmd, iter->i)
