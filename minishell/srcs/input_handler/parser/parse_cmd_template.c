@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/15 17:13:48 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 13:58:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,78 +16,79 @@
 #include "bool.h"
 #include "input_handler.h"
 
-enum e_direction
+static inline int	do_check_quotes_or_break(
+	char *cmd, t_extract *args, int *i, char **quote_type)
 {
-	left,
-	rigth,
-};
-
-static inline int	idx(int i, int direction)
-{
-	if (direction == left)
-		return (i - 1);
-	return (i + 1);
-}
-
-static inline int	do_break(
-	char *cmd, t_extract *args, int direction, int quot_count)
-{
-	int	*i;
-
-	if (direction == left)
-		i = &args->start;
-	else
-		i = &args->end;
-	if (direction == left && *i == args->prev_end)
-		return (true);
-	if (cmd[idx(*i, direction)] == space
-		&& quot_count % 2 == 0
-		&& escaped(cmd, idx(*i, direction)) == false)
+	if ((cmd[*i] == quote || cmd[*i] == single_quote)
+		&& escaped(cmd, *i) == false)
 	{
-		if (direction == rigth)
+		if (*quote_type && cmd[*i] == **quote_type)
+			*quote_type = NULL;
+		else if (*quote_type == NULL)
+			*quote_type = cmd + *i;
+		return (false);
+	}
+	if ((cmd[*i] == space && escaped(cmd, *i) == false
+			&& *quote_type == NULL) || *i == args->prev_end)
+	{
+		if (*i == args->prev_end && cmd[*i] == space)
 			*i += 1;
 		return (true);
 	}
 	return (false);
 }
 
-static inline int	find(char *cmd, t_extract *args, int *i, int direction)
+static inline void	find_start(char *cmd, t_extract *args)
 {
-	int		quot_count;
-	char	quot_type;
+	char	*quote_type;
 
-	quot_count = 0;
-	quot_type = 0;
-	while (cmd[*i] != ends)
+	quote_type = NULL;
+	args->start = args->pchar - cmd;
+	while (args->start >= args->prev_end)
 	{
-		if (cmd[idx(*i, direction)] == quote
-			|| cmd[idx(*i, direction)] == single_quote)
-		{
-			if (quot_type == 0)
-				quot_type = cmd[idx(*i, direction)];
-			if (cmd[idx(*i, direction)] == quot_type
-				&& escaped(cmd, idx(*i, direction)) == false)
-				quot_count++;
-		}
-		if (do_break(cmd, args, direction, quot_count))
+		if (do_check_quotes_or_break(cmd, args, &args->start, &quote_type))
 			break ;
-		*i = idx(*i, direction);
+		args->start--;
 	}
-	return (quot_count);
+	if (quote_type)
+	{
+		args->start = args->pchar - cmd;
+		while (args->start >= args->prev_end)
+		{
+			if (cmd[args->start] == *quote_type
+				&& escaped(cmd, args->start) == false)
+				break ;
+			args->start--;
+		}
+	}
 }
 
-inline int	get_template_border(char *cmd, t_extract *args)
+static inline void	find_end(char *cmd, t_extract *args)
 {
-	int	quoted_left;
-	int	quoted_right;
+	char	*quote_type;
 
-	args->start = args->pchar - cmd;
-	quoted_left = find(cmd, args, &args->start, left);
+	quote_type = NULL;
 	args->end = args->pchar - cmd;
-	quoted_right = find(cmd, args, &args->end, rigth);
-	ft_printf("ql: %i, qr: %i\nstart: %i, end: %i\n", quoted_left, quoted_right,
-		args->start, args->end);
-	if (quoted_left % 2 == 0 && quoted_right % 2 == 0)
-		return (sucsses);
-	return (unsucsses);
+	while (cmd[args->end] != ends)
+	{
+		if (do_check_quotes_or_break(cmd, args, &args->end, &quote_type))
+			break ;
+		args->end++;
+	}
+	if (quote_type)
+	{
+		args->end = args->pchar - cmd;
+		while (cmd[args->end] != ends)
+		{
+			if (cmd[args->end++] == *quote_type
+				&& escaped(cmd, args->end) == false)
+				break ;
+		}
+	}
+}
+
+inline void	get_template_border(char *cmd, t_extract *args)
+{
+	find_start(cmd, args);
+	find_end(cmd, args);
 }

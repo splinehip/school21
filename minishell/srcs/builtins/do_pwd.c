@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:37:13 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/13 19:14:09 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/16 11:07:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	do_pwd(char **env)
 	wd = get_env_value("PWD", env);
 	if (!wd)
 	{
-		ft_printf("%s", ERR_PWD);
+		ft_printf("%s\n", MSG_ERR_PWD);
 		return (1);
 	}
 	ft_printf("%s\n", wd);

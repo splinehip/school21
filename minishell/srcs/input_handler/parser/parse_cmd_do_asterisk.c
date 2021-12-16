@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/15 16:00:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 11:53:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static inline int	update_extracted_res(t_extract *args, char *cmd, char **env)
 
 	(void)env;
 	(void)parsed_str;
+	ft_printf("EEE: start: %i, end: %i\n", args->start, args->end);
 	template_str = ft_substr(cmd, args->start, args->end - args->start);
 	if (template_str == NULL)
 		return (unsucsses);
@@ -52,16 +53,13 @@ static inline char	**do_extract(char *cmd, char **env)
 	args.pchar = ft_strchr(cmd, asterisk);
 	while (args.pchar)
 	{
-		if (get_template_border(cmd, &args) == sucsses)
+		get_template_border(cmd, &args);
+		if (update_extracted_res(&args, cmd, env) == unsucsses)
 		{
-			if (update_extracted_res(&args, cmd, env) == unsucsses)
-			{
-				free_extracted(&args.res);
-				args.res = NULL;
-				break ;
-			}
+			free_extracted(&args.res);
+			args.res = NULL;
+			break ;
 		}
-		ft_printf("EEE: start: %i, end: %i\n", args.start, args.end);
 		args.prev_end = args.end;
 		args.pchar = ft_strchr(cmd + args.end, asterisk);
 	}
