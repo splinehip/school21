@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 17:09:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 18:12:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ static inline void	find_start(char *cmd, t_extract *args)
 	}
 	while (args->start > args->prev_end)
 	{
-		args->start--;
 		if (do_check_quotes_or_break(cmd, &args->start, &quote_type))
 			break ;
+		args->start--;
 	}
+	if (cmd[args->start] == space)
+		args->start++;
 }
 
 static inline void	find_end(char *cmd, t_extract *args)
