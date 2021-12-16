@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 19:24:56 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/16 20:22:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ enum e_controls
 	escape			= (int)'\\',
 	pipes			= (int)'|',
 	dollar			= (int)'$',
+	underscore		= (int)'_',
 	space			= (int)' ',
 	asterisk		= (int)'*',
 	tab				= (int)'\t',

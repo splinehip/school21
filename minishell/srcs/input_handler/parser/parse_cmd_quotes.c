@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:24 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 18:46:47 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/16 19:47:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ inline void	do_check_quotes(char *cmd, t_iter *iter)
 			if (pchar)
 			{
 				iter->k = pchar - cmd + 1;
-				if (escaped(cmd, pchar - cmd))
+				if (cmd[iter->i] == quote && escaped(cmd, pchar - cmd))
 					continue ;
 				iter->in_qoutes = *pchar;
 				return ;
