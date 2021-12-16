@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 11:52:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 14:51:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct s_actions
 
 int			input_handler(char *cmd, char **env);
 char		*parse_cmd(char *cmd, char **env);
+char		has_opened_quots(char *cmd, int start, int end);
 char		*do_parse(char *cmd, char **env);
 char		*do_parse_whith_asterisk(char *cmd, char **env);
 void		do_check_quotes(char *cmd, t_iter *iter);

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 10:52:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 15:26:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,45 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-static inline char	has_opened_quots_or_escaped_eof(
-	char *cmd, int i, int quot_count, char quot_type)
+inline char	has_opened_quots(char *cmd, int start, int end)
+{
+	char	*quote_type;
+
+	quote_type = NULL;
+	while (start <= end && cmd[start] != ends)
+	{
+		if (cmd[start] == quote || cmd[start] == single_quote)
+		{
+			if (quote_type == NULL)
+				quote_type = &cmd[start];
+			else if (cmd[start] == *quote_type)
+			{
+				if (*quote_type == single_quote)
+					quote_type = NULL;
+				else if (escaped(cmd, start) == false)
+					quote_type = NULL;
+			}
+		}
+		start++;
+	}
+	if (quote_type)
+		return (*quote_type);
+	return (false);
+}
+
+static inline char	escaped_eof(char *cmd)
 {
 	if (cmd[ft_strlen(cmd) - 1] == escape
 		&& escaped(cmd, ft_strlen(cmd) - 1) == false)
 		return (escape);
-	while (cmd[i] != ends)
-	{
-		if ((cmd[i] == quote || cmd[i] == single_quote)
-			&& escaped(cmd, i) == false)
-		{
-			if (quot_type == 0)
-				quot_type = cmd[i];
-			if (cmd[i] == quot_type)
-				quot_count++;
-			if (quot_count % 2 == 0)
-				quot_type = 0;
-		}
-		i++;
-	}
-	if (quot_count && quot_count % 2 != 0)
-		return (quot_type);
-	return (false);
+	return (0);
+}
+
+static inline char	has_opened_quots_or_escaped_eof(char *cmd)
+{
+	if (escaped_eof(cmd))
+		return (escape);
+	return (has_opened_quots(cmd, 0, ft_strlen(cmd)));
 }
 
 inline char	*parse_cmd(char *cmd, char **env)
@@ -49,7 +65,7 @@ inline char	*parse_cmd(char *cmd, char **env)
 	char	*res;
 
 	res = NULL;
-	checker_res = has_opened_quots_or_escaped_eof(cmd, 0, 0, 0);
+	checker_res = has_opened_quots_or_escaped_eof(cmd);
 	if (checker_res)
 	{
 		if (checker_res == escape)

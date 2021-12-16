@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 13:58:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 15:08:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,50 +40,54 @@ static inline int	do_check_quotes_or_break(
 
 static inline void	find_start(char *cmd, t_extract *args)
 {
+	char	opened_quote;
 	char	*quote_type;
 
 	quote_type = NULL;
 	args->start = args->pchar - cmd;
+	opened_quote = has_opened_quots(cmd, args->prev_end, args->start);
+	if (opened_quote)
+	{
+		while (args->start >= args->prev_end)
+		{
+			if (cmd[args->start] == opened_quote
+				&& escaped(cmd, args->start) == false)
+				break ;
+			args->start--;
+		}
+		return ;
+	}
 	while (args->start >= args->prev_end)
 	{
 		if (do_check_quotes_or_break(cmd, args, &args->start, &quote_type))
 			break ;
 		args->start--;
 	}
-	if (quote_type)
-	{
-		args->start = args->pchar - cmd;
-		while (args->start >= args->prev_end)
-		{
-			if (cmd[args->start] == *quote_type
-				&& escaped(cmd, args->start) == false)
-				break ;
-			args->start--;
-		}
-	}
 }
 
 static inline void	find_end(char *cmd, t_extract *args)
 {
+	char	opened_quote;
 	char	*quote_type;
 
 	quote_type = NULL;
 	args->end = args->pchar - cmd;
+	opened_quote = has_opened_quots(cmd, args->end, ft_strlen(cmd));
+	if (opened_quote)
+	{
+		while (cmd[args->end] != ends)
+		{
+			if (cmd[args->end++] == opened_quote
+				&& escaped(cmd, args->end) == false)
+				break ;
+		}
+		return ;
+	}
 	while (cmd[args->end] != ends)
 	{
 		if (do_check_quotes_or_break(cmd, args, &args->end, &quote_type))
 			break ;
 		args->end++;
-	}
-	if (quote_type)
-	{
-		args->end = args->pchar - cmd;
-		while (cmd[args->end] != ends)
-		{
-			if (cmd[args->end++] == *quote_type
-				&& escaped(cmd, args->end) == false)
-				break ;
-		}
 	}
 }
 

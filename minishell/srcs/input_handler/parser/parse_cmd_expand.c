@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/14 11:48:43 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/16 14:12:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static inline void	get_value(char *cmd, t_iter *iter, char **env)
 {
 	iter->l = iter->i;
-	if (ft_isdigit(cmd[iter->l + 1]))
+	if (ft_isdigit(cmd[iter->l + 1]) || cmd[iter->l + 1] == dollar)
 	{
 		iter->l++;
 		if (cmd[iter->l] == '0')
