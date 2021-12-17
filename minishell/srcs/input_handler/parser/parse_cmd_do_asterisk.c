@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 18:24:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:38:56 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ static inline int	do_update_res(
 	free(tmp);
 	if (args->j != 0)
 		do_update_buf(" ", (void *)args, pextract, false);
-	parsed_str = ft_strjoin(parsed_str, *template_str);
 	if (do_update_buf(parsed_str, (void *)args, pextract, false) == sucsses)
-		ret = sucsses;
-	free(parsed_str);
+		if (do_update_buf(" ", (void *)args, pextract, false) == sucsses)
+			ret = do_update_buf(*template_str, (void *)args, pextract, false);
 	return (ret);
 }
 
@@ -79,7 +78,7 @@ static inline void	do_exit(char *cmd, t_extract *args, char **env)
 		free(res);
 	}
 	if (args->j != 0)
-		do_update_buf(NULL, (void *)&args, pextract, true);
+		do_update_buf(NULL, (void *)args, pextract, true);
 }
 
 inline char	*do_parse_whith_asterisk(char *cmd, char **env)
@@ -95,7 +94,8 @@ inline char	*do_parse_whith_asterisk(char *cmd, char **env)
 		get_template_border(cmd, &args);
 		if (do_extract(&args, cmd, env) == unsucsses)
 		{
-			free(args.res);
+			if (args.res != NULL)
+				free(args.res);
 			args.res = NULL;
 			break ;
 		}

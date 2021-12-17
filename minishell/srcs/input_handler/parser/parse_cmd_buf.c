@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd_drop_buf.c                               :+:      :+:    :+:   */
+/*   parse_cmd_buf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:33:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 18:36:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:44:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static inline int	do_drop(char **res, char *buf, int *j)
 	*res = ft_strjoin(*res, buf);
 	free(tmp);
 	*j = 0;
-	buf[*j] = 0;
+	buf[0] = 0;
 	if (*res == NULL)
 		return (unsucsses);
 	return (sucsses);
@@ -41,7 +41,8 @@ static inline int	do_update(char **res, char *str, char *buf, int *j)
 	i = 0;
 	while (str[i])
 	{
-		buf[*j++] = str[i++];
+		buf[*j] = str[i++];
+		*j += 1;
 		buf[*j] = 0;
 		if (*j == BUF_SIZE)
 			if (do_drop(res, buf, j) == unsucsses)

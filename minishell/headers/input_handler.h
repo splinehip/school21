@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 17:32:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:49:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ enum e_redirects
 
 typedef struct s_extract
 {
+	int		j;
 	int		start;
 	int		end;
 	int		prev_end;
-	int		j;
 	char	*res;
 	char	*pchar;
 	char	buf[BUF_SIZE];
