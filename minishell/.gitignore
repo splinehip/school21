@@ -2,6 +2,7 @@
 .vscode/
 */readline-master/
 */libreadline/share/
+*/libreadline-10/
 
 # Prerequisites
 *.d
