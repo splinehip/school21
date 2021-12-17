@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 20:27:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:57:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,34 @@ static inline int	expandable(char c, char *cmd, t_iter *iter)
 	return (false);
 }
 
-static inline void	init_iter(char **cmd, t_iter *iter)
+static inline int	init_iter(char **cmd, t_iter *iter)
 {
 	int	i;
 
+	if (*cmd == NULL)
+		return (false);
 	iter->i = 0;
 	iter->j = 0;
 	iter->k = 0;
 	iter->in_qoutes = false;
-	iter->res = NULL;
 	while (**cmd != ends && **cmd == space)
 		*cmd += 1;
 	i = ft_strlen(*cmd);
 	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space)
 		(*cmd)[i] = ends;
+	if (ft_strlen(*cmd) == 0)
+		iter->res = ft_calloc(1, sizeof(char));
+	else
+		iter->res = NULL;
+	return (true);
 }
 
 inline char	*do_parse(char *cmd, char **env)
 {
 	t_iter	iter;
 
-	init_iter(&cmd, &iter);
-	while (cmd[iter.i])
+	iter.init_res = init_iter(&cmd, &iter);
+	while (iter.init_res && cmd[iter.i])
 	{
 		do_check_quotes(cmd, &iter);
 		if (insertable(cmd[iter.i], cmd, &iter))
@@ -116,7 +122,7 @@ inline char	*do_parse(char *cmd, char **env)
 				iter.k = iter.i + 1;
 		}
 		if (iter.j == BUF_SIZE || cmd[iter.i + 1] == ends)
-			if (do_drop_buf(&iter) == unsucsses)
+			if (do_update_buf(NULL, (void *)&iter, piter, true))
 				break ;
 		iter.i++;
 	}

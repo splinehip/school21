@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 11:53:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:24:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,75 +16,94 @@
 #include "bool.h"
 #include "input_handler.h"
 
-static inline void	free_extracted(char ***extracted)
+static inline char	*do_expand_template(char *template_str)
 {
-	int	i;
-
-	if (*extracted == NULL)
-		return ;
-	i = 0;
-	while ((*extracted)[i] != NULL)
-		free((*extracted)[i++]);
-	free(*extracted);
+	return (ft_strdup(template_str));
 }
 
-static inline int	update_extracted_res(t_extract *args, char *cmd, char **env)
+static inline int	do_update_res(
+	t_extract *args, char *parsed_str, char **template_str)
 {
+	int		ret;
+	char	*tmp;
+
+	ret = unsucsses;
+	tmp = *template_str;
+	*template_str = do_expand_template(*template_str);
+	free(tmp);
+	if (args->j != 0)
+		do_update_buf(" ", (void *)args, pextract, false);
+	parsed_str = ft_strjoin(parsed_str, *template_str);
+	if (do_update_buf(parsed_str, (void *)args, pextract, false) == sucsses)
+		ret = sucsses;
+	free(parsed_str);
+	return (ret);
+}
+
+static inline int	do_extract(t_extract *args, char *cmd, char **env)
+{
+	int		res;
+	char	*tmp;
 	char	*template_str;
 	char	*parsed_str;
 
-	(void)env;
-	(void)parsed_str;
-	ft_printf("EEE: start: %i, end: %i\n", args->start, args->end);
+	res = sucsses;
+	ft_printf("EEE: prev_end: %i, start: %i, end: %i\n",
+		args->prev_end, args->start, args->end);
+	tmp = ft_substr(cmd, args->prev_end, args->start - args->prev_end);
+	parsed_str = do_parse(tmp, env);
+	free(tmp);
 	template_str = ft_substr(cmd, args->start, args->end - args->start);
-	if (template_str == NULL)
-		return (unsucsses);
-	ft_printf("ext: >%s<\n", template_str);
+	if (parsed_str == NULL || template_str == NULL)
+		res = unsucsses;
+	ft_printf("ext: parsed_str >%s< template >%s<\n", parsed_str, template_str);
+	if (res == sucsses)
+		res = do_update_res(args, parsed_str, &template_str);
+	free(parsed_str);
 	free(template_str);
-	return (sucsses);
+	return (res);
 }
 
-static inline char	**do_extract(char *cmd, char **env)
+static inline void	do_exit(char *cmd, t_extract *args, char **env)
+{
+	char	*tmp;
+	char	*res;
+
+	if (cmd[args->end] != ends)
+	{
+		res = ft_substr(cmd, args->end, ft_strlen(cmd) - args->end);
+		tmp = res;
+		res = do_parse(res, env);
+		free(tmp);
+		do_update_buf(res, (void *)&args, pextract, false);
+		free(res);
+	}
+	if (args->j != 0)
+		do_update_buf(NULL, (void *)&args, pextract, true);
+}
+
+inline char	*do_parse_whith_asterisk(char *cmd, char **env)
 {
 	t_extract	args;
 
+	args.j = 0;
 	args.prev_end = 0;
 	args.res = NULL;
 	args.pchar = ft_strchr(cmd, asterisk);
 	while (args.pchar)
 	{
 		get_template_border(cmd, &args);
-		if (update_extracted_res(&args, cmd, env) == unsucsses)
+		if (do_extract(&args, cmd, env) == unsucsses)
 		{
-			free_extracted(&args.res);
+			free(args.res);
 			args.res = NULL;
 			break ;
 		}
 		args.prev_end = args.end;
 		args.pchar = ft_strchr(cmd + args.end, asterisk);
+		if (args.pchar == NULL)
+			do_exit(cmd, &args, env);
 	}
+	ft_printf("args->res: >%s< args->end: %i\n", args.res, args.end);
 	return (args.res);
-}
-
-inline char	*do_parse_whith_asterisk(char *cmd, char **env)
-{
-	int		i;
-	char	*res;
-	char	*tmp;
-	char	**extracted;
-
-	res = NULL;
-	extracted = do_extract(cmd, env);
-	i = 0;
-	while (extracted && extracted[i])
-	{
-		tmp = res;
-		res = ft_strjoin(res, extracted[i]);
-		free(tmp);
-		if (res == NULL)
-			break ;
-		i++;
-	}
-	free_extracted(&extracted);
-	return (res);
 }

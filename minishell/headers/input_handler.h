@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 20:22:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:32:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ enum e_controls
 	ends			= (int)'\0',
 };
 
+enum e_pargs
+{
+	piter,
+	pextract,
+};
+
 enum e_actions
 {
 	expand,
@@ -76,8 +82,10 @@ typedef struct s_extract
 	int		start;
 	int		end;
 	int		prev_end;
-	char	**res;
+	int		j;
+	char	*res;
 	char	*pchar;
+	char	buf[BUF_SIZE];
 }	t_extract;
 
 typedef struct s_iter
@@ -86,6 +94,7 @@ typedef struct s_iter
 	int		j;
 	int		l;
 	int		k;
+	int		init_res;
 	int		in_qoutes;
 	char	buf[BUF_SIZE];
 	char	*name;
@@ -132,7 +141,7 @@ char		*do_parse_whith_asterisk(char *cmd, char **env);
 void		do_check_quotes(char *cmd, t_iter *iter);
 int			escaped(char *cmd, int i);
 int			do_expand_env(char *cmd, t_iter *iter, char **env);
-int			do_drop_buf(t_iter *iter);
+int			do_update_buf(char *str, void *pargs, int type_args, int drop_buf);
 void		get_template_border(char *cmd, t_extract *args);
 t_actions	*do_actions_build(char *cmd, char **env);
 int			do_actions(t_actions *actions, char **env);

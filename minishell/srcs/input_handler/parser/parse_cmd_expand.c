@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 20:23:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:05:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ inline int	do_expand_env(
 		iter->buf[iter->j] = 0;
 		if (iter->j == BUF_SIZE)
 		{
-			if (do_drop_buf(iter) == unsucsses)
+			if (do_update_buf(NULL, (void *)iter, piter, true) == unsucsses)
 			{
 				free(iter->value);
 				return (unsucsses);
