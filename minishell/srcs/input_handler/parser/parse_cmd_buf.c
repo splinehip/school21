@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:33:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 20:44:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:29:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static inline int	do_update(char **res, char *str, char *buf, int *j)
 	i = 0;
 	while (str[i])
 	{
-		buf[*j] = str[i++];
-		*j += 1;
+		buf[(*j)++] = str[i++];
 		buf[*j] = 0;
 		if (*j == BUF_SIZE)
 			if (do_drop(res, buf, j) == unsucsses)
