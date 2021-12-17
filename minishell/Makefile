@@ -26,9 +26,11 @@ ifeq ($(OS_NAME), Darwin)
 	OS_V			:= $(shell sw_vers -productVersion | cut -f1,2 -d.)
 ifeq ($(shell echo "$(OS_V) < 11" | bc), 1)
 	INC_LIBS		+= -lreadline_macos_v10
-endif
 else
 	INC_LIBS		+= -lreadline_macos_v11
+endif
+else
+	INC_LIBS		+= -lreadline
 endif
 
 CC			= cc
