@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 20:38:56 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:11:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ static inline int	do_update_res(
 	tmp = *template_str;
 	*template_str = do_expand_template(*template_str);
 	free(tmp);
-	if (args->j != 0)
-		do_update_buf(" ", (void *)args, pextract, false);
-	if (do_update_buf(parsed_str, (void *)args, pextract, false) == sucsses)
-		if (do_update_buf(" ", (void *)args, pextract, false) == sucsses)
-			ret = do_update_buf(*template_str, (void *)args, pextract, false);
+	if (args->j != 0 || (args->j == 0 && args->res != NULL))
+		if (do_update_buf(" ", (void *)args, pextract, false) == unsucsses)
+			return (ret);
+	if (do_update_buf(parsed_str, (void *)args, pextract, false) == sucsses
+		&& do_update_buf(" ", (void *)args, pextract, false) == sucsses)
+		ret = do_update_buf(*template_str, (void *)args, pextract, false);
+	else
+		ret = unsucsses;
 	return (ret);
 }
 
@@ -74,7 +77,8 @@ static inline void	do_exit(char *cmd, t_extract *args, char **env)
 		tmp = res;
 		res = do_parse(res, env);
 		free(tmp);
-		do_update_buf(res, (void *)&args, pextract, false);
+		if (do_update_buf(" ", (void *)args, pextract, false) == sucsses)
+			do_update_buf(res, (void *)args, pextract, false);
 		free(res);
 	}
 	if (args->j != 0)
@@ -104,6 +108,5 @@ inline char	*do_parse_whith_asterisk(char *cmd, char **env)
 		if (args.pchar == NULL)
 			do_exit(cmd, &args, env);
 	}
-	ft_printf("args->res: >%s< args->end: %i\n", args.res, args.end);
 	return (args.res);
 }
