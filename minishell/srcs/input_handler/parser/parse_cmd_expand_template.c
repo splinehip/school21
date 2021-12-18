@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 04:50:58 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 05:38:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,51 @@
 #include "bool.h"
 #include "input_handler.h"
 
+static inline char	*do_template_select(char *res, char **env)
+{
+	(void)env;
+	if (res == NULL)
+		return (NULL);
+	return (ft_strdup(res));
+}
+
+static inline void	do_join(char **res, char *right)
+{
+	int		j;
+	char	*c;
+	char	buf[BUF_SIZE];
+
+	j = 0;
+	buf[0] = 0;
+	c = right;
+	while (*res && right && *c != ends)
+	{
+		if (*c != asterisk || (*c == asterisk && *(c + 1) != asterisk))
+		{
+			buf[j++] = *c;
+			buf[j] = 0;
+			if (j == BUF_SIZE)
+				if (do_drop_buf(res, &buf[0], &j) == unsucsses)
+					return ;
+		}
+		c++;
+	}
+	if (j != 0)
+		do_drop_buf(res, &buf[0], &j);
+}
+
 inline char	*do_expand_template(char *template_str, char **env)
 {
-	char	*c;
 	char	*tmp;
-	char	*left;
+	char	*res;
 	char	*right;
 
 	if (template_str == NULL)
 		return (NULL);
 	tmp = ft_strchr(template_str, asterisk);
-	left = ft_substr(template_str, 0, tmp - template_str);
-	tmp = left;
-	left = do_parse(tmp, env);
+	res = ft_substr(template_str, 0, tmp - template_str);
+	tmp = res;
+	res = do_parse(tmp, env);
 	free(tmp);
 	tmp = ft_strchr(template_str, asterisk);
 	right = ft_substr(tmp, 0,
@@ -36,20 +68,12 @@ inline char	*do_expand_template(char *template_str, char **env)
 	tmp = right;
 	right = do_parse(right, env);
 	free(tmp);
-	ft_printf("l: >%s<, r: >%s<\n", left, right);
-	c = right;
-	while (*c != ends)
-	{
-		if (*c != asterisk || (*c == asterisk && *(c + 1) != asterisk))
-		{
-			tmp = left;
-			left = ft_strjoinchr(left, *c);
-			free(tmp);
-		}
-		c++;
-	}
+	do_join(&res, right);
 	free(right);
-	if (left == NULL)
+	tmp = res;
+	res = do_template_select(res, env);
+	free(tmp);
+	if (res == NULL)
 		return (do_parse(template_str, env));
-	return (left);
+	return (res);
 }
