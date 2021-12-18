@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 05:38:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 05:42:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "bool.h"
 #include "input_handler.h"
 
-static inline char	*do_template_select(char *res, char **env)
+static inline char	*do_templated_select(char *res, char **env)
 {
 	(void)env;
 	if (res == NULL)
@@ -71,7 +71,7 @@ inline char	*do_expand_template(char *template_str, char **env)
 	do_join(&res, right);
 	free(right);
 	tmp = res;
-	res = do_template_select(res, env);
+	res = do_templated_select(res, env);
 	free(tmp);
 	if (res == NULL)
 		return (do_parse(template_str, env));
