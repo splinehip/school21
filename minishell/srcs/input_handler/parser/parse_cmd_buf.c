@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:33:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 05:20:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 12:35:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ inline int	do_drop_buf(char **res, char *buf, int *j)
 	return (sucsses);
 }
 
-static inline int	do_update(char **res, char *str, char *buf, int *j)
+inline int	do_update_buf(char **res, char *str, char *buf, int *j)
 {
 	int	i;
 
@@ -46,28 +46,6 @@ static inline int	do_update(char **res, char *str, char *buf, int *j)
 		if (*j == BUF_SIZE)
 			if (do_drop_buf(res, buf, j) == unsucsses)
 				return (unsucsses);
-	}
-	return (sucsses);
-}
-
-inline int	do_update_buf(char *str, void *pargs, int type_args, int drop_buf)
-{
-	t_iter		*iter;
-	t_extract	*extract;
-
-	if (type_args == piter)
-	{
-		iter = (t_iter *)pargs;
-		if (drop_buf)
-			return (do_drop_buf(&iter->res, &iter->buf[0], &iter->j));
-		return (do_update(&iter->res, str, &iter->buf[0], &iter->j));
-	}
-	else if (type_args == pextract)
-	{
-		extract = (t_extract *)pargs;
-		if (drop_buf)
-			return (do_drop_buf(&extract->res, &extract->buf[0], &extract->j));
-		return (do_update(&extract->res, str, &extract->buf[0], &extract->j));
 	}
 	return (sucsses);
 }

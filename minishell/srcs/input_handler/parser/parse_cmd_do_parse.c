@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd_do.c                                     :+:      :+:    :+:   */
+/*   parse_cmd_do_parse.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 17:57:54 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 12:37:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ inline char	*do_parse(char *cmd, char **env)
 				iter.k = iter.i + 1;
 		}
 		if (iter.j == BUF_SIZE || cmd[iter.i + 1] == ends)
-			if (do_update_buf(NULL, (void *)&iter, piter, true))
+			if (do_drop_buf(&iter.res, &iter.buf[0], &iter.j))
 				break ;
 		iter.i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 05:00:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 12:45:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ static inline int	do_update_res(
 	t_extract *args, char *parsed_str, char *template_str)
 {
 	if (args->j != 0 || (args->j == 0 && args->res != NULL))
-		if (do_update_buf(" ", (void *)args, pextract, false) == unsucsses)
+		if (do_update_buf(
+				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
 			return (unsucsses);
 	if (*parsed_str != ends)
 		if (do_update_buf(
-				parsed_str, (void *)args, pextract, false) == unsucsses
-			|| do_update_buf(" ", (void *)args, pextract, false) == unsucsses)
+				&args->res, parsed_str, &args->buf[0], &args->j) == unsucsses
+			|| do_update_buf(
+				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
 			return (unsucsses);
-	return (do_update_buf(template_str, (void *)args, pextract, false));
+	return (do_update_buf(&args->res, template_str, &args->buf[0], &args->j));
 }
 
 static inline int	do_extract(t_extract *args, char *cmd, char **env)
@@ -68,12 +70,12 @@ static inline void	do_exit(char *cmd, t_extract *args, char **env)
 		tmp = res;
 		res = do_parse(res, env);
 		free(tmp);
-		if (do_update_buf(" ", (void *)args, pextract, false) == sucsses)
-			do_update_buf(res, (void *)args, pextract, false);
+		if (do_update_buf(&args->res, " ", &args->buf[0], &args->j) == sucsses)
+			do_update_buf(&args->res, res, &args->buf[0], &args->j);
 		free(res);
 	}
 	if (args->j != 0)
-		do_update_buf(NULL, (void *)args, pextract, true);
+		do_drop_buf(&args->res, &args->buf[0], &args->j);
 }
 
 inline char	*do_parse_whith_asterisk(char *cmd, char **env)

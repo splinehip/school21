@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd_expand.c                                 :+:      :+:    :+:   */
+/*   parse_cmd_expand_env.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/17 18:05:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 12:42:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ inline int	do_expand_env(
 		iter->buf[iter->j] = 0;
 		if (iter->j == BUF_SIZE)
 		{
-			if (do_update_buf(NULL, (void *)iter, piter, true) == unsucsses)
+			if (do_drop_buf(&iter->res, &iter->buf[0], &iter->j) == unsucsses)
 			{
 				free(iter->value);
 				return (unsucsses);
