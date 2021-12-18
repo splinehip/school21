@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 03:52:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 04:05:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ char		*do_parse_whith_asterisk(char *cmd, char **env);
 void		do_check_quotes(char *cmd, t_iter *iter);
 int			escaped(char *cmd, int i);
 int			do_expand_env(char *cmd, t_iter *iter, char **env);
-char		*do_expand_template(char *template_str);
+char		*do_expand_template(char *template_str, char **env);
 int			do_update_buf(char *str, void *pargs, int type_args, int drop_buf);
 void		get_template_border(char *cmd, t_extract *args);
 t_actions	*do_actions_build(char *cmd, char **env);

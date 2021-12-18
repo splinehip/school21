@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 03:51:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 05:00:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ static inline int	do_update_res(
 	if (args->j != 0 || (args->j == 0 && args->res != NULL))
 		if (do_update_buf(" ", (void *)args, pextract, false) == unsucsses)
 			return (unsucsses);
-	if (do_update_buf(parsed_str, (void *)args, pextract, false) == sucsses
-		&& do_update_buf(" ", (void *)args, pextract, false) == sucsses)
-		return (do_update_buf(template_str, (void *)args, pextract, false));
-	return (sucsses);
+	if (*parsed_str != ends)
+		if (do_update_buf(
+				parsed_str, (void *)args, pextract, false) == unsucsses
+			|| do_update_buf(" ", (void *)args, pextract, false) == unsucsses)
+			return (unsucsses);
+	return (do_update_buf(template_str, (void *)args, pextract, false));
 }
 
 static inline int	do_extract(t_extract *args, char *cmd, char **env)
@@ -43,9 +45,11 @@ static inline int	do_extract(t_extract *args, char *cmd, char **env)
 	free(tmp);
 	template_str = ft_substr(cmd, args->start, args->end - args->start);
 	tmp = template_str;
-	template_str = do_expand_template(template_str);
-	free(tmp);
 	ft_printf("ext: parsed_str >%s< template >%s<\n", parsed_str, template_str);
+	template_str = do_expand_template(template_str, env);
+	free(tmp);
+	ft_printf("ext: parsed_str >%s< pars_template >%s<\n",
+		parsed_str, template_str);
 	if (parsed_str != NULL && template_str != NULL)
 		ret = do_update_res(args, parsed_str, template_str);
 	free(parsed_str);
