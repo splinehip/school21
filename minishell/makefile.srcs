@@ -17,8 +17,9 @@ input_handler.c	\
 actions/build_actions.c			actions/do_actions.c\
 parser/parse_cmd.c				parser/parse_cmd_do.c\
 parser/parse_cmd_escaped.c		parser/parse_cmd_quotes.c\
-parser/parse_cmd_expand.c		parser/parse_cmd_do_asterisk.c\
-parser/parse_cmd_template.c		parser/parse_cmd_buf.c)
+parser/parse_cmd_expand_env.c	parser/parse_cmd_do_asterisk.c\
+parser/parse_cmd_template.c		parser/parse_cmd_expand_template.c\
+parser/parse_cmd_buf.c)
 # end INPUT_HANDLER
 
 # SRCS

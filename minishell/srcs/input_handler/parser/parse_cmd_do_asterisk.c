@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 03:48:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/18 03:51:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 #include "libft.h"
 #include "bool.h"
 #include "input_handler.h"
-
-static inline char	*do_expand_template(char *template_str)
-{
-	if (template_str == NULL)
-		return (NULL);
-	return (ft_strdup(template_str));
-}
 
 static inline int	do_update_res(
 	t_extract *args, char *parsed_str, char *template_str)
