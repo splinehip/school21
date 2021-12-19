@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 12:35:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/19 22:29:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 enum						e_controls;
 enum						e_actions;
 enum						e_builtins;
+enum						e_direction;
+enum						e_redirects;
+typedef struct s_select		t_select;
 typedef struct s_extract	t_extract;
 typedef struct s_iter		t_iter;
 typedef struct s_redirect	t_redirect;
@@ -42,12 +45,6 @@ enum e_controls
 	vtab			= (int)'\v',
 	cr				= (int)'\r',
 	ends			= (int)'\0',
-};
-
-enum e_pargs
-{
-	piter,
-	pextract,
 };
 
 enum e_actions
@@ -76,6 +73,24 @@ enum e_redirects
 	output,
 	output_append,
 };
+
+enum e_direction
+{
+	inn,
+	only_start,
+	only_end,
+	start_end,
+};
+
+typedef struct s_select
+{
+	int		j;
+	int		direction;
+	char	**templated_strs;
+	char	*d_name;
+	char	*res;
+	char	buf[BUF_SIZE];
+}	t_select;
 
 typedef struct s_extract
 {
@@ -145,6 +160,8 @@ char		*do_expand_template(char *template_str, char **env);
 int			do_update_buf(char **res, char *str, char *buf, int *j);
 int			do_drop_buf(char **res, char *buf, int *j);
 void		get_template_border(char *cmd, t_extract *args);
+char		*get_d_name(char **env);
+int			pattern_matched(t_select *args);
 t_actions	*do_actions_build(char *cmd, char **env);
 int			do_actions(t_actions *actions, char **env);
 

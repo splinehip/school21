@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 05:42:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/19 22:53:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,66 @@
 #include "bool.h"
 #include "input_handler.h"
 
+static inline int	do_update_res(t_select *args)
+{
+	if (args->j != 0 || (args->j == 0 && args->res))
+		if (do_update_buf(
+				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
+			return (unsucsses);
+	if (pattern_matched(args))
+		if (do_update_buf(
+				&args->res, args->d_name, &args->buf[0], &args->j) == unsucsses
+			|| do_update_buf(
+				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
+			return (unsucsses);
+	args->d_name = ft_strjoin("./", args->d_name);
+	if (pattern_matched(args))
+	{
+		if (do_update_buf(&args->res, args->d_name, &args->buf[0],
+				&args->j) == unsucsses)
+		{
+			free(args->d_name);
+			return (unsucsses);
+		}
+	}
+	free(args->d_name);
+	return (sucsses);
+}
+
+static inline char	*do_select(t_select *args, char **env)
+{
+	args->j = 0;
+	args->res = NULL;
+	args->d_name = get_d_name(env);
+	while (args->d_name)
+	{
+		if (do_update_res(args) == unsucsses)
+			return (NULL);
+		args->d_name = get_d_name(env);
+	}
+	if (args->j != 0)
+		do_drop_buf(&args->res, &args->buf[0], &args->j);
+	return (args->res);
+}
+
 static inline char	*do_templated_select(char *res, char **env)
 {
-	(void)env;
+	t_select	args;
+
 	if (res == NULL)
 		return (NULL);
-	return (ft_strdup(res));
+	if (*res == asterisk && res[ft_strlen(res) - 1] == asterisk)
+		args.direction = inn;
+	else if (*res == asterisk)
+		args.direction = only_end;
+	else if (res[ft_strlen(res) - 1] == asterisk)
+		args.direction = only_start;
+	else
+		args.direction = start_end;
+	args.templated_strs = ft_split(res, asterisk);
+	if (args.templated_strs == NULL)
+		return (NULL);
+	return (do_select(&args, env));
 }
 
 static inline void	do_join(char **res, char *right)

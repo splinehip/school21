@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 12:45:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/19 22:38:31 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,13 @@ static inline int	do_extract(t_extract *args, char *cmd, char **env)
 	char	*parsed_str;
 
 	ret = unsucsses;
-	ft_printf("EEE: prev_end: %i, start: %i, end: %i\n",
-		args->prev_end, args->start, args->end);
 	tmp = ft_substr(cmd, args->prev_end, args->start - args->prev_end);
 	parsed_str = do_parse(tmp, env);
 	free(tmp);
 	template_str = ft_substr(cmd, args->start, args->end - args->start);
 	tmp = template_str;
-	ft_printf("ext: parsed_str >%s< template >%s<\n", parsed_str, template_str);
 	template_str = do_expand_template(template_str, env);
 	free(tmp);
-	ft_printf("ext: parsed_str >%s< pars_template >%s<\n",
-		parsed_str, template_str);
 	if (parsed_str != NULL && template_str != NULL)
 		ret = do_update_res(args, parsed_str, template_str);
 	free(parsed_str);

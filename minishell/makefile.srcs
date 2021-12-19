@@ -14,12 +14,13 @@ do_pwd.c)
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
 input_handler.c	\
-actions/build_actions.c			actions/do_actions.c\
-parser/parse_cmd.c				parser/parse_cmd_do_parse.c\
-parser/parse_cmd_escaped.c		parser/parse_cmd_quotes.c\
-parser/parse_cmd_expand_env.c	parser/parse_cmd_do_asterisk.c\
-parser/parse_cmd_template.c		parser/parse_cmd_expand_template.c\
-parser/parse_cmd_buf.c)
+actions/build_actions.c				actions/do_actions.c\
+parser/parse_cmd.c					parser/parse_cmd_do_parse.c\
+parser/parse_cmd_escaped.c			parser/parse_cmd_quotes.c\
+parser/parse_cmd_expand_env.c		parser/parse_cmd_do_asterisk.c\
+parser/parse_cmd_template.c			parser/parse_cmd_expand_template.c\
+parser/parse_cmd_buf.c				parser/parse_cmd_get_d_name.c\
+parser/parse_cmd_pattern_matched.c)
 # end INPUT_HANDLER
 
 # SRCS
