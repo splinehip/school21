@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/19 22:53:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/19 23:06:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static inline char	*do_select(t_select *args, char **env)
 
 static inline char	*do_templated_select(char *res, char **env)
 {
+	char		*ret;
 	t_select	args;
 
 	if (res == NULL)
@@ -75,7 +76,11 @@ static inline char	*do_templated_select(char *res, char **env)
 	args.templated_strs = ft_split(res, asterisk);
 	if (args.templated_strs == NULL)
 		return (NULL);
-	return (do_select(&args, env));
+	ret = do_select(&args, env);
+	while (args.templated_strs[args.j])
+		free(args.templated_strs[args.j++]);
+	free(args.templated_strs);
+	return (ret);
 }
 
 static inline void	do_join(char **res, char *right)
