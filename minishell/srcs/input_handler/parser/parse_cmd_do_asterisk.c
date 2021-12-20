@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/19 22:38:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:36:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,28 @@ static inline int	do_extract(t_extract *args, char *cmd, char **env)
 	return (ret);
 }
 
-static inline void	do_exit(char *cmd, t_extract *args, char **env)
+static inline void	do_finalise(char *cmd, t_extract *args, char **env)
 {
+	int		drop_status;
 	char	*tmp;
 	char	*res;
 
+	drop_status = sucsses;
 	if (cmd[args->end] != ends)
 	{
 		res = ft_substr(cmd, args->end, ft_strlen(cmd) - args->end);
 		tmp = res;
 		res = do_parse(res, env);
 		free(tmp);
-		if (do_update_buf(&args->res, " ", &args->buf[0], &args->j) == sucsses)
-			do_update_buf(&args->res, res, &args->buf[0], &args->j);
+		if (ft_strlen(res))
+			drop_status = do_update_buf(&args->res, " ", &args->buf[0],
+					&args->j);
+		if (drop_status == sucsses)
+			drop_status = do_update_buf(
+					&args->res, res, &args->buf[0], &args->j);
 		free(res);
 	}
-	if (args->j != 0)
+	if (args->j != 0 && drop_status == sucsses)
 		do_drop_buf(&args->res, &args->buf[0], &args->j);
 }
 
@@ -94,7 +100,7 @@ inline char	*do_parse_whith_asterisk(char *cmd, char **env)
 		args.prev_end = args.end;
 		args.pchar = ft_strchr(cmd + args.end, asterisk);
 		if (args.pchar == NULL)
-			do_exit(cmd, &args, env);
+			do_finalise(cmd, &args, env);
 	}
 	return (args.res);
 }
