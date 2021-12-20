@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/19 22:29:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:57:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ enum e_redirects
 
 enum e_direction
 {
-	inn,
+	all,
 	only_start,
 	only_end,
-	start_end,
+	start_all_end,
 };
 
 typedef struct s_select
