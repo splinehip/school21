@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 10:57:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:32:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ enum e_controls
 	underscore		= (int)'_',
 	space			= (int)' ',
 	asterisk		= (int)'*',
+	dot				= (int)'.',
 	tab				= (int)'\t',
 	endl			= (int)'\n',
 	vtab			= (int)'\v',
@@ -80,6 +81,7 @@ enum e_direction
 	only_start,
 	only_end,
 	start_all_end,
+	single_asterisk,
 };
 
 typedef struct s_select

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 10:57:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:41:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@
 
 static inline int	do_update_res(t_select *args)
 {
-	if (args->j != 0 || (args->j == 0 && args->res))
-		if (do_update_buf(
-				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
-			return (unsucsses);
 	if (pattern_matched(args))
 	{
-		if (do_update_buf(
-				&args->res, args->d_name, &args->buf[0], &args->j) == unsucsses
-			|| do_update_buf(
+		if ((args->j != 0 || (args->j == 0 && args->res)) && do_update_buf(
 				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
+			return (unsucsses);
+		if (do_update_buf(
+				&args->res, args->d_name, &args->buf[0], &args->j) == unsucsses)
 			return (unsucsses);
 		return (sucsses);
 	}
 	args->d_name = ft_strjoin("./", args->d_name);
 	if (pattern_matched(args))
 	{
+		if ((args->j != 0 || (args->j == 0 && args->res)) && do_update_buf(
+				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
+			return (unsucsses);
 		if (do_update_buf(&args->res, args->d_name, &args->buf[0],
 				&args->j) == unsucsses)
 		{
@@ -68,7 +68,9 @@ static inline char	*do_templated_select(char *res, char **env)
 
 	if (res == NULL)
 		return (NULL);
-	if (*res == asterisk && res[ft_strlen(res) - 1] == asterisk)
+	if (*res == asterisk && ft_strlen(res) == 1)
+		args.direction = single_asterisk;
+	else if (*res == asterisk && res[ft_strlen(res) - 1] == asterisk)
 		args.direction = all;
 	else if (*res == asterisk && ft_strchr(res + 1, asterisk) == NULL)
 		args.direction = only_end;
