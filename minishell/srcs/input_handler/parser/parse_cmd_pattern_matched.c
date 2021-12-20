@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 22:25:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 19:46:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:54:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,6 @@ inline void	pattern_matching_get_next(char **next, char *templated_str)
 		(*next)++;
 }
 
-static inline int	do_match_all_inn_all(t_select *args)
-{
-	int		i;
-	char	*next;
-
-	i = 0;
-	next = args->d_name;
-	while (args->templated_strs[i])
-	{
-		pattern_matching_get_next(&next, args->templated_strs[i]);
-		if (*next == ends)
-			break ;
-		i++;
-		next++;
-	}
-	if (args->templated_strs[i] == NULL)
-		return (true);
-	return (false);
-}
-
 inline int	pattern_matched(t_select *args)
 {
 	if (args->d_name == NULL)
@@ -52,9 +32,9 @@ inline int	pattern_matched(t_select *args)
 	if (args->direction == all_inn_all)
 		return (do_match_all_inn_all(args));
 	if (args->direction == only_start)
-		return (do_match_only_start(args));
+		return (do_match_only(args, only_start));
 	if (args->direction == only_end)
-		return (do_match_only_end(args));
+		return (do_match_only(args, only_end));
 	if (args->direction == all_end)
 		return (do_match_all_end(args));
 	if (args->direction == start_all)

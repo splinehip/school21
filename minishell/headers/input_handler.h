@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 19:45:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:55:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,8 @@ char		*get_d_name(char **env);
 void		do_select_template(char *res, t_select *args);
 int			pattern_matched(t_select *args);
 void		pattern_matching_get_next(char **next, char *templated_str);
-int			do_match_only_start(t_select *args);
-int			do_match_only_end(t_select *args);
+int			do_match_all_inn_all(t_select *args);
+int			do_match_only(t_select *args, int type);
 int			do_match_all_end(t_select *args);
 int			do_match_start_all(t_select *args);
 int			do_match_start_all_end(t_select *args);
