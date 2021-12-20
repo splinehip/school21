@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:36:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:06:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ void		get_template_border(char *cmd, t_extract *args);
 char		*get_d_name(char **env);
 void		do_select_template(char *res, t_select *args);
 int			pattern_matched(t_select *args);
+void		pattern_matching_get_next(char **next, char *templated_str);
 int			do_match_only_start(t_select *args);
 int			do_match_only_end(t_select *args);
 int			do_match_all_end(t_select *args, int i);
