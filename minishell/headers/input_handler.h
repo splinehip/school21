@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:23:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:36:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ enum e_direction
 	only_start,
 	only_end,
 	all_end,
-	start_all_end,
 	start_all,
+	start_all_end,
 };
 
 typedef struct s_select
@@ -171,6 +171,7 @@ int			pattern_matched(t_select *args);
 int			do_match_only_start(t_select *args);
 int			do_match_only_end(t_select *args);
 int			do_match_all_end(t_select *args, int i);
+int			do_match_start_all(t_select *args);
 int			do_match_start_all_end(t_select *args);
 t_actions	*do_actions_build(char *cmd, char **env);
 int			do_actions(t_actions *actions, char **env);

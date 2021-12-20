@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 22:25:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:07:43 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:35:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ inline int	pattern_matched(t_select *args)
 		return (do_match_only_end(args));
 	if (args->direction == all_end)
 		return (do_match_all_end(args, 0));
+	if (args->direction == start_all)
+		return (do_match_start_all(args));
 	if (args->direction == start_all_end)
 		return (do_match_start_all_end(args));
 	return (false);

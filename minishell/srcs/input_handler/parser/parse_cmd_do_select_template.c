@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:20:44 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:22:36 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:33:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ inline void	do_select_template(char *res, t_select *args)
 		args->direction = only_start;
 	else if (*res == asterisk)
 		args->direction = all_end;
+	else if (res[ft_strlen(res) - 1] == asterisk)
+		args->direction = start_all;
 	else
 		args->direction = start_all_end;
 }

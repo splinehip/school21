@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:02:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:06:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:43:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,33 @@ inline int	do_match_all_end(t_select *args, int i)
 			break ;
 		i++;
 		next++;
+	}
+	return (false);
+}
+
+inline int	do_match_start_all(t_select *args)
+{
+	int		i;
+	char	*next;
+
+	i = 0;
+	if (do_match_only_start(args))
+	{
+		next = args->d_name + ft_strlen(args->templated_strs[i]);
+		if (next > args->d_name + ft_strlen(args->templated_strs[i++]))
+			return (false);
+		while (args->templated_strs[i])
+		{
+			while (*next != ends && ft_strncmp(next, args->templated_strs[i],
+					ft_strlen(args->templated_strs[i])) != 0)
+				next++;
+			if (*next == ends)
+				break ;
+			i++;
+			next++;
+		}
+		if (args->templated_strs[i] == NULL)
+			return (true);
 	}
 	return (false);
 }
