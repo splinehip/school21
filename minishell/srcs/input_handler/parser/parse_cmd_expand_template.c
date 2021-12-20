@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 14:57:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:25:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static inline int	do_update_res(t_select *args, int ret)
 	return (ret);
 }
 
-static inline char	*do_select(t_select *args, char **env)
+static inline char	*do_select_item(t_select *args, char **env)
 {
 	args->j = 0;
 	args->res = NULL;
@@ -68,21 +68,11 @@ static inline char	*do_templated_select(char *res, char **env)
 
 	if (res == NULL)
 		return (NULL);
-	if (*res == asterisk && ft_strlen(res) == 1)
-		args.direction = single_asterisk;
-	else if (*res == asterisk && res[ft_strlen(res) - 1] == asterisk)
-		args.direction = all;
-	else if (*res == asterisk && ft_strchr(res + 1, asterisk) == NULL)
-		args.direction = only_end;
-	else if (res[ft_strlen(res) - 1] == asterisk
-		&& ft_strchr(res, asterisk) == res + (ft_strlen(res) - 1))
-		args.direction = only_start;
-	else
-		args.direction = start_all_end;
+	do_select_template(res, &args);
 	args.templated_strs = ft_split(res, asterisk);
 	if (args.templated_strs == NULL)
 		return (NULL);
-	ret = do_select(&args, env);
+	ret = do_select_item(&args, env);
 	while (args.templated_strs[args.j])
 		free(args.templated_strs[args.j++]);
 	free(args.templated_strs);
