@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 12:41:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:42:55 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "bool.h"
 #include "input_handler.h"
 
-static inline int	do_update_res(t_select *args)
+static inline int	do_update_res(t_select *args, int ret)
 {
 	if (pattern_matched(args))
 	{
@@ -28,21 +28,21 @@ static inline int	do_update_res(t_select *args)
 			return (unsucsses);
 		return (sucsses);
 	}
-	args->d_name = ft_strjoin("./", args->d_name);
-	if (pattern_matched(args))
+	else if (ft_strncmp("./", args->templated_strs[0], 2) == 0)
 	{
-		if ((args->j != 0 || (args->j == 0 && args->res)) && do_update_buf(
-				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
-			return (unsucsses);
-		if (do_update_buf(&args->res, args->d_name, &args->buf[0],
-				&args->j) == unsucsses)
+		args->d_name = ft_strjoin("./", args->d_name);
+		if (pattern_matched(args))
 		{
-			free(args->d_name);
-			return (unsucsses);
+			if ((args->j != 0 || (args->j == 0 && args->res)) && do_update_buf(
+					&args->res, " ", &args->buf[0], &args->j) == unsucsses)
+				ret = unsucsses;
+			if (ret == sucsses && do_update_buf(&args->res, args->d_name,
+					&args->buf[0], &args->j) == unsucsses)
+				ret = unsucsses;
 		}
+		free(args->d_name);
 	}
-	free(args->d_name);
-	return (sucsses);
+	return (ret);
 }
 
 static inline char	*do_select(t_select *args, char **env)
@@ -52,7 +52,7 @@ static inline char	*do_select(t_select *args, char **env)
 	args->d_name = get_d_name(env);
 	while (args->d_name)
 	{
-		if (do_update_res(args) == unsucsses)
+		if (do_update_res(args, sucsses) == unsucsses)
 			return (NULL);
 		args->d_name = get_d_name(env);
 	}

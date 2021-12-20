@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 12:32:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:19:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ enum e_controls
 	left_corner		= (int)'<',
 	right_corner	= (int)'>',
 	escape			= (int)'\\',
+	slash			= (int)'/',
 	pipes			= (int)'|',
 	dollar			= (int)'$',
 	underscore		= (int)'_',
