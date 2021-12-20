@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 22:25:41 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 12:32:29 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:18:55 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,27 @@ static inline t_bool	match_only_end(t_select *args)
 static inline t_bool	match_start_all_end(t_select *args)
 {
 	int		i;
-	int		j;
 	char	*next;
 
 	i = 0;
 	if (match_only_start(args))
 	{
-		next = args->d_name + ft_strlen(args->templated_strs[i]);
-		i++;
-		while (args->templated_strs[i])
+		next = args->d_name + ft_strlen(args->templated_strs[i++]);
+		while (args->templated_strs[i] && next
+			<= args->d_name + ft_strlen(args->d_name) && *next != ends)
 		{
-			if (next >= args->d_name + ft_strlen(args->d_name))
-				return (false);
-			ft_printf("next: >%s<, ts: >%s<\n", next, args->templated_strs[i]);
-			j = 0;
-			while (next[j])
+			while (*next != ends)
 			{
-				if (ft_strncmp(next + j++, args->templated_strs[i],
+				if (ft_strncmp(next, args->templated_strs[i],
 						ft_strlen(args->templated_strs[i])) == 0)
-				{
-					ft_printf("br, i: %i, j: %i\n", i, j);
 					break ;
-				}
+				next++;
 			}
-			if (next[j])
-				next += j;
-			i++;
+			if (*next != ends)
+				i++;
+			next++;
 		}
-		if (args->templated_strs[i] == NULL)
+		if (args->templated_strs[i] == NULL && *next == ends)
 			return (true);
 	}
 	return (false);
