@@ -25,10 +25,12 @@ parser/parse_cmd_pattern_matched_do.c)
 # end INPUT_HANDLER
 
 
-# OTHER
-OTHER		= signals.c
-# end OTHER
+# SIGNALS
+SIGNALS_DIR	= signal_handler
+SIGNALS		= $(addprefix ${SIGNALS_DIR}/, \
+signals.c)
+# end SIGNALS
 
 # SRCS
-SRCS		= ${MAIN} ${BUILTINS} ${INPUT_HANDLER} ${OTHER}
+SRCS		= ${MAIN} ${BUILTINS} ${INPUT_HANDLER} ${SIGNALS}
 # end SRCS

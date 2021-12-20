@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/20 17:42:47 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/20 18:24:17 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void	handler_shell(int s)
 static void	handler_parent(int s)
 {
 	if (s == SIGQUIT || s == SIGINT)
-		;
+	{
+	}
 }
 
 static void	handler_child(int s)

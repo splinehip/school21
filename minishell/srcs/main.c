@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:19:38 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/20 18:18:07 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int argc, char **argv, char **_env)
 		args.cmd = readline(args.msg);
 		if (!args.cmd)
 		{
-			printf("\033M\033[%d`exit\n", (int)ft_strlen(args.msg) - 25);
+			printf("exit\n");
 			free_args(&args, true);
 			echo_ctl(1);
 			return (0);
