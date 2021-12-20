@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 17:57:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:19:38 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static inline void	free_args(struct s_main *args, int del_env)
 	free(args->msg);
 	free(args->cmd);
 	free(args->res);
+	args->res = NULL;
 }
 
 int	main(int argc, char **argv, char **_env)
@@ -105,10 +106,18 @@ int	main(int argc, char **argv, char **_env)
 	(void)argv;
 	env_dup(&args.env, _env);
 	set_env("LES", "0", &args.env);
+	set_signals(1);
 	while (true)
 	{
 		args.msg = get_msg(args.env);
 		args.cmd = readline(args.msg);
+		if (!args.cmd)
+		{
+			printf("\033M\033[%d`exit\n", (int)ft_strlen(args.msg) - 25);
+			free_args(&args, true);
+			echo_ctl(1);
+			return (0);
+		}
 		if (args.cmd != NULL && ft_strlen(args.cmd))
 			add_history(args.cmd);
 		args.res = ft_itoa(input_handler(args.cmd, args.env));
@@ -122,5 +131,6 @@ int	main(int argc, char **argv, char **_env)
 		}
 		free_args(&args, false);
 	}
+	echo_ctl(1);
 	return (0);
 }

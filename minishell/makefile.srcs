@@ -24,6 +24,11 @@ parser/parse_cmd_do_select_template.c	parser/parse_cmd_pattern_matched.c\
 parser/parse_cmd_pattern_matched_do.c)
 # end INPUT_HANDLER
 
+
+# OTHER
+OTHER		= signals.c
+# end OTHER
+
 # SRCS
-SRCS		= ${MAIN} ${BUILTINS} ${INPUT_HANDLER}
+SRCS		= ${MAIN} ${BUILTINS} ${INPUT_HANDLER} ${OTHER}
 # end SRCS
