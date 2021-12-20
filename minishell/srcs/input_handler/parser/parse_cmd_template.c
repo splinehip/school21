@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_template.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 15:36:13 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/16 19:24:56 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/20 20:28:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static inline int	do_check_quotes_or_break(
 	return (false);
 }
 
-static inline void	find_start(char *cmd, t_extract *args)
+static inline void	find_start(char *cmd, char open_quote, t_extract *args)
 {
-	char	open_quote;
 	char	*quote_type;
 
 	quote_type = NULL;
 	args->start = args->pchar - cmd;
-	open_quote = has_opened_quotes(cmd, args->prev_end, args->start);
 	if (open_quote)
 	{
 		while (args->start >= args->prev_end)
@@ -66,14 +64,12 @@ static inline void	find_start(char *cmd, t_extract *args)
 		args->start++;
 }
 
-static inline void	find_end(char *cmd, t_extract *args)
+static inline void	find_end(char *cmd, char open_quote, t_extract *args)
 {
-	char	open_quote;
 	char	*quote_type;
 
 	quote_type = NULL;
 	args->end = args->pchar - cmd;
-	open_quote = has_opened_quotes(cmd, args->end, ft_strlen(cmd));
 	if (open_quote)
 	{
 		while (cmd[args->end] != ends)
@@ -94,6 +90,9 @@ static inline void	find_end(char *cmd, t_extract *args)
 
 inline void	get_template_border(char *cmd, t_extract *args)
 {
-	find_start(cmd, args);
-	find_end(cmd, args);
+	char	open_quote;
+
+	open_quote = has_opened_quotes(cmd, args->prev_end, args->pchar - cmd);
+	find_start(cmd, open_quote, args);
+	find_end(cmd, open_quote, args);
 }

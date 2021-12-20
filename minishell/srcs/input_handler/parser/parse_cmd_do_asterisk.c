@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 19:36:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:12:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static inline int	do_extract(t_extract *args, char *cmd, char **env)
 	parsed_str = do_parse(tmp, env);
 	free(tmp);
 	template_str = ft_substr(cmd, args->start, args->end - args->start);
+	ft_printf("ts: >%s<\n", template_str);
 	tmp = template_str;
 	template_str = do_expand_template(template_str, env);
 	free(tmp);
