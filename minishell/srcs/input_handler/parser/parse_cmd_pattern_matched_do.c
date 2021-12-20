@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 17:02:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 19:06:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:46:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ inline int	do_match_only_end(t_select *args)
 			ft_strlen(args->templated_strs[i])) == 0);
 }
 
-inline int	do_match_all_end(t_select *args, int i)
+inline int	do_match_all_end(t_select *args)
 {
+	int		i;
 	char	*pd_name;
 	char	*next;
 
+	i = 0;
 	next = args->d_name;
 	while (args->templated_strs[i])
 	{
@@ -91,6 +93,7 @@ inline int	do_match_start_all(t_select *args)
 inline int	do_match_start_all_end(t_select *args)
 {
 	int		ret;
+	char	**ptemplated_strs;
 	char	*pd_name;
 	char	*next;
 
@@ -100,9 +103,12 @@ inline int	do_match_start_all_end(t_select *args)
 		if (next > args->d_name + ft_strlen(args->templated_strs[0]))
 			return (false);
 		pd_name = args->d_name;
+		ptemplated_strs = args->templated_strs;
 		args->d_name = next;
-		ret = do_match_all_end(args, 1);
+		args->templated_strs = args->templated_strs + 1;
+		ret = do_match_all_end(args);
 		args->d_name = pd_name;
+		args->templated_strs = ptemplated_strs;
 		return (ret);
 	}
 	return (false);
