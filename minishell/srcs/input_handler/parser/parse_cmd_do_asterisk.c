@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 20:35:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:42:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static inline int	do_extract(t_extract *args, char *cmd, char **env)
 
 static inline void	do_finalise(char *cmd, t_extract *args, char **env)
 {
-	int		drop_status;
+	int		ret;
 	char	*tmp;
 	char	*res;
 
-	drop_status = sucsses;
+	ret = sucsses;
 	if (cmd[args->end] != ends)
 	{
 		res = ft_substr(cmd, args->end, ft_strlen(cmd) - args->end);
@@ -68,14 +68,12 @@ static inline void	do_finalise(char *cmd, t_extract *args, char **env)
 		res = do_parse(res, env);
 		free(tmp);
 		if (ft_strlen(res))
-			drop_status = do_update_buf(&args->res, " ", &args->buf[0],
-					&args->j);
-		if (drop_status == sucsses)
-			drop_status = do_update_buf(
-					&args->res, res, &args->buf[0], &args->j);
+			ret = do_update_buf(&args->res, " ", &args->buf[0], &args->j);
+		if (ret == sucsses)
+			ret = do_update_buf(&args->res, res, &args->buf[0], &args->j);
 		free(res);
 	}
-	if (args->j != 0 && drop_status == sucsses)
+	if (ret == sucsses && args->j != 0)
 		do_drop_buf(&args->res, &args->buf[0], &args->j);
 }
 
