@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/21 16:33:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:38:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,17 @@ static inline char	more_two_sequenses_controls(
 			j = i;
 			while (cmd[i + 1] == cmd[j])
 				i++;
-			if (i - j > 1)
+			if (i - j > 1 || i == j)
 				return (cmd[i]);
 		}
 		i++;
 	}
 	return (false);
+}
+
+static inline char	has_opened_parenthises(char *cmd)
+{
+	return (*cmd);
 }
 
 inline int	check_cmd_sequenses(char *cmd)
