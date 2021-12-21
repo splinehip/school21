@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 19:55:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/21 16:21:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_iter		t_iter;
 typedef struct s_redirect	t_redirect;
 typedef struct s_builtins	t_builtins;
 typedef struct s_execute	t_execute;
-typedef union args			t_a_args;
+typedef union u_args		t_a_args;
 typedef struct s_actions	t_actions;
 
 enum e_controls
@@ -38,6 +38,7 @@ enum e_controls
 	slash			= (int)'/',
 	pipes			= (int)'|',
 	dollar			= (int)'$',
+	ampersand		= (int)'&',
 	underscore		= (int)'_',
 	space			= (int)' ',
 	asterisk		= (int)'*',
@@ -141,7 +142,7 @@ typedef struct s_execute
 	t_redirect	*redirect;
 }	t_execute;
 
-typedef union args
+typedef union u_args
 {
 	t_builtins	b_args;
 	t_execute	exc_args;
@@ -155,6 +156,7 @@ typedef struct s_actions
 
 int			input_handler(char *cmd, char **env);
 char		*parse_cmd(char *cmd, char **env);
+int			check_cmd_sequenses(char *cmd);
 char		has_opened_quotes(char *cmd, int start, int end);
 char		*do_parse(char *cmd, char **env);
 char		*do_parse_whith_asterisk(char *cmd, char **env);
