@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/21 16:21:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/23 11:01:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,12 @@
 #include "builtins.h"
 #include "input_handler.h"
 
-inline char	*parse_cmd(char *cmd, char **env)
+inline char	*parse_cmd(char *cmd, char **env, int type)
 {
-	int		checker_res;
 	char	*res;
 
 	res = NULL;
-	checker_res = check_cmd_sequenses(cmd);
-	if (checker_res == false)
-		return (res);
-	if (ft_strchr(cmd, asterisk))
+	if (type == asterisk)
 		res = do_parse_whith_asterisk(cmd, env);
 	else
 		res = do_parse(cmd, env);

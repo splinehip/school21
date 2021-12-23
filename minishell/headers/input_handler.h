@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/21 16:21:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/23 11:35:30 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 enum						e_controls;
 enum						e_actions;
 enum						e_builtins;
-enum						e_direction;
 enum						e_redirects;
+enum						e_logic_op;
+enum						e_direction;
 typedef struct s_select		t_select;
 typedef struct s_extract	t_extract;
 typedef struct s_iter		t_iter;
@@ -34,6 +35,8 @@ enum e_controls
 	single_quote	= (int)'\'',
 	left_corner		= (int)'<',
 	right_corner	= (int)'>',
+	open_parenthes	= (int)'(',
+	close_parenthes	= (int)')',
 	escape			= (int)'\\',
 	slash			= (int)'/',
 	pipes			= (int)'|',
@@ -52,10 +55,8 @@ enum e_controls
 
 enum e_actions
 {
-	expand,
 	builtin,
 	execute,
-	exec_pipe,
 };
 
 enum e_builtins
@@ -75,6 +76,12 @@ enum e_redirects
 	read_input,
 	output,
 	output_append,
+};
+
+enum e_logic_op
+{
+	and,
+	or,
 };
 
 enum e_direction
@@ -132,7 +139,7 @@ typedef struct s_redirect
 typedef struct s_builtins
 {
 	int		name;
-	char	**args;
+	char	**argv;
 	char	**options;
 }	t_builtins;
 
@@ -144,18 +151,19 @@ typedef struct s_execute
 
 typedef union u_args
 {
-	t_builtins	b_args;
+	t_builtins	blt_args;
 	t_execute	exc_args;
 }	t_a_args;
 
 typedef struct s_actions
 {
 	int			type;
+	int			logic_op;
 	t_a_args	*args;
 }	t_actions;
 
 int			input_handler(char *cmd, char **env);
-char		*parse_cmd(char *cmd, char **env);
+char		*parse_cmd(char *cmd, char **env, int type);
 int			check_cmd_sequenses(char *cmd);
 char		has_opened_quotes(char *cmd, int start, int end);
 char		*do_parse(char *cmd, char **env);

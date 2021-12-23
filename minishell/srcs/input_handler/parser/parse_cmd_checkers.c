@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/21 17:38:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/23 11:07:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static inline char	more_two_sequenses_controls(
 			j = i;
 			while (cmd[i + 1] == cmd[j])
 				i++;
-			if (i - j > 1 || i == j)
+			if (i - j > 1)
 				return (cmd[i]);
 		}
 		i++;
@@ -84,9 +84,30 @@ static inline char	more_two_sequenses_controls(
 	return (false);
 }
 
-static inline char	has_opened_parenthises(char *cmd)
+static inline int	has_opened_parenthes(
+	char *cmd, char parenthes, char opened_quote, int i)
 {
-	return (*cmd);
+	while (cmd[i] != ends)
+	{
+		if (cmd[i] == quote || cmd[i] == single_quote)
+		{
+			if (cmd[i] == single_quote && opened_quote == single_quote)
+				opened_quote = 0;
+			else if (cmd[i] == quote && opened_quote == quote
+				&& escaped(cmd, i) == false)
+				opened_quote = 0;
+			else if (opened_quote == 0 && escaped(cmd, i) == false)
+				opened_quote = cmd[i];
+		}
+		if (opened_quote == false
+			&& cmd[i] == open_parenthes && escaped(cmd, i) == false)
+			parenthes++;
+		else if (opened_quote == false
+			&& cmd[i] == close_parenthes && escaped(cmd, i) == false)
+			parenthes--;
+		i++;
+	}
+	return (parenthes != 0);
 }
 
 inline int	check_cmd_sequenses(char *cmd)
@@ -106,6 +127,11 @@ inline int	check_cmd_sequenses(char *cmd)
 	{
 		ft_printf("%s %c\n", MSG_ERR_MORE2CNTRLS,
 			more_two_sequenses_controls(cmd, 0, 0, 0));
+		return (false);
+	}
+	if (has_opened_parenthes(cmd, 0, 0, 0))
+	{
+		ft_printf("%s\n", MSG_ERR_CMD_HAS_UP);
 		return (false);
 	}
 	return (true);
