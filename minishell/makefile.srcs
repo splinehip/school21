@@ -21,7 +21,8 @@ parser/parse_cmd_expand_env.c			parser/parse_cmd_do_asterisk.c\
 parser/parse_cmd_template.c				parser/parse_cmd_expand_template.c\
 parser/parse_cmd_buf.c					parser/parse_cmd_get_d_name.c\
 parser/parse_cmd_do_select_template.c	parser/parse_cmd_pattern_matched.c\
-parser/parse_cmd_pattern_matched_do.c	parser/parse_cmd_checkers.c)
+parser/parse_cmd_pattern_matched_do.c	parser/parse_cmd_checkers.c\
+actions/set_redirects.c)
 # end INPUT_HANDLER
 
 
