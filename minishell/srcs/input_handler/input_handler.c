@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:10:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:36:09 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,32 @@
 #include "actions_handler.h"
 #include "input_handler.h"
 
-static inline int	has_logic_operators(char *cmd)
+int	input_handler(char **cmd, char **env)
 {
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == ampersand && escaped(cmd, i) == false)
-			return (true);
-		if (cmd[i] == pipes && escaped(cmd, i) == false
-			&& cmd[i + 1] == pipes && escaped(cmd, i + 1) == false)
-			return (true);
-		if (cmd[i] == open_parenthes && escaped(cmd, i) == false)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-static inline t_actions	*do_actions_build_logic_op(char *cmd, char **env)
-{
-	(void)cmd;
-	(void)env;
-	return (NULL);
-}
-
-int	input_handler(char *cmd, char **env)
-{
-	int			check_res;
+	int			res;
 	t_actions	*actions;
+	t_node		*node;
 
 	if (cmd == NULL)
 		return (0);
 	actions = NULL;
-	check_res = check_cmd_sequenses(cmd);
-	if (check_res)
+	res = check_cmd_sequenses(*cmd);
+	if (res)
 	{
-		if (has_logic_operators(cmd))
-			actions = do_actions_build_logic_op(cmd, env);
-		else
-			actions = do_actions_build(cmd, env);
+		*cmd = trim_and_update_cmdstr(cmd);
+		if (has_logical_operators(*cmd, 0, 0, 0))
+		{
+			// printf("\ninput \033[35m%s\033[0m has logical operators\n", *cmd);
+			node = extract_node(cmd);
+			res = exec_node(node, env);
+			if (!node)
+				return (res);
+			free(node->left);
+			free(node->right);
+			free(node);
+			return (res);
+		}
+		actions = do_actions_build(*cmd, env);
 	}
 	return (do_actions(actions, env));
 }

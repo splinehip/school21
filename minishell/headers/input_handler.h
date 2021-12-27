@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:08:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:10:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 typedef struct s_select		t_select;
 typedef struct s_extract	t_extract;
 typedef struct s_iter		t_iter;
+typedef struct s_node		t_node;
+
+typedef struct s_node
+{
+	t_logic	type;
+	char	*left;
+	char	*right;
+}	t_node;
 
 typedef struct s_select
 {
@@ -54,7 +62,7 @@ typedef struct s_iter
 	char	*res;
 }	t_iter;
 
-int			input_handler(char *cmd, char **env);
+int			input_handler(char **cmd, char **env);
 char		*parse_cmd(char *cmd, char **env, int type);
 int			check_cmd_sequenses(char *cmd);
 char		has_opened_quotes(char *cmd, int start, int end);
@@ -76,5 +84,14 @@ int			do_match_only(t_select *args, int type);
 int			do_match_all_end(t_select *args);
 int			do_match_start_all(t_select *args);
 int			do_match_start_all_end(t_select *args);
+
+/* Logic operators */
+t_node		*extract_node(char **str);
+int			exec_node(t_node *node, char **env);
+char		*trim_and_update_cmdstr(char **cmd);
+size_t		find_paired_parenth(
+				char *str, size_t start, char opened_quote, int opened_par);
+int			has_logical_operators(
+				char *cmd, char opened_quote, char opened_par, size_t i);
 
 #endif

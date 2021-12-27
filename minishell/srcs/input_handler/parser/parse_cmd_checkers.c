@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_checkers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/23 11:07:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:10:14 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ static inline char	more_two_sequenses_controls(
 	return (false);
 }
 
-static inline int	has_opened_parenthes(
-	char *cmd, char parenthes, char opened_quote, int i)
+static inline int	has_opened_parenth(
+	char *cmd, char parenth, char opened_quote, int i)
 {
 	while (cmd[i] != ends)
 	{
@@ -100,14 +100,18 @@ static inline int	has_opened_parenthes(
 				opened_quote = cmd[i];
 		}
 		if (opened_quote == false
-			&& cmd[i] == open_parenthes && escaped(cmd, i) == false)
-			parenthes++;
+			&& cmd[i] == open_parenth && escaped(cmd, i) == false)
+			parenth++;
 		else if (opened_quote == false
-			&& cmd[i] == close_parenthes && escaped(cmd, i) == false)
-			parenthes--;
+			&& cmd[i] == close_parenth && escaped(cmd, i) == false)
+		{
+			parenth--;
+			if (parenth < 0)
+				return (1);
+		}
 		i++;
 	}
-	return (parenthes != 0);
+	return (parenth != 0);
 }
 
 inline int	check_cmd_sequenses(char *cmd)
@@ -129,7 +133,7 @@ inline int	check_cmd_sequenses(char *cmd)
 			more_two_sequenses_controls(cmd, 0, 0, 0));
 		return (false);
 	}
-	if (has_opened_parenthes(cmd, 0, 0, 0))
+	if (has_opened_parenth(cmd, 0, 0, 0))
 	{
 		ft_printf("%s\n", MSG_ERR_CMD_HAS_UP);
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 18:18:07 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/27 14:33:32 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(int argc, char **argv, char **_env)
 		}
 		if (args.cmd != NULL && ft_strlen(args.cmd))
 			add_history(args.cmd);
-		args.res = ft_itoa(input_handler(args.cmd, args.env));
+		args.res = ft_itoa(input_handler(&args.cmd, args.env));
 		set_env("LES", args.res, &args.env);
 		free(args.res);
 		args.res = get_env_value("LES", args.env);

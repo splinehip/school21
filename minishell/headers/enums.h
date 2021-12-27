@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enums.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:06:21 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:28:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 14:43:08 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ enum e_controls
 	single_quote	= (int)'\'',
 	left_corner		= (int)'<',
 	right_corner	= (int)'>',
-	open_parenthes	= (int)'(',
-	close_parenthes	= (int)')',
+	open_parenth	= (int)'(',
+	close_parenth	= (int)')',
 	escape			= (int)'\\',
 	slash			= (int)'/',
 	pipes			= (int)'|',
@@ -78,5 +78,11 @@ enum e_direction
 	start_all,
 	start_all_end,
 };
+
+typedef enum e_logic
+{
+	and		= (int)'&',
+	or		= (int)'|'
+}	t_logic;
 
 #endif
