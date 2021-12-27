@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 15:36:09 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/27 16:41:16 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	input_handler(char **cmd, char **env)
 	t_actions	*actions;
 	t_node		*node;
 
-	if (cmd == NULL)
+	if (cmd == NULL || *cmd == NULL)
 		return (0);
 	actions = NULL;
 	res = check_cmd_sequenses(*cmd);

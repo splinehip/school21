@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:15 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/27 15:20:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/27 15:59:32 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,8 @@
 static char	*open_parenthis(char **str)
 {
 	char	*new;
-	char	opened_quote;
-	int		opened_par;
 	size_t	i;
 
-	opened_quote = 0;
-	opened_par = 0;
 	i = find_paired_parenth(*str, 1, 0, 0);
 	if (ft_strlen(*str) != i + 1)
 		return (*str);
