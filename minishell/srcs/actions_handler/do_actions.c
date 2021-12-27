@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:05:02 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 13:01:29 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,40 +79,71 @@ static inline void	free_actions(t_actions *actions)
 	free(actions);
 }
 
-int	do_actions(t_actions *actions, char **env)
+static inline void	print_actions(t_actions *actions, int i, int j)
 {
-	int	i;
-	int	res;
-
-	(void)env;
-	if (actions == NULL)
-		return (1);
 	i = 0;
 	while (actions[i].end != true)
 	{
 		ft_printf("\naction: %i\n type: %s\n argv:", i,
 			get_action_type_name(actions[i]));
-		res = 0;
-		while (actions[i].args.argv[res])
-			ft_printf(" %s", actions[i].args.argv[res++]);
+		j = 0;
+		while (actions[i].args.argv[j])
+			ft_printf(" %s", actions[i].args.argv[j++]);
 		ft_printf("\n");
-		res = 0;
+		j = 0;
 		if (actions[i].args.redirect)
 		{
-			while (actions[i].args.redirect[res].end != true)
+			while (actions[i].args.redirect[j].end != true)
 			{
-				ft_printf(" redirect %i: type: %s, target: %s\n", res,
-					get_redirect_type_name(actions[i].args.redirect[res]),
-					actions[i].args.redirect[res].target);
-				res++;
+				ft_printf(" redirect %i: type: %s, target: %s\n", j,
+					get_redirect_type_name(actions[i].args.redirect[j]),
+					actions[i].args.redirect[j].target);
+				j++;
 			}
 		}
 		else
 			ft_printf(" redirects: none\n");
 		i++;
 	}
-	if (actions->type == exit_built)
-		res = exit_built;
+}
+
+static inline int	do_action_run(t_actions action, char **env)
+{
+	int	res;
+
+	(void)action;
+	(void)env;
+	res = sucsses;
+	return (res);
+}
+
+static inline int	do_action_builtin(t_actions action, char **env)
+{
+	int	res;
+
+	(void)action;
+	(void)env;
+	res = sucsses;
+	return (res);
+}
+
+int	do_actions(t_actions *actions, char **env)
+{
+	int	i;
+	int	res;
+
+	if (actions == NULL)
+		return (unsucsses);
+	i = 0;
+	res = sucsses;
+	while (actions[i].end == false)
+	{
+		if (actions[i].type == execute)
+			res = do_action_run(actions[i], env);
+		else if (actions[i].type == builtin)
+			res = do_action_builtin(actions[i], env);
+		i++;
+	}
 	free_actions(actions);
 	return (res);
 }

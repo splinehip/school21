@@ -27,7 +27,7 @@ parser/parse_cmd_pattern_matched_do.c	parser/parse_cmd_checkers.c)
 ACTIONS_HANDLER_DIR	= actions_handler
 ACTIONS_HANDLER	= $(addprefix ${ACTIONS_HANDLER_DIR}/, \
 do_actions.c							do_actions_build.c\
-parse_redirects.c)
+parse_redirects.c						do_redirects.c)
 # end ACTIONS_HANDLER
 
 # SIGNALS
