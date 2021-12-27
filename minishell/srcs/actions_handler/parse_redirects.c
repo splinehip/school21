@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:15:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 14:06:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ inline void	extract_redirects(t_actions *actions, char **str)
 {
 	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (str[i][0] == left_corner)
