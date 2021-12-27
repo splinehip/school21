@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/26 15:41:49 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:10:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "bool.h"
+#include "actions_handler.h"
 #include "input_handler.h"
 
 static inline int	has_logic_operators(char *cmd)

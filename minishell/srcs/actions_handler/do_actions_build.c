@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_actions.c                                    :+:      :+:    :+:   */
+/*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/26 21:59:21 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:16:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "bool.h"
 #include "input_handler.h"
+#include "actions_handler.h"
 
 static inline void	set_action_type(t_actions *action)
 {

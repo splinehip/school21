@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirects.c                                    :+:      :+:    :+:   */
+/*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/26 21:49:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/27 12:15:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "libft.h"
 #include "bool.h"
-#include "input_handler.h"
+#include "actions_handler.h"
 
 static inline t_redirect	*append_redirect(t_redirect **redirect)
 {
