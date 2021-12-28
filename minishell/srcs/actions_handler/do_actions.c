@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 13:01:29 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/28 12:54:56 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ static inline int	do_action_builtin(t_actions action, char **env)
 	(void)action;
 	(void)env;
 	res = sucsses;
+	if (action.type == exit_built)
+		res = exit_built;
 	return (res);
 }
 
@@ -140,7 +142,7 @@ int	do_actions(t_actions *actions, char **env)
 	{
 		if (actions[i].type == execute)
 			res = do_action_run(actions[i], env);
-		else if (actions[i].type == builtin)
+		else
 			res = do_action_builtin(actions[i], env);
 		i++;
 	}

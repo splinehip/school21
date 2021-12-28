@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 12:42:43 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/28 12:41:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static inline void	get_value(char *cmd, t_iter *iter, char **env)
 			iter->value = NULL;
 		return ;
 	}
-	while (ft_isalnum(cmd[iter->l + 1]) || cmd[iter->l + 1] == underscore)
+	while (ft_isalnum(cmd[iter->l + 1]) || cmd[iter->l + 1] == underscore
+		|| cmd[iter->l + 1] == question)
 		iter->l++;
 	iter->name = ft_substr(cmd, iter->i + 1, iter->l - iter->i);
 	iter->value = get_env_value(iter->name, env);

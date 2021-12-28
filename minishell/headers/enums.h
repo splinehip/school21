@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enums.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:06:21 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 14:43:08 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/28 12:37:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ enum e_controls
 	escape			= (int)'\\',
 	slash			= (int)'/',
 	pipes			= (int)'|',
+	eq				= (int)'=',
+	question		= (int)'?',
 	dollar			= (int)'$',
 	ampersand		= (int)'&',
 	underscore		= (int)'_',
