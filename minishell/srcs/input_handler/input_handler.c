@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 16:41:16 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/28 12:28:01 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,25 @@
 int	input_handler(char **cmd, char **env)
 {
 	int			res;
-	t_actions	*actions;
 	t_node		*node;
 
 	if (cmd == NULL || *cmd == NULL)
-		return (0);
-	actions = NULL;
+		return (-1);
 	res = check_cmd_sequenses(*cmd);
-	if (res)
+	if (!res)
+		return (2);
+	*cmd = trim_and_update_cmdstr(cmd);
+	if (has_logical_operators(*cmd, 0, 0, 0))
 	{
-		*cmd = trim_and_update_cmdstr(cmd);
-		if (has_logical_operators(*cmd, 0, 0, 0))
-		{
-			// printf("\ninput \033[35m%s\033[0m has logical operators\n", *cmd);
-			node = extract_node(cmd);
-			res = exec_node(node, env);
-			if (!node)
-				return (res);
-			free(node->left);
-			free(node->right);
-			free(node);
+		// printf("\ninput \033[35m%s\033[0m has logical operators\n", *cmd);
+		node = extract_node(cmd);
+		res = exec_node(node, env);
+		if (!node)
 			return (res);
-		}
-		actions = do_actions_build(*cmd, env);
+		free(node->left);
+		free(node->right);
+		free(node);
+		return (res);
 	}
-	return (do_actions(actions, env));
+	return (do_actions(do_actions_build(*cmd, env), env));
 }

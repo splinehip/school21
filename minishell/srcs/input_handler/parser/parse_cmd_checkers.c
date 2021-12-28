@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 15:10:14 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/28 12:23:02 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,13 @@ inline int	check_cmd_sequenses(char *cmd)
 	}
 	if (has_opened_quotes(cmd, 0, ft_strlen(cmd)))
 	{
-		ft_printf("%s, %c\n", MSG_ERR_CMD_UQ,
+		ft_printf("%s `%c\'\n", MSG_ERR_CMD_UQ,
 			has_opened_quotes(cmd, 0, ft_strlen(cmd)));
 		return (false);
 	}
 	if (more_two_sequenses_controls(cmd, 0, 0, 0))
 	{
-		ft_printf("%s %c\n", MSG_ERR_MORE2CNTRLS,
+		ft_printf("%s `%c\'\n", MSG_ERR_MORE2CNTRLS,
 			more_two_sequenses_controls(cmd, 0, 0, 0));
 		return (false);
 	}

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:43 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/27 15:39:39 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/28 12:12:35 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static char	*extract_first(char *str, size_t n)
 	if (!tmp)
 		return (NULL);
 	tmp = ft_memcpy(tmp, str, n - 1);
-	if (!tmp)
-		return (NULL);
 	tmp[n - 1] = 0;
 	new = trim_and_update_cmdstr(&tmp);
 	return (new);
@@ -44,9 +42,7 @@ static char	*extract_second(char *str, size_t n)
 	tmp = malloc(len + 1);
 	if (!tmp)
 		return (NULL);
-	tmp = ft_memcpy(tmp, &str[n], len);
-	if (!tmp)
-		return (NULL);
+	ft_memcpy(tmp, &str[n], len);
 	tmp[len] = 0;
 	new = trim_and_update_cmdstr(&tmp);
 	return (new);
@@ -114,9 +110,9 @@ int	exec_node(t_node *node, char **env)
 	int	res;
 
 	if (node == NULL)
-		return (2);
+		return (-1);
 	res = input_handler(&node->left, env);
-	if (res == 2 || (node->type == and && res != 0)
+	if (res == -1 || (node->type == and && res != 0)
 		|| (node->type == or && res == 0))
 		return (res);
 	return (input_handler(&node->right, env));
