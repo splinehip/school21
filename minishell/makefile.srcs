@@ -29,7 +29,8 @@ logic/logic_node_handler.c)
 ACTIONS_HANDLER_DIR	= actions_handler
 ACTIONS_HANDLER	= $(addprefix ${ACTIONS_HANDLER_DIR}/, \
 do_actions.c							do_actions_build.c\
-parse_redirects.c						do_redirects.c)
+parse_redirects.c						do_redirects.c\
+do_validate_action.c)
 # end ACTIONS_HANDLER
 
 # SIGNALS

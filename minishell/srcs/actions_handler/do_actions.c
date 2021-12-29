@@ -6,11 +6,16 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/28 12:54:56 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:36:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #include "libft.h"
 #include "bool.h"
@@ -74,6 +79,7 @@ static inline void	free_actions(t_actions *actions)
 		while (actions[i].args.argv && actions[i].args.argv[j])
 			free(actions[i].args.argv[j++]);
 		free(actions[i].args.argv);
+		free(actions[i].args.path);
 		i++;
 	}
 	free(actions);
@@ -109,11 +115,22 @@ static inline void	print_actions(t_actions *actions, int i, int j)
 
 static inline int	do_action_run(t_actions action, char **env)
 {
-	int	res;
+	int		res;
+	char	*path;
+	pid_t	pid;
 
-	(void)action;
-	(void)env;
 	res = sucsses;
+	if (is_valid_action(&action, env) == false)
+		return (127);
+	if (action.args.path)
+		path = action.args.path;
+	else
+		path = action.args.argv[0];
+	pid = fork();
+	if (pid == sucsses)
+		execve(path, action.args.argv, env);
+	else
+		waitpid(pid, &res, 0);
 	return (res);
 }
 

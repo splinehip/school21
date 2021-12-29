@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:53:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:21:30 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_redirect
 
 typedef struct s_execute
 {
+	char		*path;
 	char		**argv;
 	t_redirect	*redirect;
 }	t_execute;
@@ -43,5 +44,6 @@ void		extract_redirects(t_actions *actions, char **str);
 void		add_redirects(t_actions *actions, int type, char *target);
 int			do_actions(t_actions *actions, char **env);
 void		do_redirects(t_redirect *redirects, char **env);
+int			is_valid_action(t_actions *action, char **env);
 
 #endif
