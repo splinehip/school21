@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 14:41:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 14:52:55 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,5 @@ int	input_loop(t_sh_data *args)
 			return (0);
 		set_env("LES", args->res, &args->env);
 		free_args(args, false);
-		return (1);
 	}
 }
