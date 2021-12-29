@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   clean_up.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/06 14:21:50 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 12:52:02 by lbaela           ###   ########.fr       */
+/*   Created: 2021/12/29 12:01:25 by lbaela            #+#    #+#             */
+/*   Updated: 2021/12/29 13:01:19 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include <stdlib.h>
 
-# include "actions_handler.h"
+#include "bool.h"
+#include "minishell.h"
 
-int		do_pwd(char **env);
-int		do_exit(t_actions action, char **env);
-void	set_env(char *name, char *value, char ***env);
-void	unset_env(char *name, char **env);
-char	*get_env(char *name, char **env);
-char	*get_env_value(char *name, char **env);
+void	free_args(t_sh_data *args, int del_env)
+{
+	int	i;
 
-#endif
+	if (del_env == true)
+	{
+		i = 0;
+		while (args->env[i] != NULL)
+			free(args->env[i++]);
+		free(args->env);
+	}
+	free(args->msg);
+	free(args->cmd);
+	free(args->res);
+	args->msg = NULL;
+	args->cmd = NULL;
+	args->res = NULL;
+}

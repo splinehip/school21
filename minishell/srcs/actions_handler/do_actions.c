@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:36:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:43:42 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static inline void	free_actions(t_actions *actions)
 	free(actions);
 }
 
-static inline void	print_actions(t_actions *actions, int i, int j)
+inline void	print_actions(t_actions *actions, int i, int j)
 {
 	i = 0;
 	while (actions[i].end != true)
@@ -138,11 +138,10 @@ static inline int	do_action_builtin(t_actions action, char **env)
 {
 	int	res;
 
-	(void)action;
 	(void)env;
 	res = sucsses;
 	if (action.type == exit_built)
-		res = exit_built;
+		return (do_exit(action, env));
 	return (res);
 }
 

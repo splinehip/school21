@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/26 11:53:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:14:48 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,20 @@
 # define POSFX_MSG "\001\033[32m$\033[39m\002 "
 # define PROMPT "minishell$ "
 
+typedef struct s_sh_data
+{
+	char	*cmd;
+	char	*msg;
+	char	*res;
+	char	**env;
+}	t_sh_data;
+
 int		main(int argc, char **argv, char **env);
+int		init_minishell(t_sh_data *args, char **_env);
 void	set_signals(short is_shell);
 void	echo_ctl(char on);
+int		wait_for_input(t_sh_data *args);
 void	*xmalloc(size_t n, size_t size);
+void	free_args(t_sh_data *args, int del_env);
 
 #endif

@@ -2,18 +2,24 @@
 MAIN	= main.c
 # end MAIN
 
+# INIT
+INIT_MINISHELL_DIR	= init_minishell
+INIT_MINISHELL	= $(addprefix ${INIT_MINISHELL_DIR}/, \
+init_minishell.c						clean_up.c)
+# end INIT
+
 # BUILTINS
 BUILTINS_DIR	= builtins
 BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
-env/get_env.c	env/set_env.c	env/unset_env.c	\
-do_pwd.c)
+env/get_env.c		env/set_env.c		env/unset_env.c	\
+do_pwd.c			do_exit.c)
 
 # end BUILTINS
 
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
-input_handler.c	\
+wait_for_input.c							input_handler.c\
 parser/parse_cmd.c						parser/parse_cmd_do_parse.c\
 parser/parse_cmd_escaped.c				parser/parse_cmd_quotes.c\
 parser/parse_cmd_expand_env.c			parser/parse_cmd_do_asterisk.c\
@@ -40,5 +46,5 @@ signals.c)
 # end SIGNALS
 
 # SRCS
-SRCS		= ${MAIN} ${BUILTINS} ${INPUT_HANDLER} ${ACTIONS_HANDLER} ${SIGNALS}
+SRCS		= ${MAIN} ${INIT_MINISHELL} ${BUILTINS} ${INPUT_HANDLER} ${ACTIONS_HANDLER} ${SIGNALS}
 # end SRCS
