@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:43:42 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/29 13:53:29 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ static inline int	do_action_run(t_actions action, char **env)
 	pid_t	pid;
 
 	res = sucsses;
+	action.args.path = NULL;
 	if (is_valid_action(&action, env) == false)
 		return (127);
 	if (action.args.path)
