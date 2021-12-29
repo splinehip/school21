@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:47:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:54:34 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "builtins.h"
 #include "actions_handler.h"
 
-static inline int	do_validation_whith_path(
+static inline int	do_validation_whith_env_path(
 	struct stat *sb, t_actions *action, char **env)
 {
 	int		i;
@@ -65,7 +65,7 @@ static inline int	do_validation_whith_path(
 	return (S_ISREG(sb->st_mode));
 }
 
-inline int	is_valid_action(t_actions *action, char **env)
+inline int	is_valid_action_path(t_actions *action, char **env)
 {
 	struct stat	sb;
 
@@ -76,7 +76,7 @@ inline int	is_valid_action(t_actions *action, char **env)
 	}
 	else if (*action->args.argv[0] == dot || *action->args.argv[0] == slash)
 	{
-		if (stat(action->args.argv[0], &sb) == unsucsses)
+		if (stat(action->args.argv[0], &sb) != sucsses)
 		{
 			printf(MSG_ERR_CMD_NFOUND, action->args.argv[0]);
 			return (false);
@@ -88,5 +88,5 @@ inline int	is_valid_action(t_actions *action, char **env)
 		}
 		return (S_ISREG(sb.st_mode));
 	}
-	return (do_validation_whith_path(&sb, action, env));
+	return (do_validation_whith_env_path(&sb, action, env));
 }

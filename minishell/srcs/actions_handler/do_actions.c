@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:42:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:50:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static inline int	do_action_run(t_actions action, char **env)
 
 	res = sucsses;
 	action.args.path = NULL;
-	if (is_valid_action(&action, env) == false)
+	if (is_valid_action_path(&action, env) == false)
 		return (127);
 	if (action.args.path)
 		path = action.args.path;
