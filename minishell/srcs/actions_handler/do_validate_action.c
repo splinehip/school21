@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:34:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 13:47:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static inline int	do_validation_whith_path(
 		free(path[i]);
 		path[i] = ft_strjoin(tmp, action->args.argv[0]);
 		free(tmp);
-		if (path[i] && lstat(path[i], sb) == 0)
+		if (path[i] && stat(path[i], sb) == sucsses)
 		{
 			action->args.path = path[i];
 			j = i;
@@ -69,7 +69,6 @@ inline int	is_valid_action(t_actions *action, char **env)
 {
 	struct stat	sb;
 
-	action->args.path = NULL;
 	if (action->args.argv[0] == NULL)
 	{
 		printf("minishel: %s\n", MSG_ERR_MEM);
@@ -77,7 +76,7 @@ inline int	is_valid_action(t_actions *action, char **env)
 	}
 	else if (*action->args.argv[0] == dot || *action->args.argv[0] == slash)
 	{
-		if (stat(action->args.argv[0], &sb) != sucsses)
+		if (stat(action->args.argv[0], &sb) == unsucsses)
 		{
 			printf(MSG_ERR_CMD_NFOUND, action->args.argv[0]);
 			return (false);
