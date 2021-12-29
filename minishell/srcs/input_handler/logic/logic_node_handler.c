@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_node_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:43 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/28 12:12:35 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/29 18:30:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ t_node	*extract_node(char **str)
 	node = malloc(sizeof(t_node));
 	if (node == NULL)
 	{
-		printf("%s\n", MSG_ERR_MEM);
+		printf(MSG_ERR_MEM);
 		return (NULL);
 	}
 	node->type = has_logical_operators(*str, 0, 0, 0);
 	n = split_symbol(*str, 0, 0, 0);
 	if (!n)
 	{
-		printf("Syntax error!\n");
+		printf(MSG_ERR_SYNATX);
 		free (node);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 14:45:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 14:58:42 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ static inline int	do_action_run(t_actions action, char **env)
 	pid_t	pid;
 
 	res = sucsses;
-	action.args.path = NULL;
 	if (is_valid_action_path(&action, env) == false)
 		return (127);
 	if (action.args.path)
@@ -131,7 +130,7 @@ static inline int	do_action_run(t_actions action, char **env)
 	if (pid == sucsses)
 		execve(path, action.args.argv, env);
 	else
-		waitpid(pid, &res, 0);
+		waitpid(pid, &res, false);
 	return (res);
 }
 
@@ -158,6 +157,7 @@ int	do_actions(t_actions *actions, char **env)
 	res = sucsses;
 	while (actions[i].end == false)
 	{
+		actions[i].args.path = NULL;
 		if (actions[i].type == execute)
 			res = do_action_run(actions[i], env);
 		else

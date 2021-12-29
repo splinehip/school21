@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_checkers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/28 12:23:02 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/29 18:34:39 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "libft.h"
@@ -118,24 +119,23 @@ inline int	check_cmd_sequenses(char *cmd)
 {
 	if (escaped_eof(cmd) == escape)
 	{
-		ft_printf("%s\n", MSG_ERR_CMD_EEOF);
+		printf(MSG_ERR_CMD_EEOF);
 		return (false);
 	}
 	if (has_opened_quotes(cmd, 0, ft_strlen(cmd)))
 	{
-		ft_printf("%s `%c\'\n", MSG_ERR_CMD_UQ,
-			has_opened_quotes(cmd, 0, ft_strlen(cmd)));
+		printf(MSG_ERR_CMD_UQ, has_opened_quotes(cmd, 0, ft_strlen(cmd)));
 		return (false);
 	}
 	if (more_two_sequenses_controls(cmd, 0, 0, 0))
 	{
-		ft_printf("%s `%c\'\n", MSG_ERR_MORE2CNTRLS,
+		printf(MSG_ERR_MORE2CNTRLS,
 			more_two_sequenses_controls(cmd, 0, 0, 0));
 		return (false);
 	}
 	if (has_opened_parenth(cmd, 0, 0, 0))
 	{
-		ft_printf("%s\n", MSG_ERR_CMD_HAS_UP);
+		printf(MSG_ERR_CMD_HAS_UP);
 		return (false);
 	}
 	return (true);

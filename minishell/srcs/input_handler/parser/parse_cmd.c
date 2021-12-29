@@ -6,10 +6,11 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/23 11:01:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 15:05:34 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "libft.h"
@@ -28,10 +29,6 @@ inline char	*parse_cmd(char *cmd, char **env, int type)
 	else
 		res = do_parse(cmd, env);
 	if (res == NULL)
-	{
-		ft_printf("Parse cmd error.\n");
-		return (res);
-	}
-	ft_printf("EXPANDED CMD: >%s<\n", res);
+		printf(MSG_ERR_CMD_PARSEERR);
 	return (res);
 }

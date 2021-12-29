@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:54:34 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/29 18:25:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,13 @@
 #include "builtins.h"
 #include "actions_handler.h"
 
-static inline int	do_validation_whith_env_path(
-	struct stat *sb, t_actions *action, char **env)
+static inline int	do_validation_path(
+	struct stat *sb, t_actions *action, char **path)
 {
 	int		i;
-	int		j;
 	char	*tmp;
-	char	**path;
 
 	i = 0;
-	j = -1;
-	tmp = get_env_value("PATH", env);
-	path = ft_split(tmp, colon);
-	if (path == NULL)
-		return (false);
 	while (path[i])
 	{
 		tmp = ft_strjoinchr(path[i], slash);
@@ -45,11 +38,28 @@ static inline int	do_validation_whith_env_path(
 		if (path[i] && stat(path[i], sb) == sucsses)
 		{
 			action->args.path = path[i];
-			j = i;
-			break ;
+			return (i);
 		}
 		i++;
 	}
+	return (-1);
+}
+
+static inline int	do_validation_whith_env_path(
+	struct stat *sb, t_actions *action, char **env)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	char	**path;
+
+	i = 0;
+	tmp = get_env_value("PATH", env);
+	path = ft_split(tmp, colon);
+	free(tmp);
+	if (path == NULL)
+		return (false);
+	j = do_validation_path(sb, action, path);
 	i = 0;
 	while (path[i])
 	{
@@ -71,7 +81,7 @@ inline int	is_valid_action_path(t_actions *action, char **env)
 
 	if (action->args.argv[0] == NULL)
 	{
-		printf("minishel: %s\n", MSG_ERR_MEM);
+		printf(MSG_ERR_MEM);
 		return (false);
 	}
 	else if (*action->args.argv[0] == dot || *action->args.argv[0] == slash)
