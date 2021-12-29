@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 13:14:48 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/29 14:21:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		main(int argc, char **argv, char **env);
 int		init_minishell(t_sh_data *args, char **_env);
 void	set_signals(short is_shell);
 void	echo_ctl(char on);
-int		wait_for_input(t_sh_data *args);
+int		input_loop(t_sh_data *args);
 void	*xmalloc(size_t n, size_t size);
 void	free_args(t_sh_data *args, int del_env);
 

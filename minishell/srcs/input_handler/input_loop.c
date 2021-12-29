@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_for_input.c                                   :+:      :+:    :+:   */
+/*   input_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 13:49:04 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/29 14:22:22 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,21 @@ static inline char	*get_prompt(char **env)
 	return (res);
 }
 
-int	wait_for_input(t_sh_data *args)
+int	input_loop(t_sh_data *args)
 {
-	args->msg = get_prompt(args->env);
-	args->cmd = readline(args->msg);
-	if (!args->cmd)
-		return (0);
-	if (ft_strlen(args->cmd))
-		add_history(args->cmd);
-	args->res = ft_itoa(input_handler(&args->cmd, args->env));
-	if (ft_strncmp(args->res, "1000", 4) == 0)
-		return (0);
-	set_env("LES", args->res, &args->env);
-	free_args(args, false);
-	return (1);
+	while (1)
+	{
+		args->msg = get_prompt(args->env);
+		args->cmd = readline(args->msg);
+		if (!args->cmd)
+			return (0);
+		if (ft_strlen(args->cmd))
+			add_history(args->cmd);
+		args->res = ft_itoa(input_handler(&args->cmd, args->env));
+		if (ft_strncmp(args->res, "1000", 4) == 0)
+			return (0);
+		set_env("LES", args->res, &args->env);
+		free_args(args, false);
+		return (1);
+	}
 }
