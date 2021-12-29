@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 14:22:22 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/29 14:41:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#include "libft.h"
 #include "bool.h"
 #include "builtins.h"
 #include "minishell.h"
 #include "input_handler.h"
-#include "libft.h"
 
 static inline char	*get_prompt(char **env)
 {
@@ -48,7 +48,7 @@ static inline char	*get_prompt(char **env)
 
 int	input_loop(t_sh_data *args)
 {
-	while (1)
+	while (true)
 	{
 		args->msg = get_prompt(args->env);
 		args->cmd = readline(args->msg);
