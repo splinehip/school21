@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_expand_env.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 18:19:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/28 12:41:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ inline int	do_expand_env(
 
 	get_value(cmd, iter, env);
 	if (iter->value == NULL)
-		return (sucsses);
+		return (success);
 	i = 0;
 	while (iter->value[i])
 	{
@@ -59,13 +59,13 @@ inline int	do_expand_env(
 		iter->buf[iter->j] = 0;
 		if (iter->j == BUF_SIZE)
 		{
-			if (do_drop_buf(&iter->res, &iter->buf[0], &iter->j) == unsucsses)
+			if (do_drop_buf(&iter->res, &iter->buf[0], &iter->j) == unsuccess)
 			{
 				free(iter->value);
-				return (unsucsses);
+				return (unsuccess);
 			}
 		}
 	}
 	free(iter->value);
-	return (sucsses);
+	return (success);
 }

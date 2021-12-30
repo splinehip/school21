@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/20 18:24:17 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/30 11:45:31 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ static void	handler_child(int s)
 	if (s == SIGQUIT)
 		printf("Quit: %d\n", s);
 	else if (s == SIGINT)
-		printf("This is a child 's signl handler: SIGINT\n");
+		printf("\n");
 }
 
-void	set_signals(short is_shell)
+void	set_signals(short is_shell, short ctl)
 {
 	sig_t	h_fun;
 
@@ -72,7 +72,7 @@ void	set_signals(short is_shell)
 		h_fun = &handler_parent;
 	else
 		h_fun = &handler_child;
-	echo_ctl(0);
+	echo_ctl(ctl);
 	signal(SIGINT, h_fun);
 	signal(SIGQUIT, h_fun);
 }

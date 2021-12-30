@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_expand_template.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 17:25:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static inline int	do_update_res(t_select *args, int ret)
 	if (pattern_matched(args))
 	{
 		if ((args->j != 0 || (args->j == 0 && args->res)) && do_update_buf(
-				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
-			return (unsucsses);
+				&args->res, " ", &args->buf[0], &args->j) == unsuccess)
+			return (unsuccess);
 		if (do_update_buf(
-				&args->res, args->d_name, &args->buf[0], &args->j) == unsucsses)
-			return (unsucsses);
-		return (sucsses);
+				&args->res, args->d_name, &args->buf[0], &args->j) == unsuccess)
+			return (unsuccess);
+		return (success);
 	}
 	else if (ft_strncmp("./", args->templated_strs[0], 2) == 0)
 	{
@@ -34,11 +34,11 @@ static inline int	do_update_res(t_select *args, int ret)
 		if (pattern_matched(args))
 		{
 			if ((args->j != 0 || (args->j == 0 && args->res)) && do_update_buf(
-					&args->res, " ", &args->buf[0], &args->j) == unsucsses)
-				ret = unsucsses;
-			if (ret == sucsses && do_update_buf(&args->res, args->d_name,
-					&args->buf[0], &args->j) == unsucsses)
-				ret = unsucsses;
+					&args->res, " ", &args->buf[0], &args->j) == unsuccess)
+				ret = unsuccess;
+			if (ret == success && do_update_buf(&args->res, args->d_name,
+					&args->buf[0], &args->j) == unsuccess)
+				ret = unsuccess;
 		}
 		free(args->d_name);
 	}
@@ -52,7 +52,7 @@ static inline char	*do_select_item(t_select *args, char **env)
 	args->d_name = get_d_name(env);
 	while (args->d_name)
 	{
-		if (do_update_res(args, sucsses) == unsucsses)
+		if (do_update_res(args, success) == unsuccess)
 			return (NULL);
 		args->d_name = get_d_name(env);
 	}
@@ -95,7 +95,7 @@ static inline void	do_join(char **res, char *right)
 			buf[j++] = *c;
 			buf[j] = 0;
 			if (j == BUF_SIZE)
-				if (do_drop_buf(res, &buf[0], &j) == unsucsses)
+				if (do_drop_buf(res, &buf[0], &j) == unsuccess)
 					return ;
 		}
 		c++;

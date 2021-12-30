@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 13:06:46 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/30 11:46:24 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ int	init_minishell(t_sh_data *args, char **_env)
 	args->res = NULL;
 	env_dup(&args->env, _env);
 	set_env("LES", "0", &args->env);
-	set_signals(1);
+	set_signals(1, 0);
 	return (1);
 }

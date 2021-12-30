@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 14:58:42 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static inline void	free_actions(t_actions *actions)
 	free(actions);
 }
 
-static inline void	print_actions(t_actions *actions, int i, int j)
+inline void	print_actions(t_actions *actions, int i, int j)
 {
 	i = 0;
 	while (actions[i].end != true)
@@ -119,7 +119,7 @@ static inline int	do_action_run(t_actions action, char **env)
 	char	*path;
 	pid_t	pid;
 
-	res = sucsses;
+	res = success;
 	if (is_valid_action_path(&action, env) == false)
 		return (127);
 	if (action.args.path)
@@ -127,7 +127,7 @@ static inline int	do_action_run(t_actions action, char **env)
 	else
 		path = action.args.argv[0];
 	pid = fork();
-	if (pid == sucsses)
+	if (pid == success)
 		execve(path, action.args.argv, env);
 	else
 		waitpid(pid, &res, false);
@@ -138,7 +138,7 @@ static inline int	do_action_builtin(t_actions action, char **env)
 {
 	int	res;
 
-	res = sucsses;
+	res = success;
 	if (action.type == exit_built)
 		return (do_exit(action, env));
 	else if (action.type == pwd)
@@ -152,9 +152,9 @@ int	do_actions(t_actions *actions, char **env)
 	int	res;
 
 	if (actions == NULL)
-		return (unsucsses);
+		return (unsuccess);
 	i = 0;
-	res = sucsses;
+	res = success;
 	while (actions[i].end == false)
 	{
 		actions[i].args.path = NULL;

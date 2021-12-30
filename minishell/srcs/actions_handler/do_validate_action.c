@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_validate_action.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 18:25:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static inline int	do_validation_path(
 		free(path[i]);
 		path[i] = ft_strjoin(tmp, action->args.argv[0]);
 		free(tmp);
-		if (path[i] && stat(path[i], sb) == sucsses)
+		if (path[i] && stat(path[i], sb) == success)
 		{
 			action->args.path = path[i];
 			return (i);
@@ -86,7 +86,7 @@ inline int	is_valid_action_path(t_actions *action, char **env)
 	}
 	else if (*action->args.argv[0] == dot || *action->args.argv[0] == slash)
 	{
-		if (stat(action->args.argv[0], &sb) != sucsses)
+		if (stat(action->args.argv[0], &sb) != success)
 		{
 			printf(MSG_ERR_CMD_NFOUND, action->args.argv[0]);
 			return (false);

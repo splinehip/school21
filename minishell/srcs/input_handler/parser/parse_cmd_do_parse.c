@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_do_parse.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 20:28:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ inline char	*do_parse(char *cmd, char **env)
 		}
 		else if (expandable(cmd[iter.i], cmd, &iter))
 		{
-			if (do_expand_env(cmd, &iter, env) == unsucsses)
+			if (do_expand_env(cmd, &iter, env) == unsuccess)
 				break ;
 			iter.i = iter.l;
 			if (iter.i >= iter.k)
