@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 13:21:13 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 13:27:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	do_actions(t_actions *actions, char **env)
 		return (unsucsses);
 	}
 	i = 0;
-	res = sucsses;
+	res = success;
 	while (actions[i].end == false)
 	{
 		actions[i].args.path = NULL;

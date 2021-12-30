@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bool.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:44:46 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/08 13:06:56 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ typedef enum e_bool
 {
 	false,
 	true,
-	sucsses = 0,
-	unsucsses,
+	success = 0,
+	unsuccess,
 }	t_bool;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 14:52:55 by lbaela           ###   ########.fr       */
+/*   Updated: 2021/12/30 11:51:25 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ int	input_loop(t_sh_data *args)
 			return (0);
 		if (ft_strlen(args->cmd))
 			add_history(args->cmd);
+		set_signals(0, 1);
 		args->res = ft_itoa(input_handler(&args->cmd, args->env));
+		set_signals(1, 0);
 		if (ft_strncmp(args->res, "1000", 4) == 0)
 			return (0);
 		set_env("LES", args->res, &args->env);

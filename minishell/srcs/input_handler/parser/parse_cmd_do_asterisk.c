@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_do_asterisk.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:21:12 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/20 20:42:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static inline int	do_update_res(
 {
 	if (args->j != 0 || (args->j == 0 && args->res != NULL))
 		if (do_update_buf(
-				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
-			return (unsucsses);
+				&args->res, " ", &args->buf[0], &args->j) == unsuccess)
+			return (unsuccess);
 	if (*parsed_str != ends)
 		if (do_update_buf(
-				&args->res, parsed_str, &args->buf[0], &args->j) == unsucsses
+				&args->res, parsed_str, &args->buf[0], &args->j) == unsuccess
 			|| do_update_buf(
-				&args->res, " ", &args->buf[0], &args->j) == unsucsses)
-			return (unsucsses);
+				&args->res, " ", &args->buf[0], &args->j) == unsuccess)
+			return (unsuccess);
 	return (do_update_buf(&args->res, template_str, &args->buf[0], &args->j));
 }
 
@@ -39,7 +39,7 @@ static inline int	do_extract(t_extract *args, char *cmd, char **env)
 	char	*template_str;
 	char	*parsed_str;
 
-	ret = unsucsses;
+	ret = unsuccess;
 	tmp = ft_substr(cmd, args->prev_end, args->start - args->prev_end);
 	parsed_str = do_parse(tmp, env);
 	free(tmp);
@@ -60,7 +60,7 @@ static inline void	do_finalise(char *cmd, t_extract *args, char **env)
 	char	*tmp;
 	char	*res;
 
-	ret = sucsses;
+	ret = success;
 	if (cmd[args->end] != ends)
 	{
 		res = ft_substr(cmd, args->end, ft_strlen(cmd) - args->end);
@@ -69,11 +69,11 @@ static inline void	do_finalise(char *cmd, t_extract *args, char **env)
 		free(tmp);
 		if (ft_strlen(res))
 			ret = do_update_buf(&args->res, " ", &args->buf[0], &args->j);
-		if (ret == sucsses)
+		if (ret == success)
 			ret = do_update_buf(&args->res, res, &args->buf[0], &args->j);
 		free(res);
 	}
-	if (ret == sucsses && args->j != 0)
+	if (ret == success && args->j != 0)
 		do_drop_buf(&args->res, &args->buf[0], &args->j);
 }
 
@@ -88,7 +88,7 @@ inline char	*do_parse_whith_asterisk(char *cmd, char **env)
 	while (args.pchar)
 	{
 		get_template_border(cmd, &args);
-		if (do_extract(&args, cmd, env) == unsucsses)
+		if (do_extract(&args, cmd, env) == unsuccess)
 		{
 			if (args.res != NULL)
 				free(args.res);

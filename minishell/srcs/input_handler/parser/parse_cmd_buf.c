@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_buf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:33:09 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/18 12:35:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ inline int	do_drop_buf(char **res, char *buf, int *j)
 	*j = 0;
 	buf[0] = 0;
 	if (*res == NULL)
-		return (unsucsses);
-	return (sucsses);
+		return (unsuccess);
+	return (success);
 }
 
 inline int	do_update_buf(char **res, char *str, char *buf, int *j)
@@ -34,18 +34,18 @@ inline int	do_update_buf(char **res, char *str, char *buf, int *j)
 	int	i;
 
 	if (str == NULL)
-		return (unsucsses);
+		return (unsuccess);
 	if (*j == BUF_SIZE)
-		if (do_drop_buf(res, buf, j) == unsucsses)
-			return (unsucsses);
+		if (do_drop_buf(res, buf, j) == unsuccess)
+			return (unsuccess);
 	i = 0;
 	while (str[i])
 	{
 		buf[(*j)++] = str[i++];
 		buf[*j] = 0;
 		if (*j == BUF_SIZE)
-			if (do_drop_buf(res, buf, j) == unsucsses)
-				return (unsucsses);
+			if (do_drop_buf(res, buf, j) == unsuccess)
+				return (unsuccess);
 	}
-	return (sucsses);
+	return (success);
 }
