@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 18:25:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 13:01:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static inline int	do_validation_whith_env_path(
 	i = 0;
 	while (path[i])
 	{
-		if (j < 0 || (j > 0 && i != j))
+		if (i != j)
 			free(path[i]);
 		i++;
 	}

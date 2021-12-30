@@ -6,15 +6,48 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:51:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 12:17:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include "bool.h"
+#include "enums.h"
 #include "actions_handler.h"
 
-inline void	do_redirects(t_redirect *redirects, char **env)
+inline void	do_redirects(t_redirect *redirects, int pipes[], char **env)
 {
+	int	i;
+	int	fd;
+
 	(void)redirects;
 	(void)env;
-	return ;
+	(void)pipes;
+	if (redirects == NULL)
+		return ;
+	i = 0;
+	while (redirects[i].end == false)
+	{
+		if (redirects[i].type == input)
+		{
+			if (redirects[i].target == NULL)
+				dup2(pipes[0], 0);
+			else
+			{
+				fd = open(redirects[i].target, O_RDONLY);
+				dup2(fd, 0);
+			}
+		}
+		else if (redirects[i].type == output)
+		{
+			if (redirects[i].target == NULL)
+				dup2(pipes[1], 1);
+		}
+		i++;
+	}
 }

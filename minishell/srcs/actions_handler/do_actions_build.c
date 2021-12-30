@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 12:16:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 12:23:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static inline void	do_build_pipes(t_actions **actions, char *parsed_str)
 	while (splited_str[i])
 	{
 		(*actions)[i].args.argv = NULL;
-		if (i > 0 && splited_str[i + 1])
+		if (i > 0)
 			add_redirects(*actions + i, input, NULL);
 		do_build_simple(*actions + i, splited_str[i]);
 		if (splited_str[i + 1] != NULL)

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:45:36 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 18:34:01 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 11:40:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@
 # define MSG_ERR_CMD_PARSEERR	"minishell: parse command unsucces\n"
 # define MSG_ERR_CMD_NFOUND		"minishell: %s: command not found\n"
 # define MSG_ERR_CMD_ISDIR		"minishell: %s: it`s a directory\n"
+# define MSG_ERR_PIPE			"minishell: pipes creation fail\n"
 
 #endif
