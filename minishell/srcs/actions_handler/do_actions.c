@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 13:32:01 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 15:49:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,11 @@ static inline void	free_actions(t_actions *actions, int *pipes)
 	}
 }
 
-static inline int	do_action_run(t_actions *action, int pipes[], char **env)
+static inline int	do_action_run(t_actions *action, int *pipes, char **env)
 {
-	int		res;
 	char	*path;
 	pid_t	pid;
 
-	res = success;
 	if (is_valid_action_path(action, env) == false)
 		return (127);
 	if (action->args.path)
@@ -72,13 +70,16 @@ static inline int	do_action_run(t_actions *action, int pipes[], char **env)
 		close(pipes[1]);
 		execve(path, action->args.argv, env);
 	}
-	else
-		waitpid(pid, &res, false);
-	return (res);
+	else if (pid < 0)
+	{
+		perror("minishell");
+		return (unsuccess);
+	}
+	return (success);
 }
 
 static inline int	do_action_builtin(
-	t_actions *action, int pipes[], char **env)
+	t_actions *action, int *pipes, char **env)
 {
 	int	res;
 
@@ -91,12 +92,8 @@ static inline int	do_action_builtin(
 	return (res);
 }
 
-int	do_actions(t_actions *actions, char **env)
+static inline int	do_init(t_actions *actions, int *pipes)
 {
-	int	i;
-	int	res;
-	int	pipes[2];
-
 	if (actions == NULL)
 		return (unsuccess);
 	if (pipe(pipes) < 0)
@@ -105,17 +102,33 @@ int	do_actions(t_actions *actions, char **env)
 		printf(MSG_ERR_PIPE);
 		return (unsuccess);
 	}
+	return (success);
+}
+
+int	do_actions(t_actions *actions, char **env)
+{
+	int	i;
+	int	res;
+	int	pipes[2];
+	int	do_wait;
+
+	if (do_init(actions, &pipes[0]) == unsuccess)
+		return (unsuccess);
 	i = 0;
 	res = success;
+	do_wait = unsuccess;
 	while (actions[i].end == false)
 	{
 		actions[i].args.path = NULL;
 		if (actions[i].type == execute)
-			res = do_action_run(&actions[i], pipes, env);
+			do_wait = do_action_run(&actions[i], &pipes[0], env);
 		else
-			res = do_action_builtin(&actions[i], pipes, env);
+			res = do_action_builtin(&actions[i], &pipes[0], env);
 		i++;
 	}
+	while (do_wait == success)
+		if (waitpid(-1, &res, WNOHANG))
+			break ;
 	free_actions(actions, &pipes[0]);
 	return (res);
 }
