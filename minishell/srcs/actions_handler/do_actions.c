@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 13:27:48 by cflorind         ###   ########.fr       */
+/*   Updated: 2021/12/30 13:32:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static inline int	do_action_run(t_actions *action, int pipes[], char **env)
 	char	*path;
 	pid_t	pid;
 
-	res = sucsses;
+	res = success;
 	if (is_valid_action_path(action, env) == false)
 		return (127);
 	if (action->args.path)
@@ -65,7 +65,7 @@ static inline int	do_action_run(t_actions *action, int pipes[], char **env)
 	else
 		path = action->args.argv[0];
 	pid = fork();
-	if (pid == sucsses)
+	if (pid == success)
 	{
 		do_redirects(action->args.redirect, pipes, env);
 		close(pipes[0]);
@@ -83,7 +83,7 @@ static inline int	do_action_builtin(
 	int	res;
 
 	(void)pipes;
-	res = sucsses;
+	res = success;
 	if (action->type == exit_built)
 		return (do_exit(*action, env));
 	else if (action->type == pwd)
@@ -98,12 +98,12 @@ int	do_actions(t_actions *actions, char **env)
 	int	pipes[2];
 
 	if (actions == NULL)
-		return (unsucsses);
+		return (unsuccess);
 	if (pipe(pipes) < 0)
 	{
 		free_actions(actions, NULL);
 		printf(MSG_ERR_PIPE);
-		return (unsucsses);
+		return (unsuccess);
 	}
 	i = 0;
 	res = success;
