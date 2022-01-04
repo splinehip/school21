@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 12:23:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:47:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #include "input_handler.h"
 #include "actions_handler.h"
 
-static inline void	set_action_type(t_actions *action)
+static inline void	set_action_type(t_action *action)
 {
 	char	*name;
 
-	name = action->args.argv[0];
+	if (action->exec.argv == NULL)
+		return ;
+	name = action->exec.argv[0];
 	if (ft_strncmp("echo", name, ft_strlen("echo")) == 0)
 		action->type = echo;
 	else if (ft_strncmp("cd", name, ft_strlen("cd")) == 0)
@@ -40,54 +42,86 @@ static inline void	set_action_type(t_actions *action)
 		action->type = execute;
 }
 
-static inline void	do_build_simple(t_actions *actions, char *parsed_str)
+static inline void	do_init_actions_items(t_actions *actions, int count)
 {
-	char	**splited_str;
+	int	i;
 
-	splited_str = ft_split(parsed_str, space);
-	if (splited_str == NULL)
+	if (count == 0)
 		return ;
-	if (actions == NULL)
+	actions->item = ft_calloc(count, sizeof(t_action));
+	if (actions->item == NULL)
 		return ;
-	extract_redirects(actions, splited_str);
-	actions->args.argv = splited_str;
-	set_action_type(actions);
-}
-
-static inline void	do_build_pipes(t_actions **actions, char *parsed_str)
-{
-	int		i;
-	char	**splited_str;
-
-	splited_str = ft_split(parsed_str, pipes);
-	if (splited_str == NULL)
-		return ;
+	actions->len = count;
 	i = 0;
-	while (splited_str[i])
-		i++;
-	*actions = ft_calloc(i + 1, sizeof(t_actions));
-	if (*actions == NULL)
-		return ;
-	(*actions)[i].end = true;
-	i = 0;
-	while (splited_str[i])
+	while (i < actions->len)
 	{
-		(*actions)[i].args.argv = NULL;
-		if (i > 0)
-			add_redirects(*actions + i, input, NULL);
-		do_build_simple(*actions + i, splited_str[i]);
-		if (splited_str[i + 1] != NULL)
-			add_redirects(*actions + i, output, NULL);
+		actions->item[i].pid = 0;
+		actions->item[i].pipe_in = 0;
+		actions->item[i].pipe_out = 0;
+		actions->item[i].redirects.len = 0;
+		actions->item[i].redirects.item = NULL;
+		actions->item[i].exec.path = NULL;
+		actions->item[i].exec.argv = NULL;
 		i++;
 	}
 }
 
-t_actions	*do_actions_build(char *cmd, char **env)
+static inline void	do_init_pipes(t_actions *actions, char ***splited_str)
 {
-	char		*parsed_str;
-	t_actions	*actions;
+	int	i;
 
-	actions = NULL;
+	if (actions->len)
+	{
+		actions->pipes.item = ft_calloc(actions->len - 1, sizeof(t_pipe));
+		if (actions->pipes.item)
+			actions->pipes.len = actions->len - 1;
+	}
+	else
+	{
+		i = 0;
+		while ((*splited_str)[i])
+			free((*splited_str)[i++]);
+		free(*splited_str);
+		free(actions->item);
+		*splited_str = NULL;
+		actions->item = NULL;
+		actions->len = 0;
+	}
+}
+
+static inline void	do_build_pipes(t_actions *actions, char *parsed_str)
+{
+	int		i;
+	char	**splited_str;
+	char	**argv;
+
+	splited_str = ft_split(parsed_str, pipes);
+	i = 0;
+	while (splited_str && splited_str[i])
+		i++;
+	do_init_actions_items(actions, i);
+	do_init_pipes(actions, &splited_str);
+	i = 0;
+	while (i < actions->len)
+	{
+		if (i != 0)
+			add_redirects(&actions->item[i].redirects, input, NULL);
+		argv = ft_split(splited_str[i], space);
+		extract_redirects(&actions->item[i].redirects, argv);
+		actions->item[i].exec.argv = argv;
+		set_action_type(&actions->item[i]);
+		if (i + 1 < actions->len)
+			add_redirects(&actions->item[i].redirects, output, NULL);
+		free(splited_str[i++]);
+	}
+	free(splited_str);
+}
+
+t_actions	*do_actions_build(t_actions *actions, char *cmd, char **env)
+{
+	char	*parsed_str;
+	char	**splited_str;
+
 	if (ft_strchr(cmd, asterisk))
 		parsed_str = parse_cmd(cmd, env, asterisk);
 	else
@@ -96,15 +130,17 @@ t_actions	*do_actions_build(char *cmd, char **env)
 		return (actions);
 	if (ft_strchr(parsed_str, pipes) == NULL)
 	{
-		actions = ft_calloc(2, sizeof(t_actions));
-		if (actions == NULL)
-			return (actions);
-		actions->args.redirect = NULL;
-		actions[1].end = true;
-		do_build_simple(actions, parsed_str);
+		do_init_actions_items(actions, 1);
+		if (actions->len)
+		{
+			splited_str = ft_split(parsed_str, space);
+			extract_redirects(&actions->item->redirects, splited_str);
+			actions->item->exec.argv = splited_str;
+			set_action_type(actions->item);
+		}
 	}
 	else
-		do_build_pipes(&actions, parsed_str);
+		do_build_pipes(actions, parsed_str);
 	free(parsed_str);
 	return (actions);
 }

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 11:52:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/04 17:00:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,66 @@
 # define ACTIONS_HANDLER_H
 # include "enums.h"
 
+typedef struct s_pipe		t_pipe;
+typedef struct s_pipes		t_pipes;
 typedef struct s_redirect	t_redirect;
+typedef struct s_redirects	t_redirects;
 typedef struct s_execute	t_execute;
+typedef struct s_action		t_action;
 typedef struct s_actions	t_actions;
+
+typedef struct s_pipe
+{
+	int	pipe[2];
+}	t_pipe;
+
+typedef struct s_pipes
+{
+	int		len;
+	t_pipe	*item;
+}	t_pipes;
 
 typedef struct s_redirect
 {
 	int		type;
-	int		end;
 	char	*target;
 }	t_redirect;
+
+typedef struct s_redirects
+{
+	int			len;
+	t_redirect	*item;
+}	t_redirects;
 
 typedef struct s_execute
 {
 	char		*path;
 	char		**argv;
-	t_redirect	*redirect;
 }	t_execute;
+
+typedef struct s_action
+{
+	int			pid;
+	int			type;
+	int			pipe_in;
+	int			pipe_out;
+	t_execute	exec;
+	t_redirects	redirects;
+}	t_action;
 
 typedef struct s_actions
 {
-	int			type;
-	int			end;
-	t_execute	args;
+	int			len;
+	t_action	*item;
+	t_pipes		pipes;
 }	t_actions;
 
-t_actions	*do_actions_build(char *cmd, char **env);
-void		extract_redirects(t_actions *actions, char **str);
-void		add_redirects(t_actions *actions, int type, char *target);
+t_actions	*do_actions_build(t_actions *actions, char *cmd, char **env);
+void		add_redirects(t_redirects *redirects, int type, char *target);
+void		extract_redirects(t_redirects *redirects, char **str);
 int			do_actions(t_actions *actions, char **env);
-void		do_redirects(t_redirect *redirects, int pipes[], char **env);
-int			is_valid_action_path(t_actions *action, char **env);
+int			do_action_run(t_action *action, char **env);
+void		do_redirects(t_action action, char **env);
+int			is_valid_action_path(t_action *action, char **env);
 
 #endif

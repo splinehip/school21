@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/27 14:06:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/04 17:19:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,25 @@
 #include "bool.h"
 #include "actions_handler.h"
 
-static inline t_redirect	*append_redirect(t_redirect **redirect)
+static inline t_redirect	*append_redirect(t_redirects *redirects)
 {
-	int			i;
 	t_redirect	*tmp;
 
-	if (*redirect == NULL)
+	if (redirects->len == false)
 	{
-		*redirect = ft_calloc(2, sizeof(t_redirect));
-		if (*redirect)
-			(*redirect)[1].end = true;
-		return (*redirect);
+		redirects->item = ft_calloc(1, sizeof(t_redirect));
+		if (redirects->item)
+			redirects->len += 1;
+		return (redirects->item);
 	}
-	i = 0;
-	while ((*redirect)[i].end != true)
-		i++;
-	tmp = *redirect;
-	*redirect = ft_calloc(i + 2, sizeof(t_redirect));
-	ft_memcpy(*redirect, tmp, sizeof(t_redirect) * i);
+	tmp = redirects->item;
+	redirects->item = ft_calloc(redirects->len + 1, sizeof(t_redirect));
+	ft_memcpy(redirects->item, tmp, sizeof(t_redirect) * redirects->len);
 	free(tmp);
-	if (*redirect)
+	if (redirects->item)
 	{
-		(*redirect)[i + 1].end = true;
-		return ((*redirect) + i);
+		redirects->len += 1;
+		return (&redirects->item[redirects->len - 1]);
 	}
 	return (NULL);
 }
@@ -55,11 +51,11 @@ static inline void	update_str(char **str, int i, int j)
 }
 
 static inline void	do_extract(
-	t_redirect **redirect, char **str, int i, int type)
+	t_redirects *redirects, char **str, int i, int type)
 {
 	t_redirect	*new;
 
-	new = append_redirect(redirect);
+	new = append_redirect(redirects);
 	if (new == NULL)
 		return ;
 	new->type = type;
@@ -76,39 +72,38 @@ static inline void	do_extract(
 	}
 }
 
-inline void	extract_redirects(t_actions *actions, char **str)
+inline void	extract_redirects(t_redirects *redirects, char **str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i][0] == left_corner)
 		{
 			if (str[i][1] == left_corner)
-				do_extract(&actions->args.redirect, str, i, read_input);
+				do_extract(redirects, str, i, read_input);
 			else
-				do_extract(&actions->args.redirect, str, i, input);
+				do_extract(redirects, str, i, input);
 			i = 0;
 		}
 		else if (str[i][0] == right_corner)
 		{
 			if (str[i][1] == right_corner)
-				do_extract(&actions->args.redirect, str, i, output_append);
+				do_extract(redirects, str, i, output_append);
 			else
-				do_extract(&actions->args.redirect, str, i, output);
+				do_extract(redirects, str, i, output);
 			i = 0;
 		}
-		else
-			i++;
+		i++;
 	}
 }
 
-inline void	add_redirects(t_actions *actions, int type, char *target)
+inline void	add_redirects(t_redirects *redirects, int type, char *target)
 {
 	t_redirect	*new;
 
-	new = append_redirect(&actions->args.redirect);
+	new = append_redirect(redirects);
 	if (new == NULL)
 		return ;
 	new->type = type;

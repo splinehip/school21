@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/30 11:46:24 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/04 18:57:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	init_minishell(t_sh_data *args, char **_env)
 	args->msg = NULL;
 	args->cmd = NULL;
 	args->res = NULL;
+	args->env = NULL;
 	env_dup(&args->env, _env);
 	set_env("LES", "0", &args->env);
 	set_signals(1, 0);

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 13:28:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/04 13:48:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "actions_handler.h"
 
 static inline int	do_validation_path(
-	struct stat *sb, t_actions *action, char **path)
+	struct stat *sb, t_action *action, char **path)
 {
 	int		i;
 	char	*tmp;
@@ -33,11 +33,11 @@ static inline int	do_validation_path(
 	{
 		tmp = ft_strjoinchr(path[i], slash);
 		free(path[i]);
-		path[i] = ft_strjoin(tmp, action->args.argv[0]);
+		path[i] = ft_strjoin(tmp, action->exec.argv[0]);
 		free(tmp);
 		if (path[i] && stat(path[i], sb) == success)
 		{
-			action->args.path = path[i];
+			action->exec.path = path[i];
 			return (i);
 		}
 		i++;
@@ -46,7 +46,7 @@ static inline int	do_validation_path(
 }
 
 static inline int	do_validation_whith_env_path(
-	struct stat *sb, t_actions *action, char **env)
+	struct stat *sb, t_action *action, char **env)
 {
 	int		i;
 	int		j;
@@ -69,31 +69,31 @@ static inline int	do_validation_whith_env_path(
 	}
 	free(path);
 	if (S_ISREG(sb->st_mode) == false)
-		printf(MSG_ERR_CMD_NFOUND, action->args.argv[0]);
+		printf(MSG_ERR_CMD_NFOUND, action->exec.argv[0]);
 	if (S_ISDIR(sb->st_mode))
-		printf(MSG_ERR_CMD_ISDIR, action->args.argv[0]);
+		printf(MSG_ERR_CMD_ISDIR, action->exec.argv[0]);
 	return (S_ISREG(sb->st_mode));
 }
 
-inline int	is_valid_action_path(t_actions *action, char **env)
+inline int	is_valid_action_path(t_action *action, char **env)
 {
 	struct stat	sb;
 
-	if (action->args.argv[0] == NULL)
+	if (action->exec.argv[0] == NULL)
 	{
 		printf(MSG_ERR_MEM);
 		return (false);
 	}
-	else if (*action->args.argv[0] == dot || *action->args.argv[0] == slash)
+	else if (*action->exec.argv[0] == dot || *action->exec.argv[0] == slash)
 	{
-		if (stat(action->args.argv[0], &sb) != success)
+		if (stat(action->exec.argv[0], &sb) != success)
 		{
-			printf(MSG_ERR_CMD_NFOUND, action->args.argv[0]);
+			printf(MSG_ERR_CMD_NFOUND, action->exec.argv[0]);
 			return (false);
 		}
 		else if (S_ISDIR(sb.st_mode))
 		{
-			printf(MSG_ERR_CMD_ISDIR, action->args.argv[0]);
+			printf(MSG_ERR_CMD_ISDIR, action->exec.argv[0]);
 			return (false);
 		}
 		return (S_ISREG(sb.st_mode));
