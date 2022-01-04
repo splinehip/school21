@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/04 16:12:10 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:42:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ static inline int	do_action_exec(t_action *action, char **env)
 		if (is_valid_action_path(action, env) == false)
 			exit(127);
 		do_redirects(*action, env);
+		if (action->pipe_in)
+			close(action->pipe_in);
+		if (action->pipe_out)
+			close(action->pipe_out);
 		if (action->exec.path)
 			execve(action->exec.path, action->exec.argv, env);
 		execve(action->exec.argv[0], action->exec.argv, env);
@@ -45,8 +49,6 @@ static inline int	do_action_exec(t_action *action, char **env)
 	else if (action->pid < 0)
 	{
 		perror("minishell");
-		close(action->pipe_in);
-		close(action->pipe_out);
 		action->pid = 0;
 		return (unsuccess);
 	}
