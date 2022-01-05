@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   do_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:28:25 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 17:32:26 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 18:25:53 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
+#include "error_msgs.h"
 #include "libft.h"
 #include "builtins.h"
 #include "minishell.h"
@@ -29,13 +30,17 @@ static int	is_number(char *str)
 	return (1);
 }
 
+static int	close_fd(int fd)
+{
+	if (fd)
+		close(fd);
+	return (0);
+}
+
 int	do_exit(t_action action, char **env)
 {
-	if (action.pipe_out)
-	{
-		close(action.pipe_out);
-		return (0);
-	}
+	if (action.pipe_out || action.pipe_in)
+		return (close_fd(action.pipe_out));
 	printf("exit\n");
 	if (!(action.exec.argv[1]))
 		return (1000);
@@ -45,13 +50,12 @@ int	do_exit(t_action action, char **env)
 			set_env("LES", action.exec.argv[1], &env);
 		else if (!is_number(action.exec.argv[1]))
 		{
-			printf("minishell: exit: %s: numeric argument required\n",
-				action.exec.argv[1]);
+			printf(MSG_ERR_EXIT_NUM, action.exec.argv[1]);
 			set_env("LES", "2", &env);
 		}
 		else
 		{
-			printf("minishell: exit: too many arguments\n");
+			printf(MSG_ERR_EXIT_ARGS);
 			return (1);
 		}
 		return (1000);

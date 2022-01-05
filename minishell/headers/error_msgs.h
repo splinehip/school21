@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msgs.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:45:36 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 17:51:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 18:25:01 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@
 # define MSG_ERR_CMD_ISDIR		"minishell: %s: it`s a directory\n"
 # define MSG_ERR_PIPE			"minishell: pipes creation fail\n"
 # define MSG_ERR_INVRDTYPE		"minishell: invalide redirect type\n"
+# define MSG_ERR_EXIT_NUM\
+	"minishell: exit: %s: numeric argument required\n"
+# define MSG_ERR_EXIT_ARGS		"minishell: exit: too many arguments\n"
 
 #endif
