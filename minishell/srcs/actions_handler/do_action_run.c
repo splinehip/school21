@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_action_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:50:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 20:08:07 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static inline int	do_action_builtin(t_action *action, char **env)
 		return (do_exit(*action, env));
 	else if (action->type == pwd)
 		return (do_pwd(*action, env));
+	else if (action->type == echo)
+		return (do_echo(*action));
 	return (success);
 }
 
