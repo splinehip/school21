@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 16:11:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:35:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 #include "builtins.h"
 #include "actions_handler.h"
 
+static inline void	do_update_shlvl(char **env)
+{
+	return ;
+}
+
 static inline int	do_action_builtin(t_action *action, char **env)
 {
 	if (action->type == exit_built)
-	{
-		if (action->pipe_out)
-			close(action->pipe_out);
 		return (do_exit(*action, env));
-	}
 	else if (action->type == pwd)
 		return (do_pwd(*action, env));
 	return (success);
@@ -41,6 +42,7 @@ static inline int	do_action_exec(t_action *action, char **env)
 	{
 		if (is_valid_action_path(action, env) == false)
 			exit(127);
+		do_update_shlvl(env);
 		do_redirects(*action, env);
 		if (action->pipe_in)
 			close(action->pipe_in);

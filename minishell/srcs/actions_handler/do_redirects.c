@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:04:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:28:15 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "error_msgs.h"
 #include "actions_handler.h"
 
-inline int	get_redirects_fd(t_redirect redirect)
+inline int	get_redirect_fd(t_redirect redirect)
 {
 	int	fd;
 
@@ -51,7 +51,7 @@ static inline void	do_input(t_action action, t_redirect *redirect)
 		dup2(action.pipe_in, 0);
 	else if (redirect->type == input)
 	{
-		fd = get_redirects_fd(*redirect);
+		fd = get_redirect_fd(*redirect);
 		if (fd > 0)
 		{
 			dup2(fd, 0);
@@ -68,7 +68,7 @@ static inline void	do_output(t_action action, t_redirect *redirect)
 		dup2(action.pipe_out, 1);
 	else
 	{
-		fd = get_redirects_fd(*redirect);
+		fd = get_redirect_fd(*redirect);
 		if (fd > 0)
 		{
 			dup2(fd, 1);

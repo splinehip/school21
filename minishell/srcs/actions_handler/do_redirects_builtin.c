@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:11:37 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:11:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:28:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ inline int	do_redirects_builtin(t_action action)
 			if (action.redirects.item[i].target == NULL)
 				fd = action.pipe_out;
 			else
-				fd = get_redirects_fd(action.redirects.item[i]);
+				fd = get_redirect_fd(action.redirects.item[i]);
 		}
 		i++;
 	}

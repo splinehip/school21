@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:28:25 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 16:23:00 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/05 17:32:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static int	is_number(char *str)
 
 int	do_exit(t_action action, char **env)
 {
+	if (action.pipe_out)
+	{
+		close(action.pipe_out);
+		return (0);
+	}
 	printf("exit\n");
 	if (!(action.exec.argv[1]))
 		return (1000);
