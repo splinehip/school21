@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 14:23:02 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/05 14:32:44 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int argc, char **argv, char **_env)
 	if (argc == 1 && init_minishell(&args, _env))
 	{
 		input_loop(&args);
-		printf("exit\n");
 		free(args.res);
 		args.res = get_env_value("LES", args.env);
 		res = ft_atoi(args.res);
