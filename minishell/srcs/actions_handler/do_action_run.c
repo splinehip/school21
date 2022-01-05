@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:44:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:50:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "libft.h"
 #include "bool.h"
+#include "mesages.h"
 #include "error_msgs.h"
 #include "builtins.h"
 #include "actions_handler.h"
@@ -67,7 +68,7 @@ static inline int	do_action_exec(t_action *action, char **env)
 	}
 	else if (action->pid < 0)
 	{
-		perror("minishell");
+		perror(MSG_PROG_NAME);
 		action->pid = 0;
 		return (unsuccess);
 	}

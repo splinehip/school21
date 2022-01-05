@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:28:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 17:51:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 #include "bool.h"
 #include "enums.h"
+#include "mesages.h"
 #include "error_msgs.h"
 #include "actions_handler.h"
 
@@ -35,11 +36,11 @@ inline int	get_redirect_fd(t_redirect redirect)
 		fd = open(redirect.target, O_WRONLY | O_APPEND | O_CREAT, 0664);
 	else
 	{
-		printf(MSG_ERR_INRDTYPE);
+		printf(MSG_ERR_INVRDTYPE);
 		return (fd);
 	}
 	if (fd < 0)
-		perror("minishell");
+		perror(MSG_PROG_NAME);
 	return (fd);
 }
 
