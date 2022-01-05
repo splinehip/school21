@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/04 17:00:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:10:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		extract_redirects(t_redirects *redirects, char **str);
 int			do_actions(t_actions *actions, char **env);
 int			do_action_run(t_action *action, char **env);
 void		do_redirects(t_action action, char **env);
+int			do_redirects_builtin(t_action action);
 int			is_valid_action_path(t_action *action, char **env);
 
 #endif

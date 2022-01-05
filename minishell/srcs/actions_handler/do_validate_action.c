@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/04 13:48:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 15:15:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ inline int	is_valid_action_path(t_action *action, char **env)
 {
 	struct stat	sb;
 
+	ft_memset(&sb, 0, sizeof(sb));
 	if (action->exec.argv[0] == NULL)
 	{
 		printf(MSG_ERR_MEM);

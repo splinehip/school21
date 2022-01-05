@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_pwd.c                                           :+:      :+:    :+:   */
+/*   do_redirects_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 11:37:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 16:16:40 by cflorind         ###   ########.fr       */
+/*   Created: 2022/01/05 16:11:37 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/05 16:14:42 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <stdlib.h>
 
-#include "libft.h"
-#include "builtins.h"
-#include "error_msgs.h"
+#include "actions_handler.h"
 
-int	do_pwd(t_action action, char **env)
+inline int	do_redirects_builtin(t_action action)
 {
-	int		fd;
-	char	*wd;
+	int	i;
+	int	fd;
 
-	fd = do_redirects_builtin(action);
-	wd = get_env_value("PWD", env);
-	if (!wd)
+	i = 0;
+	fd = 1;
+	while (i < action.redirects.len)
 	{
-		printf(MSG_ERR_PWD);
-		return (1);
+		i++;
 	}
-	if (fd > 0)
-	{
-		write(fd, wd, ft_strlen(wd));
-		write(fd, "\n", 1);
-	}
-	if (fd > 2)
-		close(fd);
-	free(wd);
-	return (0);
+	return (fd);
 }

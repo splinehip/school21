@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/04 20:42:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:11:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@
 static inline int	do_action_builtin(t_action *action, char **env)
 {
 	if (action->type == exit_built)
+	{
+		if (action->pipe_out)
+			close(action->pipe_out);
 		return (do_exit(*action, env));
+	}
 	else if (action->type == pwd)
-		return (do_pwd(env));
+		return (do_pwd(*action, env));
 	return (success);
 }
 

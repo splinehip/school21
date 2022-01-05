@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/04 18:52:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:05:30 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "error_msgs.h"
 #include "builtins.h"
 #include "actions_handler.h"
-#include "../tmp_utils.c"
 
 static inline void	close_pipe(t_pipe item)
 {
@@ -49,7 +48,6 @@ static inline void	free_actions(t_actions *actions)
 	}
 	free(actions->pipes.item);
 	free(actions->item);
-	free(actions);
 }
 
 static inline int	open_pipes(t_actions *actions)
@@ -86,10 +84,9 @@ int	do_actions(t_actions *actions, char **env)
 		return (unsuccess);
 	if (open_pipes(actions) == unsuccess)
 		return (unsuccess);
-	print_actions(actions, 0, 0);
 	i = 0;
 	res = success;
-	exit_status = success;
+	exit_status = unsuccess;
 	while (i < actions->len)
 		res = do_action_run(&actions->item[i++], env);
 	i = 0;

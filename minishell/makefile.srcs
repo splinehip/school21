@@ -36,7 +36,8 @@ ACTIONS_HANDLER_DIR	= actions_handler
 ACTIONS_HANDLER	= $(addprefix ${ACTIONS_HANDLER_DIR}/, \
 do_actions.c							do_actions_build.c\
 parse_redirects.c						do_redirects.c\
-do_validate_action.c					do_action_run.c)
+do_validate_action.c					do_action_run.c\
+do_redirects_builtin.c)
 # end ACTIONS_HANDLER
 
 # SIGNALS
