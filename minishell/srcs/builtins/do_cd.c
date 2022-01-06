@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:08:47 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/06 19:11:30 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 21:21:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	run_cd(t_action action, char **env)
 	res = change_dir(env, old_dir, path, chdir(path));
 	free(path);
 	free(old_dir);
-	return (0);
+	return (res);
 }
 
 int	do_cd(t_action action, char **env)
