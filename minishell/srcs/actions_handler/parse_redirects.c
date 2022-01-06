@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/04 17:19:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 00:24:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ inline void	extract_redirects(t_redirects *redirects, char **str)
 				do_extract(redirects, str, i, read_input);
 			else
 				do_extract(redirects, str, i, input);
-			i = 0;
+			i--;
 		}
 		else if (str[i][0] == right_corner)
 		{
@@ -93,7 +93,7 @@ inline void	extract_redirects(t_redirects *redirects, char **str)
 				do_extract(redirects, str, i, output_append);
 			else
 				do_extract(redirects, str, i, output);
-			i = 0;
+			i--;
 		}
 		i++;
 	}
