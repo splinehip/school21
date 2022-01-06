@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 16:19:21 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 01:29:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,13 @@ static inline void	do_build_pipes(t_actions *actions, char *parsed_str)
 	{
 		if (i != 0)
 			add_redirects(&actions->item[i].redirects, input, NULL);
-		if (i + 1 < actions->len)
-			add_redirects(&actions->item[i].redirects, output, NULL);
 		argv = ft_split(splited_str[i], space);
 		extract_redirects(&actions->item[i].redirects, argv);
 		actions->item[i].exec.argv = argv;
 		set_action_type(&actions->item[i]);
-		free(splited_str[i++]);
+		free(splited_str[i]);
+		if (++i < actions->len)
+			add_redirects(&actions->item[i - 1].redirects, output, NULL);
 	}
 	free(splited_str);
 }

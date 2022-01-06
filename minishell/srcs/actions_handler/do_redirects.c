@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 00:46:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 01:20:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,12 @@ static inline void	do_input(
 		do_read_input(read_input_res, redirect->target, env);
 }
 
-static inline void	do_output(t_action action, t_redirect *redirect)
+static inline void	do_output(
+	t_action action, t_redirect *redirect, int pipe_out)
 {
 	int	fd;
 
-	if (redirect->target == NULL)
+	if (redirect->target == NULL && pipe_out)
 		dup2(action.pipe_out, 1);
 	else
 	{
@@ -114,9 +115,11 @@ static inline void	do_read_input_redirect(void)
 inline void	do_redirects(t_action action, char **env)
 {
 	int	i;
+	int	pipe_out;
 	int	read_input_res;
 
 	i = 0;
+	pipe_out = true;
 	read_input_res = false;
 	while (i < action.redirects.len)
 	{
@@ -128,7 +131,10 @@ inline void	do_redirects(t_action action, char **env)
 		}
 		if (action.redirects.item[i].type == output
 			|| action.redirects.item[i].type == output_append)
-			do_output(action, &action.redirects.item[i]);
+		{
+			do_output(action, &action.redirects.item[i], pipe_out);
+			pipe_out = false;
+		}
 		i++;
 	}
 	if (read_input_res)
