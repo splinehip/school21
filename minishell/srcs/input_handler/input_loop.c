@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 14:33:41 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 16:53:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ static inline char	*get_prompt(char **env)
 	char	*old_res;
 	char	*res;
 
-	res = get_env_value("PWD", env);
-	home = get_env_value("HOME", env);
+	// res = get_env_value("PWD", env);
+	res = getcwd(NULL, 0);
+	home = get_env_value("HOME", env); // segfaults while HOME unset
 	if (ft_strncmp(res, home, ft_strlen(home)) == 0)
 	{
 		old_res = res;

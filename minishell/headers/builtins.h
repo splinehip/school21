@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:21:50 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 20:08:19 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 15:20:19 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # include "actions_handler.h"
 
-int		do_pwd(t_action action, char **env);
+int		do_pwd(t_action action);
 int		do_exit(t_action action, char **env);
 int		do_echo(t_action action);
+int		do_cd(t_action action, char **env);
 void	set_env(char *name, char *value, char ***env);
 void	unset_env(char *name, char **env);
 char	*get_env(char *name, char **env);
