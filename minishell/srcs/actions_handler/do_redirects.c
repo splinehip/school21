@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 15:41:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:11:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static inline void	do_read_input(char **read_input_res, char *target)
 	while (true)
 	{
 		readline_res = readline(">");
-		if (ft_strncmp(readline_res, target, ft_strlen(tmp)) == success)
+		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
 		{
-			free(tmp);
+			free(readline_res);
 			return ;
 		}
 		if (readline_res)
@@ -49,6 +49,7 @@ static inline void	do_read_input(char **read_input_res, char *target)
 		tmp = *read_input_res;
 		*read_input_res = ft_strjoin(*read_input_res, readline_res);
 		free(tmp);
+		free(readline_res);
 	}
 }
 
@@ -100,7 +101,7 @@ static inline void	do_write_read_input_res(char *read_input_res, char **env)
 		fd = open(READ_INPUT_FILE, O_CREAT | O_TRUNC | O_WRONLY);
 		if (fd > 0)
 		{
-			ft_putstr_fd(read_input_res, fd);
+			ft_putendl_fd(read_input_res, fd);
 			close(fd);
 			fd = open(READ_INPUT_FILE, O_RDONLY);
 			if (fd > 0)
