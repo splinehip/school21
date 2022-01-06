@@ -6,12 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:28:43 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 15:09:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ACTIONS_HANDLER_H
 # define ACTIONS_HANDLER_H
+# define READ_INPUT_FILE ".read_input.tmp"
 # include "enums.h"
 
 typedef struct s_pipe		t_pipe;

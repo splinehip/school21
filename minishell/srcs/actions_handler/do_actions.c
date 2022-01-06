@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 16:24:49 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 14:54:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static inline void	free_actions(t_actions *actions)
 	}
 	free(actions->pipes.item);
 	free(actions->item);
+	unlink(READ_INPUT_FILE);
 }
 
 static inline int	open_pipes(t_actions *actions)
