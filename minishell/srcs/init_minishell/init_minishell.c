@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/04 18:57:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:25:55 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "builtins.h"
 #include "input_handler.h"
 #include "minishell.h"
+#include "error_msgs.h"
 
 static inline void	env_dup(char ***env, char **_env)
 {
@@ -28,7 +29,7 @@ static inline void	env_dup(char ***env, char **_env)
 	*env = malloc(i * sizeof(char *));
 	if (*env == NULL)
 	{
-		printf("minishel: can't allocate memory for env.\n");
+		print_err(MSG_ERR_MEM, NULL, 0);
 		exit(1);
 	}
 	(*env)[--i] = NULL;
@@ -39,7 +40,7 @@ static inline void	env_dup(char ***env, char **_env)
 		{
 			while ((*env)[++i] != NULL)
 				free((*env)[i]);
-			printf("minishel: can't duplicate env.\n");
+			print_err(MSG_ERR_ENV, NULL, 0);
 			exit(1);
 		}
 	}

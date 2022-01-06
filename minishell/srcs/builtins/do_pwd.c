@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:37:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 16:16:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:27:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "builtins.h"
 #include "error_msgs.h"
+#include "minishell.h"
 
 int	do_pwd(t_action action, char **env)
 {
@@ -25,7 +26,7 @@ int	do_pwd(t_action action, char **env)
 	wd = get_env_value("PWD", env);
 	if (!wd)
 	{
-		printf(MSG_ERR_PWD);
+		print_err(MSG_ERR_PWD, NULL, 0);
 		return (1);
 	}
 	if (fd > 0)

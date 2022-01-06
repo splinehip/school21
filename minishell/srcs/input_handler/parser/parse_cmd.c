@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 15:05:34 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:27:34 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "error_msgs.h"
 #include "builtins.h"
 #include "input_handler.h"
+#include "minishell.h"
 
 inline char	*parse_cmd(char *cmd, char **env, int type)
 {
@@ -29,6 +30,6 @@ inline char	*parse_cmd(char *cmd, char **env, int type)
 	else
 		res = do_parse(cmd, env);
 	if (res == NULL)
-		printf(MSG_ERR_CMD_PARSEERR);
+		print_err(MSG_ERR_CMD_PARSEERR, NULL, 0);
 	return (res);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:02:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 14:30:41 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "bool.h"
@@ -21,22 +22,22 @@ static inline void	set_action_type(t_action *action)
 {
 	char	*name;
 
-	if (action->exec.argv == NULL)
+	if (action->exec.argv == NULL || !action->exec.argv[0])
 		return ;
 	name = action->exec.argv[0];
-	if (ft_strncmp("echo", name, ft_strlen("echo")) == 0)
+	if (ft_strncmp("echo", name, ft_strlen("echo") + 1) == 0)
 		action->type = echo;
-	else if (ft_strncmp("cd", name, ft_strlen("cd")) == 0)
+	else if (ft_strncmp("cd", name, ft_strlen("cd") + 1) == 0)
 		action->type = cd;
-	else if (ft_strncmp("pwd", name, ft_strlen("pwd")) == 0)
+	else if (ft_strncmp("pwd", name, ft_strlen("pwd") + 1) == 0)
 		action->type = pwd;
-	else if (ft_strncmp("export", name, ft_strlen("export")) == 0)
+	else if (ft_strncmp("export", name, ft_strlen("export") + 1) == 0)
 		action->type = export;
-	else if (ft_strncmp("unset", name, ft_strlen("unset")) == 0)
+	else if (ft_strncmp("unset", name, ft_strlen("unset") + 1) == 0)
 		action->type = unset;
-	else if (ft_strncmp("env", name, ft_strlen("env")) == 0)
+	else if (ft_strncmp("env", name, ft_strlen("env") + 1) == 0)
 		action->type = env;
-	else if (ft_strncmp("exit", name, ft_strlen("exit")) == 0)
+	else if (ft_strncmp("exit", name, ft_strlen("exit") + 1) == 0)
 		action->type = exit_built;
 	else
 		action->type = execute;

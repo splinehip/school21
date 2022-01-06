@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 11:49:46 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/26 11:54:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:23:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static inline void	error_and_exit(void)
 {
-	ft_printf("Error: memory allocation failure\n");
+	print_err("Error: memory allocation failure\n", NULL, 0);
 	exit(1);
 }
 

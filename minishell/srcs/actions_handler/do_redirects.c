@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   do_redirects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/01/06 15:36:38 by cflorind         ###   ########.fr       */
+=======
+/*   Updated: 2022/01/06 12:28:19 by lbaela           ###   ########.fr       */
+>>>>>>> b6296695ed4cf3407a2802334b436ddf588a76c1
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +29,18 @@
 #include "error_msgs.h"
 #include "input_handler.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 static inline void	do_read_input(char **read_input_res, char *target)
 {
 	char	*tmp;
 	char	*readline_res;
 
-	printf("target: %s\n", target);
 	while (true)
 	{
 		readline_res = readline(">");
 		if (ft_strncmp(readline_res, target, ft_strlen(tmp)) == success)
 		{
-			printf("!!read_input_res: %s\n", *read_input_res);
 			free(tmp);
 			return ;
 		}
@@ -51,7 +54,6 @@ static inline void	do_read_input(char **read_input_res, char *target)
 		*read_input_res = ft_strjoin(*read_input_res, readline_res);
 		free(tmp);
 	}
-	printf("read_input_res: %s\n", *read_input_res);
 }
 
 static inline void	do_input(

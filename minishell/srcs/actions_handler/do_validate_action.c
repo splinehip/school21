@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_validate_action.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 15:15:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:28:31 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "error_msgs.h"
 #include "builtins.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 static inline int	do_validation_path(
 	struct stat *sb, t_action *action, char **path)
@@ -69,9 +70,9 @@ static inline int	do_validation_whith_env_path(
 	}
 	free(path);
 	if (S_ISREG(sb->st_mode) == false)
-		printf(MSG_ERR_CMD_NFOUND, action->exec.argv[0]);
+		print_err(MSG_ERR_CMD_NFOUND, action->exec.argv[0], 0);
 	if (S_ISDIR(sb->st_mode))
-		printf(MSG_ERR_CMD_ISDIR, action->exec.argv[0]);
+		print_err(MSG_ERR_CMD_ISDIR, action->exec.argv[0], 0);
 	return (S_ISREG(sb->st_mode));
 }
 
@@ -82,19 +83,19 @@ inline int	is_valid_action_path(t_action *action, char **env)
 	ft_memset(&sb, 0, sizeof(sb));
 	if (action->exec.argv[0] == NULL)
 	{
-		printf(MSG_ERR_MEM);
+		print_err(MSG_ERR_MEM, NULL, 0);
 		return (false);
 	}
 	else if (*action->exec.argv[0] == dot || *action->exec.argv[0] == slash)
 	{
 		if (stat(action->exec.argv[0], &sb) != success)
 		{
-			printf(MSG_ERR_CMD_NFOUND, action->exec.argv[0]);
+			print_err(MSG_ERR_CMD_NFOUND, action->exec.argv[0], 0);
 			return (false);
 		}
 		else if (S_ISDIR(sb.st_mode))
 		{
-			printf(MSG_ERR_CMD_ISDIR, action->exec.argv[0]);
+			print_err(MSG_ERR_CMD_ISDIR, action->exec.argv[0], 0);
 			return (false);
 		}
 		return (S_ISREG(sb.st_mode));
