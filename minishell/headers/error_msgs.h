@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:45:36 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/06 12:29:47 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:26:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # define ERR_ARGC				"minishell: There should be no arguments\n"
 # define MSG_ERR_MEM			"minishell: Memory allocation failed\n"
 # define MSG_ERR_PWD			"minishell: No pwd value\n"
+# define MSG_ERR_CD				"minishell: cd: %s: "
+# define MSG_ERR_HOME			"minishell: Home value is not defined\n"
+# define MSG_ERR_CD_ARGS		"bash: cd: too many arguments\n"
 # define MSG_ERR_ENV			"minishell: Can't duplicate env.\n"
 # define MSG_ERR_SYNATX			"minishell: Syntax error\n"
 # define MSG_ERR_CMD_UQ\

@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 20:08:07 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 15:20:36 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ static inline int	do_action_builtin(t_action *action, char **env)
 	if (action->type == exit_built)
 		return (do_exit(*action, env));
 	else if (action->type == pwd)
-		return (do_pwd(*action, env));
+		return (do_pwd(*action));
+	else if (action->type == cd)
+		return (do_cd(*action, env));
 	else if (action->type == echo)
 		return (do_echo(*action));
 	return (success);
