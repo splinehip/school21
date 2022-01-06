@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enums.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:06:21 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/28 13:57:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 14:18:04 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,19 @@ enum e_controls
 
 enum e_actions
 {
-	builtin,
-	execute,
+	builtin			= 8,
+	execute			= 9,
 };
 
 enum e_builtins
 {
-	echo,
-	cd,
-	pwd,
-	export,
-	unset,
-	env,
-	exit_built,
+	echo			= 1,
+	cd				= 2,
+	pwd				= 3,
+	export			= 4,
+	unset			= 5,
+	env				= 6,
+	exit_built		= 7,
 };
 
 enum e_redirects

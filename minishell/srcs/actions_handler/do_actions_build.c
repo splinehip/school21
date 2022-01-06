@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:02:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 14:21:25 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "bool.h"
@@ -21,7 +22,7 @@ static inline void	set_action_type(t_action *action)
 {
 	char	*name;
 
-	if (action->exec.argv == NULL)
+	if (action->exec.argv == NULL || !action->exec.argv[0])
 		return ;
 	name = action->exec.argv[0];
 	if (ft_strncmp("echo", name, ft_strlen("echo")) == 0)
