@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 23:55:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 00:46:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static inline void	do_read_input(int *read_input_res, char *target, char **env)
 		perror(MSG_PROG_NAME);
 	while (fd)
 	{
-		readline_res = readline("> ");
+		readline_res = readline(MSG_RL_SUBINPUT);
 		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
 		{
 			free(readline_res);
