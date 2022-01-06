@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:28:25 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/05 18:25:53 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 11:53:37 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	do_exit(t_action action, char **env)
 			set_env("LES", action.exec.argv[1], &env);
 		else if (!is_number(action.exec.argv[1]))
 		{
-			printf(MSG_ERR_EXIT_NUM, action.exec.argv[1]);
+			print_err(MSG_ERR_EXIT_NUM, action.exec.argv[1], 0);
 			set_env("LES", "2", &env);
 		}
 		else
 		{
-			printf(MSG_ERR_EXIT_ARGS);
+			print_err(MSG_ERR_EXIT_ARGS, NULL, 0);
 			return (1);
 		}
 		return (1000);

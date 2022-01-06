@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_checkers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/29 18:34:39 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:17:30 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "bool.h"
 #include "error_msgs.h"
 #include "input_handler.h"
+#include "minishell.h"
 
 inline char	has_opened_quotes(char *cmd, int start, int end)
 {
@@ -119,23 +120,24 @@ inline int	check_cmd_sequenses(char *cmd)
 {
 	if (escaped_eof(cmd) == escape)
 	{
-		printf(MSG_ERR_CMD_EEOF);
+		print_err(MSG_ERR_CMD_EEOF, NULL, 0);
 		return (false);
 	}
 	if (has_opened_quotes(cmd, 0, ft_strlen(cmd)))
 	{
-		printf(MSG_ERR_CMD_UQ, has_opened_quotes(cmd, 0, ft_strlen(cmd)));
+		print_err(MSG_ERR_CMD_UQ, NULL,
+			has_opened_quotes(cmd, 0, ft_strlen(cmd)));
 		return (false);
 	}
 	if (more_two_sequenses_controls(cmd, 0, 0, 0))
 	{
-		printf(MSG_ERR_MORE2CNTRLS,
+		print_err(MSG_ERR_MORE2CNTRLS, NULL,
 			more_two_sequenses_controls(cmd, 0, 0, 0));
 		return (false);
 	}
 	if (has_opened_parenth(cmd, 0, 0, 0))
 	{
-		printf(MSG_ERR_CMD_HAS_UP);
+		print_err(MSG_ERR_CMD_HAS_UP, NULL, 0);
 		return (false);
 	}
 	return (true);

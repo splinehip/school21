@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 16:24:49 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 12:31:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "error_msgs.h"
 #include "builtins.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 static inline void	close_pipe(t_pipe item)
 {
@@ -62,7 +63,7 @@ static inline int	open_pipes(t_actions *actions)
 			while (--i >= 0)
 				close_pipe(actions->pipes.item[i]);
 			free_actions(actions);
-			printf(MSG_ERR_PIPE);
+			print_err(MSG_ERR_PIPE, NULL, 0);
 			return (unsuccess);
 		}
 		if (i > 0)

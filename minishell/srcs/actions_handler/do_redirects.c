@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_redirects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:51:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:28:19 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "mesages.h"
 #include "error_msgs.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 inline int	get_redirect_fd(t_redirect redirect)
 {
@@ -36,7 +37,7 @@ inline int	get_redirect_fd(t_redirect redirect)
 		fd = open(redirect.target, O_WRONLY | O_APPEND | O_CREAT, 0664);
 	else
 	{
-		printf(MSG_ERR_INVRDTYPE);
+		print_err(MSG_ERR_INVRDTYPE, NULL, 0);
 		return (fd);
 	}
 	if (fd < 0)

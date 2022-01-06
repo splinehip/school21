@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_node_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:43 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/29 18:30:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/06 12:28:06 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "bool.h"
 #include "input_handler.h"
 #include "libft.h"
+#include "minishell.h"
 
 static char	*extract_first(char *str, size_t n)
 {
@@ -86,22 +87,19 @@ t_node	*extract_node(char **str)
 	node = malloc(sizeof(t_node));
 	if (node == NULL)
 	{
-		printf(MSG_ERR_MEM);
+		print_err(MSG_ERR_MEM, NULL, 0);
 		return (NULL);
 	}
 	node->type = has_logical_operators(*str, 0, 0, 0);
 	n = split_symbol(*str, 0, 0, 0);
 	if (!n)
 	{
-		printf(MSG_ERR_SYNATX);
+		print_err(MSG_ERR_SYNATX, NULL, 0);
 		free (node);
 		return (NULL);
 	}
 	node->left = extract_first(*str, n);
 	node->right = extract_second(*str, n + 2);
-	// printf("Node created:\ntype %c%c\n", node->type, node->type);
-	// printf("str1: %s\n", node->left);
-	// printf("str2: %s\n\n", node->right);
 	return (node);
 }
 

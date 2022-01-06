@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 14:32:44 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 12:20:05 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 #include "builtins.h"
 #include "error_msgs.h"
 #include "libft.h"
+
+void	print_err(char *main, char	*word, char ch)
+{
+	int	stdout;
+
+	stdout = dup(STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
+	if (main && word)
+		printf(main, word);
+	else if (main && ch)
+		printf(main, ch);
+	else
+		printf("%s", main);
+	dup2(stdout, STDOUT_FILENO);
+	close(stdout);
+}
 
 int	main(int argc, char **argv, char **_env)
 {
@@ -34,6 +50,6 @@ int	main(int argc, char **argv, char **_env)
 		echo_ctl(1);
 		return (res);
 	}
-	write(2, ERR_ARGC, ft_strlen(ERR_ARGC));
+	print_err(ERR_ARGC, NULL, 0);
 	return (1);
 }

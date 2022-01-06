@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 11:46:20 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/06 11:49:45 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void	echo_ctl(char on);
 int		input_loop(t_sh_data *args);
 void	*xmalloc(size_t n, size_t size);
 void	free_args(t_sh_data *args, int del_env);
+void	print_err(char *main, char	*word, char ch);
 
 #endif
