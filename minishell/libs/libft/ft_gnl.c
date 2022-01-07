@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:47:55 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/29 15:36:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:21:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static inline int	line_join_buf(char **line, t_vars *vars)
 		vars->i++;
 	if (vars->i != 0)
 	{
-		tmp = (char *)ft_calloc(
+		tmp = ft_calloc(
 				ft_strlen(*line) + (vars->i - vars->j) + 1, sizeof(char));
 		if (tmp == NULL)
 		{

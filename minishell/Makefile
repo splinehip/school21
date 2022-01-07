@@ -2,8 +2,6 @@ include makefile.srcs
 
 NAME			= minishell
 
-TMP_FILES		= .minishell_history .read_input.tmp .block_read_input.tmp
-
 SRCS_DIR		= srcs
 
 OBJS_DIR		= objs
@@ -60,7 +58,7 @@ clean:		$(dir ${LIBFT})
 			${RM} ${OBJS_DIR}
 
 fclean:		clean
-			${RM} ${NAME} ${NAME}.dSYM ${TMP_FILES}
+			${RM} ${NAME} ${NAME}.dSYM
 
 re:			fclean all
 
