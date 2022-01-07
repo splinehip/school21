@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 12:20:05 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 04:34:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "bool.h"
 #include "minishell.h"
@@ -43,6 +44,7 @@ int	main(int argc, char **argv, char **_env)
 	if (argc == 1 && init_minishell(&args, _env))
 	{
 		input_loop(&args);
+		close(args.fd);
 		free(args.res);
 		args.res = get_env_value("LES", args.env);
 		res = ft_atoi(args.res);

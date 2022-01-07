@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/06 12:25:55 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 04:36:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <fcntl.h>
+#include <readline/history.h>
 
 #include "libft.h"
 #include "bool.h"
@@ -46,12 +48,36 @@ static inline void	env_dup(char ***env, char **_env)
 	}
 }
 
+static inline void	load_history(t_sh_data *args)
+{
+	int		res;
+	char	*line;
+
+	args->fd = open(HISTORY_FILE, O_CREAT | O_APPEND | O_RDWR, 0664);
+	if (args->fd < 0)
+	{
+		print_err(MSG_ERR_INVAL_HIS_FD, NULL, false);
+		return ;
+	}
+	res = ft_gnl(args->fd, &line);
+	while (res > 0)
+	{
+		add_history(line);
+		free(line);
+		line = NULL;
+		res = ft_gnl(args->fd, &line);
+		if (res < 0)
+			free(line);
+	}
+}
+
 int	init_minishell(t_sh_data *args, char **_env)
 {
 	args->msg = NULL;
 	args->cmd = NULL;
 	args->res = NULL;
 	args->env = NULL;
+	load_history(args);
 	env_dup(&args->env, _env);
 	set_env("LES", "0", &args->env);
 	set_signals(1, 0);

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 01:20:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 04:43:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,21 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-static inline void	do_read_input(int *read_input_res, char *target, char **env)
+static inline void	do_read_input(
+	char *target, int *read_input_res, int *pipe_in, char **env)
 {
 	int		fd;
 	char	*parsed_res;
 	char	*readline_res;
 
 	fd = open(READ_INPUT_FILE, O_CREAT | O_TRUNC | O_WRONLY, 0664);
-	if (fd < 0)
-		perror(MSG_PROG_NAME);
-	while (fd)
+	*read_input_res = false;
+	while (fd > 0)
 	{
 		readline_res = readline(MSG_RL_SUBINPUT);
 		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
 		{
+			close(fd);
 			free(readline_res);
 			*read_input_res = true;
 			break ;
@@ -51,53 +52,43 @@ static inline void	do_read_input(int *read_input_res, char *target, char **env)
 		free(parsed_res);
 		free(readline_res);
 	}
-	close(fd);
+	if (*read_input_res == false)
+		perror(MSG_PROG_NAME);
+	*pipe_in = false;
 }
 
 static inline void	do_input(
-	t_action action, t_redirect *redirect, int *read_input_res, char **env)
+	t_action action, t_redirect *redirect, int *pipe_in)
 {
-	int	i;
 	int	fd;
 
-	if (redirect->type == input && redirect->target == NULL)
-	{
-		i = 0;
-		fd = 0;
-		while (action.redirects.len > 1 && ++i < action.redirects.len && !fd)
-			if (action.redirects.item[i].type == input
-				|| action.redirects.item[i].type == read_input)
-				fd++;
-		if (fd == false)
-			dup2(action.pipe_in, 0);
-	}
-	else if (redirect->type == input)
+	if (redirect->target == NULL && pipe_in)
+		dup2(action.pipe_in, 0);
+	else if (redirect->target)
 	{
 		fd = get_redirect_fd(*redirect);
 		if (fd > 0)
 			dup2(fd, 0);
 		close(fd);
 	}
-	else if (redirect->type == read_input)
-		do_read_input(read_input_res, redirect->target, env);
+	*pipe_in = false;
 }
 
 static inline void	do_output(
-	t_action action, t_redirect *redirect, int pipe_out)
+	t_action action, t_redirect *redirect, int *pipe_out)
 {
 	int	fd;
 
 	if (redirect->target == NULL && pipe_out)
 		dup2(action.pipe_out, 1);
-	else
+	else if (redirect->target)
 	{
 		fd = get_redirect_fd(*redirect);
 		if (fd > 0)
-		{
 			dup2(fd, 1);
-			close(fd);
-		}
+		close(fd);
 	}
+	*pipe_out = false;
 }
 
 static inline void	do_read_input_redirect(void)
@@ -115,26 +106,24 @@ static inline void	do_read_input_redirect(void)
 inline void	do_redirects(t_action action, char **env)
 {
 	int	i;
+	int	pipe_in;
 	int	pipe_out;
 	int	read_input_res;
 
 	i = 0;
+	pipe_in = true;
 	pipe_out = true;
 	read_input_res = false;
 	while (i < action.redirects.len)
 	{
-		if (action.redirects.item[i].type == input
-			|| action.redirects.item[i].type == read_input)
-		{
-			read_input_res = false;
-			do_input(action, &action.redirects.item[i], &read_input_res, env);
-		}
+		if (action.redirects.item[i].type == input)
+			do_input(action, &action.redirects.item[i], &pipe_in);
+		if (action.redirects.item[i].type == read_input)
+			do_read_input(action.redirects.item[i].target, &read_input_res,
+				&pipe_in, env);
 		if (action.redirects.item[i].type == output
 			|| action.redirects.item[i].type == output_append)
-		{
-			do_output(action, &action.redirects.item[i], pipe_out);
-			pipe_out = false;
-		}
+			do_output(action, &action.redirects.item[i], &pipe_out);
 		i++;
 	}
 	if (read_input_res)

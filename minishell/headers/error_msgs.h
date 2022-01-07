@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msgs.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:45:36 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/06 17:26:40 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 04:11:55 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@
 # define MSG_ERR_PIPE			"minishell: Pipes creation fail\n"
 # define MSG_ERR_INVRDTYPE		"minishell: Invalide redirect type\n"
 # define MSG_ERR_EXIT_NUM\
-	"minishell: exit: %s: numeric argument required\n"
-# define MSG_ERR_EXIT_ARGS		"minishell: exit: too many arguments\n"
+	"minishell: exit: %s: Numeric argument required\n"
+# define MSG_ERR_EXIT_ARGS		"minishell: exit: Too many arguments\n"
+# define MSG_ERR_INVAL_HIS_FD	"minishell: Invalid descriptor of history file\n"
 
 #endif

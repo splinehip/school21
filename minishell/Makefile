@@ -1,24 +1,26 @@
 include makefile.srcs
 
-NAME		= minishell
+NAME			= minishell
 
-SRCS_DIR	= srcs
+HISTORY_FILE	= .minishell_history
 
-OBJS_DIR	= objs
+SRCS_DIR		= srcs
 
-OBJS		= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
+OBJS_DIR		= objs
 
-LIBFT		= libs/libft/libft.a
+OBJS			= ${addprefix ${OBJS_DIR}/, ${SRCS:.c=.o}}
 
-LIBREADLINE	= libs/libreadline
+LIBFT			= libs/libft/libft.a
 
-INC_HEADERS	= -Iheaders -I$(dir ${LIBFT})
+LIBREADLINE		= libs/libreadline
+
+INC_HEADERS		= -Iheaders -I$(dir ${LIBFT})
 
 INC_LIBS_DIR	= -L$(dir ${LIBFT})
 
-INC_LIBS	=  -lft
+INC_LIBS		=  -lft
 
-OS_NAME		:= $(shell uname -s)
+OS_NAME			:= $(shell uname -s)
 ifeq ($(OS_NAME), Darwin)
 	INC_HEADERS		+= -I${LIBREADLINE}/include
 	INC_LIBS_DIR	+= -L${LIBREADLINE}/lib -L/usr/local/opt/readline/lib
@@ -58,7 +60,7 @@ clean:		$(dir ${LIBFT})
 			${RM} ${OBJS_DIR}
 
 fclean:		clean
-			${RM} ${NAME} ${NAME}.dSYM
+			${RM} ${NAME} ${NAME}.dSYM ${HISTORY_FILE}
 
 re:			fclean all
 

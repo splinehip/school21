@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 11:49:45 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 04:14:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define PFX_MSG "\001\033[32m\002minishell:\001\033[33m\002"
-# define POSFX_MSG "\001\033[32m$\033[39m\002 "
-# define PROMPT "minishell$ "
+# define PFX_MSG		"\001\033[32m\002minishell:\001\033[33m\002"
+# define POSFX_MSG		"\001\033[32m$\033[39m\002 "
+# define PROMPT			"minishell$ "
+# define HISTORY_FILE	".minishell_history"
 
 typedef struct s_sh_data
 {
+	int		fd;
 	char	*cmd;
 	char	*msg;
 	char	*res;

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/06 23:12:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 04:37:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ static inline char	*get_prompt(char **env)
 	return (res);
 }
 
+static inline void	do_add_history(t_sh_data *args)
+{
+	if (args->fd > 0)
+		ft_putendl_fd(args->cmd, args->fd);
+	add_history(args->cmd);
+}
+
 int	input_loop(t_sh_data *args)
 {
 	while (true)
@@ -58,7 +65,7 @@ int	input_loop(t_sh_data *args)
 			return (0);
 		}
 		if (ft_strlen(args->cmd))
-			add_history(args->cmd);
+			do_add_history(args);
 		set_signals(0, 1);
 		args->res = ft_itoa(input_handler(&args->cmd, args->env));
 		set_signals(1, 0);
