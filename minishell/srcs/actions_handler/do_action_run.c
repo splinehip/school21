@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 15:20:36 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 17:39:43 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "error_msgs.h"
 #include "builtins.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 static inline void	do_update_shlvl(char **env)
 {
@@ -53,29 +54,35 @@ static inline int	do_action_builtin(t_action *action, char **env)
 	return (success);
 }
 
+static void	action_child(t_action *action, char **env)
+{
+	if (is_valid_action_path(action, env) == false)
+		exit(127);
+	do_update_shlvl(env);
+	do_redirects(*action, env);
+	if (action->pipe_in)
+		close(action->pipe_in);
+	if (action->pipe_out)
+		close(action->pipe_out);
+	if (action->exec.path)
+		execve(action->exec.path, action->exec.argv, env);
+	execve(action->exec.argv[0], action->exec.argv, env);
+}
+
 static inline int	do_action_exec(t_action *action, char **env)
 {
 	action->pid = fork();
 	if (action->pid == success)
-	{
-		if (is_valid_action_path(action, env) == false)
-			exit(127);
-		do_update_shlvl(env);
-		do_redirects(*action, env);
-		if (action->pipe_in)
-			close(action->pipe_in);
-		if (action->pipe_out)
-			close(action->pipe_out);
-		if (action->exec.path)
-			execve(action->exec.path, action->exec.argv, env);
-		execve(action->exec.argv[0], action->exec.argv, env);
-	}
+		action_child(action, env);
 	else if (action->pid < 0)
 	{
 		perror(MSG_PROG_NAME);
 		action->pid = 0;
 		return (unsuccess);
 	}
+	if (action->pid > 0
+		&& ft_strnstr(*action->exec.argv, SHBIN, ft_strlen(*action->exec.argv)))
+		set_signals(2, 0);
 	if (action->pipe_out)
 		close(action->pipe_out);
 	return (success);

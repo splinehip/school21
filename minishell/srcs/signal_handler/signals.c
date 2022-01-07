@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2021/12/30 11:45:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 17:16:01 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <readline/history.h>
 
 #include "minishell.h"
+#include "libft.h"
 
 void	echo_ctl(char on)
 {
@@ -67,11 +68,20 @@ void	set_signals(short is_shell, short ctl)
 	sig_t	h_fun;
 
 	if (is_shell == 1)
+	{
+		// printf("Set to shell\n");
 		h_fun = &handler_shell;
+	}
 	else if (is_shell == 2)
+	{
+		// printf("Set to shell-parent\n");
 		h_fun = &handler_parent;
+	}
 	else
+	{
+		// printf("Set to child\n");
 		h_fun = &handler_child;
+	}
 	echo_ctl(ctl);
 	signal(SIGINT, h_fun);
 	signal(SIGQUIT, h_fun);

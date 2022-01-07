@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   do_read_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 13:20:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 13:58:21 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:40:17 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <readline/readline.h>
