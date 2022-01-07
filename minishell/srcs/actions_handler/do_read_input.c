@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 13:20:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 13:43:10 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 13:58:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,16 @@ inline void	do_read_input(
 	char *target, int *read_input_res, int *pipe_in, char **env)
 {
 	int		fd;
-	int		block_fd;
 	char	*readline_res;
 
-	while (access(BLOCK_READ_INPUT_FILE, F_OK) == success)
-		usleep(500);
-	block_fd = open(BLOCK_READ_INPUT_FILE, O_CREAT, 0664);
+	fd = success;
+	while (fd == success)
+		fd = access(BLOCK_READ_INPUT_FILE, F_OK);
+	fd = open(BLOCK_READ_INPUT_FILE, O_CREAT, 0664);
 	*read_input_res = false;
-	if (block_fd > 0)
+	if (fd > 0)
 	{
+		close(fd);
 		fd = open(READ_INPUT_FILE, O_CREAT | O_TRUNC | O_WRONLY, 0664);
 		while (fd > 0)
 		{
@@ -71,6 +72,5 @@ inline void	do_read_input(
 			perror(MSG_PROG_NAME);
 	}
 	*pipe_in = false;
-	close(block_fd);
 	unlink(BLOCK_READ_INPUT_FILE);
 }
