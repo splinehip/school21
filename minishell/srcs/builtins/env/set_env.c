@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/12 17:25:36 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 20:00:10 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "builtins.h"
@@ -49,6 +50,7 @@ static inline void	update(char *name, char *value, char **env)
 	char	*env_var;
 
 	i = 0;
+	// printf("set_env - append\n");
 	name = ft_strjoinchr(name, '=');
 	while (env[i] && ft_strncmp(env[i], name, ft_strlen(name)) != 0)
 		i++;
@@ -67,9 +69,12 @@ void	set_env(char *name, char *value, char ***env)
 
 	if (name == NULL || value == NULL)
 		return ;
+	// printf("here 1\n");
 	tmp = get_env(name, *env);
+	// printf("here 2\n");
 	if (tmp == NULL)
 		return (append(name, value, env));
 	free(tmp);
+	// printf("set_env - update\n");
 	update(name, value, *env);
 }

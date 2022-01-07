@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 17:39:43 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 19:59:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ static inline int	do_action_builtin(t_action *action, char **env)
 		return (do_cd(*action, env));
 	else if (action->type == echo)
 		return (do_echo(*action));
+	else if (action->type == unset)
+		return (do_unset(*action, env));
+	else if (action->type == export)
+		return (do_export(*action, env));
 	return (success);
 }
 
