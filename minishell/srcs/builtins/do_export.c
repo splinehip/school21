@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 20:20:41 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 20:27:43 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	do_export(t_action action, char **env)
 	{
 		while (env[i])
 		{
+			write(fd, EXPORT_PREPEND, ft_strlen(EXPORT_PREPEND));
 			write(fd, env[i], ft_strlen(env[i]));
 			write(fd, "\n", 1);
 			i++;

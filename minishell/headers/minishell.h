@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 19:59:47 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/07 20:27:04 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define PROMPT			"minishell$ "
 # define SHBIN			"/minishell"
 # define HISTORY_FILE	".minishell_history"
+# define EXPORT_PREPEND	"declare -x "
 
 typedef struct s_sh_data
 {
