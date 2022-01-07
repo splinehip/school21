@@ -2,7 +2,7 @@ include makefile.srcs
 
 NAME			= minishell
 
-HISTORY_FILE	= .minishell_history
+TMP_FILES		= .minishell_history .read_input.tmp .block_read_input.tmp
 
 SRCS_DIR		= srcs
 
@@ -60,7 +60,7 @@ clean:		$(dir ${LIBFT})
 			${RM} ${OBJS_DIR}
 
 fclean:		clean
-			${RM} ${NAME} ${NAME}.dSYM ${HISTORY_FILE}
+			${RM} ${NAME} ${NAME}.dSYM ${TMP_FILES}
 
 re:			fclean all
 

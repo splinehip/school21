@@ -6,15 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 04:43:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 13:43:35 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <readline/readline.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -26,36 +23,6 @@
 #include "input_handler.h"
 #include "actions_handler.h"
 #include "minishell.h"
-
-static inline void	do_read_input(
-	char *target, int *read_input_res, int *pipe_in, char **env)
-{
-	int		fd;
-	char	*parsed_res;
-	char	*readline_res;
-
-	fd = open(READ_INPUT_FILE, O_CREAT | O_TRUNC | O_WRONLY, 0664);
-	*read_input_res = false;
-	while (fd > 0)
-	{
-		readline_res = readline(MSG_RL_SUBINPUT);
-		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
-		{
-			close(fd);
-			free(readline_res);
-			*read_input_res = true;
-			break ;
-		}
-		parsed_res = parse_cmd(readline_res, env, false);
-		if (parsed_res)
-			ft_putendl_fd(parsed_res, fd);
-		free(parsed_res);
-		free(readline_res);
-	}
-	if (*read_input_res == false)
-		perror(MSG_PROG_NAME);
-	*pipe_in = false;
-}
 
 static inline void	do_input(
 	t_action action, t_redirect *redirect, int *pipe_in)

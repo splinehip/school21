@@ -6,13 +6,14 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 21:37:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 13:39:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ACTIONS_HANDLER_H
 # define ACTIONS_HANDLER_H
-# define READ_INPUT_FILE ".read_input.tmp"
+# define READ_INPUT_FILE 		".read_input.tmp"
+# define BLOCK_READ_INPUT_FILE	".block_read_input.tmp"
 # include "enums.h"
 
 typedef struct s_pipe		t_pipe;
@@ -77,6 +78,8 @@ int			do_action_run(t_action *action, char **env);
 void		do_redirects(t_action action, char **env);
 int			do_redirects_builtin(t_action action);
 int			get_redirect_fd(t_redirect redirect);
+void		do_read_input(
+				char *target, int *read_input_res, int *pipe_in, char **env);
 int			is_valid_action_path(t_action *action, char **env);
 
 #endif
