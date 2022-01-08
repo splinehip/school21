@@ -38,7 +38,8 @@ ACTIONS_HANDLER	= $(addprefix ${ACTIONS_HANDLER_DIR}/, \
 do_actions_build.c						do_actions.c\
 parse_redirects.c						do_validate_action.c\
 do_action_run.c							get_redirect_fd.c\
-do_redirects.c							do_redirects_builtin.c)
+do_redirects.c							do_redirects_builtin.c\
+childe_exit_handler.c)
 # end ACTIONS_HANDLER
 
 # SIGNALS

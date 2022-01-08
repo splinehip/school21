@@ -96,6 +96,7 @@
           "limits": "c",
           "stdarg.h": "c",
           "makefile.*": "makefile",
+          "types.h": "c"
         },
       },
 }

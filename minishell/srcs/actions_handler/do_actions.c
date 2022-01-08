@@ -6,11 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:02:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 20:17:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 
 #include "libft.h"
@@ -93,15 +94,11 @@ int	do_actions(t_actions *actions, char **env)
 	exit_status = unsuccess;
 	while (i < actions->len)
 		res = do_action_run(&actions->item[i++], env);
-	i = 0;
-	while (i < actions->len)
-	{
-		if (actions->item[i].pid)
-			waitpid(actions->item[i].pid, &exit_status, false);
-		i++;
-	}
+	childe_exit_handler(actions, &exit_status, res);
 	free_actions(actions);
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
+	else if (WIFSIGNALED(exit_status))
+		return (WTERMSIG(exit_status));
 	return (res);
 }
