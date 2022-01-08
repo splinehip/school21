@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 20:17:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 23:32:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,13 @@ int	do_actions(t_actions *actions, char **env)
 	while (i < actions->len)
 		res = do_action_run(&actions->item[i++], env);
 	childe_exit_handler(actions, &exit_status, res);
+	if (actions->item[actions->len - 1].pid)
+	{
+		if (WIFEXITED(exit_status))
+			return (WEXITSTATUS(exit_status));
+		else if (WIFSIGNALED(exit_status))
+			return (WTERMSIG(exit_status));
+	}
 	free_actions(actions);
-	if (WIFEXITED(exit_status))
-		return (WEXITSTATUS(exit_status));
-	else if (WIFSIGNALED(exit_status))
-		return (WTERMSIG(exit_status));
 	return (res);
 }
