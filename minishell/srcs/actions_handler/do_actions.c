@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 23:32:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/09 00:13:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	do_actions(t_actions *actions, char **env)
 	childe_exit_handler(actions, &exit_status, res);
 	if (actions->item[actions->len - 1].pid)
 	{
+		free_actions(actions);
 		if (WIFEXITED(exit_status))
 			return (WEXITSTATUS(exit_status));
 		else if (WIFSIGNALED(exit_status))
