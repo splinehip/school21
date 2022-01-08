@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 20:27:04 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/08 17:49:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define POSFX_MSG		"\001\033[32m$\033[39m\002 "
 # define PROMPT			"minishell$ "
 # define SHBIN			"/minishell"
-# define HISTORY_FILE	".minishell_history"
+# define HISTORY_FILE	"/tmp/.minishell_history"
 # define EXPORT_PREPEND	"declare -x "
 
 typedef struct s_sh_data

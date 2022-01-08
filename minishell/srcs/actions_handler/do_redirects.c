@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:35:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:45:29 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "enums.h"
 #include "mesages.h"
 #include "error_msgs.h"
-#include "input_handler.h"
 #include "actions_handler.h"
 #include "minishell.h"
 
