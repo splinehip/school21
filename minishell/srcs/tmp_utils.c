@@ -55,19 +55,14 @@ static inline void	print_actions(t_actions *actions, int i, int j)
 		while (actions->item[i].exec.argv[j])
 			ft_printf(" %s", actions->item[i].exec.argv[j++]);
 		ft_printf("\n");
-		if (actions->item[i].redirects.len)
-		{
-			j = 0;
-			while (j < actions->item[i].redirects.len)
-			{
-				ft_printf(" redirect %i: type: %s, target: %s\n", j,
-					get_redirect_type_name(actions->item[i].redirects.item[j]),
-					actions->item[i].redirects.item[j].target);
-				j++;
-			}
-		}
-		else
-			ft_printf(" redirects: none\n");
+		ft_printf(" redirect_in: type: %s, target: %s",
+			get_redirect_type_name(actions->item[i].redirect_in),
+			actions->item[i].redirect_in.target);
+		if (actions->item[i].redirect_in.target == NULL)
+			ft_printf("\n");
+		ft_printf(" redirect_out: type: %s, target: %s\n",
+			get_redirect_type_name(actions->item[i].redirect_out),
+			actions->item[i].redirect_out.target);
 		i++;
 	}
 }

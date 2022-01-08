@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:08:47 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/06 21:21:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 12:37:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	do_cd(t_action action, char **env)
 		print_err(MSG_ERR_CD_ARGS, NULL, 0);
 		return (1);
 	}
-	if (action.redirects.len)
+	if (action.redirect_out.type >= 0)
 		return (0);
 	return (run_cd(action, env));
 }

@@ -6,13 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 13:43:35 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:26:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
 #include <unistd.h>
 
 #include "libft.h"
@@ -24,75 +23,56 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-static inline void	do_input(
-	t_action action, t_redirect *redirect, int *pipe_in)
+static inline void	do_input(t_action action, t_redirect *redirect)
 {
 	int	fd;
 
-	if (redirect->target == NULL && pipe_in)
-		dup2(action.pipe_in, 0);
+	if (redirect->target == NULL)
+		dup2(action.pipe_in, STDIN_FILENO);
 	else if (redirect->target)
 	{
 		fd = get_redirect_fd(*redirect);
 		if (fd > 0)
-			dup2(fd, 0);
-		close(fd);
+		{
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
 	}
-	*pipe_in = false;
 }
 
-static inline void	do_output(
-	t_action action, t_redirect *redirect, int *pipe_out)
+static inline void	do_read_input(t_action action, t_redirect *redirect)
+{
+	if (redirect->target == NULL)
+		return ;
+	dup2(action.pipe_read_input[out], STDIN_FILENO);
+	close(action.pipe_read_input[in]);
+	close(action.pipe_read_input[out]);
+}
+
+static inline void	do_output(t_action action, t_redirect *redirect)
 {
 	int	fd;
 
-	if (redirect->target == NULL && pipe_out)
-		dup2(action.pipe_out, 1);
-	else if (redirect->target)
-	{
-		fd = get_redirect_fd(*redirect);
-		if (fd > 0)
-			dup2(fd, 1);
-		close(fd);
-	}
-	*pipe_out = false;
-}
-
-static inline void	do_read_input_redirect(void)
-{
-	int		fd;
-
-	fd = open(READ_INPUT_FILE, O_RDONLY);
-	if (fd > 0)
-		dup2(fd, 0);
+	if (redirect->target == NULL)
+		dup2(action.pipe_out, STDOUT_FILENO);
 	else
-		perror(MSG_PROG_NAME);
-	close(fd);
+	{
+		fd = get_redirect_fd(*redirect);
+		if (fd > 0)
+		{
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+	}
 }
 
-inline void	do_redirects(t_action action, char **env)
+inline void	do_redirects(t_action action)
 {
-	int	i;
-	int	pipe_in;
-	int	pipe_out;
-	int	read_input_res;
-
-	i = 0;
-	pipe_in = true;
-	pipe_out = true;
-	read_input_res = false;
-	while (i < action.redirects.len)
-	{
-		if (action.redirects.item[i].type == input)
-			do_input(action, &action.redirects.item[i], &pipe_in);
-		if (action.redirects.item[i].type == read_input)
-			do_read_input(action.redirects.item[i].target, &read_input_res,
-				&pipe_in, env);
-		if (action.redirects.item[i].type == output
-			|| action.redirects.item[i].type == output_append)
-			do_output(action, &action.redirects.item[i], &pipe_out);
-		i++;
-	}
-	if (read_input_res)
-		do_read_input_redirect();
+	if (action.redirect_in.type == input)
+		do_input(action, &action.redirect_in);
+	if (action.redirect_in.type == read_input)
+		do_read_input(action, &action.redirect_in);
+	if (action.redirect_out.type == output
+		|| action.redirect_out.type == output_append)
+		do_output(action, &action.redirect_out);
 }

@@ -6,37 +6,66 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 00:24:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:24:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
 
 #include "libft.h"
 #include "bool.h"
+#include "mesages.h"
+#include "input_handler.h"
 #include "actions_handler.h"
 
-static inline t_redirect	*append_redirect(t_redirects *redirects)
+struct s_extract_iter
 {
-	t_redirect	*tmp;
+	int		i;
+	char	**str;
+};
 
-	if (redirects->len == false)
+static inline void	parse_read_input_target(t_redirect *redirect, char **env)
+{
+	char	*tmp;
+
+	if (redirect->target)
 	{
-		redirects->item = ft_calloc(1, sizeof(t_redirect));
-		if (redirects->item)
-			redirects->len += 1;
-		return (redirects->item);
+		tmp = redirect->target;
+		redirect->target = parse_cmd(redirect->target, env, false);
+		free(tmp);
 	}
-	tmp = redirects->item;
-	redirects->item = ft_calloc(redirects->len + 1, sizeof(t_redirect));
-	ft_memcpy(redirects->item, tmp, sizeof(t_redirect) * redirects->len);
-	free(tmp);
-	if (redirects->item)
+}
+
+static inline void	do_read_input(
+	t_redirect *redirect, char *target, char **env)
+{
+	char	*tmp;
+	char	*readline_res;
+
+	readline_res = NULL;
+	free(redirect->target);
+	redirect->target = NULL;
+	while (target)
 	{
-		redirects->len += 1;
-		return (&redirects->item[redirects->len - 1]);
+		readline_res = readline(MSG_RL_SUBINPUT);
+		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
+			break ;
+		if (readline_res)
+		{
+			tmp = readline_res;
+			readline_res = ft_strjoinchr(readline_res, endl);
+			free(tmp);
+			tmp = redirect->target;
+			redirect->target = ft_strjoin(redirect->target, readline_res);
+			free(tmp);
+		}
+		free(readline_res);
 	}
-	return (NULL);
+	free(target);
+	free(readline_res);
+	parse_read_input_target(redirect, env);
 }
 
 static inline void	update_str(char **str, int i, int j)
@@ -51,61 +80,50 @@ static inline void	update_str(char **str, int i, int j)
 }
 
 static inline void	do_extract(
-	t_redirects *redirects, char **str, int i, int type)
+	t_redirect *redirect, struct s_extract_iter *iter, int type, char **env)
 {
-	t_redirect	*new;
-
-	new = append_redirect(redirects);
-	if (new == NULL)
-		return ;
-	new->type = type;
-	if (ft_strlen(str[i]) == 1
-		|| (ft_strlen(str[i]) == 2 && str[i][0] == str[i][1]))
+	redirect->type = type;
+	if (ft_strlen(iter->str[iter->i]) == 1
+		|| (ft_strlen(iter->str[iter->i]) == 2
+			&& iter->str[iter->i][0] == iter->str[iter->i][1]))
 	{
-		new->target = str[i + 1];
-		update_str(str, i, i + 2);
+		redirect->target = iter->str[iter->i + 1];
+		update_str(iter->str, iter->i, iter->i + 2);
 	}
 	else
 	{
-		new->target = ft_strtrim(str[i], "<>");
-		update_str(str, i, i + 1);
+		free(redirect->target);
+		redirect->target = ft_strtrim(iter->str[iter->i], "<>");
+		update_str(iter->str, iter->i, iter->i + 1);
 	}
+	if (redirect->type == read_input)
+		do_read_input(redirect, ft_strdup(redirect->target), env);
 }
 
-inline void	extract_redirects(t_redirects *redirects, char **str)
+inline void	extract_redirects(t_action *action, char **str, char **env)
 {
-	int	i;
+	struct s_extract_iter	iter;
 
-	i = 0;
-	while (str && str[i])
+	iter.i = 0;
+	iter.str = str;
+	while (str && str[iter.i])
 	{
-		if (str[i][0] == left_corner)
+		if (str[iter.i][0] == left_corner)
 		{
-			if (str[i][1] == left_corner)
-				do_extract(redirects, str, i, read_input);
+			if (str[iter.i][1] == left_corner)
+				do_extract(&action->redirect_in, &iter, read_input, env);
 			else
-				do_extract(redirects, str, i, input);
-			i--;
+				do_extract(&action->redirect_in, &iter, input, env);
+			iter.i--;
 		}
-		else if (str[i][0] == right_corner)
+		else if (str[iter.i][0] == right_corner)
 		{
-			if (str[i][1] == right_corner)
-				do_extract(redirects, str, i, output_append);
+			if (str[iter.i][1] == right_corner)
+				do_extract(&action->redirect_out, &iter, output_append, env);
 			else
-				do_extract(redirects, str, i, output);
-			i--;
+				do_extract(&action->redirect_out, &iter, output, env);
+			iter.i--;
 		}
-		i++;
+		iter.i++;
 	}
-}
-
-inline void	add_redirects(t_redirects *redirects, int type, char *target)
-{
-	t_redirect	*new;
-
-	new = append_redirect(redirects);
-	if (new == NULL)
-		return ;
-	new->type = type;
-	new->target = target;
 }

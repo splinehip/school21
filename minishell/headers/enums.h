@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   enums.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:06:21 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 14:18:04 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/08 17:05:34 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENUMS_H
 # define ENUMS_H
 
-enum						e_controls;
-enum						e_actions;
-enum						e_builtins;
-enum						e_redirects;
-enum						e_direction;
+enum	e_controls;
+enum	e_actions;
+enum	e_builtins;
+enum	e_pipe;
+enum	e_redirects;
+enum	e_direction;
 
 enum e_controls
 {
@@ -61,6 +62,12 @@ enum e_builtins
 	unset			= 5,
 	env				= 6,
 	exit_built		= 7,
+};
+
+enum e_pipes
+{
+	out,
+	in,
 };
 
 enum e_redirects

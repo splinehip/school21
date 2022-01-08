@@ -6,35 +6,28 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:11:37 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/05 17:28:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 12:38:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "bool.h"
 #include "actions_handler.h"
 
 inline int	do_redirects_builtin(t_action action)
 {
-	int	i;
 	int	fd;
 
-	i = 0;
-	fd = 1;
-	while (i < action.redirects.len)
+	fd = unsuccess;
+	if (action.redirect_out.type == output
+		|| action.redirect_out.type == output_append)
 	{
-		if (action.redirects.item[i].type == output
-			|| action.redirects.item[i].type == output_append)
-		{
-			if (fd > 2 && fd != action.pipe_out)
-				close(fd);
-			if (action.redirects.item[i].target == NULL)
-				fd = action.pipe_out;
-			else
-				fd = get_redirect_fd(action.redirects.item[i]);
-		}
-		i++;
+		if (action.redirect_out.target == NULL)
+			fd = action.pipe_out;
+		else if (action.redirect_out.target)
+			fd = get_redirect_fd(action.redirect_out);
 	}
 	return (fd);
 }

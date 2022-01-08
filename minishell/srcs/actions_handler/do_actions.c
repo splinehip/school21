@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 03:53:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:02:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,33 @@ static inline void	free_actions(t_actions *actions)
 	while (actions && i < actions->len)
 	{
 		j = 0;
-		while (j < actions->item[i].redirects.len)
-			free(actions->item[i].redirects.item[j++].target);
-		free(actions->item[i].redirects.item);
-		j = 0;
 		while (actions->item[i].exec.argv && actions->item[i].exec.argv[j])
 			free(actions->item[i].exec.argv[j++]);
 		free(actions->item[i].exec.argv);
 		free(actions->item[i].exec.path);
+		free(actions->item[i].redirect_in.target);
+		free(actions->item[i].redirect_out.target);
 		if (i < actions->pipes.len)
 			close_pipe(actions->pipes.item[i]);
 		i++;
 	}
 	free(actions->pipes.item);
 	free(actions->item);
-	unlink(READ_INPUT_FILE);
 }
 
 static inline int	open_pipes(t_actions *actions)
 {
 	int	i;
+	int	pipe_read_input;
 
 	i = 0;
+	pipe_read_input = 0;
 	while (i < actions->len)
 	{
-		if (i < actions->pipes.len && pipe(actions->pipes.item[i].pipe) < 0)
+		if (actions->item[i].redirect_in.type == read_input)
+			pipe_read_input = pipe(actions->item[i].pipe_read_input);
+		if ((i < actions->pipes.len && pipe(actions->pipes.item[i].pipe) < 0)
+			|| pipe_read_input < 0)
 		{
 			while (--i >= 0)
 				close_pipe(actions->pipes.item[i]);

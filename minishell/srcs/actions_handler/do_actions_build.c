@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 03:09:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:08:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ static inline void	do_init_actions_items(t_actions *actions, int count)
 		actions->item[i].pid = 0;
 		actions->item[i].pipe_in = 0;
 		actions->item[i].pipe_out = 0;
-		actions->item[i].redirects.len = 0;
-		actions->item[i].redirects.item = NULL;
 		actions->item[i].exec.path = NULL;
 		actions->item[i].exec.argv = NULL;
+		actions->item[i].redirect_in.type = -1;
+		actions->item[i].redirect_in.target = NULL;
+		actions->item[i].redirect_out.type = -1;
+		actions->item[i].redirect_out.target = NULL;
+		actions->item[i].pipe_read_input[in] = 0;
+		actions->item[i].pipe_read_input[out] = 0;
 		i++;
 	}
 }
@@ -90,7 +94,8 @@ static inline void	do_init_pipes(t_actions *actions, char ***splited_str)
 	}
 }
 
-static inline void	do_build_pipes(t_actions *actions, char *parsed_str)
+static inline void	do_build_pipes(
+	t_actions *actions, char *parsed_str, char **env)
 {
 	int		i;
 	char	**splited_str;
@@ -105,15 +110,16 @@ static inline void	do_build_pipes(t_actions *actions, char *parsed_str)
 	i = 0;
 	while (i < actions->len)
 	{
+		if (i != 0)
+			actions->item[i].redirect_in.type = input;
+		if (i + 1 < actions->len)
+			actions->item[i].redirect_out.type = output;
 		argv = ft_split(splited_str[i], space);
-		extract_redirects(&actions->item[i].redirects, argv);
+		extract_redirects(&actions->item[i], argv, env);
 		actions->item[i].exec.argv = argv;
 		set_action_type(&actions->item[i]);
 		free(splited_str[i]);
-		if (i != 0)
-			add_redirects(&actions->item[i].redirects, input, NULL);
-		if (++i < actions->len)
-			add_redirects(&actions->item[i - 1].redirects, output, NULL);
+		i++;
 	}
 	free(splited_str);
 }
@@ -135,13 +141,13 @@ t_actions	*do_actions_build(t_actions *actions, char *cmd, char **env)
 		if (actions->len)
 		{
 			splited_str = ft_split(parsed_str, space);
-			extract_redirects(&actions->item->redirects, splited_str);
+			extract_redirects(actions->item, splited_str, env);
 			actions->item->exec.argv = splited_str;
 			set_action_type(actions->item);
 		}
 	}
 	else
-		do_build_pipes(actions, parsed_str);
+		do_build_pipes(actions, parsed_str, env);
 	free(parsed_str);
 	return (actions);
 }
