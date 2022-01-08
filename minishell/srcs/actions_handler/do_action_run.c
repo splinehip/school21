@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:09:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:34:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "error_msgs.h"
 #include "builtins.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 static inline int	do_action_builtin(t_action *action, char **env)
 {
@@ -65,6 +66,21 @@ static inline void	do_finish_redirect(t_action *action)
 		close(action->pipe_read_input[in]);
 		close(action->pipe_read_input[out]);
 	}
+}
+
+static void	action_child(t_action *action, char **env)
+{
+	if (is_valid_action_path(action, env) == false)
+		exit(127);
+	do_update_shlvl(env);
+	do_redirects(*action, env);
+	if (action->pipe_in)
+		close(action->pipe_in);
+	if (action->pipe_out)
+		close(action->pipe_out);
+	if (action->exec.path)
+		execve(action->exec.path, action->exec.argv, env);
+	execve(action->exec.argv[0], action->exec.argv, env);
 }
 
 static inline int	do_action_exec(t_action *action, char **env)

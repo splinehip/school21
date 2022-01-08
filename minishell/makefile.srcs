@@ -13,7 +13,7 @@ BUILTINS_DIR	= builtins
 BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
 env/get_env.c		env/set_env.c		env/unset_env.c\
 do_pwd.c			do_exit.c			do_echo.c\
-do_cd.c)
+do_cd.c				do_unset.c			do_export.c)
 
 # end BUILTINS
 

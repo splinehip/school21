@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:04:24 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/28 12:38:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 19:38:41 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h>
 
 #include "libft.h"
 #include "enums.h"
@@ -22,8 +24,10 @@ char	*get_env(char *name, char **env)
 	i = 0;
 	res = NULL;
 	name = ft_strjoinchr(name, eq);
+	// printf("GET ENV: %s\n", name);
 	while (env[i])
 	{
+		// printf("i = %d, %s\n", i, env[i]);
 		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
 		{
 			res = ft_strdup(env[i]);
@@ -32,6 +36,7 @@ char	*get_env(char *name, char **env)
 		i++;
 	}
 	free(name);
+	// printf("GET ENV: res = %s\n", res);
 	return (res);
 }
 

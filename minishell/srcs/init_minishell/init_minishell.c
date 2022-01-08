@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 17:03:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/07 18:05:57 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,13 @@ static inline void	load_history(t_sh_data *args)
 		res = ft_gnl(args->fd, &line);
 		if (res > 0)
 			add_history(line);
-		free(line);
-		line = NULL;
-		res = ft_gnl(args->fd, &line);
-		if (res <= 0)
+		else if (res <= 0)
 		{
 			free(line);
 			break ;
 		}
+		free(line);
+		line = NULL;
 	}
 }
 
