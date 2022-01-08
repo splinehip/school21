@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:06:21 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:05:34 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/09 00:16:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 enum	e_controls;
 enum	e_actions;
-enum	e_builtins;
 enum	e_pipe;
 enum	e_redirects;
 enum	e_direction;
@@ -49,12 +48,6 @@ enum e_controls
 
 enum e_actions
 {
-	builtin			= 8,
-	execute			= 9,
-};
-
-enum e_builtins
-{
 	echo			= 1,
 	cd				= 2,
 	pwd				= 3,
@@ -62,6 +55,7 @@ enum e_builtins
 	unset			= 5,
 	env				= 6,
 	exit_built		= 7,
+	execute			= 8,
 };
 
 enum e_pipes
