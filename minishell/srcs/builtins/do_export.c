@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 21:18:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:08:43 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ int	do_export(t_action action, char ***env)
 	fd = do_redirects_builtin(action);
 	if (!action.exec.argv[i])
 	{
-		while (env[i])
+		i = 0;
+		while ((*env)[i])
 		{
 			write(fd, EXPORT_PREPEND, ft_strlen(EXPORT_PREPEND));
-			write(fd, env[i], ft_strlen((*env)[i]));
+			write(fd, (*env)[i], ft_strlen((*env)[i]));
 			write(fd, "\n", 1);
 			i++;
 		}
