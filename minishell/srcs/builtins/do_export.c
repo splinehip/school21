@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 16:45:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 20:16:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,19 @@ int	do_export(t_action action, char **env)
 {
 	int		fd;
 	int		i;
+	int		j;
+	char	***penv;
 
+	j = 0;
+	while (env[j])
+		j++;
+	printf("export: env: %s\n", env[j - 1]);
+	printf("export: env: %p\n", env[j + 1]);
+	penv = (char ***)env[j + 1];
+	printf("export: env: %p\n", penv);
+	printf("export: env: %p\n", *penv);
+	printf("export: env: %p\n", env);
+	printf("export: env: %s\n", (*penv)[0]);
 	i = 1;
 	fd = do_redirects_builtin(action);
 	if (!action.exec.argv[i])
@@ -37,7 +49,10 @@ int	do_export(t_action action, char **env)
 	else
 	{
 		while (action.exec.argv[i])
-			set_env(action.exec.argv[i++], "NULL", env);
+		{
+			set_env(action.exec.argv[i++], "NULL", penv);
+			printf("export %i: env: %p\n", i, *penv);
+		}
 	}
 	if (fd > 2)
 		close(fd);

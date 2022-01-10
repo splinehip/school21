@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 19:14:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 20:04:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static inline void	append(char *name, char *value, char ***env)
 	*env = new;
 	free(tmp);
 	free(name);
+	printf("set_env last: %s\n", new[i - 2]);
 }
 
 static inline void	update(char *name, char *value, char **env)
@@ -63,21 +64,18 @@ static inline void	update(char *name, char *value, char **env)
 	free(name);
 }
 
-void	set_env(char *name, char *value, char **env)
+void	set_env(char *name, char *value, char ***env)
 {
-	int		i;
 	char	*tmp;
 
 	if (name == NULL || value == NULL)
 		return ;
-	tmp = get_env(name, env);
+	printf("set_env: %p\n", env);
+	printf("set_env: before get\n");
+	tmp = get_env(name, *env);
+	printf("set_env: after get\n");
 	if (tmp == NULL)
-	{
-		i = 0;
-		while (env[i])
-			i++;
-		return (append(name, value, (char ***)env[i + 1]));
-	}
+		return (append(name, value, env));
 	free(tmp);
-	update(name, value, env);
+	update(name, value, *env);
 }

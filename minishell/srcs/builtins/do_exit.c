@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:28:25 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 16:04:43 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:55:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ int	do_exit(t_action action, char **env)
 	else
 	{
 		if (is_number(action.exec.argv[1]) && !(action.exec.argv[2]))
-			set_env("LES", action.exec.argv[1], env);
+			set_env("LES", action.exec.argv[1], &env);
 		else if (!is_number(action.exec.argv[1]))
 		{
 			print_err(MSG_ERR_EXIT_NUM, action.exec.argv[1], 0);
-			set_env("LES", "2", env);
+			set_env("LES", "2", &env);
 		}
 		else
 		{

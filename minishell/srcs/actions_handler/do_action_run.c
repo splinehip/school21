@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 16:43:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:57:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static inline void	do_update_shlvl(char **env)
 	free(tmp);
 	tmp = ft_itoa(res);
 	if (tmp)
-		set_env("SHLVL", tmp, env);
+		set_env("SHLVL", tmp, &env);
 	free(tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 19:08:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:53:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	init_minishell(t_sh_data *args, char **env)
 	while (args->env[i])
 		i++;
 	printf("init: args->env: %p\n", args->env[i + 1]);
-	set_env("LES", "0", args->env);
+	set_env("LES", "0", &args->env);
 	i = 0;
 	while (args->env[i])
 		i++;

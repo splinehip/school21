@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:08:47 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 16:05:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:56:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void	update_pwd_values(char **env, char *old_dir, char *new_dir)
 
 	new_val = get_env_value("PWD", env);
 	if (new_val)
-		set_env("PWD", new_dir, env);
+		set_env("PWD", new_dir, &env);
 	old_val = get_env_value("OLDPWD", env);
 	if (old_val)
-		set_env("OLDPWD", old_dir, env);
+		set_env("OLDPWD", old_dir, &env);
 	free(new_val);
 	free(old_val);
 }
