@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/09 00:13:13 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 10:54:58 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	do_actions(t_actions *actions, char **env)
 	exit_status = unsuccess;
 	while (i < actions->len)
 		res = do_action_run(&actions->item[i++], env);
-	childe_exit_handler(actions, &exit_status, res);
+	child_exit_handler(actions, &exit_status, res);
 	if (actions->item[actions->len - 1].pid)
 	{
 		free_actions(actions);

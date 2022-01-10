@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   childe_exit_handler.c                              :+:      :+:    :+:   */
+/*   child_exit_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 20:00:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 23:33:56 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 10:54:58 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline void	do_wait_or_kill(t_actions *actions, int status)
 	}
 }
 
-inline void	childe_exit_handler(t_actions *actions, int *exit_status, int res)
+inline void	child_exit_handler(t_actions *actions, int *exit_status, int res)
 {
 	if (actions->item[actions->len - 1].pid)
 	{
