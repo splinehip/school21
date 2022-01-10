@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 18:05:57 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 19:08:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <readline/history.h>
@@ -21,31 +22,34 @@
 #include "minishell.h"
 #include "error_msgs.h"
 
-static inline void	env_dup(char ***env, char **_env)
+static inline void	env_dup(t_sh_data *args, char **env)
 {
 	int		i;
 
 	i = 0;
-	while (_env[i++])
-		;
-	*env = malloc(i * sizeof(char *));
-	if (*env == NULL)
+	while (env[i])
+		i++;
+	args->env = ft_calloc(i + 2, sizeof(char *));
+	if (args->env == NULL)
 	{
 		print_err(MSG_ERR_MEM, NULL, 0);
 		exit(1);
 	}
-	(*env)[--i] = NULL;
-	while (--i >= 0)
+	i = 0;
+	while (env[i])
 	{
-		(*env)[i] = ft_strdup(_env[i]);
-		if ((*env)[i] == NULL)
+		args->env[i] = ft_strdup(env[i]);
+		if (args->env[i] == NULL)
 		{
-			while ((*env)[++i] != NULL)
-				free((*env)[i]);
+			while (i >= 0)
+				free(args->env[i--]);
 			print_err(MSG_ERR_ENV, NULL, 0);
 			exit(1);
 		}
+		i++;
 	}
+	args->env[++i] = (char *)&args->env;
+	printf("env_dup: args->env: %p\n", args->env[i]);
 }
 
 static inline void	load_history(t_sh_data *args)
@@ -75,15 +79,24 @@ static inline void	load_history(t_sh_data *args)
 	}
 }
 
-int	init_minishell(t_sh_data *args, char **_env)
+int	init_minishell(t_sh_data *args, char **env)
 {
 	args->msg = NULL;
 	args->cmd = NULL;
 	args->res = NULL;
 	args->env = NULL;
 	load_history(args);
-	env_dup(&args->env, _env);
-	set_env("LES", "0", &args->env);
+	env_dup(args, env);
+	int	i;
+	i = 0;
+	while (args->env[i])
+		i++;
+	printf("init: args->env: %p\n", args->env[i + 1]);
+	set_env("LES", "0", args->env);
+	i = 0;
+	while (args->env[i])
+		i++;
+	printf("init after set: args->env: %p\n", args->env[i + 1]);
 	set_signals(1, 0);
 	return (1);
 }

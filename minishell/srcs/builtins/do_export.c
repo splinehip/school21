@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   do_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 20:27:43 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 16:45:15 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
 
+#include "libft.h"
 #include "builtins.h"
 #include "minishell.h"
-#include "libft.h"
 
 int	do_export(t_action action, char **env)
 {
@@ -36,8 +36,8 @@ int	do_export(t_action action, char **env)
 	}
 	else
 	{
-		// while (action.exec.argv[i])
-		// 	set_env(action.exec.argv[i++], "NULL", &env);
+		while (action.exec.argv[i])
+			set_env(action.exec.argv[i++], "NULL", env);
 	}
 	if (fd > 2)
 		close(fd);

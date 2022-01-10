@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 13:28:14 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 19:14:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static inline void	append(char *name, char *value, char ***env)
 	char	**new;
 	char	**tmp;
 
+	printf("set_env: %p\n", env);
 	i = 0;
 	while ((*env)[i++])
 		;
@@ -36,8 +37,8 @@ static inline void	append(char *name, char *value, char ***env)
 	}
 	name = ft_strjoinchr(name, '=');
 	value = ft_strjoin(name, value);
-	new[i] = value;
-	new[++i] = NULL;
+	new[i++] = value;
+	new[++i] = (char *)&new;
 	tmp = *env;
 	*env = new;
 	free(tmp);
@@ -62,15 +63,21 @@ static inline void	update(char *name, char *value, char **env)
 	free(name);
 }
 
-void	set_env(char *name, char *value, char ***env)
+void	set_env(char *name, char *value, char **env)
 {
+	int		i;
 	char	*tmp;
 
 	if (name == NULL || value == NULL)
 		return ;
-	tmp = get_env(name, *env);
+	tmp = get_env(name, env);
 	if (tmp == NULL)
-		return (append(name, value, env));
+	{
+		i = 0;
+		while (env[i])
+			i++;
+		return (append(name, value, (char ***)env[i + 1]));
+	}
 	free(tmp);
-	update(name, value, *env);
+	update(name, value, env);
 }

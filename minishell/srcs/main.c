@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 12:09:16 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 19:12:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,18 @@ void	print_err(char *main, char	*word, char ch)
 	close(stdout);
 }
 
-int	main(int argc, char **argv, char **_env)
+int	main(int argc, char **argv, char **env)
 {
 	t_sh_data	args;
 	int			res;
 
 	(void)argv;
-	if (argc == 1 && init_minishell(&args, _env))
+	if (argc == 1 && init_minishell(&args, env))
 	{
+		res = 0;
+		while (args.env[res])
+			res++;
+		printf("main: args->env: %p\n", args.env[res + 1]);
 		input_loop(&args);
 		close(args.fd);
 		free(args.res);

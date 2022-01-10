@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 20:06:58 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 19:15:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ static inline void	do_add_history(t_sh_data *args)
 
 int	input_loop(t_sh_data *args)
 {
+	int	i;
+
+	i = 0;
+	while (args->env[i])
+		i++;
 	while (true)
 	{
 		args->msg = get_prompt(args->env);
@@ -71,7 +76,9 @@ int	input_loop(t_sh_data *args)
 		set_signals(1, 0);
 		if (ft_strncmp(args->res, "1000", 4) == 0)
 			return (0);
-		set_env("LES", args->res, &args->env);
+		printf("input_loop: args->env: %p\n", args->env[i + 1]);
+		set_env("input_loop: LES", args->res, args->env);
+		printf("input_loop after set: args->env: %p\n", &args->env);
 		free_args(args, false);
 	}
 }

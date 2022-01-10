@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_action_run.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 10:52:53 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 16:43:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ static inline void	do_update_shlvl(char **env)
 	int		res;
 	char	*tmp;
 
-	res = 0;
 	tmp = get_env_value("SHLVL", env);
 	if (tmp == NULL)
-		return ;
-	res = ft_atoi(tmp);
+		res = 0;
+	else
+		res = ft_atoi(tmp);
 	res++;
 	free(tmp);
 	tmp = ft_itoa(res);
 	if (tmp)
-		set_env("SHLVL", tmp, &env);
+		set_env("SHLVL", tmp, env);
 	free(tmp);
 }
 
-static inline void	do_finish_redirect(t_action *action)
+static inline void	do_finish_exec(t_action *action)
 {
 	if (action->pipe_out)
 		close(action->pipe_out);
@@ -70,38 +70,35 @@ static inline void	do_finish_redirect(t_action *action)
 		close(action->pipe_read_input[in]);
 		close(action->pipe_read_input[out]);
 	}
-}
-
-static void	action_child(t_action *action, char **env)
-{
-	if (is_valid_action_path(action, env) == false)
-		exit(127);
-	do_update_shlvl(env);
-	do_redirects(*action);
-	if (action->pipe_in)
-		close(action->pipe_in);
-	if (action->pipe_out)
-		close(action->pipe_out);
-	if (action->exec.path)
-		execve(action->exec.path, action->exec.argv, env);
-	execve(action->exec.argv[0], action->exec.argv, env);
+	if (action->pid > 0
+		&& ft_strnstr(*action->exec.argv, SHBIN, ft_strlen(*action->exec.argv)))
+		set_signals(2, 0);
 }
 
 static inline int	do_action_exec(t_action *action, char **env)
 {
 	action->pid = fork();
 	if (action->pid == success)
-		action_child(action, env);
+	{
+		if (is_valid_action_path(action, env) == false)
+			exit(127);
+		do_update_shlvl(env);
+		do_redirects(*action);
+		if (action->pipe_in)
+			close(action->pipe_in);
+		if (action->pipe_out)
+			close(action->pipe_out);
+		if (action->exec.path)
+			execve(action->exec.path, action->exec.argv, env);
+		execve(action->exec.argv[0], action->exec.argv, env);
+	}
 	else if (action->pid < 0)
 	{
 		perror(MSG_PROG_NAME);
 		action->pid = 0;
 		return (unsuccess);
 	}
-	if (action->pid > 0
-		&& ft_strnstr(*action->exec.argv, SHBIN, ft_strlen(*action->exec.argv)))
-		set_signals(2, 0);
-	do_finish_redirect(action);
+	do_finish_exec(action);
 	return (success);
 }
 
