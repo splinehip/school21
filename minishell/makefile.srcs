@@ -45,7 +45,7 @@ child_exit_handler.c)
 # SIGNALS
 SIGNALS_DIR	= signal_handler
 SIGNALS		= $(addprefix ${SIGNALS_DIR}/, \
-signals.c)
+signals.c								echo_ctl.c)
 # end SIGNALS
 
 # SRCS

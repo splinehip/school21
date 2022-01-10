@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:24:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:29:49 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "mesages.h"
 #include "input_handler.h"
 #include "actions_handler.h"
+#include "minishell.h"
 
 struct s_extract_iter
 {
@@ -50,7 +51,7 @@ static inline void	do_read_input(
 	while (target)
 	{
 		readline_res = readline(MSG_RL_SUBINPUT);
-		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
+		if (ft_strncmp(readline_res, target, ft_strlen(target) + 1) == success)
 			break ;
 		if (readline_res)
 		{
@@ -97,7 +98,10 @@ static inline void	do_extract(
 		update_str(iter->str, iter->i, iter->i + 1);
 	}
 	if (redirect->type == read_input)
+	{
+		set_signals(3, 0);
 		do_read_input(redirect, ft_strdup(redirect->target), env);
+	}
 }
 
 inline void	extract_redirects(t_action *action, char **str, char **env)

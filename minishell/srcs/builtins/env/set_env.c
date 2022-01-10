@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 20:00:10 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 13:28:14 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static inline void	update(char *name, char *value, char **env)
 	char	*env_var;
 
 	i = 0;
-	// printf("set_env - append\n");
 	name = ft_strjoinchr(name, '=');
 	while (env[i] && ft_strncmp(env[i], name, ft_strlen(name)) != 0)
 		i++;
@@ -69,12 +68,9 @@ void	set_env(char *name, char *value, char ***env)
 
 	if (name == NULL || value == NULL)
 		return ;
-	// printf("here 1\n");
 	tmp = get_env(name, *env);
-	// printf("here 2\n");
 	if (tmp == NULL)
 		return (append(name, value, env));
 	free(tmp);
-	// printf("set_env - update\n");
 	update(name, value, *env);
 }
