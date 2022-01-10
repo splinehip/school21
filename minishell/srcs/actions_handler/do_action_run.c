@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:28:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:08:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static inline int	do_action_exec(t_action *action, char ***env)
 			close(action->pipe_in);
 		if (action->pipe_out)
 			close(action->pipe_out);
-		printf("QQQQQQQQQQ\n");
 		if (action->exec.path)
 			execve(action->exec.path, action->exec.argv, *env);
 		execve(action->exec.argv[0], action->exec.argv, *env);

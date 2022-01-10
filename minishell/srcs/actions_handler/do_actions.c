@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:25:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:08:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "builtins.h"
 #include "actions_handler.h"
 #include "minishell.h"
-#include "../tmp_utils.c"
 
 static inline void	close_pipe(t_pipe item)
 {
@@ -93,7 +92,6 @@ int	do_actions(t_actions *actions, char ***env)
 	i = 0;
 	res = success;
 	exit_status = unsuccess;
-	print_actions(actions, 0, 0);
 	while (i < actions->len)
 		res = do_action_run(&actions->item[i++], env);
 	child_exit_handler(actions, &exit_status, res);
