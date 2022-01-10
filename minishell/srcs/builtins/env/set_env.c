@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:01:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:06:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline void	append(char *name, char *value, char ***env)
 	i = 0;
 	while ((*env)[i])
 		i++;
-	new = malloc((i + 1) * sizeof(char *));
+	new = ft_calloc(i + 2, sizeof(char *));
 	if (new == NULL)
 		return ;
 	i = 0;
