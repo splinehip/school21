@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 19:15:13 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:24:50 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ int	input_loop(t_sh_data *args)
 		if (ft_strncmp(args->res, "1000", 4) == 0)
 			return (0);
 		printf("input_loop: args->env: %p\n", args->env[i + 1]);
-		set_env("input_loop: LES", args->res, args->env);
-		printf("input_loop after set: args->env: %p\n", &args->env);
+		set_env("LES", args->res, args->env);
+		i = 0;
+		while (args->env[i])
+			i++;
+		printf("input_loop after set: args->env: %p\n", args->env[i + 1]);
 		free_args(args, false);
 	}
 }
