@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 10:54:58 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 21:25:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "builtins.h"
 #include "actions_handler.h"
 #include "minishell.h"
+#include "../tmp_utils.c"
 
 static inline void	close_pipe(t_pipe item)
 {
@@ -79,7 +80,7 @@ static inline int	open_pipes(t_actions *actions)
 	return (success);
 }
 
-int	do_actions(t_actions *actions, char **env)
+int	do_actions(t_actions *actions, char ***env)
 {
 	int		i;
 	int		res;
@@ -92,6 +93,7 @@ int	do_actions(t_actions *actions, char **env)
 	i = 0;
 	res = success;
 	exit_status = unsuccess;
+	print_actions(actions, 0, 0);
 	while (i < actions->len)
 		res = do_action_run(&actions->item[i++], env);
 	child_exit_handler(actions, &exit_status, res);

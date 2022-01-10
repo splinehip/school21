@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:04:24 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 20:10:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:02:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	*get_env(char *name, char **env)
 	i = 0;
 	res = NULL;
 	name = ft_strjoinchr(name, eq);
-	printf("get_env: %p\n", env);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)

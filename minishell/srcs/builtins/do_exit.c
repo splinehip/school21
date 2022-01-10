@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:28:25 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 19:55:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:13:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	check_exitcode(char **args)
 	}
 }
 
-int	do_exit(t_action action, char **env)
+int	do_exit(t_action action, char ***env)
 {
 	if (action.pipe_out || action.pipe_in)
 		return (close_fd(action.pipe_out) + check_exitcode(action.exec.argv));
@@ -69,11 +69,11 @@ int	do_exit(t_action action, char **env)
 	else
 	{
 		if (is_number(action.exec.argv[1]) && !(action.exec.argv[2]))
-			set_env("LES", action.exec.argv[1], &env);
+			set_env("LES", action.exec.argv[1], env);
 		else if (!is_number(action.exec.argv[1]))
 		{
 			print_err(MSG_ERR_EXIT_NUM, action.exec.argv[1], 0);
-			set_env("LES", "2", &env);
+			set_env("LES", "2", env);
 		}
 		else
 		{

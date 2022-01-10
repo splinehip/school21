@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:08:33 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:08:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,15 @@ static inline void	do_build_pipes(
 	free(splited_str);
 }
 
-t_actions	*do_actions_build(t_actions *actions, char *cmd, char **env)
+t_actions	*do_actions_build(t_actions *actions, char *cmd, char ***env)
 {
 	char	*parsed_str;
 	char	**splited_str;
 
 	if (ft_strchr(cmd, asterisk))
-		parsed_str = parse_cmd(cmd, env, asterisk);
+		parsed_str = parse_cmd(cmd, *env, asterisk);
 	else
-		parsed_str = parse_cmd(cmd, env, false);
+		parsed_str = parse_cmd(cmd, *env, false);
 	if (parsed_str == NULL)
 		return (actions);
 	if (ft_strchr(parsed_str, pipes) == NULL)
@@ -141,13 +141,13 @@ t_actions	*do_actions_build(t_actions *actions, char *cmd, char **env)
 		if (actions->len)
 		{
 			splited_str = ft_split(parsed_str, space);
-			extract_redirects(actions->item, splited_str, env);
+			extract_redirects(actions->item, splited_str, *env);
 			actions->item->exec.argv = splited_str;
 			set_action_type(actions->item);
 		}
 	}
 	else
-		do_build_pipes(actions, parsed_str, env);
+		do_build_pipes(actions, parsed_str, *env);
 	free(parsed_str);
 	return (actions);
 }

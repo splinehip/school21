@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/07 19:59:32 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 21:22:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_iter
 	char	*res;
 }	t_iter;
 
-int			input_handler(char **cmd, char **env);
+int			input_handler(char **cmd, char ***env);
 char		*parse_cmd(char *cmd, char **env, int type);
 int			check_cmd_sequenses(char *cmd);
 char		has_opened_quotes(char *cmd, int start, int end);
@@ -87,7 +87,7 @@ int			do_match_start_all_end(t_select *args);
 
 /* Logic operators */
 t_node		*extract_node(char **str);
-int			exec_node(t_node *node, char **env);
+int			exec_node(t_node *node, char ***env);
 char		*trim_and_update_cmdstr(char **cmd);
 size_t		find_paired_parenth(
 				char *str, size_t start, char opened_quote, int opened_par);

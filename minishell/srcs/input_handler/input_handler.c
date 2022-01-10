@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 19:09:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:21:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static inline void	init(t_actions *actions)
 	actions->item = NULL;
 }
 
-int	input_handler(char **cmd, char **env)
+int	input_handler(char **cmd, char ***env)
 {
 	int			res;
 	t_node		*node;

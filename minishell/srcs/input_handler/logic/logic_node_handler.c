@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_node_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:43 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 19:36:10 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/10 21:22:04 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_node	*extract_node(char **str)
 	return (node);
 }
 
-int	exec_node(t_node *node, char **env)
+int	exec_node(t_node *node, char ***env)
 {
 	int	res;
 

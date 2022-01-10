@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 20:04:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:01:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ static inline void	append(char *name, char *value, char ***env)
 	char	**new;
 	char	**tmp;
 
-	printf("set_env: %p\n", env);
 	i = 0;
-	while ((*env)[i++])
-		;
+	while ((*env)[i])
+		i++;
 	new = malloc((i + 1) * sizeof(char *));
 	if (new == NULL)
 		return ;
@@ -38,12 +37,10 @@ static inline void	append(char *name, char *value, char ***env)
 	name = ft_strjoinchr(name, '=');
 	value = ft_strjoin(name, value);
 	new[i++] = value;
-	new[++i] = (char *)&new;
 	tmp = *env;
 	*env = new;
 	free(tmp);
 	free(name);
-	printf("set_env last: %s\n", new[i - 2]);
 }
 
 static inline void	update(char *name, char *value, char **env)
@@ -70,12 +67,12 @@ void	set_env(char *name, char *value, char ***env)
 
 	if (name == NULL || value == NULL)
 		return ;
-	printf("set_env: %p\n", env);
-	printf("set_env: before get\n");
 	tmp = get_env(name, *env);
-	printf("set_env: after get\n");
 	if (tmp == NULL)
-		return (append(name, value, env));
-	free(tmp);
-	update(name, value, *env);
+		append(name, value, env);
+	else
+	{
+		free(tmp);
+		update(name, value, *env);
+	}
 }

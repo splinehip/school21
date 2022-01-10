@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:08:47 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 19:56:21 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:18:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,22 @@
 #include "error_msgs.h"
 #include "minishell.h"
 
-static void	update_pwd_values(char **env, char *old_dir, char *new_dir)
+static void	update_pwd_values(char ***env, char *old_dir, char *new_dir)
 {
 	char	*new_val;
 	char	*old_val;
 
-	new_val = get_env_value("PWD", env);
+	new_val = get_env_value("PWD", *env);
 	if (new_val)
-		set_env("PWD", new_dir, &env);
-	old_val = get_env_value("OLDPWD", env);
+		set_env("PWD", new_dir, env);
+	old_val = get_env_value("OLDPWD", *env);
 	if (old_val)
-		set_env("OLDPWD", old_dir, &env);
+		set_env("OLDPWD", old_dir, env);
 	free(new_val);
 	free(old_val);
 }
 
-static int	change_dir(char **env, char *old_dir, char *path, int cd_res)
+static int	change_dir(char ***env, char *old_dir, char *path, int cd_res)
 {
 	char	*new_dir;
 
@@ -55,7 +55,7 @@ static int	change_dir(char **env, char *old_dir, char *path, int cd_res)
 	return (0);
 }
 
-int	run_cd(t_action action, char **env)
+int	run_cd(t_action action, char ***env)
 {
 	char	*path;
 	char	*old_dir;
@@ -63,7 +63,7 @@ int	run_cd(t_action action, char **env)
 
 	path = NULL;
 	if (!(action.exec.argv[1]))
-		path = get_env_value("HOME", env);
+		path = get_env_value("HOME", *env);
 	else
 		path = ft_strdup(action.exec.argv[1]);
 	if (!path)
@@ -78,7 +78,7 @@ int	run_cd(t_action action, char **env)
 	return (res);
 }
 
-int	do_cd(t_action action, char **env)
+int	do_cd(t_action action, char ***env)
 {
 	int		fd;
 

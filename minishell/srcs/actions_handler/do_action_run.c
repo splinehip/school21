@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 19:57:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:28:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-static inline int	do_action_builtin(t_action *action, char **env)
+static inline int	do_action_builtin(t_action *action, char ***env)
 {
 	if (action->type == exit_built)
 		return (do_exit(*action, env));
@@ -40,12 +40,12 @@ static inline int	do_action_builtin(t_action *action, char **env)
 	return (success);
 }
 
-static inline void	do_update_shlvl(char **env)
+static inline void	do_update_shlvl(char ***env)
 {
 	int		res;
 	char	*tmp;
 
-	tmp = get_env_value("SHLVL", env);
+	tmp = get_env_value("SHLVL", *env);
 	if (tmp == NULL)
 		res = 0;
 	else
@@ -54,7 +54,7 @@ static inline void	do_update_shlvl(char **env)
 	free(tmp);
 	tmp = ft_itoa(res);
 	if (tmp)
-		set_env("SHLVL", tmp, &env);
+		set_env("SHLVL", tmp, env);
 	free(tmp);
 }
 
@@ -75,12 +75,12 @@ static inline void	do_finish_exec(t_action *action)
 		set_signals(2, 0);
 }
 
-static inline int	do_action_exec(t_action *action, char **env)
+static inline int	do_action_exec(t_action *action, char ***env)
 {
 	action->pid = fork();
 	if (action->pid == success)
 	{
-		if (is_valid_action_path(action, env) == false)
+		if (is_valid_action_path(action, *env) == false)
 			exit(127);
 		do_update_shlvl(env);
 		do_redirects(*action);
@@ -88,9 +88,10 @@ static inline int	do_action_exec(t_action *action, char **env)
 			close(action->pipe_in);
 		if (action->pipe_out)
 			close(action->pipe_out);
+		printf("QQQQQQQQQQ\n");
 		if (action->exec.path)
-			execve(action->exec.path, action->exec.argv, env);
-		execve(action->exec.argv[0], action->exec.argv, env);
+			execve(action->exec.path, action->exec.argv, *env);
+		execve(action->exec.argv[0], action->exec.argv, *env);
 	}
 	else if (action->pid < 0)
 	{
@@ -102,7 +103,7 @@ static inline int	do_action_exec(t_action *action, char **env)
 	return (success);
 }
 
-inline int	do_action_run(t_action *action, char **env)
+inline int	do_action_run(t_action *action, char ***env)
 {
 	if (action->type == execute)
 		return (do_action_exec(action, env));
