@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 13:03:05 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 22:08:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:46:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static inline int	do_action_builtin(t_action *action, char ***env)
 		return (do_unset(*action, env));
 	else if (action->type == export)
 		return (do_export(*action, env));
+	else if (action->type == env_built)
+		return (do_env(*action, *env));
 	return (success);
 }
 

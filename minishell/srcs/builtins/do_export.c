@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/11 20:00:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:39:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,39 @@
 #include "error_msgs.h"
 #include "minishell.h"
 
-static inline void	do_print_env(int fd, char **env)
+static inline void	do_print(char **env)
 {
-	int	i;
+	int		i;
+	char	*name;
+	char	*value;
 
 	i = 0;
-	ft_sort_strs(&env);
 	while (env[i])
 	{
-		write(fd, EXPORT_PREPEND, ft_strlen(EXPORT_PREPEND));
-		write(fd, env[i], ft_strlen(env[i]));
-		write(fd, "\n", 1);
-		i++;
+		name = get_env_name(env[i++]);
+		value = get_env_value(name, env);
+		printf("%s%s=\"%s\"\n", EXPORT_PREPEND, name, value);
+		free(name);
+		free(value);
 	}
+}
+
+inline void	do_print_env(int fd, char **env)
+{
+	int		saved_stdout;
+
+	if (env == NULL)
+		return ;
+	ft_sort_strs(&env);
+	if (fd > 0)
+	{
+		saved_stdout = dup(STDOUT_FILENO);
+		dup2(fd, STDOUT_FILENO);
+		do_print(env);
+		dup2(saved_stdout, STDOUT_FILENO);
+	}
+	else
+		do_print(env);
 }
 
 static inline int	do_update_env(char *str, char ***env)
@@ -70,7 +90,7 @@ int	do_export(t_action action, char ***env)
 	i = 1;
 	fd = do_redirects_builtin(action);
 	res = success;
-	if (!action.exec.argv[i] && fd > 0)
+	if (action.exec.argv[i] == NULL)
 		do_print_env(fd, *env);
 	else
 	{

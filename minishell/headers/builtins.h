@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:21:50 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 18:44:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:45:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ void	unset_env(char *name, char **env);
 char	*get_env(char *name, char **env);
 char	*get_env_value(char *name, char **env);
 int		get_env_i(char *name, char **env);
+char	*get_env_name(char *env_i);
+void	do_print_env(int fd, char **env);
+int		do_env(t_action action, char **env);
 
 #endif

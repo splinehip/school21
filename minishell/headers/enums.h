@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:06:21 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/09 00:16:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:42:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ enum e_actions
 	pwd				= 3,
 	export			= 4,
 	unset			= 5,
-	env				= 6,
+	env_built		= 6,
 	exit_built		= 7,
 	execute			= 8,
 };

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 11:53:10 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:42:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static inline void	set_action_type(t_action *action)
 		action->type = export;
 	else if (ft_strcmp("unset", name) == success)
 		action->type = unset;
-	else if (ft_strcmp("env", name) == success)
-		action->type = env;
+	else if (ft_strcmp("env_built", name) == success)
+		action->type = env_built;
 	else if (ft_strcmp("exit", name) == success)
 		action->type = exit_built;
 	else

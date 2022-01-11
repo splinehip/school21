@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:04:24 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 18:55:32 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 20:39:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ inline char	*get_env(char *name, char **env)
 	return (NULL);
 }
 
-char	*get_env_value(char *name, char **env)
+inline char	*get_env_value(char *name, char **env)
 {
 	char	*res;
 	char	*tmp;
@@ -76,4 +76,17 @@ char	*get_env_value(char *name, char **env)
 		}
 	}
 	return (res);
+}
+
+inline char	*get_env_name(char *env_i)
+{
+	char	*tmp;
+
+	if (env_i == NULL)
+		return (NULL);
+	tmp = ft_strchr(env_i, eq);
+	if (tmp)
+		return (ft_substr(env_i, 0, tmp - env_i));
+	else
+		return (ft_strdup(env_i));
 }
