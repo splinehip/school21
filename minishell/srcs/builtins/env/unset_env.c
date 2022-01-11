@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 23:02:46 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 15:14:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 19:03:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,10 @@ void	unset_env(char *name, char **env)
 	int		i;
 	char	*tmp;
 
-	name = ft_strjoinchr(name, '=');
-	if (name == NULL)
+	if (name == NULL || env == NULL)
 		return ;
-	i = 0;
-	while (env[i] && ft_strcmp(env[i], name) != 0)
-		i++;
-	free(name);
-	if (env[i] == NULL)
+	i = get_env_i(name, env);
+	if (i < 0)
 		return ;
 	tmp = env[i];
 	while (env[i])

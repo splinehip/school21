@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:21:50 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:17:39 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 18:44:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	set_env(char *name, char *value, char ***env);
 void	unset_env(char *name, char **env);
 char	*get_env(char *name, char **env);
 char	*get_env_value(char *name, char **env);
+int		get_env_i(char *name, char **env);
 
 #endif

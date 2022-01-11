@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/11 16:02:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/11 18:59:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,59 +15,29 @@
 
 #include "libft.h"
 #include "builtins.h"
+#include "bool.h"
+#include "error_msgs.h"
 #include "minishell.h"
 
-// void	ft_sort_string_tab(char **tab)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*tmp;
-
-// 	i = 1;
-// 	while (tab[i] != NULL && tab[0] != NULL)
-// 	{
-// 		j = i;
-// 		while (j > 0 && ft_strcmp(tab[j - 1], tab[j]) > 0)
-// 		{
-// 			tmp = tab[j - 1];
-// 			tab[j - 1] = tab[j];
-// 			tab[j] = tmp;
-// 			j--;
-// 		}
-// 		i++;
-// 	}
-// }
-
-static void	update_end_of_str(char *name, char ch)
+void	do_update_env(char *str, char ***env)
 {
-	int	i;
-
-	i = 0;
-	while (name[i])
-	{
-		if (name[i] == ch)
-		{
-			name[i] = 0;
-			break ;
-		}
-		i++;
-	}
-}
-
-void	add_new_env(char *str, char ***env)
-{
+	char	*tmp;
 	char	*name;
 	char	*value;
 
-	value = NULL;
-	name = ft_strdup(str);
-	update_end_of_str(name, eq);
-	if (ft_strchr(str, eq))
-		value = ft_strdup(ft_strchr(str, eq) + 1);
-	printf("add_new_env: NAME: %s, VAL: %s\n", name, value);
-	set_env(name, value, env);
-	free(name);
-	free(value);
+	if (str == NULL || env == NULL)
+		return ;
+	tmp = ft_strchr(str, eq);
+	if (tmp == NULL)
+		set_env(str, "", env);
+	else
+	{
+		name = ft_substr(str, 0, tmp - str);
+		value = ft_substr(tmp + 1, 0, ft_strlen(str) - (tmp - str));
+		set_env(name, value, env);
+		free(name);
+		free(value);
+	}
 }
 
 int	do_export(t_action action, char ***env)
@@ -91,7 +61,7 @@ int	do_export(t_action action, char ***env)
 	}
 	else
 		while (action.exec.argv[i])
-			add_new_env(action.exec.argv[i++], env);
+			do_update_env(action.exec.argv[i++], env);
 	if (fd > 2)
 		close(fd);
 	return (0);
