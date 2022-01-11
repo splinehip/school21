@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:49:58 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:02:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 13:30:41 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc == 1 && init_minishell(&args, env))
 	{
-		res = 0;
-		while (args.env[res])
-			res++;
 		input_loop(&args);
 		close(args.fd);
 		free(args.res);
