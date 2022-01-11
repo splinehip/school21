@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_checkers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 12:17:30 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/11 14:29:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,6 @@
 #include "error_msgs.h"
 #include "input_handler.h"
 #include "minishell.h"
-
-inline char	has_opened_quotes(char *cmd, int start, int end)
-{
-	char	*quote_type;
-
-	quote_type = NULL;
-	while (start <= end && cmd[start] != ends)
-	{
-		if (cmd[start] == quote || cmd[start] == single_quote)
-		{
-			if (quote_type == NULL)
-			{
-				if (escaped(cmd, start) == false)
-					quote_type = &cmd[start];
-			}
-			else if (cmd[start] == *quote_type)
-			{
-				if (*quote_type == single_quote)
-					quote_type = NULL;
-				else if (escaped(cmd, start) == false)
-					quote_type = NULL;
-			}
-		}
-		start++;
-	}
-	if (quote_type)
-		return (*quote_type);
-	return (false);
-}
 
 static inline char	escaped_eof(char *cmd)
 {
@@ -116,11 +87,26 @@ static inline int	has_opened_parenth(
 	return (parenth != 0);
 }
 
+static inline int	empty_heredoc_or_redirect(char *cmd)
+{
+	if (cmd == NULL)
+		return (unsuccess);
+	if (((*cmd == left_corner || *cmd == right_corner) && ft_strlen(cmd) == 1)
+		|| (ft_strcmp(cmd, "<<") == success || ft_strcmp(cmd, ">>") == success)
+		|| (cmd[ft_strlen(cmd) - 1] == left_corner
+			|| cmd[ft_strlen(cmd) - 1] == right_corner))
+	{
+		print_err(MSG_ERR_SYNATX, NULL, false);
+		return (unsuccess);
+	}
+	return (success);
+}
+
 inline int	check_cmd_sequenses(char *cmd)
 {
 	if (escaped_eof(cmd) == escape)
 	{
-		print_err(MSG_ERR_CMD_EEOF, NULL, 0);
+		print_err(MSG_ERR_CMD_EEOF, NULL, false);
 		return (false);
 	}
 	if (has_opened_quotes(cmd, 0, ft_strlen(cmd)))
@@ -137,8 +123,10 @@ inline int	check_cmd_sequenses(char *cmd)
 	}
 	if (has_opened_parenth(cmd, 0, 0, 0))
 	{
-		print_err(MSG_ERR_CMD_HAS_UP, NULL, 0);
+		print_err(MSG_ERR_CMD_HAS_UP, NULL, false);
 		return (false);
 	}
+	if (empty_heredoc_or_redirect(cmd))
+		return (false);
 	return (true);
 }

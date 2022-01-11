@@ -28,6 +28,7 @@ parser/parse_cmd_template.c				parser/parse_cmd_expand_template.c\
 parser/parse_cmd_buf.c					parser/parse_cmd_get_d_name.c\
 parser/parse_cmd_do_select_template.c	parser/parse_cmd_pattern_matched.c\
 parser/parse_cmd_pattern_matched_do.c	parser/parse_cmd_checkers.c\
+parser/parse_cmd_has_opened_quotes.c\
 logic/logic_parenth_finder.c			logic/logic_trim_parenth.c\
 logic/logic_node_handler.c)
 # end INPUT_HANDLER
