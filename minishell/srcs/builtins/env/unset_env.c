@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 23:02:46 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 22:25:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:14:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	unset_env(char *name, char **env)
 	if (name == NULL)
 		return ;
 	i = 0;
-	while (env[i] && ft_strncmp(env[i], name, ft_strlen(name)) != 0)
+	while (env[i] && ft_strcmp(env[i], name) != 0)
 		i++;
+	free(name);
 	if (env[i] == NULL)
 		return ;
 	tmp = env[i];
