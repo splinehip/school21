@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 13:18:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 23:10:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static inline void	do_read_input(
 	while (target && g_interrupt == false)
 	{
 		readline_res = readline(MSG_RL_SUBINPUT);
+		// printf("readline: %s\n", readline_res);
 		if (ft_strcmp(readline_res, target) == 0)
 			break ;
 		if (readline_res)
@@ -100,6 +101,7 @@ static inline void	do_extract(
 	{
 		set_signals(3, 0);
 		do_read_input(redirect, ft_strdup(redirect->target), env);
+		set_signals(1, 0);
 	}
 }
 
