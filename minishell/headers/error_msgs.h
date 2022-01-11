@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:45:36 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/07 04:11:55 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 19:48:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@
 	"minishell: exit: %s: Numeric argument required\n"
 # define MSG_ERR_EXIT_ARGS		"minishell: exit: Too many arguments\n"
 # define MSG_ERR_INVAL_HIS_FD	"minishell: Invalid descriptor of history file\n"
+# define MSG_ERR_INVAL_ENVNAME	"minishell: Invalid env name: %s\n"
 
 #endif
