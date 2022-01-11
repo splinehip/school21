@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 22:08:43 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/11 10:36:55 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	do_export(t_action action, char ***env)
 
 	i = 1;
 	fd = do_redirects_builtin(action);
-	if (!action.exec.argv[i])
+	if (!action.exec.argv[i] && fd > 0)
 	{
 		i = 0;
 		while ((*env)[i])
