@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 11:25:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 11:32:55 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static inline void	do_read_input(
 	{
 		readline_res = readline(MSG_RL_SUBINPUT);
 		if (readline_res == NULL
-			|| ft_strncmp(readline_res, target, ft_strlen(readline_res)) == 0)
+			|| ft_strncmp(readline_res, target, ft_strlen(target) + 1) == 0)
 			break ;
 		if (readline_res)
 		{
