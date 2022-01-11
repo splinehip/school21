@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 11:06:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 11:19:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ static inline void	do_read_input(
 	char	*readline_res;
 
 	readline_res = NULL;
-	free(redirect->target);
-	redirect->target = NULL;
+	*redirect->target = 0;
 	while (target && g_interrupt == false)
 	{
 		readline_res = readline(MSG_RL_SUBINPUT);
-		if (ft_strncmp(readline_res, target, ft_strlen(target) + 1) == success)
+		if (ft_strncmp(readline_res, target, ft_strlen(target)) == success)
 			break ;
 		if (readline_res)
 		{
