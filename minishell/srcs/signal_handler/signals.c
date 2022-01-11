@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 13:25:28 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/11 10:54:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 static void	handler_shell(int s)
 {
-	if (s == SIGQUIT)
+	if (s == SIGQUIT && MAC_OS)
 	{
 		rl_on_new_line();
 		rl_redisplay();

@@ -6,12 +6,17 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 22:12:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 10:53:11 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# ifdef __APPLE__
+#  define MAC_OS 1
+# else
+#  define MAC_OS 0
+# endif
 # define PFX_MSG		"\001\033[32m\002minishell:\001\033[33m\002"
 # define POSFX_MSG		"\001\033[32m$\033[39m\002 "
 # define PROMPT			"minishell$ "
