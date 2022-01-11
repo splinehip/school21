@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 22:08:01 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 11:05:04 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,12 @@ static inline int	open_pipes(t_actions *actions)
 	return (success);
 }
 
-int	do_actions(t_actions *actions, char ***env)
+static inline int	do_run(t_actions *actions, char ***env)
 {
 	int		i;
 	int		res;
 	int		exit_status;
 
-	if (actions == NULL)
-		return (unsuccess);
-	if (open_pipes(actions) == unsuccess)
-		return (unsuccess);
 	i = 0;
 	res = success;
 	exit_status = unsuccess;
@@ -105,4 +101,15 @@ int	do_actions(t_actions *actions, char ***env)
 	}
 	free_actions(actions);
 	return (res);
+}
+
+int	do_actions(t_actions *actions, char ***env)
+{
+	if (actions == NULL)
+		return (unsuccess);
+	if (g_interrupt)
+		return (130);
+	if (open_pipes(actions) == unsuccess)
+		return (unsuccess);
+	return (do_run(actions, env));
 }
