@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:08:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 11:53:10 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ static inline void	set_action_type(t_action *action)
 	if (action->exec.argv == NULL || !action->exec.argv[0])
 		return ;
 	name = action->exec.argv[0];
-	if (ft_strncmp("echo", name, ft_strlen("echo") + 1) == 0)
+	if (ft_strcmp("echo", name) == success)
 		action->type = echo;
-	else if (ft_strncmp("cd", name, ft_strlen("cd") + 1) == 0)
+	else if (ft_strcmp("cd", name) == success)
 		action->type = cd;
-	else if (ft_strncmp("pwd", name, ft_strlen("pwd") + 1) == 0)
+	else if (ft_strcmp("pwd", name) == success)
 		action->type = pwd;
-	else if (ft_strncmp("export", name, ft_strlen("export") + 1) == 0)
+	else if (ft_strcmp("export", name) == success)
 		action->type = export;
-	else if (ft_strncmp("unset", name, ft_strlen("unset") + 1) == 0)
+	else if (ft_strcmp("unset", name) == success)
 		action->type = unset;
-	else if (ft_strncmp("env", name, ft_strlen("env") + 1) == 0)
+	else if (ft_strcmp("env", name) == success)
 		action->type = env;
-	else if (ft_strncmp("exit", name, ft_strlen("exit") + 1) == 0)
+	else if (ft_strcmp("exit", name) == success)
 		action->type = exit_built;
 	else
 		action->type = execute;
@@ -47,7 +47,7 @@ static inline void	do_init_actions_items(t_actions *actions, int count)
 {
 	int	i;
 
-	if (count == 0)
+	if (count == false)
 		return ;
 	actions->item = ft_calloc(count, sizeof(t_action));
 	if (actions->item == NULL)
