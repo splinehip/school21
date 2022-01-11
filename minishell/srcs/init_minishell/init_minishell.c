@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 11:38:42 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 21:04:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 10:54:41 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static inline void	load_history(t_sh_data *args)
 
 int	init_minishell(t_sh_data *args, char **env)
 {
+	g_interrupt = 0;
 	args->msg = NULL;
 	args->cmd = NULL;
 	args->res = NULL;

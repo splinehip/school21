@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/11 10:54:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 11:03:09 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,15 @@ static void	handler_child(int s)
 
 static void	handler_heredoc(int s)
 {
-	if (s == SIGQUIT || s == SIGINT)
+	if (s == SIGQUIT && MAC_OS)
 	{
 		rl_on_new_line();
 		rl_redisplay();
+	}
+	else if (s == SIGINT)
+	{
+		g_interrupt = 1;
+		write(1, "\n", 1);
 	}
 }
 

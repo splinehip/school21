@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 10:53:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/11 11:01:25 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_sh_data
 	char	*res;
 	char	**env;
 }	t_sh_data;
+
+short	g_interrupt;
 
 int		main(int argc, char **argv, char **env);
 int		init_minishell(t_sh_data *args, char **_env);
