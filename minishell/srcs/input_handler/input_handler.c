@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:21:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:37:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,21 @@
 #include "input_handler.h"
 #include "minishell.h"
 
+static int	event(void)
+{
+	return (0);
+}
+
 static inline void	do_update_cmd(char **cmd)
 {
 	char	*tmp;
 	char	*line;
 
-	while (true)
+	set_signals(3, 0);
+	rl_event_hook = event;
+	line = readline(MSG_RL_SUBINPUT);
+	if (line != NULL)
 	{
-		line = readline(MSG_RL_SUBINPUT);
-		if (line == NULL)
-			break ;
 		tmp = *cmd;
 		*cmd = ft_strjoinchr(*cmd, space);
 		free(tmp);
@@ -39,8 +44,8 @@ static inline void	do_update_cmd(char **cmd)
 		*cmd = ft_strjoin(*cmd, line);
 		free(tmp);
 		free(line);
-		return ;
 	}
+	set_signals(0, 1);
 }
 
 static inline int	do_append_cmd(char **cmd)
