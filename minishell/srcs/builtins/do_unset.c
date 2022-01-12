@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:33:11 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 13:46:43 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 14:10:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 int	do_unset(t_action action, char ***env)
 {
-	int		fd;
 	int		i;
+	int		fd;
 
 	i = 1;
 	fd = do_redirects_builtin(action);

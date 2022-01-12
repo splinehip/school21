@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 13:50:23 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 14:07:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ inline void	do_print_env(int fd, char **env)
 		dup2(fd, STDOUT_FILENO);
 		do_print(env);
 		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
 	}
 	else
 		do_print(env);

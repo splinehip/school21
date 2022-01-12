@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 11:34:15 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 14:17:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,50 +28,7 @@ struct s_extract_iter
 	char	**str;
 };
 
-static inline void	parse_read_input_target(t_redirect *redirect, char **env)
-{
-	char	*tmp;
-
-	if (redirect->target)
-	{
-		tmp = redirect->target;
-		redirect->target = parse_cmd(redirect->target, env, false);
-		free(tmp);
-	}
-}
-
-static inline void	do_read_input(
-	t_redirect *redirect, char *target, char **env)
-{
-	char	*tmp;
-	char	*readline_res;
-
-	readline_res = NULL;
-	*redirect->target = 0;
-	while (target && g_interrupt == false)
-	{
-		readline_res = readline(MSG_RL_SUBINPUT);
-		if (!readline_res && g_interrupt == false)
-			print_err(MSG_ERR_HEREDOC, target, 0);
-		if (ft_strcmp(readline_res, target) == 0)
-			break ;
-		if (readline_res)
-		{
-			tmp = readline_res;
-			readline_res = ft_strjoinchr(readline_res, endl);
-			free(tmp);
-			tmp = redirect->target;
-			redirect->target = ft_strjoin(redirect->target, readline_res);
-			free(tmp);
-		}
-		free(readline_res);
-	}
-	free(target);
-	free(readline_res);
-	parse_read_input_target(redirect, env);
-}
-
-static inline void	update_str(char **str, int i, int j)
+static inline void	update_strs(char **str, int i, int j)
 {
 	char	*tmp;
 
@@ -91,13 +48,13 @@ static inline void	do_extract(
 			&& iter->str[iter->i][0] == iter->str[iter->i][1]))
 	{
 		redirect->target = iter->str[iter->i + 1];
-		update_str(iter->str, iter->i, iter->i + 2);
+		update_strs(iter->str, iter->i, iter->i + 2);
 	}
 	else
 	{
 		free(redirect->target);
 		redirect->target = ft_strtrim(iter->str[iter->i], "<>");
-		update_str(iter->str, iter->i, iter->i + 1);
+		update_strs(iter->str, iter->i, iter->i + 1);
 	}
 	if (redirect->type == read_input)
 	{

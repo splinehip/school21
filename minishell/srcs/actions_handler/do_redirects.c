@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:48:54 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/08 17:45:29 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 14:26:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-static inline void	do_input(t_action action, t_redirect *redirect)
+static inline void	do_input_redirect(t_action action, t_redirect *redirect)
 {
 	int	fd;
 
@@ -39,7 +39,8 @@ static inline void	do_input(t_action action, t_redirect *redirect)
 	}
 }
 
-static inline void	do_read_input(t_action action, t_redirect *redirect)
+static inline void	do_read_input_redirect(
+	t_action action, t_redirect *redirect)
 {
 	if (redirect->target == NULL)
 		return ;
@@ -48,7 +49,7 @@ static inline void	do_read_input(t_action action, t_redirect *redirect)
 	close(action.pipe_read_input[out]);
 }
 
-static inline void	do_output(t_action action, t_redirect *redirect)
+static inline void	do_output_redirect(t_action action, t_redirect *redirect)
 {
 	int	fd;
 
@@ -68,10 +69,10 @@ static inline void	do_output(t_action action, t_redirect *redirect)
 inline void	do_redirects(t_action action)
 {
 	if (action.redirect_in.type == input)
-		do_input(action, &action.redirect_in);
+		do_input_redirect(action, &action.redirect_in);
 	if (action.redirect_in.type == read_input)
-		do_read_input(action, &action.redirect_in);
+		do_read_input_redirect(action, &action.redirect_in);
 	if (action.redirect_out.type == output
 		|| action.redirect_out.type == output_append)
-		do_output(action, &action.redirect_out);
+		do_output_redirect(action, &action.redirect_out);
 }
