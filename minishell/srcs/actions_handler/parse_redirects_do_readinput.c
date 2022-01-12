@@ -6,22 +6,21 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 14:16:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 17:02:48 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:11:34 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <signal.h>
 #include <readline/readline.h>
 
 #include "libft.h"
 #include "bool.h"
 #include "mesages.h"
+#include "error_msgs.h"
 #include "input_handler.h"
 #include "actions_handler.h"
 #include "minishell.h"
-#include "error_msgs.h"
 
 static inline void	parse_read_input_target(t_redirect *redirect, char **env)
 {
