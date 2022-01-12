@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 17:19:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 23:15:08 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 11:37:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,14 @@ static inline void	update(char *name, char *value, char **env)
 	int		i;
 	char	*env_var;
 
-	if (name == NULL || value == NULL || env == NULL)
+	if (name == NULL || value == NULL || ft_strlen(value) == 0 || env == NULL)
 		return ;
 	i = get_env_i(name, env);
 	if (i < 0)
 		return ;
-	if (ft_strlen(value) > 0)
-	{
-		name = ft_strjoinchr(name, eq);
-		env_var = ft_strjoin(name, value);
-		free(name);
-	}
-	else
-		env_var = ft_strjoin(name, value);
+	name = ft_strjoinchr(name, eq);
+	env_var = ft_strjoin(name, value);
+	free(name);
 	if (env_var != NULL)
 	{
 		free(env[i]);
