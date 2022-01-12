@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 16:49:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:55:34 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static void	handler_child(int s)
 
 static void	handler_heredoc(int s)
 {
-	static struct termios	key_termios;
-
 	if (s == SIGQUIT && MAC_OS)
 	{
 		rl_on_new_line();
@@ -62,10 +60,6 @@ static void	handler_heredoc(int s)
 	}
 	else if (s == SIGINT)
 	{
-		tcgetattr(0, &key_termios);
-		key_termios.c_cc[VEOF] = 3;
-		key_termios.c_cc[VINTR] = 4;
-		tcsetattr(0, TCSANOW, &key_termios);
 		g_interrupt = 1;
 		if (MAC_OS)
 		{
@@ -77,13 +71,8 @@ static void	handler_heredoc(int s)
 
 void	set_signals(short is_shell, short ctl)
 {
-	sig_t					h_fun;
-	static struct termios	key_termios;
+	sig_t		h_fun;
 
-	tcgetattr(0, &key_termios);
-	key_termios.c_cc[VEOF] = 4;
-	key_termios.c_cc[VINTR] = 3;
-	tcsetattr(0, TCSANOW, &key_termios);
 	if (is_shell == 1)
 		h_fun = &handler_shell;
 	else if (is_shell == 2)
