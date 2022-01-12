@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 20:50:35 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:48:46 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define SHBIN			"/minishell"
 # define HISTORY_FILE	"/tmp/.minishell_history"
 # define EXPORT_PREPEND	"declare -x"
+# define DO_EXIT		1000
 
 typedef struct s_sh_data
 {
