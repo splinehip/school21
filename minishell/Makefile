@@ -21,7 +21,7 @@ INC_LIBS		=  -lft
 OS_NAME			:= $(shell uname -s)
 ifeq ($(OS_NAME), Darwin)
 	INC_HEADERS		+= -I${LIBREADLINE}/include
-	INC_LIBS_DIR	+= -L${LIBREADLINE}/lib -L/usr/local/opt/readline/lib
+	INC_LIBS_DIR	+= -L${LIBREADLINE}/lib
 	INC_LIBS		+= -lncurses
 	OS_V			:= $(shell sw_vers -productVersion | cut -f1,2 -d.)
 ifeq ($(shell echo "$(OS_V) <= 10.14" | bc), 1)
