@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 14:16:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 14:29:46 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 15:17:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static inline void	do_update_target(t_redirect *redirect, char *readline_res)
 {
 	char	*tmp;
 
-	tmp = readline_res;
 	readline_res = ft_strjoinchr(readline_res, endl);
-	free(tmp);
 	tmp = redirect->target;
 	redirect->target = ft_strjoin(redirect->target, readline_res);
 	free(tmp);
