@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logic_node_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:43 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 21:22:04 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:48:31 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	exec_node(t_node *node, char ***env)
 	if (node == NULL)
 		return (-1);
 	res = input_handler(&node->left, env);
-	if (res == -1 || (node->type == and && res != 0)
+	if (res == -1 || res == DO_EXIT || (node->type == and && res != 0)
 		|| (node->type == or && res == 0))
 		return (res);
 	return (input_handler(&node->right, env));

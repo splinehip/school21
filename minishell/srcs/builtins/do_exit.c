@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:28:25 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 21:13:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:48:31 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	check_exitcode(char **args)
 			print_err(MSG_ERR_EXIT_ARGS, NULL, 0);
 			return (1);
 		}
-		return (1000);
+		return (DO_EXIT);
 	}
 }
 
@@ -65,7 +65,7 @@ int	do_exit(t_action action, char ***env)
 		return (close_fd(action.pipe_out) + check_exitcode(action.exec.argv));
 	printf("exit\n");
 	if (!(action.exec.argv[1]))
-		return (1000);
+		return (DO_EXIT);
 	else
 	{
 		if (is_number(action.exec.argv[1]) && !(action.exec.argv[2]))
@@ -80,6 +80,6 @@ int	do_exit(t_action action, char ***env)
 			print_err(MSG_ERR_EXIT_ARGS, NULL, 0);
 			return (1);
 		}
-		return (1000);
+		return (DO_EXIT);
 	}
 }
