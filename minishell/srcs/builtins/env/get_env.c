@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:04:24 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 23:15:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 10:59:01 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ inline char	*get_env_value(char *name, char **env)
 	{
 		tmp = ft_strchr(get_env_res, eq);
 		if (tmp)
-		{
 			res = ft_strdup(tmp + 1);
-			free(get_env_res);
-		}
+		free(get_env_res);
 	}
 	return (res);
 }

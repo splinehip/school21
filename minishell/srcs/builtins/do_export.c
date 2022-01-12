@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/11 23:15:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 10:50:58 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static inline void	do_print(char **env)
 	{
 		name = get_env_name(env[i++]);
 		value = get_env_value(name, env);
-		printf("%s %s=\"%s\"\n", EXPORT_PREPEND, name, value);
+		if (value)
+			printf("%s %s=\"%s\"\n", EXPORT_PREPEND, name, value);
+		else
+			printf("%s %s\n", EXPORT_PREPEND, name);
 		free(name);
 		free(value);
 	}
