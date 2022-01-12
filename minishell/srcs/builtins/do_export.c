@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:57:04 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 10:50:58 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 13:50:23 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,15 @@ int	do_export(t_action action, char ***env)
 		do_print_env(fd, *env);
 	else
 	{
-		while (action.exec.argv[i])
+		if (action.pipe_in == 0 && action.pipe_out == 0)
 		{
-			if (res == success)
-				res = do_update_env(action.exec.argv[i++], env);
-			else
-				do_update_env(action.exec.argv[i++], env);
+			while (action.exec.argv[i])
+			{
+				if (res == success)
+					res = do_update_env(action.exec.argv[i++], env);
+				else
+					do_update_env(action.exec.argv[i++], env);
+			}
 		}
 	}
 	if (fd > 2)
