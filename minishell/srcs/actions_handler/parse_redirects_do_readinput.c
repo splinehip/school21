@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 14:16:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 16:52:02 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 17:02:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ static inline void	parse_read_input_target(t_redirect *redirect, char **env)
 
 static inline void	do_update_target(t_redirect *redirect, char *readline_res)
 {
+	char	*res;
 	char	*tmp;
 
 	tmp = redirect->target;
-	readline_res = ft_strjoinchr(readline_res, endl);
-	redirect->target = ft_strjoin(redirect->target, readline_res);
+	res = ft_strjoinchr(readline_res, endl);
+	redirect->target = ft_strjoin(redirect->target, res);
 	free(tmp);
+	free(res);
 }
 
 inline void	do_read_input(t_redirect *redirect, char *target, char **env)
