@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 23:08:50 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 15:27:03 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static inline void	free_actions(t_actions *actions)
 		free(actions->item[i].exec.path);
 		free(actions->item[i].redirect_in.target);
 		free(actions->item[i].redirect_out.target);
-		if (i < actions->pipes.len)
+		if (i < actions->pipes.len && !g_interrupt)
 			close_pipe(actions->pipes.item[i]);
 		i++;
 	}
@@ -108,7 +108,10 @@ int	do_actions(t_actions *actions, char ***env)
 	if (actions == NULL)
 		return (unsuccess);
 	if (g_interrupt)
+	{
+		free_actions(actions);
 		return (130);
+	}
 	if (open_pipes(actions) == unsuccess)
 		return (unsuccess);
 	return (do_run(actions, env));
