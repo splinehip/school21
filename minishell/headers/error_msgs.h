@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_msgs.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 11:45:36 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/11 19:48:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 11:34:36 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@
 # define MSG_ERR_EXIT_ARGS		"minishell: exit: Too many arguments\n"
 # define MSG_ERR_INVAL_HIS_FD	"minishell: Invalid descriptor of history file\n"
 # define MSG_ERR_INVAL_ENVNAME	"minishell: Invalid env name: %s\n"
+# define MSG_ERR_HEREDOC\
+	"minishell: warning: here-document delimited by end-of-file (wanted `%s\')\n"
 
 #endif

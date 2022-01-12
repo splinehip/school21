@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 23:10:40 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 11:34:15 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "input_handler.h"
 #include "actions_handler.h"
 #include "minishell.h"
+#include "error_msgs.h"
 
 struct s_extract_iter
 {
@@ -50,7 +51,8 @@ static inline void	do_read_input(
 	while (target && g_interrupt == false)
 	{
 		readline_res = readline(MSG_RL_SUBINPUT);
-		// printf("readline: %s\n", readline_res);
+		if (!readline_res && g_interrupt == false)
+			print_err(MSG_ERR_HEREDOC, target, 0);
 		if (ft_strcmp(readline_res, target) == 0)
 			break ;
 		if (readline_res)
