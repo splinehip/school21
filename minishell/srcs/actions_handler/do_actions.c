@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 15:27:03 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/12 16:09:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 
 static inline void	close_pipe(t_pipe item)
 {
-	close(item.pipe[0]);
-	close(item.pipe[1]);
+	if (item.pipe[0])
+		close(item.pipe[0]);
+	if (item.pipe[1])
+		close(item.pipe[1]);
 }
 
 static inline void	free_actions(t_actions *actions)
@@ -42,7 +44,7 @@ static inline void	free_actions(t_actions *actions)
 		free(actions->item[i].exec.path);
 		free(actions->item[i].redirect_in.target);
 		free(actions->item[i].redirect_out.target);
-		if (i < actions->pipes.len && !g_interrupt)
+		if (i < actions->pipes.len)
 			close_pipe(actions->pipes.item[i]);
 		i++;
 	}
