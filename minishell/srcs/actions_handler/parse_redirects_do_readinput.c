@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 14:16:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 16:31:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:52:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@
 #include "actions_handler.h"
 #include "minishell.h"
 #include "error_msgs.h"
-
-static int	event(void)
-{
-	return (0);
-}
 
 static inline void	parse_read_input_target(t_redirect *redirect, char **env)
 {
@@ -56,9 +51,9 @@ inline void	do_read_input(t_redirect *redirect, char *target, char **env)
 
 	readline_res = NULL;
 	*redirect->target = 0;
+	rl_event_hook = check_g_interrupt;
 	while (target && g_interrupt == false)
 	{
-		rl_event_hook = event;
 		readline_res = readline(MSG_RL_SUBINPUT);
 		if (!readline_res && g_interrupt == false)
 			print_err(MSG_ERR_HEREDOC, target, 0);
@@ -69,6 +64,7 @@ inline void	do_read_input(t_redirect *redirect, char *target, char **env)
 		free(readline_res);
 		readline_res = NULL;
 	}
+	rl_event_hook = NULL;
 	free(target);
 	free(readline_res);
 	parse_read_input_target(redirect, env);

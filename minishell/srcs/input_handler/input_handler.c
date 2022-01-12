@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 16:37:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:50:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 #include "input_handler.h"
 #include "minishell.h"
 
-static int	event(void)
+inline int	check_g_interrupt(void)
 {
+	if (g_interrupt)
+		rl_done = true;
 	return (0);
 }
 
@@ -33,7 +35,7 @@ static inline void	do_update_cmd(char **cmd)
 	char	*line;
 
 	set_signals(3, 0);
-	rl_event_hook = event;
+	rl_event_hook = check_g_interrupt;
 	line = readline(MSG_RL_SUBINPUT);
 	if (line != NULL)
 	{
@@ -45,6 +47,7 @@ static inline void	do_update_cmd(char **cmd)
 		free(tmp);
 		free(line);
 	}
+	rl_event_hook = NULL;
 	set_signals(0, 1);
 }
 

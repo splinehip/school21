@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 21:22:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:48:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_iter
 }	t_iter;
 
 int			input_handler(char **cmd, char ***env);
+int			check_g_interrupt(void);
 char		*parse_cmd(char *cmd, char **env, int type);
 int			check_cmd_sequenses(char *cmd);
 char		has_opened_quotes(char *cmd, int start, int end);

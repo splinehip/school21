@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:29:31 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 16:19:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:49:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static void	handler_heredoc(int s)
 			rl_on_new_line();
 			rl_redisplay();
 		}
-		rl_done = 1;
 	}
 }
 
