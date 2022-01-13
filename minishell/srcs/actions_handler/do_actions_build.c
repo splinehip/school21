@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 15:34:49 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 15:43:48 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_cmds_array(char *cmd)
 
 	i = 0;
 	j = 0;
-	new = ft_calloc(ft_strlen(cmd), 1);
+	new = ft_calloc(ft_strlen(cmd) + 1, 1);
 	if (new == NULL)
 	{
 		print_err(MSG_ERR_MEM, NULL, 0);
