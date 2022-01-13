@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 17:33:48 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 17:59:57 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static inline void	insert_separators(char **upd, int i)
 			if (((*upd)[i] == quote || (*upd)[i] == single_quote)
 				&& escaped(*upd, i) == false)
 				opened_quote = (*upd)[i];
-			if ((*upd)[i] == space)
+			if ((*upd)[i] == space && escaped(*upd, i) == false)
 				(*upd)[i] = SEPARATOR;
 		}
 		else
