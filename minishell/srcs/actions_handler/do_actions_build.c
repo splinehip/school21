@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 15:43:48 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 16:34:02 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,61 +20,40 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-void	copy_with_separators(char **new, char *cmd, int i, int j)
+void	insert_separators(char **upd, int i)
 {
 	char	opened_quote;
 
 	opened_quote = 0;
-	while (cmd[i])
+	while ((*upd)[i])
 	{
 		if (!opened_quote)
 		{
-			if ((cmd[i] == quote || cmd[i] == single_quote) && !escaped(cmd, i))
-				opened_quote = cmd[i];
-			if (cmd[i] == space)
-				(*new)[j++] = SEPARATOR;
-			else
-				(*new)[j++] = cmd[i];
+			if (((*upd)[i] == quote || (*upd)[i] == single_quote)
+				&& escaped(*upd, i) == false)
+				opened_quote = (*upd)[i];
+			if ((*upd)[i] == space)
+				(*upd)[i] = SEPARATOR;
 		}
 		else
 		{
-			if (cmd[i] == opened_quote)
+			if ((*upd)[i] == opened_quote)
 				opened_quote = 0;
-			(*new)[j++] = cmd[i];
 		}
 		i++;
 	}
 }
 
-char	*get_cmds_array(char *cmd)
-{
-	char	*new;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	new = ft_calloc(ft_strlen(cmd) + 1, 1);
-	if (new == NULL)
-	{
-		print_err(MSG_ERR_MEM, NULL, 0);
-		return (NULL);
-	}
-	copy_with_separators(&new, cmd, i, j);
-	return (new);
-}
-
 char	**split_cmd(char *cmd, char **env)
 {
-	int		i;
 	char	**split_cmds;
 	char	*tmp;
+	int		i;
 
 	i = 0;
-	tmp = get_cmds_array(cmd);
-	split_cmds = ft_split(tmp, SEPARATOR);
-	free(tmp);
-	while (split_cmds[i])
+	insert_separators(&cmd, i);
+	split_cmds = ft_split(cmd, SEPARATOR);
+	while (split_cmds && split_cmds[i])
 	{
 		if (*split_cmds[i] == asterisk && ft_strlen(split_cmds[i]) == 1)
 			tmp = parse_cmd(split_cmds[i], env, asterisk);
