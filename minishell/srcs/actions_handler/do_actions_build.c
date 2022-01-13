@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 16:34:02 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 16:46:46 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-void	insert_separators(char **upd, int i)
+static inline void	insert_separators(char **upd, int i)
 {
 	char	opened_quote;
 
@@ -44,7 +44,7 @@ void	insert_separators(char **upd, int i)
 	}
 }
 
-char	**split_cmd(char *cmd, char **env)
+static inline char	**split_cmd(char *cmd, char **env)
 {
 	char	**split_cmds;
 	char	*tmp;
