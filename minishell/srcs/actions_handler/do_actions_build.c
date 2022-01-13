@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 17:59:57 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 19:28:46 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,82 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
-static inline void	insert_separators(char **upd, int i)
+static inline void	copy_with_separators(char **new, char *cmd, int i, int j)
 {
 	char	opened_quote;
 
 	opened_quote = 0;
-	while ((*upd)[i])
+	while (cmd[i])
 	{
 		if (!opened_quote)
 		{
-			if (((*upd)[i] == quote || (*upd)[i] == single_quote)
-				&& escaped(*upd, i) == false)
-				opened_quote = (*upd)[i];
-			if ((*upd)[i] == space && escaped(*upd, i) == false)
-				(*upd)[i] = SEPARATOR;
+			if (i && (cmd[i] == r_crnr || cmd[i] == l_crnr)
+				&& cmd[i] != cmd[i - 1])
+				(*new)[j++] = SEPARATOR;
+			if ((cmd[i] == quote || cmd[i] == single_quote) && !escaped(cmd, i))
+				opened_quote = cmd[i];
+			if (cmd[i] == space && !escaped(cmd, i))
+				(*new)[j++] = SEPARATOR;
+			else
+				(*new)[j++] = cmd[i];
 		}
 		else
 		{
-			if ((*upd)[i] == opened_quote)
+			if (cmd[i] == opened_quote)
 				opened_quote = 0;
+			(*new)[j++] = cmd[i];
 		}
 		i++;
 	}
 }
 
-static inline char	**split_cmd(char *cmd, char **env)
+static inline int	count_corners(char *cmd)
 {
-	char	**split_cmds;
-	char	*tmp;
-	int		i;
+	int	i;
 
 	i = 0;
-	insert_separators(&cmd, i);
-	split_cmds = ft_split(cmd, SEPARATOR);
+	while (*cmd)
+	{
+		if (*cmd == l_crnr || *cmd == r_crnr)
+			i++;
+		cmd++;
+	}
+	return (i);
+}
+
+static inline char	*get_cmds_array(char *cmd)
+{
+	char	*new;
+	int		corners;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	corners = count_corners(cmd);
+	new = ft_calloc(ft_strlen(cmd) + 1 + corners * 2, 1);
+	if (new == NULL)
+	{
+		print_err(MSG_ERR_MEM, NULL, 0);
+		return (NULL);
+	}
+	copy_with_separators(&new, cmd, i, j);
+	return (new);
+}
+
+static inline char	**split_cmd(char *cmd, char **env)
+{
+	int		i;
+	char	**split_cmds;
+	char	*tmp;
+
+	i = 0;
+	tmp = get_cmds_array(cmd);
+	split_cmds = ft_split(tmp, SEPARATOR);
+	free(tmp);
 	while (split_cmds && split_cmds[i])
 	{
+		printf("%d\t %s\n", i, split_cmds[i]);
 		if (ft_strchr(split_cmds[i], asterisk)
 			&& (*split_cmds[i] != quote && *split_cmds[i] != single_quote))
 			tmp = parse_cmd(split_cmds[i], env, asterisk);

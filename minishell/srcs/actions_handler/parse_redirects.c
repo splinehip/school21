@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 17:15:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 18:51:39 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ inline void	extract_redirects(t_action *action, char **str, char **env)
 	iter.str = str;
 	while (str && str[iter.i])
 	{
-		if (str[iter.i][0] == left_corner)
+		if (str[iter.i][0] == l_crnr)
 		{
-			if (str[iter.i][1] == left_corner)
+			if (str[iter.i][1] == l_crnr)
 				do_extract(&action->redirect_in, &iter, read_input, env);
 			else
 				do_extract(&action->redirect_in, &iter, input, env);
 			iter.i--;
 		}
-		else if (str[iter.i][0] == right_corner)
+		else if (str[iter.i][0] == r_crnr)
 		{
-			if (str[iter.i][1] == right_corner)
+			if (str[iter.i][1] == r_crnr)
 				do_extract(&action->redirect_out, &iter, output_append, env);
 			else
 				do_extract(&action->redirect_out, &iter, output, env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_checkers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 14:29:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 18:51:39 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ static inline int	empty_heredoc_or_redirect(char *cmd)
 {
 	if (cmd == NULL)
 		return (unsuccess);
-	if (((*cmd == left_corner || *cmd == right_corner) && ft_strlen(cmd) == 1)
+	if (((*cmd == l_crnr || *cmd == r_crnr) && ft_strlen(cmd) == 1)
 		|| (ft_strcmp(cmd, "<<") == success || ft_strcmp(cmd, ">>") == success)
-		|| (cmd[ft_strlen(cmd) - 1] == left_corner
-			|| cmd[ft_strlen(cmd) - 1] == right_corner))
+		|| (cmd[ft_strlen(cmd) - 1] == l_crnr
+			|| cmd[ft_strlen(cmd) - 1] == r_crnr))
 	{
 		print_err(MSG_ERR_SYNATX, NULL, false);
 		return (unsuccess);
