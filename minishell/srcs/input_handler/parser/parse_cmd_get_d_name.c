@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_get_d_name.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 20:53:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/19 21:24:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 10:41:27 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
 
 #include "builtins.h"
 
-char	*get_d_name(char **env)
+char	*get_d_name(void)
 {
 	static DIR		*dir;
 	struct dirent	*dir_ent;
@@ -25,7 +26,7 @@ char	*get_d_name(char **env)
 	dir_ent = NULL;
 	if (dir == NULL)
 	{
-		pwd = get_env_value("PWD", env);
+		pwd = getcwd(NULL, 0);
 		if (pwd)
 			dir = opendir(pwd);
 		free(pwd);

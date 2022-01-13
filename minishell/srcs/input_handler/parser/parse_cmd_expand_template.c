@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 03:50:51 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 10:42:40 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,23 @@ static inline int	do_update_res(t_select *args, int ret)
 	return (ret);
 }
 
-static inline char	*do_select_item(t_select *args, char **env)
+static inline char	*do_select_item(t_select *args)
 {
 	args->j = 0;
 	args->res = NULL;
-	args->d_name = get_d_name(env);
+	args->d_name = get_d_name();
 	while (args->d_name)
 	{
 		if (do_update_res(args, success) == unsuccess)
 			return (NULL);
-		args->d_name = get_d_name(env);
+		args->d_name = get_d_name();
 	}
 	if (args->j != 0)
 		do_drop_buf(&args->res, &args->buf[0], &args->j);
 	return (args->res);
 }
 
-static inline char	*do_templated_select(char *res, char **env)
+static inline char	*do_templated_select(char *res)
 {
 	char		*ret;
 	t_select	args;
@@ -72,7 +72,7 @@ static inline char	*do_templated_select(char *res, char **env)
 	args.templated_strs = ft_split(res, asterisk);
 	if (args.templated_strs == NULL)
 		return (NULL);
-	ret = do_select_item(&args, env);
+	ret = do_select_item(&args);
 	while (args.templated_strs[args.j])
 		free(args.templated_strs[args.j++]);
 	free(args.templated_strs);
@@ -126,7 +126,7 @@ inline char	*do_expand_template(char *template_str, char **env)
 	do_join(&res, right);
 	free(right);
 	tmp = res;
-	res = do_templated_select(res, env);
+	res = do_templated_select(res);
 	free(tmp);
 	if (res == NULL)
 		return (do_parse(template_str, env));

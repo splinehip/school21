@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:25:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 16:48:21 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 10:41:06 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char		*do_expand_template(char *template_str, char **env);
 int			do_update_buf(char **res, char *str, char *buf, int *j);
 int			do_drop_buf(char **res, char *buf, int *j);
 void		get_template_border(char *cmd, t_extract *args);
-char		*get_d_name(char **env);
+char		*get_d_name(void);
 void		do_select_template(char *res, t_select *args);
 int			pattern_matched(t_select *args);
 void		pattern_matching_get_next(char **next, char *templated_str);

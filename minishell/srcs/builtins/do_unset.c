@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   do_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:33:11 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 14:10:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 10:24:43 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdio.h>
 
 #include "builtins.h"
 #include "minishell.h"

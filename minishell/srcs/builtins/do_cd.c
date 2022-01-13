@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:08:47 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/10 21:18:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 10:52:41 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	run_cd(t_action action, char ***env)
 		path = ft_strdup(action.exec.argv[1]);
 	if (!path)
 	{
-		print_err(MSG_ERR_CD, NULL, 0);
+		print_err(MSG_ERR_HOME, NULL, 0);
 		return (1);
 	}
 	old_dir = getcwd(NULL, 0);
