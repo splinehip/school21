@@ -6,11 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 15:10:55 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 15:34:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "libft.h"
 #include "bool.h"
@@ -30,7 +31,7 @@ void	copy_with_separators(char **new, char *cmd, int i, int j)
 		{
 			if ((cmd[i] == quote || cmd[i] == single_quote) && !escaped(cmd, i))
 				opened_quote = cmd[i];
-			else if (cmd[i] == space)
+			if (cmd[i] == space)
 				(*new)[j++] = SEPARATOR;
 			else
 				(*new)[j++] = cmd[i];
@@ -39,8 +40,7 @@ void	copy_with_separators(char **new, char *cmd, int i, int j)
 		{
 			if (cmd[i] == opened_quote)
 				opened_quote = 0;
-			else
-				(*new)[j++] = cmd[i];
+			(*new)[j++] = cmd[i];
 		}
 		i++;
 	}
