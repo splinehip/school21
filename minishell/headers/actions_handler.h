@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:01:34 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 14:17:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/13 14:30:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ typedef struct s_actions
 }	t_actions;
 
 t_actions	*do_actions_build(t_actions *actions, char *cmd, char ***env);
+t_actions	*do_build_items(t_actions *actions, char ***cmds, char **env);
 void		extract_redirects(t_action *action, char **str, char **env);
+void		set_action_argv(t_action *action, int start, int len, char **cmds);
+void		set_action_type(t_action *action);
 void		do_read_input(t_redirect *redirect, char *target, char **env);
 int			do_actions(t_actions *actions, char ***env);
 int			do_action_run(t_action *action, char ***env);

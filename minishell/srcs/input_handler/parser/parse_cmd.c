@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 17:33:02 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 12:27:34 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 14:50:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 
-#include "libft.h"
-#include "bool.h"
 #include "error_msgs.h"
-#include "builtins.h"
 #include "input_handler.h"
 #include "minishell.h"
 
