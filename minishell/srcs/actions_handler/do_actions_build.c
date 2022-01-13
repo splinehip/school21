@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 16:46:46 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 17:33:48 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static inline char	**split_cmd(char *cmd, char **env)
 	split_cmds = ft_split(cmd, SEPARATOR);
 	while (split_cmds && split_cmds[i])
 	{
-		if (*split_cmds[i] == asterisk && ft_strlen(split_cmds[i]) == 1)
+		if (ft_strchr(split_cmds[i], asterisk)
+			&& (*split_cmds[i] != quote && *split_cmds[i] != single_quote))
 			tmp = parse_cmd(split_cmds[i], env, asterisk);
 		else
 			tmp = parse_cmd(split_cmds[i], env, false);
