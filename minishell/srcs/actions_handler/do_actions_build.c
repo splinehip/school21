@@ -6,11 +6,12 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 14:56:45 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 15:30:37 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "actions_handler.h"
 #include "error_msgs.h"
@@ -30,7 +31,7 @@ void	copy_with_separators(char **new, char *cmd, int i, int j)
 		{
 			if ((cmd[i] == quote || cmd[i] == single_quote) && !escaped(cmd, i))
 				opened_quote = cmd[i];
-			else if (cmd[i] == space)
+			if (cmd[i] == space)
 				(*new)[j++] = SEPARATOR;
 			else
 				(*new)[j++] = cmd[i];
@@ -39,8 +40,7 @@ void	copy_with_separators(char **new, char *cmd, int i, int j)
 		{
 			if (cmd[i] == opened_quote)
 				opened_quote = 0;
-			else
-				(*new)[j++] = cmd[i];
+			(*new)[j++] = cmd[i];
 		}
 		i++;
 	}
