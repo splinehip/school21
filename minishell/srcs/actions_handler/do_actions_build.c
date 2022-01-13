@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 14:56:45 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 15:10:55 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-#include "actions_handler.h"
-#include "error_msgs.h"
-#include "minishell.h"
-#include "input_handler.h"
 #include "libft.h"
 #include "bool.h"
+#include "error_msgs.h"
+#include "input_handler.h"
+#include "actions_handler.h"
+#include "minishell.h"
 
 void	copy_with_separators(char **new, char *cmd, int i, int j)
 {

@@ -96,7 +96,9 @@
           "limits": "c",
           "stdarg.h": "c",
           "makefile.*": "makefile",
-          "types.h": "c"
+          "types.h": "c",
+          "minishell.h": "c",
+          "input_handler.h": "c"
         },
       },
 }
