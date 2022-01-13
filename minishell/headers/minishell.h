@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 13:48:39 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/12 17:48:46 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/13 13:36:00 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define HISTORY_FILE	"/tmp/.minishell_history"
 # define EXPORT_PREPEND	"declare -x"
 # define DO_EXIT		1000
+# define SEPARATOR		-2
 
 typedef struct s_sh_data
 {
