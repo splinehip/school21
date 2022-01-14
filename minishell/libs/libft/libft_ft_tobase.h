@@ -6,15 +6,14 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 15:39:14 by cflorind          #+#    #+#             */
-/*   Updated: 2021/11/29 15:42:02 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/14 11:51:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_FT_TOBASE_H
 # define LIBFT_FT_TOBASE_H
 
-const char	*g_base[65] =
-{
+const char	*g_base[65] = {
 	"",
 	"",
 	"01",
