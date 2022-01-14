@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 13:08:47 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/13 10:52:41 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 11:01:10 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	do_cd(t_action action, char ***env)
 		print_err(MSG_ERR_CD_ARGS, NULL, 0);
 		return (1);
 	}
-	if (action.redirect_out.type >= 0)
+	if (action.pipe_out || action.pipe_in)
 		return (0);
 	return (run_cd(action, env));
 }
