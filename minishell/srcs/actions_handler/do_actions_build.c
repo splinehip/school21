@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/14 12:18:33 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 12:52:18 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@
 #include "actions_handler.h"
 #include "minishell.h"
 
+static inline void	on_closed_quotes(char *cmd, char **new, int i, int *j)
+{
+	if (i && (((cmd[i] == r_crnr || cmd[i] == l_crnr)
+				&& cmd[i] != cmd[i - 1]) || cmd[i] == pipes))
+		(*new)[(*j)++] = SEPARATOR;
+	if (cmd[i] == space && !escaped(cmd, i))
+		(*new)[(*j)++] = SEPARATOR;
+	else
+		(*new)[(*j)++] = cmd[i];
+	if (cmd[i] == pipes)
+		(*new)[(*j)++] = SEPARATOR;
+}
+
 static inline void	copy_with_separators(char **new, char *cmd, int i, int j)
 {
 	char	opened_quote;
@@ -29,17 +42,13 @@ static inline void	copy_with_separators(char **new, char *cmd, int i, int j)
 	{
 		if (!opened_quote)
 		{
-			if (i && (((cmd[i] == r_crnr || cmd[i] == l_crnr)
-						&& cmd[i] != cmd[i - 1]) || cmd[i] == pipes))
-				(*new)[j++] = SEPARATOR;
 			if ((cmd[i] == quote || cmd[i] == single_quote) && !escaped(cmd, i))
+			{
 				opened_quote = cmd[i];
-			if (cmd[i] == space && !escaped(cmd, i))
-				(*new)[j++] = SEPARATOR;
-			else
 				(*new)[j++] = cmd[i];
-			if (cmd[i] == pipes)
-				(*new)[j++] = SEPARATOR;
+			}
+			else
+				on_closed_quotes(cmd, new, i, &j);
 		}
 		else
 		{
@@ -51,37 +60,29 @@ static inline void	copy_with_separators(char **new, char *cmd, int i, int j)
 	}
 }
 
-static inline int	count_symbols(char *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (*cmd)
-	{
-		if (*cmd == l_crnr || *cmd == r_crnr || *cmd == pipes)
-			i++;
-		cmd++;
-	}
-	return (i);
-}
-
 static inline char	*get_cmds_array(char *cmd)
 {
 	char	*new;
 	int		symbols;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
-	symbols = count_symbols(cmd);
+	symbols = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == l_crnr || cmd[i] == r_crnr || cmd[i] == pipes)
+			symbols++;
+		i++;
+	}
 	new = ft_calloc(ft_strlen(cmd) + 1 + symbols * 2, 1);
 	if (new == NULL)
 	{
 		print_err(MSG_ERR_MEM, NULL, 0);
 		return (NULL);
 	}
-	copy_with_separators(&new, cmd, i, j);
+	i = 0;
+	symbols = 0;
+	copy_with_separators(&new, cmd, i, symbols);
 	return (new);
 }
 
