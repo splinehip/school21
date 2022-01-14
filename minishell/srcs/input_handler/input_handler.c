@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/14 13:13:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/14 14:17:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static inline int	do_append_cmd(char **cmd)
 		print_err(MSG_ERR_SYNATX, NULL, false);
 		return (unsuccess);
 	}
-	if ((*cmd)[ft_strlen(*cmd) - 1] == pipes)
+	if (**cmd && (*cmd)[ft_strlen(*cmd) - 1] == pipes)
 		do_update_cmd(cmd);
 	if (*cmd)
 		return (success);

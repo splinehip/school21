@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_checkers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:11:31 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 18:51:39 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 14:20:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static inline char	escaped_eof(char *cmd)
 {
-	if (cmd[ft_strlen(cmd) - 1] == escape
+	if (*cmd && cmd[ft_strlen(cmd) - 1] == escape
 		&& escaped(cmd, ft_strlen(cmd) - 1) == false)
 		return (escape);
 	return (0);
@@ -89,7 +89,7 @@ static inline int	has_opened_parenth(
 
 static inline int	empty_heredoc_or_redirect(char *cmd)
 {
-	if (cmd == NULL)
+	if (cmd == NULL || *cmd == ends)
 		return (unsuccess);
 	if (((*cmd == l_crnr || *cmd == r_crnr) && ft_strlen(cmd) == 1)
 		|| (ft_strcmp(cmd, "<<") == success || ft_strcmp(cmd, ">>") == success)
