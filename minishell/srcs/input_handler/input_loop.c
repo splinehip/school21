@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:32:13 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/12 17:56:58 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 15:20:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ static inline char	*get_prompt(char **env)
 	char	*res;
 
 	res = getcwd(NULL, 0);
+	if (res == NULL)
+		res = get_env_value("PWD", env);
 	home = get_env_value("HOME", env);
-	if (home && ft_strncmp(res, home, ft_strlen(home)) == 0)
+	if (res && home && ft_strncmp(res, home, ft_strlen(home)) == 0)
 	{
 		old_res = res;
 		res = ft_strljoinchr(res + ft_strlen(home), '~');

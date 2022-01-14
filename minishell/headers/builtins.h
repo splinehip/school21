@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:21:50 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/11 20:45:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/14 15:26:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "actions_handler.h"
 
-int		do_pwd(t_action action);
+int		do_pwd(t_action action, char **env);
 int		do_exit(t_action action, char ***env);
 int		do_echo(t_action action);
 int		do_cd(t_action action, char ***env);
