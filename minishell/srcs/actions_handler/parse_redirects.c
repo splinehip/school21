@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirects.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 16:00:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 18:51:39 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 03:51:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,36 @@ static inline void	do_extract(
 	}
 }
 
+static inline void	do_select_extract_type(
+	t_action *action, struct s_extract_iter *iter, char **env)
+{
+	char	*tmp;
+
+	if (*iter->str[iter->i] == l_crnr)
+	{
+		if (iter->str[iter->i][1] == l_crnr)
+			do_extract(&action->redirect_in, iter, read_input, env);
+		else
+			do_extract(&action->redirect_in, iter, input, env);
+		iter->i--;
+	}
+	else if (*iter->str[iter->i] == r_crnr)
+	{
+		if (iter->str[iter->i][1] == r_crnr)
+			do_extract(&action->redirect_out, iter, output_append, env);
+		else
+			do_extract(&action->redirect_out, iter, output, env);
+		iter->i--;
+	}
+	else if (*iter->str[iter->i] == quote
+		|| *iter->str[iter->i] == single_quote)
+	{
+		tmp = iter->str[iter->i];
+		iter->str[iter->i] = parse_cmd(iter->str[iter->i], env, false);
+		free(tmp);
+	}
+}
+
 inline void	extract_redirects(t_action *action, char **str, char **env)
 {
 	struct s_extract_iter	iter;
@@ -71,22 +101,7 @@ inline void	extract_redirects(t_action *action, char **str, char **env)
 	iter.str = str;
 	while (str && str[iter.i])
 	{
-		if (str[iter.i][0] == l_crnr)
-		{
-			if (str[iter.i][1] == l_crnr)
-				do_extract(&action->redirect_in, &iter, read_input, env);
-			else
-				do_extract(&action->redirect_in, &iter, input, env);
-			iter.i--;
-		}
-		else if (str[iter.i][0] == r_crnr)
-		{
-			if (str[iter.i][1] == r_crnr)
-				do_extract(&action->redirect_out, &iter, output_append, env);
-			else
-				do_extract(&action->redirect_out, &iter, output, env);
-			iter.i--;
-		}
+		do_select_extract_type(action, &iter, env);
 		iter.i++;
 	}
 }

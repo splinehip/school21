@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_actions_build.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:47:08 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 19:28:46 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 04:01:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,15 @@ static inline char	**split_cmd(char *cmd, char **env)
 	free(tmp);
 	while (split_cmds && split_cmds[i])
 	{
-		printf("%d\t %s\n", i, split_cmds[i]);
-		if (ft_strchr(split_cmds[i], asterisk)
-			&& (*split_cmds[i] != quote && *split_cmds[i] != single_quote))
-			tmp = parse_cmd(split_cmds[i], env, asterisk);
-		else
-			tmp = parse_cmd(split_cmds[i], env, false);
-		free(split_cmds[i]);
-		split_cmds[i] = tmp;
+		if (*split_cmds[i] != quote && *split_cmds[i] != single_quote)
+		{
+			if (ft_strchr(split_cmds[i], asterisk))
+				tmp = parse_cmd(split_cmds[i], env, asterisk);
+			else
+				tmp = parse_cmd(split_cmds[i], env, false);
+			free(split_cmds[i]);
+			split_cmds[i] = tmp;
+		}
 		i++;
 	}
 	return (split_cmds);

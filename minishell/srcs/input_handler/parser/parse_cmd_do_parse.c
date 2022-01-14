@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_do_parse.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 03:59:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,15 @@ static inline int	init_iter(char **cmd, t_iter *iter)
 	iter->j = 0;
 	iter->k = 0;
 	iter->in_qoutes = false;
-	while (**cmd != ends && **cmd == space)
+	i = 0;
+	while (**cmd != ends && **cmd == space && escaped(*cmd, i) == false)
+	{
+		i++;
 		*cmd += 1;
+	}
 	i = ft_strlen(*cmd);
-	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space)
+	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space
+		&& escaped(*cmd, i) == false)
 		(*cmd)[i] = ends;
 	if (ft_strlen(*cmd) == 0)
 		iter->res = ft_calloc(1, sizeof(char));

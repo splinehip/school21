@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 14:28:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/13 15:14:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/14 04:01:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "builtins.h"
 #include "actions_handler.h"
 #include "minishell.h"
-#include "../tmp_utils.c"
 
 static inline void	close_pipe(t_pipe item)
 {
@@ -110,7 +109,6 @@ int	do_actions(t_actions *actions, char ***env)
 {
 	if (actions == NULL)
 		return (unsuccess);
-	print_actions(actions, 0, 0);
 	if (g_interrupt)
 	{
 		free_actions(actions);
