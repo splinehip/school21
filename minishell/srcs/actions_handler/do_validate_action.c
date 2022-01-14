@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_validate_action.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 15:28:51 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/06 12:28:31 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 12:45:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static inline int	do_validation_whith_env_path(
 	free(path);
 	if (S_ISREG(sb->st_mode) == false)
 		print_err(MSG_ERR_CMD_NFOUND, action->exec.argv[0], 0);
-	if (S_ISDIR(sb->st_mode))
+	else if (S_ISDIR(sb->st_mode))
 		print_err(MSG_ERR_CMD_ISDIR, action->exec.argv[0], 0);
 	return (S_ISREG(sb->st_mode));
 }
