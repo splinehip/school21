@@ -6,7 +6,7 @@
 /*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:54:43 by lbaela            #+#    #+#             */
-/*   Updated: 2022/01/14 14:32:21 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 14:50:45 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*extract_first(char *str, size_t n)
 	char	*tmp;
 	char	*new;
 
-	tmp = malloc(n);
+	tmp = malloc(n + 1);
 	if (!tmp)
 		return (NULL);
 	tmp = ft_memcpy(tmp, str, n);
