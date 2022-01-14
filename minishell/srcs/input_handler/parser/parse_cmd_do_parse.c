@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 18:31:00 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/14 03:59:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/14 13:43:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,17 @@ static inline int	init_iter(char **cmd, t_iter *iter)
 	iter->j = 0;
 	iter->k = 0;
 	iter->in_qoutes = false;
+	ft_memset(iter->buf, 0, BUF_SIZE);
+	i = ft_strlen(*cmd);
+	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space
+		&& escaped(*cmd, i) == false)
+		(*cmd)[i] = ends;
 	i = 0;
 	while (**cmd != ends && **cmd == space && escaped(*cmd, i) == false)
 	{
 		i++;
 		*cmd += 1;
 	}
-	i = ft_strlen(*cmd);
-	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space
-		&& escaped(*cmd, i) == false)
-		(*cmd)[i] = ends;
 	if (ft_strlen(*cmd) == 0)
 		iter->res = ft_calloc(1, sizeof(char));
 	else

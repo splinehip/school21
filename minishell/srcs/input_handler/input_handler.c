@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:23:47 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/14 11:25:58 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/14 13:13:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ static inline int	do_append_cmd(char **cmd)
 
 	if (cmd == NULL || *cmd == NULL)
 		return (unsuccess);
+	i = ft_strlen(*cmd);
+	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space
+		&& escaped(*cmd, i) == false)
+		(*cmd)[i] = ends;
 	i = 0;
 	while (**cmd != ends && **cmd == space && escaped(*cmd, i) == false)
 	{
 		i++;
 		*cmd += 1;
 	}
-	i = ft_strlen(*cmd);
-	while (--i >= 0 && (*cmd)[i] != ends && (*cmd)[i] == space
-		&& escaped(*cmd, i) == false)
-		(*cmd)[i] = ends;
 	if (**cmd == pipes)
 	{
 		print_err(MSG_ERR_SYNATX, NULL, false);
