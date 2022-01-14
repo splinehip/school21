@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_exit_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 20:00:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/10 10:54:58 by lbaela           ###   ########.fr       */
+/*   Updated: 2022/01/14 11:21:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "builtins.h"
 #include "actions_handler.h"
 
-static inline void	do_wait_or_kill(t_actions *actions, int status)
+static inline void	do_wait(t_actions *actions)
 {
 	int	i;
 
@@ -27,26 +27,18 @@ static inline void	do_wait_or_kill(t_actions *actions, int status)
 	while (i < actions->len)
 	{
 		if (actions->item[i].pid)
-		{
-			if (status != success)
-				kill(actions->item[i].pid, SIGKILL);
-			else
-				waitpid(actions->item[i].pid, NULL, false);
-		}
+			waitpid(actions->item[i].pid, NULL, false);
 		i++;
 	}
 }
 
-inline void	child_exit_handler(t_actions *actions, int *exit_status, int res)
+inline void	child_exit_handler(t_actions *actions, int *exit_status)
 {
 	if (actions->item[actions->len - 1].pid)
 	{
 		waitpid(actions->item[actions->len - 1].pid, exit_status, false);
-		if (WIFEXITED(*exit_status))
-			do_wait_or_kill(actions, WEXITSTATUS(*exit_status));
-		else if (WIFSIGNALED(*exit_status))
-			do_wait_or_kill(actions, WTERMSIG(*exit_status));
+		do_wait(actions);
 	}
 	else
-		do_wait_or_kill(actions, res);
+		do_wait(actions);
 }
