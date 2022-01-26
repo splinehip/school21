@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:17:17 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:32:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static inline void	free_args(t_args *args)
 {
 	mlx_destroy_image(args->mlx, args->img);
 	mlx_destroy_window(args->mlx, args->win);
-	mlx_destroy_display(args->mlx);
+	if (MACOS)
+		mlx_destroy_display(args->mlx);
 	free(args->mlx);
 }
 
