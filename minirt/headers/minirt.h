@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:54:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 18:11:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	mlx_loop_end(void *mlx);
 
 # define PROG_NAME "miniRT Project"
 
-int	main(int argc, char **argv);
+int		main(int argc, char **argv);
+void	free_args(t_args *args);
 
 #endif

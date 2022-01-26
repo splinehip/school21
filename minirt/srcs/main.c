@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:59:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 18:11:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "hooks.h"
 #include "minirt.h"
 
-static inline void	free_args(t_args *args)
+inline void	free_args(t_args *args)
 {
 	if (MACOS == false)
 	{

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 11:55:37 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 18:00:11 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 18:12:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	close_win(t_args *args)
 		mlx_loop_end(args->mlx);
 	else
 	{
-		mlx_destroy_image(args->mlx, args->img);
-		mlx_destroy_window(args->mlx, args->win);
+		free_args(args);
+		exit(success);
 	}
 	return (0);
 }
