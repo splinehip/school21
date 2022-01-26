@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:33:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:40:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINIRT_H
 # ifdef __APPLE__
 #  define MACOS 1
+
+int	mlx_destroy_display(void);
 # else
 #  define MACOS 0
 # endif
