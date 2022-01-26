@@ -2,6 +2,10 @@
 MAIN	= main.c
 # end MAIN
 
+# GET_SCREEN_SIZE
+GET_SCREEN_SIZE	= get_screen_size.c
+# end GET_SCREEN_SIZE
+
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, )
@@ -14,5 +18,5 @@ SIGNALS		= $(addprefix ${SIGNALS_DIR}/, )
 
 # SRCS
 SRCS		=\
-${MAIN} ${INPUT_HANDLER} ${SIGNALS}
+${MAIN} ${GET_SCREEN_SIZE} ${INPUT_HANDLER} ${SIGNALS}
 # end SRCS

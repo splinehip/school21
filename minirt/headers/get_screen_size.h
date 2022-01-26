@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_screen_size.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 13:24:41 by cflorind         ###   ########.fr       */
+/*   Created: 2022/01/26 13:09:03 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 13:25:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef GET_SCREEN_SIZE_H
+# define GET_SCREEN_SIZE_H
+# ifdef __APPLE__
+#  define MACOS 1
+#  import <AppKit/NSOpenGLView.h>
+# else
+#  define MACOS 0
+#  include "mlx.h"
+# endif
 
-#include "mlx.h"
+int	get_screen_size(void *mlx, int *x, int *y);
+int	macos_get_screen_size(int *size_x, int *size_y);
 
-#include "get_screen_size.h"
-#include "minirt.h"
-
-int	main(int argc, char **argv)
-{
-	int		x;
-	int		y;
-	void	*mlx;
-
-	(void)argc;
-	(void)argv;
-	mlx = mlx_init();
-	get_screen_size(mlx, &x, &y);
-	printf("Hello from miniRT: screen szie is x: %i, y: %i\n", x, y);
-	free(mlx);
-	return (0);
-}
+#endif
