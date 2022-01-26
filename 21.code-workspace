@@ -27,6 +27,9 @@
       {
         "path": "minishell"
       },
+      {
+        "path": "minirt"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
@@ -98,7 +101,8 @@
           "makefile.*": "makefile",
           "types.h": "c",
           "minishell.h": "c",
-          "input_handler.h": "c"
+          "input_handler.h": "c",
+          "mlx_int.h": "c"
         },
       },
 }
