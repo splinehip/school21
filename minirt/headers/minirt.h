@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:47:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:54:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #  define MACOS 1
 
 int	mlx_destroy_display(void *mlx);
+int	mlx_loop_end(void *mlx);
 # else
 #  define MACOS 0
 # endif
