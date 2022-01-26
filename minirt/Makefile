@@ -52,8 +52,7 @@ ${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
 			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
 
 ifeq (${OS_NAME}, Darwin)
-.SECONDEXPANSION:
-${OBJS}:	$$(patsubst %.o, %.m, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
+srcs/macos_get_screen_szie.o:	srcs/macos_get_screen_szie.m
 			@mkdir -p ${@D}
 			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
 endif
