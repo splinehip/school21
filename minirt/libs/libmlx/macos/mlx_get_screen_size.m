@@ -6,13 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 13:45:38 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 15:36:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:42:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #import <AppKit/NSOpenGLView.h>
 
-#include "mlx_get_screen_size.h"
+#include "mlx.h"
 
 /*
 It takes mlx_ptr, but it doesn't use it in mac os (because macOS is sheit).

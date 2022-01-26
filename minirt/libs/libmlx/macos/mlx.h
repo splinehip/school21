@@ -1,9 +1,9 @@
 /*
-** mlx.h for MinilibX in 
-** 
+** mlx.h for MinilibX in
+**
 ** Made by Charlie Root
 ** Login   <ol@staff.42.fr>
-** 
+**
 ** Started on  Mon Jul 31 16:37:50 2000 Charlie Root
 ** Last update Tue Oct 01 16:23:28 2014 Olivier Crouzet
 */
@@ -145,5 +145,10 @@ int     mlx_mouse_get_pos(void *win_ptr, int *x, int *y);
 int	mlx_do_key_autorepeatoff(void *mlx_ptr);
 int	mlx_do_key_autorepeaton(void *mlx_ptr);
 int	mlx_do_sync(void *mlx_ptr);
+
+/*
+** Custom functions
+*/
+int	mlx_get_screen_size(void *mlx_ptr, int *size_x, int *size_y);
 
 #endif /* MLX_H */
