@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   macos_get_screen_size.m                            :+:      :+:    :+:   */
+/*   mlx_get_screen_size.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 13:45:38 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 14:16:04 by cflorind         ###   ########.fr       */
+/*   Created: 2022/01/26 13:09:03 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 15:09:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#import <AppKit/NSOpenGLView.h>
+#ifndef MLX_GET_SCREEN_SIZE_H
+# define MLX_GET_SCREEN_SIZE_H
 
-int	mlx_get_screen_size(void *mlx, int *x, int *y)
-{
-	return (0);
-}
+int	mlx_get_screen_size(void *mlx, int *size_x, int *size_y);
 
-int	macos_get_screen_size(int *size_x, int *size_y)
-{
-	NSRect	e;
-
-	e = [[NSScreen mainScreen] frame];
-	*size_x = (int)e.size.width;
-	*sizey = (int)e.size.height;
-	return (0);
-}
+#endif

@@ -2,10 +2,6 @@
 MAIN	= main.c
 # end MAIN
 
-# GET_SCREEN_SIZE
-GET_SCREEN_SIZE	= get_screen_size.c
-# end GET_SCREEN_SIZE
-
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, )

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 13:24:41 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:21:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include "mlx.h"
 
-#include "get_screen_size.h"
 #include "minirt.h"
 
 int	main(int argc, char **argv)
@@ -27,7 +26,7 @@ int	main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	mlx = mlx_init();
-	get_screen_size(mlx, &x, &y);
+	mlx_get_screen_size(mlx, &x, &y);
 	printf("Hello from miniRT: screen szie is x: %i, y: %i\n", x, y);
 	free(mlx);
 	return (0);

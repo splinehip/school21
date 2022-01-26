@@ -14,7 +14,7 @@ INC_HEADERS		= -Iheaders -I$(dir ${LIBFT})
 
 INC_LIBS_DIR	= -L$(dir ${LIBFT})
 
-INC_LIBS		=  -lft -lmlx -lXext -lX11 -lm
+INC_LIBS		=  -lft -lmlx -lm
 
 OS_NAME			:= $(shell uname -s)
 ifeq ($(OS_NAME), Darwin)
@@ -22,7 +22,7 @@ ifeq ($(OS_NAME), Darwin)
 	INC_LIBS		+= -framework OpenGL -framework AppKit
 else
 	LIBMLX_DIR		= libs/libmlx/linux
-	INC_LIBS		+= -lz
+	INC_LIBS		+= -lXext -lX11 -lz
 endif
 
 LIBMLX			= ${LIBMLX_DIR}/libmlx.a
@@ -48,12 +48,6 @@ ${NAME}:	${OBJS} ${LIBFT} ${LIBMLX}
 ${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
 			@mkdir -p ${@D}
 			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
-
-ifeq (${OS_NAME}, Darwin)
-srcs/macos_get_screen_szie.o:	srcs/macos_get_screen_szie.m
-			@mkdir -p ${@D}
-			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
-endif
 
 $(dir ${LIBFT}):
 			@make -C $@ $(MAKECMDGOALS)
