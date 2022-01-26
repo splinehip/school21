@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 13:09:03 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 13:25:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 13:49:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_SCREEN_SIZE_H
 # ifdef __APPLE__
 #  define MACOS 1
-#  import <AppKit/NSOpenGLView.h>
+#  int	macos_get_screen_size(int *size_x, int *size_y);
 # else
 #  define MACOS 0
 #  include "mlx.h"
