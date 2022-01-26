@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   mouse_btn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:11:35 by cflorind         ###   ########.fr       */
+/*   Created: 2021/08/04 12:11:50 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 17:27:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <stdio.h>
 
-# define PROG_NAME "miniRT Project"
+#include "hooks.h"
 
-int	main(int argc, char **argv);
-
-#endif
+int	mouse_btn(int btn, int x, int y, t_args *args)
+{
+	(void)args;
+	printf("btn: %i, x: %i, y: %i\n", btn, x, y);
+	return (0);
+}

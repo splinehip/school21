@@ -2,6 +2,14 @@
 MAIN	= main.c
 # end MAIN
 
+# HOOKS
+HOOKS_DIR = hooks
+HOOKS = $(addprefix ${HOOKS_DIR}/,\
+hooks_reg.c 		close_win.c			key_press.c\
+mouse_btn.c			mouse_move.c		ptr_enter_win.c\
+ptr_leave_win.c		key_reales.c)
+# end HOOKS
+
 # INPUT_HANDLER
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, )
@@ -14,5 +22,5 @@ SIGNALS		= $(addprefix ${SIGNALS_DIR}/, )
 
 # SRCS
 SRCS		=\
-${MAIN} ${GET_SCREEN_SIZE} ${INPUT_HANDLER} ${SIGNALS}
+${MAIN} ${HOOKS} ${INPUT_HANDLER} ${SIGNALS}
 # end SRCS

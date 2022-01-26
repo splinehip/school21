@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   bool.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lbaela <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:11:35 by cflorind         ###   ########.fr       */
+/*   Created: 2021/12/02 17:44:46 by cflorind          #+#    #+#             */
+/*   Updated: 2021/12/30 11:57:51 by lbaela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef BOOL_H
+# define BOOL_H
 
-# define PROG_NAME "miniRT Project"
-
-int	main(int argc, char **argv);
+typedef enum e_bool
+{
+	false,
+	true,
+	success = 0,
+	unsuccess,
+}	t_bool;
 
 #endif

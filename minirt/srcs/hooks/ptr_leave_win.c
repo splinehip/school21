@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   ptr_leave_win.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:11:35 by cflorind         ###   ########.fr       */
+/*   Created: 2021/08/04 12:05:11 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 17:26:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <stdio.h>
 
-# define PROG_NAME "miniRT Project"
+#include "hooks.h"
 
-int	main(int argc, char **argv);
-
-#endif
+int	ptr_leave_win(t_args *vars)
+{
+	(void)vars;
+	printf("PTR LEAVE WINDOW\n");
+	return (0);
+}

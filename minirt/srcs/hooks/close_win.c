@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   close_win.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:11:35 by cflorind         ###   ########.fr       */
+/*   Created: 2021/08/04 11:55:37 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 17:24:35 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <stdio.h>
 
-# define PROG_NAME "miniRT Project"
+#include "mlx.h"
 
-int	main(int argc, char **argv);
+#include "hooks.h"
 
-#endif
+int	close_win(t_args *vars)
+{
+	printf("DESTROY EVENT: close win, break mlx_loop\n");
+	mlx_loop_end(vars->mlx);
+	return (0);
+}

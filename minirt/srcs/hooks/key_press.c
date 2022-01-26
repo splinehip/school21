@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   key_press.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:11:35 by cflorind         ###   ########.fr       */
+/*   Created: 2021/08/04 12:14:14 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 17:25:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <stdio.h>
 
-# define PROG_NAME "miniRT Project"
+#include "mlx.h"
 
-int	main(int argc, char **argv);
+#include "bool.h"
+#include "key_codes.h"
+#include "hooks.h"
 
-#endif
+int	key_press(int keycode, t_args *vars)
+{
+	printf("KEY_PRESSED: %i\n", keycode);
+	if (keycode == CTRL)
+		vars->cntl = true;
+	if (keycode == ESC)
+		close_win(vars);
+	return (0);
+}

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   mouse_move.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 17:11:35 by cflorind         ###   ########.fr       */
+/*   Created: 2021/08/04 12:10:34 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/26 17:28:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include <stdio.h>
 
-# define PROG_NAME "miniRT Project"
+#include "hooks.h"
 
-int	main(int argc, char **argv);
-
-#endif
+int	mouse_move(int x, int y, t_args *args)
+{
+	(void)args;
+	printf("x: %i, y: %i\n", x, y);
+	return (0);
+}
