@@ -18,7 +18,7 @@ INC_LIBS		=  -lft -lmlx -lXext -lX11 -lm
 
 OS_NAME			:= $(shell uname -s)
 ifeq ($(OS_NAME), Darwin)
-	OBJS			+= srcs/macos_get_screen_szie.m
+	SRCS			+= srcs/macos_get_screen_szie.m
 	LIBMLX_DIR		= libs/libmlx/macos
 	INC_LIBS		+= -framework OpenGL -framework AppKit
 else
