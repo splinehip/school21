@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 13:45:38 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 15:13:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:36:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ int	mlx_get_screen_size(void *mlx, int *size_x, int *size_y)
 	(void)mlx;
 	e = [[NSScreen mainScreen] frame];
 	*size_x = (int)e.size.width;
-	*sizey = (int)e.size.height;
+	*size_y = (int)e.size.height;
 	return (0);
 }
