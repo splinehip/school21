@@ -15,7 +15,7 @@
 #include "events_masks.h"
 #include "hooks.h"
 
-void	hooks_reg(t_args *vars)
+void	hooks_reg(t_arg *vars)
 {
 	mlx_mouse_hook(vars->win, mouse_btn, vars);
 	mlx_hook(vars->win, KEYPRESS, KEYPRESSMASK, key_press, vars);

@@ -14,7 +14,7 @@
 
 #include "hooks.h"
 
-int	ptr_leave_win(t_args *vars)
+int	ptr_leave_win(t_arg *vars)
 {
 	(void)vars;
 	printf("PTR LEAVE WINDOW\n");

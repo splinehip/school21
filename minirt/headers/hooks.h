@@ -14,13 +14,13 @@
 # define HOOKS_H
 # include "args.h"
 
-void	hooks_reg(t_args *args);
-int		key_press(int keycode, t_args *args);
-int		key_reales(int keycode, t_args *args);
-int		mouse_btn(int btn, int x, int y, t_args *args);
-int		mouse_move(int x, int y, t_args *args);
-int		ptr_enter_win(t_args *args);
-int		ptr_leave_win(t_args *args);
-int		close_win(t_args *args);
+void	hooks_reg(t_arg *args);
+int		key_press(int keycode, t_arg *args);
+int		key_reales(int keycode, t_arg *args);
+int		mouse_btn(int btn, int x, int y, t_arg *args);
+int		mouse_move(int x, int y, t_arg *args);
+int		ptr_enter_win(t_arg *args);
+int		ptr_leave_win(t_arg *args);
+int		close_win(t_arg *args);
 
 #endif

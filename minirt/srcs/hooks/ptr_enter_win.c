@@ -14,7 +14,7 @@
 
 #include "hooks.h"
 
-int	ptr_enter_win(t_args *vars)
+int	ptr_enter_win(t_arg *vars)
 {
 	(void)vars;
 	printf("PTR ENTER WINDOW\n");

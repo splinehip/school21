@@ -19,7 +19,7 @@
 #include "minirt.h"
 #include "hooks.h"
 
-int	close_win(t_args *args)
+int	close_win(t_arg *args)
 {
 	printf("DESTROY EVENT: close win, break mlx_loop\n");
 	if (MACOS == false)

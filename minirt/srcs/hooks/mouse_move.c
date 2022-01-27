@@ -14,7 +14,7 @@
 
 #include "hooks.h"
 
-int	mouse_move(int x, int y, t_args *args)
+int	mouse_move(int x, int y, t_arg *args)
 {
 	(void)args;
 	printf("x: %i, y: %i\n", x, y);

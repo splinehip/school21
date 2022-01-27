@@ -14,7 +14,7 @@
 
 #include "hooks.h"
 
-int	mouse_btn(int btn, int x, int y, t_args *args)
+int	mouse_btn(int btn, int x, int y, t_arg *args)
 {
 	(void)args;
 	printf("btn: %i, x: %i, y: %i\n", btn, x, y);

@@ -18,7 +18,7 @@
 #include "key_codes.h"
 #include "hooks.h"
 
-int	key_press(int keycode, t_args *vars)
+int	key_press(int keycode, t_arg *vars)
 {
 	printf("KEY_PRESSED: %i\n", keycode);
 	if (keycode == CTRL)

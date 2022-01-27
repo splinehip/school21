@@ -6,25 +6,111 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 16:31:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/26 16:56:26 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/27 12:56:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ARGS_H
 # define ARGS_H
+#
+# define AMBIENT	"A"
+# define LIGHT		"L"
+# define CAMERA		"C"
+# define SPHERE		"sp"
+# define PLANE		"pl"
+# define CYLINDER	"cl"
+#
+# define ALR_MIN	0.0f
+# define ALR_MAX	1.0f
+# define RGB_MIN	0
+# define RGB_MAX	255
+# define NORMA_MIN	-1.0f
+# define NORMA_MAX	1.0f
+# define LBR_MIN	0.0f
+# define LBR_MAX	1.0f
 
-typedef struct s_args
+enum e_rgb_idx
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*img_addr;
-	int		bits_per_pixel;
-	int		length;
-	int		endian;
-	int		window_width;
-	int		window_height;
-	int		cntl;
-}	t_args;
+	r,
+	g,
+	b,
+};
+
+enum e_axis_idx
+{
+	x,
+	y,
+	z,
+};
+
+typedef struct s_ambient
+{
+	float	alr;
+	int		color[3];
+}	t_ambient;
+
+typedef struct s_camera
+{
+	float	point[3];
+	float	norma[3];
+}	t_camera;
+
+typedef struct s_light
+{
+	float	point[3];
+	float	lbr;
+	int		color[3];
+}	t_light;
+
+typedef struct s_sphere
+{
+	float	center[3];
+	float	d;
+	int		color[3];
+}	t_sphere;
+
+typedef struct s_plane
+{
+	float	point[3];
+	float	norma[3];
+	int		color[3];
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	float	point[3];
+	float	d;
+	float	h;
+	float	norma[3];
+	int		color[3];
+}	t_cylinder;
+
+typedef struct s_objs
+{
+	int			sh_len;
+	int			pl_len;
+	int			cy_len;
+	t_sphere	*sh;
+	t_plane		*pl;
+	t_cylinder	*cy;
+}	t_objs;
+
+typedef struct s_arg
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*img_addr;
+	int			bits_per_pixel;
+	int			length;
+	int			endian;
+	int			window_width;
+	int			window_height;
+	int			cntl;
+	t_ambient	ambient;
+	t_camera	camera;
+	t_light		light;
+	t_objs		objs;
+}	t_arg;
 
 #endif
