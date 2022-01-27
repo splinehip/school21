@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/27 13:08:55 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:27:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 #include "bool.h"
 #include "msg_err.h"
 #include "hooks.h"
+#include "logger.h"
 #include "minirt.h"
 
 inline void	free_args(t_arg *args)
 {
+	int	i;
+
 	if (MACOS == false)
 	{
 		mlx_destroy_image(args->mlx, args->img);
@@ -34,6 +37,9 @@ inline void	free_args(t_arg *args)
 	free(args->objs.sh);
 	free(args->objs.pl);
 	free(args->objs.cy);
+	i = 3;
+	while (i < 256)
+		close(i++);
 }
 
 static inline void	init_mlx_args(t_arg *args)
@@ -82,15 +88,18 @@ int	main(int argc, char **argv)
 {
 	t_arg	args;
 
-	if (argc == 1)
+	if (argc != 2)
 	{
-		printf(MSG_ERRARG);
-		return (1);
+		write(2, MSG_ERRARG, ft_strlen(MSG_ERRARG));
+		logger(LOG_INVALARG);
+		exit(unsuccess);
 	}
 	(void)argv;
 	init_args(&args);
 	args.mlx = mlx_init();
 	mlx_get_screen_size(args.mlx, &args.window_width, &args.window_height);
+	logger("mlx_get_screen_size: width: %i, height: %i\n",
+		args.window_width, args.window_height);
 	args.win = mlx_new_window(args.mlx, args.window_width, args.window_height,
 			PROG_NAME);
 	args.img = mlx_new_image(args.mlx, args.window_width, args.window_height);
@@ -99,5 +108,5 @@ int	main(int argc, char **argv)
 	hooks_reg(&args);
 	mlx_loop(args.mlx);
 	free_args(&args);
-	return (0);
+	exit(success);
 }

@@ -1,5 +1,5 @@
 # MAIN
-MAIN	= main.c
+MAIN	= main.c logger.c
 # end MAIN
 
 # HOOKS

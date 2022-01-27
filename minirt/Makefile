@@ -2,6 +2,8 @@ include makefile.srcs
 
 NAME			= miniRT
 
+LOGFILE			= rt.log
+
 SRCS_DIR		= srcs
 
 OBJS_DIR		= objs
@@ -47,7 +49,7 @@ ${NAME}:	${OBJS} ${LIBFT} ${LIBMLX}
 .SECONDEXPANSION:
 ${OBJS}:	$$(patsubst %.o, %.c, $$(subst ${OBJS_DIR}/, ${SRCS_DIR}/, $${@}))
 			@mkdir -p ${@D}
-			${CC} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
+			${CC} ${DEBUG} ${CFLAGS} ${OPTFLAGS} ${INC_HEADERS} -c $< -o $@
 
 $(dir ${LIBFT}):
 			@make -C $@ $(MAKECMDGOALS)
@@ -61,7 +63,7 @@ clean:		$(dir ${LIBFT}) ${LIBMLX_DIR}
 fclean:		$(dir ${LIBFT})
 			@make -C ${LIBMLX_DIR} clean
 			${RM} ${OBJS_DIR}
-			${RM} ${NAME} ${NAME}.dSYM
+			${RM} ${NAME} ${NAME}.dSYM ${LOGFILE}
 
 re:			fclean all
 

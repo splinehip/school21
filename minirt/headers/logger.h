@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   logger.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/27 15:27:20 by cflorind         ###   ########.fr       */
+/*   Created: 2022/01/27 14:33:11 by cflorind          #+#    #+#             */
+/*   Updated: 2022/01/27 16:27:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
-#
-#include "args.h"
-#
-# define PROG_NAME "miniRT Project"
-#
-# ifdef __APPLE__
-#  define MACOS 1
-
-/*
-dummy funcs for macos
-*/
-int	mlx_destroy_display(void *mlx);
-int	mlx_loop_end(void *mlx);
-# else
-#  define MACOS 0
+#ifndef LOGGER_H
+# define LOGGER_H
+# ifndef DEBUG
+#  define DEBUG 0
 # endif
+# define LOG_FILE "./rt.log"
+# define LOG_INVALARG "miniRT: Invalid arguments number.\n"
 
-int		main(int argc, char **argv);
-void	free_args(t_arg *args);
+void	logger(char *format, ...);
 
 #endif
