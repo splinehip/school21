@@ -6,37 +6,15 @@
 #include <unistd.h>
 #include "microshell.h"
 
-static inline void	close_pipe(int pipe_fd[2])
+void	close_pipe(int pipe_fd[2])
 {
 	if (pipe_fd[0])
 		close(pipe_fd[0]);
 	if (pipe_fd[1])
-	close(pipe_fd[1]);
+		close(pipe_fd[1]);
 }
 
-static inline unsigned int	ft_strlen(char *str)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-static inline void	print_err(char *MSG, char *arg)
-{
-	if (arg == NULL)
-		write(2, MSG, ft_strlen(MSG));
-	else
-	{
-		write(2, MSG, ft_strlen(MSG));
-		write(2, arg, ft_strlen(arg));
-		write(2, "\n", 1);
-	}
-}
-
-static inline void	free_actions(t_actions *actions)
+void	free_actions(t_actions *actions)
 {
 	int i;
 	int	j;
@@ -55,6 +33,22 @@ static inline void	free_actions(t_actions *actions)
 	free(actions->item);
 }
 
+static inline void	do_cd(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	if (i != 2 || (i == 2 && strcmp(argv[1], "-") == 0))
+	{
+		print_err(MSG_CDBA, NULL);
+		return ;
+	}
+	if (chdir(argv[1]))
+		print_err(MSG_CDERR, argv[1]);
+}
+
 static inline int	create_items(t_actions *actions, char **argv)
 {
 	int	i;
@@ -67,18 +61,13 @@ static inline int	create_items(t_actions *actions, char **argv)
 			j++;
 	if (j++)
 	{
-		actions->item = malloc(j * sizeof(*actions->item));
+		actions->item = xmalloc(actions, j * sizeof(*actions->item));
 		actions->len = j;
 	}
 	else
 	{
-		actions->item = malloc(sizeof(*actions->item));
+		actions->item = xmalloc(actions, sizeof(*actions->item));
 		actions->len = 1;
-	}
-	if (actions->item == NULL)
-	{
-		print_err(MSG_FATAL, NULL);
-		return (1);
 	}
 	i = 0;
 	while (i < actions->len)
@@ -86,37 +75,6 @@ static inline int	create_items(t_actions *actions, char **argv)
 		actions->item[i].len = 0;
 		actions->item[i++].cmds = NULL;
 	}
-	return (0);
-}
-
-static inline int	create_actions(t_actions *actions, char **argv)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	if (create_items(actions, argv))
-		return (1);
-	i = 0;
-	j = 1;
-	while (i < actions->len)
-	{
-		len = 0;
-		while (argv[j] && strcmp(argv[j], ";") != 0)
-			if (strcmp(argv[j++], "|") == 0)
-				len++;
-		actions->item[i].cmds = malloc((len + 1) * sizeof(*actions->item->cmds));
-		if (actions->item[i].cmds == NULL)
-		{
-			print_err(MSG_FATAL, NULL);
-			return (1);
-		}
-		actions->item[i++].len = len + 1;
-	}
-	actions->pipes.pipe_one[0] = 0;
-	actions->pipes.pipe_one[1] = 0;
-	actions->pipes.pipe_two[0] = 0;
-	actions->pipes.pipe_two[1] = 0;
 	return (0);
 }
 
@@ -137,23 +95,18 @@ static inline int	create_argv(t_actions *actions, char **argv)
 		len_argv = 0;
 		while (argv[j] && strcmp(argv[j], ";") != 0)
 		{
-			if (strcmp(argv[j], "|") != 0 && strcmp(argv[j], ";") != 0)
+			if (strcmp(argv[j++], "|") != 0)
 				len_argv++;
-			j++;
 			if (argv[j] == NULL
 				|| strcmp(argv[j], "|") == 0 || strcmp(argv[j], ";") == 0)
 			{
-				actions->item[i].cmds[k].argv = malloc((len_argv + 1) * sizeof(char *));
-				if (actions->item[i].cmds[k].argv == NULL)
-				{
-					print_err(MSG_FATAL, NULL);
-					return (1);
-				}
+				actions->item[i].cmds[k].argv = xmalloc(actions,
+					++len_argv * sizeof(char *));
 				len_argv = 0;
 				while (start < j)
 					actions->item[i].cmds[k].argv[len_argv++] = argv[start++];
 				actions->item[i].cmds[k].argv[len_argv] = NULL;
-				start = j + 1;
+				start++;
 				k++;
 				len_argv = 0;
 			}
@@ -161,6 +114,30 @@ static inline int	create_argv(t_actions *actions, char **argv)
 		i++;
 	}
 	return (0);
+}
+
+static inline void	create_actions(t_actions *actions, char **argv)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	create_items(actions, argv);
+	i = 0;
+	j = 0;
+	while (i < actions->len)
+	{
+		len = 0;
+		j++;
+		while (argv[j] && strcmp(argv[j], ";") != 0)
+			if (strcmp(argv[j++], "|") == 0)
+				len++;
+		len++;
+		actions->item[i].cmds = xmalloc(actions,
+			len * sizeof(*actions->item->cmds));
+		actions->item[i++].len = len;
+	}
+	create_argv(actions, argv);
 }
 
 static inline int	init_pipes(t_actions *actions)
@@ -287,13 +264,13 @@ static inline void	do_actions(t_actions *actions, char **env)
 			else
 			{
 				if (strcmp(actions->item[i].cmds->argv[0], "cd") == 0)
-					return ;
-				if (do_single(actions, i, j, env))
+					do_cd(actions->item[i].cmds[j].argv);
+				else if (do_single(actions, i, j, env))
 					return ;
 			}
 			if (actions->item[i].len > 1)
 				close(actions->item[i].cmds[j].pipe_out);
-			wait(&st);
+			waitpid(actions->item[i].cmds[j].pid, &st, 0);
 			if (actions->item[i].len > 1)
 			{
 				if (j)
@@ -313,43 +290,18 @@ static inline void	do_actions(t_actions *actions, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	int	i;
-	int	j;
-	int	k;
 	t_actions	actions;
 
 	if (argc == 1)
 		return (0);
-	if (create_actions(&actions, argv))
-	{
-		free_actions(&actions);
-		return (1);
-	}
-	if (create_argv(&actions, argv))
-	{
-		free_actions(&actions);
-		return (1);
-	}
-	/* i = 0;
-	printf("actions.len: %i\n", actions.len);
-	while (i < actions.len)
-	{
-		printf("action %i\n", i);
-		j = 0;
-		while (j < actions.item[i].len)
-		{
-			printf(" cmd %i\n", j);
-			k = 0;
-			while (actions.item[i].cmds[j].argv[k])
-			{
-				printf("  argv[%i]: >%s<\n", k, actions.item[i].cmds[j].argv[k]);
-				k++;
-			}
-			printf("  argv[%i]: >%s<\n", k, actions.item[i].cmds[j].argv[k]);
-			j++;
-		}
-		i++;
-	} */
+	actions.len = 0;
+	actions.item = NULL;
+	actions.pipes.pipe_one[0] = 0;
+	actions.pipes.pipe_one[1] = 0;
+	actions.pipes.pipe_two[0] = 0;
+	actions.pipes.pipe_two[1] = 0;
+	create_actions(&actions, argv);
+	//print_actions(actions);
 	do_actions(&actions, env);
 	free_actions(&actions);
 	return (0);

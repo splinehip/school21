@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/27 16:27:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:35:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	main(int argc, char **argv)
 	mlx_get_screen_size(args.mlx, &args.window_width, &args.window_height);
 	logger("mlx_get_screen_size: width: %i, height: %i\n",
 		args.window_width, args.window_height);
+	if (get_scene_args(&args))
+		exit(unsuccess);
 	args.win = mlx_new_window(args.mlx, args.window_width, args.window_height,
 			PROG_NAME);
 	args.img = mlx_new_image(args.mlx, args.window_width, args.window_height);
