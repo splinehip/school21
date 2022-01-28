@@ -5,18 +5,16 @@
 # define MSG_CDERR "error: cd: cannot change directory to "
 # define MSG_EXER "error: cannot execute "
 
-typedef struct s_pipes
+enum s_pipe_id
 {
-	int pipe_one[2];
-	int pipe_two[2];
-}	t_pipes;
-
+	in,
+	out,
+};
 
 typedef struct s_cmd
 {
 	int		pid;
-	int		pipe_in;
-	int		pipe_out;
+	int		pipe_fd[2];
 	char	**argv;
 }	t_cmd;
 
@@ -31,14 +29,12 @@ typedef struct s_actions
 {
 	int		len;
 	t_item	*item;
-	t_pipes	pipes;
 }	t_actions;
 
 int				main(int argc, char **argv, char **env);
 unsigned int	ft_strlen(char *str);
 void			print_err(char *MSG, char *arg);
 void			exit_fatal(t_actions *actions);
-void			close_pipe(int pipe_fd[2]);
 void			free_actions(t_actions *actions);
 void			*xmalloc(t_actions *actions, size_t n);
 void			print_actions(t_actions actions);

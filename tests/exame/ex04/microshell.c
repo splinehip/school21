@@ -6,19 +6,10 @@
 #include <unistd.h>
 #include "microshell.h"
 
-void	close_pipe(int pipe_fd[2])
-{
-	if (pipe_fd[0])
-		close(pipe_fd[0]);
-	if (pipe_fd[1])
-		close(pipe_fd[1]);
-}
-
 void	free_actions(t_actions *actions)
 {
 	int i;
 	int	j;
-	int	k;
 
 	i = 0;
 	while (i < actions->len)
@@ -28,38 +19,30 @@ void	free_actions(t_actions *actions)
 			free(actions->item[i].cmds[j++].argv);
 		free(actions->item[i++].cmds);
 	}
-	close_pipe(actions->pipes.pipe_one);
-	close_pipe(actions->pipes.pipe_two);
 	free(actions->item);
 }
 
-static inline int	create_items(t_actions *actions, char **argv)
+static inline void	create_items(t_actions *actions, char **argv)
 {
 	int	i;
-	int	j;
+	int	len;
 
 	i = 0;
-	j = 0;
-	while (argv[i])
-		if (strcmp(argv[i++], ";") == 0)
-			j++;
-	if (j++)
-	{
-		actions->item = xmalloc(actions, j * sizeof(*actions->item));
-		actions->len = j;
-	}
-	else
-	{
-		actions->item = xmalloc(actions, sizeof(*actions->item));
-		actions->len = 1;
-	}
+	len = 0;
+	while (argv[++i])
+		if (argv[i + 1] == NULL || (strcmp(argv[i], ";") == 0
+			&& strcmp(argv[i + 1], ";") != 0))
+			len++;
+	if (len == 0)
+		return ;
+	actions->item = xmalloc(actions, len * sizeof(*actions->item));
+	actions->len = len;
 	i = 0;
 	while (i < actions->len)
 	{
 		actions->item[i].len = 0;
 		actions->item[i++].cmds = NULL;
 	}
-	return (0);
 }
 
 static inline void	create_cmds(t_actions *actions, char **argv)
@@ -73,14 +56,18 @@ static inline void	create_cmds(t_actions *actions, char **argv)
 	while (i < actions->len)
 	{
 		len = 0;
-		j++;
-		while (argv[j] && strcmp(argv[j], ";") != 0)
-			if (strcmp(argv[j++], "|") == 0)
+		while (argv[++j] && strcmp(argv[j], ";") != 0)
+			if (argv[j + 1] == NULL || strcmp(argv[j + 1], ";") == 0
+				|| strcmp(argv[j], "|") == 0)
 				len++;
-		len++;
-		actions->item[i].cmds = xmalloc(actions,
-			len * sizeof(*actions->item->cmds));
-		actions->item[i++].len = len;
+		if (len)
+		{
+			actions->item[i].cmds = xmalloc(actions,
+				len * sizeof(*actions->item->cmds));
+			actions->item[i++].len = len;
+		}
+		if (argv[j] == NULL)
+			break ;
 	}
 }
 
@@ -112,12 +99,18 @@ static inline void	create_argv(t_actions *actions, char **argv)
 				while (start < j)
 					actions->item[i].cmds[k].argv[len_argv++] = argv[start++];
 				actions->item[i].cmds[k].argv[len_argv] = NULL;
-				start++;
+				actions->item[i].cmds[k].pid = 0;
+				actions->item[i].cmds[k].pipe_fd[in] = 0;
+				actions->item[i].cmds[k].pipe_fd[out] = 0;
+				if (argv[j] != NULL && strcmp(argv[j], "|") != 0)
+					i++;
 				k++;
+				start++;
 				len_argv = 0;
 			}
 		}
-		i++;
+		if (argv[j] == NULL)
+			break ;
 	}
 }
 
@@ -141,41 +134,19 @@ static inline void	do_single(t_actions *actions, int i, int j, char **env)
 		exit_fatal(actions);
 }
 
-static inline void	dup_pipes(t_actions *actions, int i, int j)
-{
-	if (pipe(actions->pipes.pipe_one) || pipe(actions->pipes.pipe_two))
-		exit_fatal(actions);
-	if (j % 2 == 0)
-	{
-		actions->item[i].cmds[j].pipe_in = dup(actions->pipes.pipe_one[0]);
-		actions->item[i].cmds[j].pipe_out = dup(actions->pipes.pipe_one[1]);
-	}
-	else
-	{
-		actions->item[i].cmds[j].pipe_in = dup(actions->pipes.pipe_two[0]);
-		actions->item[i].cmds[j].pipe_out = dup(actions->pipes.pipe_two[1]);
-	}
-	if (actions->item[i].cmds[j].pipe_in < 0
-		|| actions->item[i].cmds[j].pipe_out < 0)
-		exit_fatal(actions);
-	close_pipe(actions->pipes.pipe_one);
-	close_pipe(actions->pipes.pipe_two);
-}
-
 static inline void	do_pipes(t_actions *actions, int i, int j, char **env)
 {
-	dup_pipes(actions, i, j);
 	actions->item[i].cmds[j].pid = fork();
 	if (actions->item[i].cmds[j].pid == 0)
 	{
 		if (j)
-			if (dup2(actions->item[i].cmds[j - 1].pipe_in, STDIN_FILENO) < 0)
+			if (dup2(actions->item[i].cmds[j - 1].pipe_fd[in], STDIN_FILENO) < 0)
 				exit_fatal(actions);
 		if (j + 1 != actions->item[i].len)
-			if (dup2(actions->item[i].cmds[j].pipe_out, STDOUT_FILENO) < 0)
+			if (dup2(actions->item[i].cmds[j].pipe_fd[out], STDOUT_FILENO) < 0)
 				exit_fatal(actions);
-		close(actions->item[i].cmds[j].pipe_in);
-		close(actions->item[i].cmds[j].pipe_out);
+		close(actions->item[i].cmds[j].pipe_fd[in]);
+		close(actions->item[i].cmds[j].pipe_fd[out]);
 		do_exec(actions, i, j, env);
 	}
 	else if (actions->item[i].cmds[j].pid < 0)
@@ -196,7 +167,11 @@ static inline void	do_actions(t_actions *actions, char **env)
 		while (j < actions->item[i].len)
 		{
 			if (actions->item[i].len > 1)
+			{
+				if (pipe(actions->item[i].cmds[j].pipe_fd))
+					exit_fatal(actions);
 				do_pipes(actions, i, j, env);
+			}
 			else
 			{
 				if (strcmp(actions->item[i].cmds->argv[0], "cd") == 0)
@@ -205,18 +180,18 @@ static inline void	do_actions(t_actions *actions, char **env)
 					do_single(actions, i, j, env);
 			}
 			if (actions->item[i].len > 1)
-				close(actions->item[i].cmds[j].pipe_out);
+				close(actions->item[i].cmds[j].pipe_fd[out]);
 			waitpid(-1, &st, 0);
 			if (actions->item[i].len > 1)
 			{
 				if (j)
-					close(actions->item[i].cmds[j - 1].pipe_in);
+					close(actions->item[i].cmds[j - 1].pipe_fd[in]);
 				if (j + 1 == actions->item[i].len)
-					close(actions->item[i].cmds[j].pipe_in);
+					close(actions->item[i].cmds[j].pipe_fd[in]);
 			}
-			if (WIFEXITED(st))
+			/* if (WIFEXITED(st))
 				if (WEXITSTATUS(st) == 255)
-					break ;
+					break ; */
 			j++;
 		}
 		i++;
@@ -232,10 +207,6 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	actions.len = 0;
 	actions.item = NULL;
-	actions.pipes.pipe_one[0] = 0;
-	actions.pipes.pipe_one[1] = 0;
-	actions.pipes.pipe_two[0] = 0;
-	actions.pipes.pipe_two[1] = 0;
 	create_items(&actions, argv);
 	create_cmds(&actions, argv);
 	create_argv(&actions, argv);
