@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "microshell.h"
@@ -26,18 +27,34 @@ void	print_err(char *MSG, char *arg)
 	}
 }
 
+void	exit_fatal(t_actions *actions)
+{
+	print_err(MSG_FATAL, NULL);
+	free_actions(actions);
+	exit(1);
+}
+
 void	*xmalloc(t_actions *actions, size_t n)
 {
 	void	*res;
 
 	res = malloc(n);
 	if (res == NULL)
-	{
-		print_err(MSG_FATAL, NULL);
-		free_actions(actions);
-		exit(1);
-	}
+		exit_fatal(actions);
 	return (res);
+}
+
+void	do_cd(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	if (i != 2 || (i == 2 && strcmp(argv[1], "-") == 0))
+		print_err(MSG_CDBA, NULL);
+	else if (chdir(argv[1]))
+		print_err(MSG_CDERR, argv[1]);
 }
 
 void	print_actions(t_actions actions)
