@@ -206,7 +206,7 @@ static inline void	do_actions(t_actions *actions, char **env)
 			}
 			if (actions->item[i].len > 1)
 				close(actions->item[i].cmds[j].pipe_out);
-			waitpid(actions->item[i].cmds[j].pid, &st, 0);
+			waitpid(-1, &st, 0);
 			if (actions->item[i].len > 1)
 			{
 				if (j)
