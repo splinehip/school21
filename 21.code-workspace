@@ -102,7 +102,10 @@
           "types.h": "c",
           "minishell.h": "c",
           "input_handler.h": "c",
-          "mlx_int.h": "c"
+          "mlx_int.h": "c",
+          "msg_err.h": "c",
+          "bool.h": "c",
+          "math.h": "c"
         },
       },
 }
