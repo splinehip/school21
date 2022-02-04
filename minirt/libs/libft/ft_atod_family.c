@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logger.h                                           :+:      :+:    :+:   */
+/*   ft_strtod_family.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 14:33:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/01 11:46:35 by cflorind         ###   ########.fr       */
+/*   Created: 2022/02/04 17:04:03 by cflorind          #+#    #+#             */
+/*   Updated: 2022/02/04 17:04:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGGER_H
-# define LOGGER_H
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
-# define LOG_FILE "./rt.log"
+#include "libft.h"
 
-void	logger(char *format, ...);
+float	ft_strtof(const char *str, char **endptr)
+{
+	return ((float) ft_strtod(str, endptr));
+}
 
-#endif
+long double	ft_strtold(const char *str, char **endptr)
+{
+	return (ft_strtod(str, endptr));
+}
+
+double	ft_atof(const char *str)
+{
+	return (ft_strtod(str, NULL));
+}

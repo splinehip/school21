@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logger.h                                           :+:      :+:    :+:   */
+/*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 14:33:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/01 11:46:35 by cflorind         ###   ########.fr       */
+/*   Created: 2022/02/01 14:19:39 by cflorind          #+#    #+#             */
+/*   Updated: 2022/02/01 14:30:32 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGGER_H
-# define LOGGER_H
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
-# define LOG_FILE "./rt.log"
+#include <stdio.h>
 
-void	logger(char *format, ...);
+#include "input_handler.h"
 
-#endif
+void	set_sphere(t_arg *args, char **strs)
+{
+	(void)strs;
+	(void)args;
+	printf("SPHERE\n");
+}

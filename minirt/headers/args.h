@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 16:31:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/27 12:56:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:03:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define CAMERA		"C"
 # define SPHERE		"sp"
 # define PLANE		"pl"
-# define CYLINDER	"cl"
+# define CYLINDER	"cy"
 #
 # define ALR_MIN	0.0f
 # define ALR_MAX	1.0f
@@ -45,18 +45,21 @@ enum e_axis_idx
 
 typedef struct s_ambient
 {
+	int		seted;
 	float	alr;
 	int		color[3];
 }	t_ambient;
 
 typedef struct s_camera
 {
+	int		seted;
 	float	point[3];
 	float	norma[3];
 }	t_camera;
 
 typedef struct s_light
 {
+	int		seted;
 	float	point[3];
 	float	lbr;
 	int		color[3];
@@ -87,10 +90,10 @@ typedef struct s_cylinder
 
 typedef struct s_objs
 {
-	int			sh_len;
+	int			sp_len;
 	int			pl_len;
 	int			cy_len;
-	t_sphere	*sh;
+	t_sphere	*sp;
 	t_plane		*pl;
 	t_cylinder	*cy;
 }	t_objs;

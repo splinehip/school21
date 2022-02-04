@@ -11,7 +11,8 @@ SRCS_BASE	:=	ft_memset.c		ft_memcmp.c		ft_strnstr.c	ft_isascii.c\
 				ft_putendl_fd.c	ft_putnbr_fd.c	ft_strjoinchr.c	ft_uintpow.c\
 				ft_tobase.c		ft_strtolower.c	ft_uitoa.c		ft_strljoinchr.c\
 				ft_free.c		ft_gnl.c		ft_atol.c		ft_strcmp.c\
-				ft_sort_strs.c	ft_xcalloc.c	ft_xmalloc.c
+				ft_sort_strs.c	ft_xcalloc.c	ft_xmalloc.c	ft_strtod.c\
+				ft_atod_family.c
 
 SRCS_LSTD	:= ./list/
 

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:01:50 by cflorind          #+#    #+#             */
-/*   Updated: 2022/01/27 11:07:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:51:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # define __ULLINT_TYPE__ unsigned long long int
 # define __LINT_TYPE__ long int
+# define __LDOBLE_TYPE__ long double
 # include <stdlib.h>
 # include <stddef.h>
 # include <stdarg.h>
@@ -31,6 +32,7 @@
 
 typedef __ULLINT_TYPE__	t_ulli;
 typedef __LINT_TYPE__	t_lint;
+typedef __LDOBLE_TYPE__	t_ld;
 
 void	*ft_memset(void *buf, int c, size_t l);
 void	ft_bzero(void *buf, size_t l);
@@ -77,6 +79,10 @@ void	ft_strtolower(char **str);
 char	*ft_uitoa(unsigned int n);
 void	*ft_xcalloc(size_t n, size_t size);
 void	*ft_xmalloc(size_t size);
+double	ft_strtod(const char *str, char **endptr);
+float	ft_strtof(const char *str, char **endptr);
+t_ld	ft_strtold(const char *str, char **endptr);
+double	ft_atof(const char *str);
 
 typedef struct s_list
 {
