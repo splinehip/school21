@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logger.h                                           :+:      :+:    :+:   */
+/*   idx_name.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 14:33:11 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 09:43:16 by cflorind         ###   ########.fr       */
+/*   Created: 2022/02/07 12:13:33 by cflorind          #+#    #+#             */
+/*   Updated: 2022/02/07 12:25:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGGER_H
-# define LOGGER_H
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
-# define LOG_FILE "rt.log"
+#include "args.h"
 
-void	logger(char *format, ...);
+char	rgb_idx_name(int i)
+{
+	if (i == r)
+		return ('r');
+	else if (i == g)
+		return ('g');
+	else if (i == b)
+		return ('b');
+	return ('*');
+}
 
-#endif
+char	axis_idx_name(int i)
+{
+	if (i == x)
+		return ('x');
+	else if (i == y)
+		return ('y');
+	else if (i == z)
+		return ('z');
+	return ('*');
+}

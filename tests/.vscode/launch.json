@@ -156,6 +156,27 @@
 			],
 			"preLaunchTask": "C/C++: gcc сборка minishell",
 			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			"name": "miniRT",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/../minirt/miniRT",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Включить автоматическое форматирование для gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			],
+			"preLaunchTask": "C/C++: gcc сборка miniRT",
+			"miDebuggerPath": "/usr/bin/gdb"
 		}
 	]
 }

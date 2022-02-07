@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 13:35:56 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/04 17:19:24 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:06:43 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ static inline void	init__vars(t__vars *vars)
 	while ((*vars->p >= '\t' && *vars->p <= '\r') || *vars->p == ' ')
 		vars->p++;
 	vars->negative = 0;
-	if (*vars->p == '-')
-		vars->negative = 1;
-	if (*vars->p == '+')
+	if (*vars->p == '-' || *vars->p == '+')
+	{
+		if (*vars->p == '-')
+			vars->negative = 1;
 		vars->p++;
+	}
 	vars->number = 0.;
 	vars->exponent = 0;
 	vars->num_digits = 0;

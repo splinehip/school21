@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/01 14:23:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/07 13:11:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 	{
 		print_err(MSG_INVALARG);
-		logger("%s: %s", "Error" MSG_INVALARG);
+		logger("main: Program called without arguments.\n");
 		exit(unsuccess);
 	}
 	init_args(&args);

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 16:31:26 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/01 14:03:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:57:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define RGB_MAX	255
 # define NORMA_MIN	-1.0f
 # define NORMA_MAX	1.0f
+# define FOV_MIN	0
+# define FOV_MAX	180
 # define LBR_MIN	0.0f
 # define LBR_MAX	1.0f
 
@@ -53,6 +55,7 @@ typedef struct s_ambient
 typedef struct s_camera
 {
 	int		seted;
+	int		fov;
 	float	point[3];
 	float	norma[3];
 }	t_camera;
@@ -115,5 +118,8 @@ typedef struct s_arg
 	t_light		light;
 	t_objs		objs;
 }	t_arg;
+
+char	rgb_idx_name(int i);
+char	axis_idx_name(int i);
 
 #endif

@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logger.c                                           :+:      :+:    :+:   */
+/*   camera_fov.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 14:35:44 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 09:44:59 by cflorind         ###   ########.fr       */
+/*   Created: 2022/02/07 13:04:59 by cflorind          #+#    #+#             */
+/*   Updated: 2022/02/07 13:10:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdarg.h>
-#include <unistd.h>
+#include <stdlib.h>
 
+#include "libft.h"
 #include "bool.h"
+#include "args.h"
+#include "msg_err.h"
 #include "logger.h"
+#include "input_handler.h"
 
-void	logger(char *format, ...)
+inline void	set_fov(t_arg *args, char *str)
 {
-	va_list		ap;
-	static int	fd;
-
-	if (fd < 0 || DEBUG == false)
-		return ;
-	if (fd == false)
+	args->camera.fov = ft_atoi(str);
+	if (args->camera.fov < FOV_MIN || args->camera.fov > FOV_MAX)
 	{
-		fd = open(LOG_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			perror("LOGGER");
-			return ;
-		}
+		print_err(MSG_INVALRANGE);
+		logger("camera.fov: %i is out of range: %i - %i\n",
+			args->camera.fov, FOV_MIN, FOV_MAX);
+		exit(unsuccess);
 	}
-	if (fd > 2)
-	{
-		va_start(ap, format);
-		vdprintf(fd, format, ap);
-		va_end(ap);
-	}
+	logger("camera.fov: %i\n", args->camera.fov);
 }

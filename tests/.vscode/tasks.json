@@ -121,6 +121,23 @@
             },
             "detail": "C/C++: gcc сборка minishell"
         },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка miniRT",
+            "options": {
+                "cwd": "${workspaceFolder}/../minirt"
+            },
+            "command": "make",
+            "args": ["all"],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка miniTR"
+        },
     ],
     "version": "2.0.0"
 }
