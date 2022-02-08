@@ -18,6 +18,12 @@ camera.c			sphere.c			plane.c\
 cylinder.c			cylinder_dh.c		chekers.c)
 # end INPUT_HANDLER
 
+# SCENE_HANDLER
+SCENE_HANDLER_DIR	= scene_handler
+SCENE_HANDLER	= $(addprefix ${SCENE_HANDLER_DIR}/,\
+draw_scene.c)
+# end SCENE_HANDLER
+
 # SIGNALS
 SIGNALS_DIR	= signal_handler
 SIGNALS		= $(addprefix ${SIGNALS_DIR}/, )
@@ -25,5 +31,5 @@ SIGNALS		= $(addprefix ${SIGNALS_DIR}/, )
 
 # SRCS
 SRCS		=\
-${MAIN} ${HOOKS} ${INPUT_HANDLER} ${SIGNALS}
+${MAIN} ${HOOKS} ${INPUT_HANDLER} ${SCENE_HANDLER} ${SIGNALS}
 # end SRCS

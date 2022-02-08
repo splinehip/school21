@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 13:11:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:29:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "hooks.h"
 #include "logger.h"
 #include "input_handler.h"
+#include "scene_handler.h"
 #include "minirt.h"
 
 inline void	free_args(t_arg *args)
@@ -115,8 +116,9 @@ int	main(int argc, char **argv)
 	args.win = mlx_new_window(args.mlx, args.window_width, args.window_height,
 			PROG_NAME);
 	args.img = mlx_new_image(args.mlx, args.window_width, args.window_height);
-		args.img_addr = mlx_get_data_addr(args.img, &args.bits_per_pixel,
+	args.img_addr = mlx_get_data_addr(args.img, &args.bits_per_pixel,
 			&args.length, &args.endian);
+	draw_scene(&args);
 	hooks_reg(&args);
 	mlx_loop(args.mlx);
 	free_args(&args);
