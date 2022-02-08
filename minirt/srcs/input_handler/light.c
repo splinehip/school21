@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:15:27 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 14:54:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:27:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,6 @@
 #include "msg_err.h"
 #include "logger.h"
 #include "input_handler.h"
-
-static inline void	check_split_res(char *name, char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs && strs[i])
-		i++;
-	if (strs == NULL || i != 3)
-	{
-		print_err(MSG_RESNULL);
-		if (strs == NULL)
-			logger("%s: ft_split returned NULL\n", name);
-		else
-			logger("%s: ft_split returned more or less 3 elements\n", name);
-		exit(unsuccess);
-	}
-}
 
 static inline void	set_point(t_arg *args, char *str)
 {
@@ -106,13 +88,8 @@ static inline void	set_color(t_arg *args, char *str)
 	free(strs);
 }
 
-void	set_light(t_arg *args, char **strs)
+static inline void	check_strs(t_arg *args, int i)
 {
-	int	i;
-
-	i = 0;
-	while (strs[i])
-		i++;
 	if (args->light.seted || (i != 3 && i != 4))
 	{
 		if (args->light.seted)
@@ -128,6 +105,17 @@ void	set_light(t_arg *args, char **strs)
 		}
 		exit(unsuccess);
 	}
+}
+
+void	set_light(t_arg *args, char **strs)
+{
+	int	i;
+
+	logger("set_light:\n");
+	i = 0;
+	while (strs[i])
+		i++;
+	check_strs(args, i);
 	set_point(args, strs[1]);
 	set_lbr(args, strs[2]);
 	if (i == 4)

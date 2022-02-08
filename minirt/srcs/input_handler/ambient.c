@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:53 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 12:54:33 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:23:24 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,48 +38,25 @@ static inline void	set_alr(t_arg *args, char *str)
 	logger("ambient.alr: %f\n", args->ambient.alr);
 }
 
-static inline void	check_split_res(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs && strs[i])
-		i++;
-	if (strs == NULL || i > 3)
-	{
-		print_err(MSG_RESNULL);
-		if (strs == NULL)
-			logger("ambient.color: ft_split returned NULL\n");
-		else
-			logger("ambient.color: ft_split returned more than 3 elements\n");
-		exit(unsuccess);
-	}
-}
-
-static inline void	check_range(t_arg *args, int i)
-{
-	if (args->ambient.color[i] < RGB_MIN
-		|| args->ambient.color[i] > RGB_MAX)
-	{
-		print_err(MSG_INVALRANGE);
-		logger("ambient.color[%c]: %i is out of range: %i - %i\n",
-			rgb_idx_name(i), args->ambient.color[i], RGB_MIN, RGB_MAX);
-		exit(unsuccess);
-	}
-}
-
 static inline void	set_color(t_arg *args, char *str)
 {
 	int		i;
 	char	**strs;
 
 	strs = ft_split(str, ',');
-	check_split_res(strs);
+	check_split_res("ambient.color", strs);
 	i = 0;
 	while (strs[i])
 	{
 		args->ambient.color[i] = ft_atoi(strs[i]);
-		check_range(args, i);
+		if (args->ambient.color[i] < RGB_MIN
+			|| args->ambient.color[i] > RGB_MAX)
+		{
+			print_err(MSG_INVALRANGE);
+			logger("ambient.color[%c]: %i is out of range: %i - %i\n",
+				rgb_idx_name(i), args->ambient.color[i], RGB_MIN, RGB_MAX);
+			exit(unsuccess);
+		}
 		logger("ambient.color[%c]: %i\n",
 			rgb_idx_name(i), args->ambient.color[i]);
 		free(strs[i++]);
@@ -91,6 +68,7 @@ void	set_ambient(t_arg *args, char **strs)
 {
 	int	i;
 
+	logger("set_ambient:\n");
 	i = 0;
 	while (strs[i])
 		i++;

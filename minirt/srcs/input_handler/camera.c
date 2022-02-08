@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:18:19 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 14:29:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:24:22 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,6 @@
 #include "logger.h"
 #include "input_handler.h"
 
-static inline void	check_split_res(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs && strs[i])
-		i++;
-	if (strs == NULL || i != 3)
-	{
-		print_err(MSG_RESNULL);
-		if (strs == NULL)
-			logger("camera.color: ft_split returned NULL\n");
-		else
-			logger("camera.color: ft_split returned more or less 3 elements\n");
-		exit(unsuccess);
-	}
-}
-
 static inline void	exit_fatal(t_arg *args, int norma, int i, char *str)
 {
 	print_err(MSG_INVALRANGE);
@@ -50,17 +32,14 @@ static inline void	exit_fatal(t_arg *args, int norma, int i, char *str)
 	exit(errno);
 }
 
-static inline void	check_range(t_arg *args, int i)
+static inline void	free_strs(char ***strs)
 {
-	if (args->camera.norma[i] < NORMA_MIN
-		|| args->camera.norma[i] > NORMA_MAX)
-	{
-		print_err(MSG_INVALRANGE);
-		logger("camera.norma[%c]: %f is out of range: %f - %f\n",
-			axis_idx_name(i), args->camera.norma[i], NORMA_MIN, NORMA_MAX);
-		exit(unsuccess);
-	}
-	logger("camera.norma[%c]: %f\n", axis_idx_name(i), args->camera.norma[i]);
+	int	i;
+
+	i = 0;
+	while ((*strs)[i])
+		free((*strs)[i++]);
+	free(*strs);
 }
 
 static inline void	set_point(t_arg *args, char *str, int norma)
@@ -69,7 +48,7 @@ static inline void	set_point(t_arg *args, char *str, int norma)
 	char	**strs;
 
 	strs = ft_split(str, ',');
-	check_split_res(strs);
+	check_split_res("camera.color", strs);
 	i = 0;
 	while (strs[i])
 	{
@@ -80,19 +59,33 @@ static inline void	set_point(t_arg *args, char *str, int norma)
 		if (errno == ERANGE)
 			exit_fatal(args, norma, i, strs[i]);
 		if (norma)
-			check_range(args, i);
+			check_norma_range("camera.norma", args->camera.norma[i], i);
 		else
 			logger("camera.point[%c]: %f\n",
 				axis_idx_name(i), args->camera.point[i]);
-		free(strs[i++]);
+		i++;
 	}
-	free(strs);
+	free_strs(&strs);
+}
+
+static inline void	set_fov(t_arg *args, char *str)
+{
+	args->camera.fov = ft_atoi(str);
+	if (args->camera.fov < FOV_MIN || args->camera.fov > FOV_MAX)
+	{
+		print_err(MSG_INVALRANGE);
+		logger("camera.fov: %i is out of range: %i - %i\n",
+			args->camera.fov, FOV_MIN, FOV_MAX);
+		exit(unsuccess);
+	}
+	logger("camera.fov: %i\n", args->camera.fov);
 }
 
 void	set_camera(t_arg *args, char **strs)
 {
 	int	i;
 
+	logger("set_camera:\n");
 	i = 0;
 	while (strs[i])
 		i++;

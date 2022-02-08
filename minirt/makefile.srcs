@@ -14,8 +14,8 @@ ptr_leave_win.c		key_reales.c)
 INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/,\
 read_scene_args.c	ambient.c			light.c\
-camera.c			camera_fov.c		sphere.c\
-plane.c				cylinder.c)
+camera.c			sphere.c			plane.c\
+cylinder.c			cylinder_dh.c		chekers.c)
 # end INPUT_HANDLER
 
 # SIGNALS

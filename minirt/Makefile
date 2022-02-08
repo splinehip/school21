@@ -2,7 +2,7 @@ include makefile.srcs
 
 NAME			= miniRT
 
-LOGFILE			= rt.log
+LOGFILE			= *.log
 
 SRCS_DIR		= srcs
 
