@@ -22,7 +22,8 @@ OS_NAME			:= $(shell uname -s)
 ifeq ($(OS_NAME), Darwin)
 	LIBMLX_DIR		= libs/libmlx/macos
 	INC_LIBS		+= -framework OpenGL -framework AppKit
-else
+endif
+ifeq ($(OS_NAME), Linux)
 	LIBMLX_DIR		= libs/libmlx/linux
 	INC_LIBS		+= -lXext -lX11 -lz
 endif

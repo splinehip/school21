@@ -35,11 +35,9 @@
         "42header.username": "cflorind",
         "42header.email": "marvin@42.fr",
 
-        "codam-norminette-3.command": "norminette",
-        "codam-norminette-3.fileregex": ".[ch]$",
-        "codam-norminette-3.ignoreErrors": [],
-        "codam-norminette-3.highlight-color": "rgba(255,0,0,0.3)",
-        "codam-norminette-3.displayErrorName": true,
+        "42norminette.command": "norminette",
+        "42norminette.showErrors": "all",
+        "42norminette.trace.server": "off",
 
         "files.autoSave": "onFocusChange",
         "files.insertFinalNewline": true,
