@@ -6,13 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 11:35:02 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/07 09:28:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/16 17:35:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MSG_ERR_H
 # define MSG_ERR_H
-#
 # define MSG_ERR "Error\n"
 # define MSG_INVALARG "Invalid arguments number. \n Example: ./miniRT scene.rt\n"
 # define MSG_ERRFILEEXT "Scene description file extention must be .rt\n"

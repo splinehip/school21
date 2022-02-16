@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:12:45 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/08 14:08:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:34:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	set_sphere(t_arg *args, char **strs);
 void	set_plane(t_arg *args, char **strs);
 void	set_cylinder(t_arg *args, char **strs);
 void	set_cylinder_dh(t_cylinder *cy, char *d, char *h);
+void	update_vectors(t_arg *args);
 
 #endif

@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   os_dep.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/16 17:40:56 by cflorind         ###   ########.fr       */
+/*   Created: 2022/02/16 17:40:13 by cflorind          #+#    #+#             */
+/*   Updated: 2022/02/16 17:40:46 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
-# include "args.h"
-# include "os_dep.h"
-# define PROG_NAME "miniRT Project"
-
-int		main(int argc, char **argv);
-void	free_args(t_arg *args);
-
+#ifndef OS_DEP_H
+# define OS_DEP_H
+# ifdef __APPLE__
+#  define MACOS 1
+/*
+dummy funcs for macos
+*/
+int	mlx_destroy_display(void *mlx);
+int	mlx_loop_end(void *mlx);
+# else
+#  define MACOS 0
+# endif
 #endif

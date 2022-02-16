@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:43 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/08 15:54:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/16 16:50:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,9 @@ int	main(int argc, char **argv)
 	args.img = mlx_new_image(args.mlx, args.window_width, args.window_height);
 	args.img_addr = mlx_get_data_addr(args.img, &args.bits_per_pixel,
 			&args.length, &args.endian);
-	draw_scene(&args);
 	hooks_reg(&args);
+	draw_scene(&args);
+	mlx_put_image_to_window(args.mlx, args.win, args.img, 0, 0);
 	mlx_loop(args.mlx);
 	free_args(&args);
 	exit(success);

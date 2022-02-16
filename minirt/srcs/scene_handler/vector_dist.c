@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   vector_dst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:59 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/16 17:40:56 by cflorind         ###   ########.fr       */
+/*   Created: 2022/02/15 14:58:22 by cflorind          #+#    #+#             */
+/*   Updated: 2022/02/15 14:58:47 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
-# include "args.h"
-# include "os_dep.h"
-# define PROG_NAME "miniRT Project"
+#include <math.h>
 
-int		main(int argc, char **argv);
-void	free_args(t_arg *args);
+#include "scene_handler.h"
 
-#endif
+float	point_dist(t_vec v1, t_vec v2)
+{
+	float	res;
+
+	res = sqrt(pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2) + pow(v2.z - v1.z, 2));
+	return (res);
+}
+
+float	vect_dist(t_vec v1, t_vec v2)
+{
+	float	res;
+
+	res = (v1.x - v2.x) * (v1.x - v2.x)
+		+ (v1.y - v2.y) * (v1.y - v2.y)
+		+ (v1.z - v2.z) * (v1.z - v2.z);
+	return (res);
+}

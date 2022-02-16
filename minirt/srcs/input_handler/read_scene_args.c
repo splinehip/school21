@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 11:09:34 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/01 15:16:49 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:18:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,5 @@ void	read_scene_args(t_arg *args, char *file)
 	}
 	do_read(args, fd);
 	close(fd);
+	update_vectors(args);
 }

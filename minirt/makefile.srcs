@@ -15,13 +15,17 @@ INPUT_HANDLER_DIR	= input_handler
 INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/,\
 read_scene_args.c	ambient.c			light.c\
 camera.c			sphere.c			plane.c\
-cylinder.c			cylinder_dh.c		chekers.c)
+cylinder.c			cylinder_dh.c		chekers.c\
+update_vectors.c)
 # end INPUT_HANDLER
 
 # SCENE_HANDLER
 SCENE_HANDLER_DIR	= scene_handler
 SCENE_HANDLER	= $(addprefix ${SCENE_HANDLER_DIR}/,\
-draw_scene.c)
+draw_scene.c		calculate_color.c		sphere_intersects.c\
+plane_intersects.c	cylinder_intersects.c	cylinder_intersects_caps.c\
+set_color.c			rgb.c					vector_dist.c\
+vector_op.c			vector.c)
 # end SCENE_HANDLER
 
 # SIGNALS
