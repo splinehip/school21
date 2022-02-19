@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 15:24:02 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/16 17:36:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/18 11:49:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,9 @@ t_vec	reflect_vect(t_vec ray, t_vec norm);
 float	vector_scalar(t_vec v1, t_vec v2);
 float	point_dist(t_vec v1, t_vec v2);
 float	vect_dist(t_vec v1, t_vec v2);
+void	rotate_x(t_arg *args, double alfa);
+void	rotate_y(t_arg *args, double alfa);
+void	rotate_z(t_arg *args, double alfa);
+void	skeep_cam_to_def(t_arg *args);
 
 #endif

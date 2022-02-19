@@ -25,7 +25,7 @@ SCENE_HANDLER	= $(addprefix ${SCENE_HANDLER_DIR}/,\
 draw_scene.c		calculate_color.c		sphere_intersects.c\
 plane_intersects.c	cylinder_intersects.c	cylinder_intersects_caps.c\
 set_color.c			rgb.c					vector_dist.c\
-vector_op.c			vector.c)
+vector_op.c			vector.c				rotate_camera.c)
 # end SCENE_HANDLER
 
 # SIGNALS
