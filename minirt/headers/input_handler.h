@@ -6,12 +6,12 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:12:45 by cflorind          #+#    #+#             */
-/*   Updated: 2022/02/14 17:34:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/02/20 22:41:09 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_HANDLER_H
-# define INPUT_HADNLER_H
+# define INPUT_HANDLER_H
 # include "args.h"
 
 void	read_scene_args(t_arg *args, char *file);
