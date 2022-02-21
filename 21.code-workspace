@@ -30,6 +30,9 @@
       {
         "path": "minirt"
       },
+      {
+        "path": "cpp"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
@@ -105,7 +108,27 @@
           "mlx_int.h": "c",
           "msg_err.h": "c",
           "bool.h": "c",
-          "math.h": "c"
+          "math.h": "c",
+          "cctype": "cpp",
+          "clocale": "cpp",
+          "cmath": "cpp",
+          "cstdarg": "cpp",
+          "cstdint": "cpp",
+          "cwctype": "cpp",
+          "deque": "cpp",
+          "unordered_map": "cpp",
+          "exception": "cpp",
+          "algorithm": "cpp",
+          "iterator": "cpp",
+          "numeric": "cpp",
+          "iosfwd": "cpp",
+          "iostream": "cpp",
+          "istream": "cpp",
+          "ostream": "cpp",
+          "sstream": "cpp",
+          "streambuf": "cpp",
+          "ctime": "cpp",
+          "iomanip": "cpp"
         },
       },
 }
