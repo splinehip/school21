@@ -130,7 +130,8 @@
           "ctime": "cpp",
           "iomanip": "cpp",
           "chrono": "cpp",
-          "ratio": "cpp"
+          "ratio": "cpp",
+          "test_shrubbery": "cpp"
         },
       },
 }
