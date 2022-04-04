@@ -132,7 +132,8 @@
           "chrono": "cpp",
           "ratio": "cpp",
           "test_shrubbery": "cpp",
-          "*.tpp": "cpp"
+          "*.tpp": "cpp",
+          "list": "cpp"
         },
       },
 }
