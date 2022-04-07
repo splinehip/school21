@@ -1,1 +1,12 @@
-SRCS = main.cpp server.cpp
+# MAIN
+MAIN	= main.cpp
+# end MAIN
+
+# LOGGER
+LOGGER	= Logger.cpp
+# end LOGGER
+
+# SRCS
+SRCS		=\
+${MAIN} ${LOGGER}
+# end SRCS

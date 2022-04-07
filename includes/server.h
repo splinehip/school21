@@ -21,7 +21,7 @@ private:
     void Init();
     void Listen();
     void AddToPdfs(int socket, std::vector<short> events);
-    void DelFromPdfs(std::size_t ed_idx);
+    void DelFromPdfs(size_t ed_idx);
 
 
     void *GetInputAddr(struct sockaddr *sa); /// for log
