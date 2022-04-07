@@ -12,7 +12,7 @@ HEADERS	= -Iheaders -Iincludes
 
 CC			= c++
 
-CFLAGS		= -Wall -Wextra -Werror #-std=c++98
+CFLAGS		= -Wall -Wextra -Werror -pthread #-std=c++98
 
 OPTFLAGS	= -MMD -MP -g
 

@@ -136,7 +136,8 @@
           "ratio": "cpp",
           "test_shrubbery": "cpp",
           "*.tpp": "cpp",
-          "list": "cpp"
+          "list": "cpp",
+          "cstring": "cpp"
         },
       },
 }
