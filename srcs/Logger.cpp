@@ -6,30 +6,36 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/07 17:25:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/09 17:33:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Logger.hpp"
 
-#define LEVELS_LEN 8
-
-enum e_levels
-{
-	info,
-	INFO,
-	Warning,
-	WARNING,
-	Error,
-	ERROR,
-	Debug,
-	DEBUG,
-};
-
 std::string	levels[] = {"info", "INFO", "Warning", "WARNING", "Error", "ERROR",
 	"Debug", "DEBUG"};
 
-static inline int	levelId(std::string &level)
+std::map<std::ofstream*, std::string> stream_file_table;
+
+static inline std::string	time_stamp(void)
+{
+	std::ostringstream	strtime;
+	std::time_t			t;
+	tm					stamp;
+
+	t = time(NULL);
+	stamp = *localtime(&t);
+	strtime << std::setfill('0') << "["
+			<< (stamp.tm_year + 1900) << "."
+			<< std::setw(2) << stamp.tm_mon << "."
+			<< std::setw(2) << stamp.tm_mday << "_"
+			<< std::setw(2) << stamp.tm_hour << ":"
+			<< std::setw(2) << stamp.tm_min << ":"
+			<< std::setw(2) << stamp.tm_sec << "] ";
+	return(strtime.str());
+}
+
+static inline int	levelId(std::string const &level)
 {
 	int	id;
 
@@ -40,15 +46,15 @@ static inline int	levelId(std::string &level)
 			return (id);
 		id++;
 	}
-	return (-1);
+	return (INT_MAX);
 }
 
-static inline int	set_level(std::string &level)
+static inline int	set_level(std::string const &level)
 {
 	int	ret;
 
 	ret = levelId(level);
-	if (ret < 0)
+	if (ret == INT_MAX)
 	{
 		std::cerr << "Invalide logger level" << std::endl;
 		exit(EXIT_FAILURE);
@@ -57,19 +63,33 @@ static inline int	set_level(std::string &level)
 		return (ret);
 }
 
-static void	*serialize(void *_this)
+static void	*serializer(void *_this)
 {
+	Logger		*log;
+	std::string	msg;
 
+	log = reinterpret_cast<Logger *>(_this);
+	while (log->is_open())
+	{
+		log->nextMsg(msg);
+		if (msg.size())
+		{
+			std::cerr << msg << std::endl;
+			log->serialize(msg);
+		}
+	}
+	exit(EXIT_SUCCESS);
 }
 
-Logger::Logger(std::string &_level, std::string &file_name)
-	: level(set_level(_level))
+Logger::Logger(std::string const &level, std::string const &file_name)
 {
-	this->file.open(file_name.c_str(), std::ios::out | std::ios::app);
+	this->level = set_level(level);
+	this->file.open(file_name.c_str(), std::ios::app);
 	if (this->file.is_open() == false)
 		std::cerr << "File " << file_name << " open error: " << strerror(errno)
 			<< std::endl;
-	if (pthread_create(&this->pth, NULL, &serialize, (void *)this) != true)
+	stream_file_table[&this->file] = file_name;
+	if (pthread_create(&this->pth, NULL, &serializer, (void *)this) != 0)
 	{
 		std::cerr << "Logger thread creation error: " << strerror(errno)
 			<< std::endl;
@@ -79,10 +99,72 @@ Logger::Logger(std::string &_level, std::string &file_name)
 
 Logger::Logger(Logger const &inst)
 {
+	*this = inst;
+}
+
+Logger	&Logger::operator=(Logger const &inst)
+{
+	*this = Logger(levels[inst.level],
+		stream_file_table[(std::ofstream *)&inst.file]);
+	return (*this);
 }
 
 Logger::~Logger(void)
 {
-	if (this->file.is_open())
-		this->file.close();
+	this->file.close();
+	pthread_join(this->pth, NULL);
+}
+
+inline void	Logger::setLevel(std::string const &level)
+{
+	this->level = set_level(level);
+}
+
+inline void	Logger::nextMsg(std::string &msg)
+{
+	msg.clear();
+	if (this->que.empty() == false)
+	{
+		msg = this->que.front();
+		this->que.pop_front();
+	}
+}
+
+int inline	Logger::is_open(void)
+{
+	return (this->file.is_open());
+}
+
+void	Logger::write(int const level, const char *fmt, ...)
+{
+	va_list				ap;
+	int					size;
+	std::string 		msg;
+
+	msg = time_stamp();
+	if (level < 0 || level > this->level)
+	{
+		std::cerr << "LOGGER: invalid logger level" << std::endl;
+		return ;
+	}
+	msg += levels[(level % 2 == 0) ? level + 1 : level] + ": ";
+	va_start(ap, fmt);
+	size = vsnprintf(NULL, 0, fmt, ap);
+	va_end(ap);
+	if (size <= 0)
+	{
+		std::cerr << "LOGGER: string formatting error: " << strerror(errno)
+			<< std::endl;
+		return ;
+	}
+	va_start(ap, fmt);
+	msg.resize(msg.size() + size);
+	vsprintf(&msg[msg.size() - size], fmt, ap);
+	this->que.push_back(msg);
+	va_end(ap);
+}
+
+inline void	Logger::serialize(std::string &msg)
+{
+	this->file << msg << std::endl;
 }

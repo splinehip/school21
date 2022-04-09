@@ -6,7 +6,11 @@ MAIN	= main.cpp
 LOGGER	= Logger.cpp
 # end LOGGER
 
+# SERVER
+SERVER	= server.cpp
+# end SERVER
+
 # SRCS
 SRCS		=\
-${MAIN} ${LOGGER}
+${MAIN} ${LOGGER} #${SERVER}
 # end SRCS
