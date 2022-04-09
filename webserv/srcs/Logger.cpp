@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/09 17:48:30 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/09 18:01:23 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	*serializer(void *_this)
 	while (log->is_open())
 	{
 		log->nextMsg(msg);
-		if (msg.size())
+		if (msg.empty() == false)
 		{
 			if (log->getLevel() > INFO)
 				std::cerr << msg << std::endl;
