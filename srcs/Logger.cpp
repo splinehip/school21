@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/09 17:33:25 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/09 17:48:30 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ static void	*serializer(void *_this)
 		log->nextMsg(msg);
 		if (msg.size())
 		{
-			std::cerr << msg << std::endl;
+			if (log->getLevel() > INFO)
+				std::cerr << msg << std::endl;
+			else
+				std::cerr << msg << std::endl;
 			log->serialize(msg);
 		}
 	}
@@ -113,6 +116,11 @@ Logger::~Logger(void)
 {
 	this->file.close();
 	pthread_join(this->pth, NULL);
+}
+
+inline int			Logger::getLevel(void)
+{
+	return (this->level);
 }
 
 inline void	Logger::setLevel(std::string const &level)

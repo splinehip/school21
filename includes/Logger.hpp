@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/09 17:27:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/09 17:47:38 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ public:
 
 	Logger	&operator=(Logger const &inst);
 
+	inline int			getLevel(void);
 	inline void			setLevel(std::string const &level);
 	inline void			nextMsg(std::string &msg);
 	inline int			is_open(void);
