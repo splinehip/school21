@@ -12,7 +12,7 @@ HEADERS	= -Iheaders -Iincludes
 
 CC			= c++
 
-CFLAGS		= -Wall -Wextra -Werror -pthread #-std=c++98
+CFLAGS		= -Wall -Wextra -Werror -pthread -std=c++98
 
 OPTFLAGS	= -MMD -MP -g
 
@@ -32,7 +32,7 @@ clean:
 			${RM} ${OBJS_DIR}
 
 fclean:
-			${RM} ${NAME} ${OBJS_DIR}
+			${RM} ${NAME} ${NAME}.log ${OBJS_DIR}
 
 re:			fclean all
 
