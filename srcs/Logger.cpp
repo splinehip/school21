@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/09 18:01:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/10 12:41:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static inline int	set_level(std::string const &level)
 	ret = levelId(level);
 	if (ret == INT_MAX)
 	{
-		std::cerr << "Invalide logger level" << std::endl;
+		std::cerr << "LOGGER: Invalide logger level" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -74,10 +74,10 @@ static void	*serializer(void *_this)
 		log->nextMsg(msg);
 		if (msg.empty() == false)
 		{
-			if (log->getLevel() > INFO)
+			if (log->getLevel() > WARNING)
 				std::cerr << msg << std::endl;
 			else
-				std::cerr << msg << std::endl;
+				std::cout << msg << std::endl;
 			log->serialize(msg);
 		}
 	}
@@ -89,12 +89,12 @@ Logger::Logger(std::string const &level, std::string const &file_name)
 	this->level = set_level(level);
 	this->file.open(file_name.c_str(), std::ios::app);
 	if (this->file.is_open() == false)
-		std::cerr << "File " << file_name << " open error: " << strerror(errno)
+		std::cerr << "LGGER: file " << file_name << " open error: " << strerror(errno)
 			<< std::endl;
 	stream_file_table[&this->file] = file_name;
 	if (pthread_create(&this->pth, NULL, &serializer, (void *)this) != 0)
 	{
-		std::cerr << "Logger thread creation error: " << strerror(errno)
+		std::cerr << "LOGGER: thread creation error: " << strerror(errno)
 			<< std::endl;
 		exit(EXIT_FAILURE);
 	}
