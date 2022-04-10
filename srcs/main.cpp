@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "server.h"
+#include "Server.h"
 
 int main(int ac, char **av)
 {
