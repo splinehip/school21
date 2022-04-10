@@ -7,7 +7,7 @@ LOGGER	= Logger.cpp
 # end LOGGER
 
 # SERVER
-SERVER	= server.cpp
+SERVER	= Server.cpp
 # end SERVER
 
 # SRCS
