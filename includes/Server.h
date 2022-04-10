@@ -8,7 +8,7 @@
 
 #include "VirtualServer.h"
 
-#define DEF_PORT "666"
+#define DEF_PORT "6666"
 #define LISTEN_BACKLOG 10
 
 class Server
