@@ -11,10 +11,14 @@
 
 #define POLL_TIMEOUT -1
 
+const short Server::ReadEvent[1] = {POLLIN};
+const short Server::WriteEvent[1] = {POLLOUT};
+const short Server::ReadWriteEvent[2] = {POLLIN, POLLOUT};
+
 Server::Server()
 {
     Init();
-    AddToPdfs(m_ListeningSocket, {POLLIN});
+    AddToPdfs(m_ListeningSocket, Server::ReadEvent, sizeof(Server::ReadEvent));
 }
 
 void Server::Run()
@@ -65,7 +69,7 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
         }
         else
         {
-            AddToPdfs(connected_socket, {POLLIN, POLLOUT});
+            AddToPdfs(connected_socket, Server::ReadWriteEvent, sizeof(Server::ReadWriteEvent));
 
             std::cout
                     << "New connection from "
@@ -180,12 +184,12 @@ std::string Server::GetPrintableIP(sockaddr *addr_info) const
     return inet_ntop(addr_info->sa_family, GetInputAddr(addr_info), ip, sizeof(ip));
 }
 
-void Server::AddToPdfs(int socket, std::vector<short> events)
+void Server::AddToPdfs(int socket, const short *events, size_t events_size)
 {
     pollfd inserting = {};
     inserting.fd = socket;
 
-    for (size_t i = 0; i < events.size(); ++i)
+    for (size_t i = 0; i < events_size; ++i)
     {
         inserting.events |= events[i];
     }
