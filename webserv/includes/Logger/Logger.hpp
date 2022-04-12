@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/09 17:47:38 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/12 14:54:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,27 @@
 # define LOGGER_H
 # include <cstdlib>
 # include <cstdarg>
-# include <climits>
 # include <ctime>
 # include <string>
 # include <deque>
-# include <iostream>
-# include <fstream>
-# include <sstream>
-# include <iomanip>
 # include <map>
+# include <sstream>
+# include <iostream>
+# include <iomanip>
+# include <fstream>
 # include <pthread.h>
 # include <string.h>
 # include <errno.h>
-# define LEVELS_LEN 8
+
+# include "Logger/loggerUtils.hpp"
 
 enum e_levels
 {
-	info,
 	INFO,
-	Warning,
 	WARNING,
-	Error,
 	ERROR,
-	Debug,
 	DEBUG,
+	LEVELS_CNT
 };
 
 class Logger
@@ -49,8 +46,9 @@ private:
 	std::deque<std::string>	que;
 	std::ofstream			file;
 
-private:
-	Logger(void);
+public:
+	static const std::string	levels[];
+	const std::string			file_name;
 
 public:
 	Logger(std::string const &level, std::string const &file_name);
@@ -59,12 +57,40 @@ public:
 
 	Logger	&operator=(Logger const &inst);
 
-	inline int			getLevel(void);
-	inline void			setLevel(std::string const &level);
-	inline void			nextMsg(std::string &msg);
-	inline int			is_open(void);
-	void				write(int const level, const char *fmt, ...);
-	inline void			serialize(std::string &msg);
+	inline void	setLevel(std::string const &level)
+	{
+		this->level = 0;
+		while (this->level < LEVELS_CNT)
+		{
+			if (this->levels[this->level] == level)
+				return ;
+			this->level++;
+		}
+		std::cerr << "LOGGER: Invalide logger level" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	inline int	getLevel(void)
+	{
+		return (this->level);
+	}
+	inline void	nextMsg(std::string &msg)
+	{
+		msg.clear();
+		if (this->que.empty() == false)
+		{
+			msg = this->que.front();
+			this->que.pop_front();
+		}
+	}
+	inline int	is_open(void)
+	{
+		return (this->file.is_open());
+	}
+	inline void	serialize(std::string &msg)
+	{
+		this->file << msg << std::endl;
+	}
+	void		write(int const level, const char *fmt, ...);
 };
 
 #endif
