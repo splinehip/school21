@@ -137,7 +137,8 @@
           "test_shrubbery": "cpp",
           "*.tpp": "cpp",
           "list": "cpp",
-          "cstring": "cpp"
+          "cstring": "cpp",
+          "map": "cpp"
         },
       },
 }

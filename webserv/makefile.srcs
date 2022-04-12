@@ -13,5 +13,5 @@ SERVER	= Server.cpp
 
 # SRCS
 SRCS		=\
-${MAIN} ${LOGGER} #${SERVER}
+${MAIN} ${LOGGER} ${SERVER}
 # end SRCS

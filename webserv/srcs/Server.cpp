@@ -4,7 +4,6 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <cstring>
-#include <unistd.h>
 #include <arpa/inet.h>
 
 #include <iostream>
@@ -15,7 +14,7 @@ const short Server::ReadEvent[1] = {POLLIN};
 const short Server::WriteEvent[1] = {POLLOUT};
 const short Server::ReadWriteEvent[2] = {POLLIN, POLLOUT};
 
-Server::Server()
+Server::Server(): log("DEBUG", "webserv.log")
 {
     Init();
     AddToPdfs(m_ListeningSocket, Server::ReadEvent, sizeof(Server::ReadEvent));
@@ -126,7 +125,8 @@ void Server::Init()
     int rv;
     if ((rv = getaddrinfo(NULL, DEF_PORT, &hints, &results)) != 0)
     {
-        std::cerr << "Getaddrinfo error: " << gai_strerror(rv) << std::endl;
+        this->log.write(ERROR, "Getaddrinfo error: %s", gai_strerror(rv));
+        this->log.flush();
         exit(1);
     }
 
