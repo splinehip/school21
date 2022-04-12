@@ -3,7 +3,7 @@
 #include <vector>
 #include <poll.h>
 #include <sys/socket.h>
-#include <unordered_map>
+#include <map>
 #include <deque>
 
 #include "VirtualServer.h"
@@ -21,8 +21,8 @@ private:
     int m_ListeningSocket;
     std::vector<pollfd> m_SocketsPdfs;
 
-    /*std::unordered_map<short, std::deque<VirtualServer>> m_VirtualServers;*/ /// заполняется из конфига: порт в виртуальные сервера
-    /*std::unordered_map<short, int> m_PortToSocket;*/ /// соответсиве виртуального порта в файловый дескриптор (видимо из Request формируется)
+    /*std::map<short, std::deque<VirtualServer>> m_VirtualServers;*/ /// заполняется из конфига: порт в виртуальные сервера
+    /*std::map<short, int> m_PortToSocket;*/ /// соответсиве виртуального порта в файловый дескриптор (видимо из Request формируется)
 
     /**
      * \todo
