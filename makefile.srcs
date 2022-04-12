@@ -3,7 +3,8 @@ MAIN	= main.cpp
 # end MAIN
 
 # LOGGER
-LOGGER	= Logger.cpp
+LOGGER_DIR = Logger
+LOGGER = $(addprefix ${LOGGER_DIR}/, Logger.cpp loggerUtils.cpp)
 # end LOGGER
 
 # SERVER
