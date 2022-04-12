@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/12 14:54:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/12 17:02:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <iostream>
 # include <iomanip>
 # include <fstream>
+# include <unistd.h>
 # include <pthread.h>
 # include <string.h>
 # include <errno.h>
@@ -51,6 +52,7 @@ public:
 	const std::string			file_name;
 
 public:
+	Logger(void){};
 	Logger(std::string const &level, std::string const &file_name);
 	Logger(Logger const &inst);
 	~Logger(void);
@@ -89,6 +91,13 @@ public:
 	inline void	serialize(std::string &msg)
 	{
 		this->file << msg << std::endl;
+	}
+	inline void	flush(void)
+	{
+		while(this->que.empty() == false);
+		this->file.flush();
+		usleep(500);
+
 	}
 	void		write(int const level, const char *fmt, ...);
 };

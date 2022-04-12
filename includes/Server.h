@@ -3,12 +3,16 @@
 #include <vector>
 #include <poll.h>
 #include <sys/socket.h>
-#include <unordered_map>
+//#include <unordered_map>
 #include <deque>
+#include <cstdlib>
+#include <unistd.h>
+#include <errno.h>
 
+#include "Logger/Logger.hpp"
 #include "VirtualServer.h"
 
-#define DEF_PORT "6666"
+#define DEF_PORT "8080"
 #define LISTEN_BACKLOG 10
 
 class Server
@@ -31,6 +35,8 @@ private:
      *      Один из методов должен возвращать некий класс HttpRequest, сохраняемый для клиента
      */
     /*Http::HttpManager& m_HttpManager;*/
+public:
+    Logger             log;
 
 public:
     Server();
