@@ -51,7 +51,7 @@ public:
         return data;
     }
 
-    explicit operator bool() const
+    operator bool() const
     {
         return data != NULL;
     }
