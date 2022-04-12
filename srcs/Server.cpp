@@ -120,7 +120,7 @@ void Server::Init()
     addrinfo hints = {};
     hints.ai_family = AF_UNSPEC; /// auto determining IPv4 or IPv6
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE | AI_CANONNAME; /// use my IP address as host. Write INADDR_ANY to IP address
+    hints.ai_flags = AI_PASSIVE; /// use my IP address as host. Write INADDR_ANY to IP address
 
     addrinfo *results;
     int rv;
@@ -163,8 +163,6 @@ void Server::Init()
     std::cout
         << "Host ip: "
         << GetPrintableIP(curr->ai_addr)
-        << "; Cannon name: "
-        << curr->ai_canonname
         << "; host address family: "
         << (curr->ai_family == AF_INET ? "IPv4" : "IPv6")
         << std::endl;
