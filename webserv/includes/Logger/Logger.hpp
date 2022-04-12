@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/12 17:02:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/12 21:00:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ public:
 		while (this->level < LEVELS_CNT)
 		{
 			if (this->levels[this->level] == level)
+			{
 				return ;
+			}
 			this->level++;
 		}
 		std::cerr << "LOGGER: Invalide logger level" << std::endl;

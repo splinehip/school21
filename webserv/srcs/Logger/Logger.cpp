@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/12 14:58:01 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/12 21:02:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ Logger::Logger(std::string const &level, std::string const &_file_name)
 	this->setLevel(level);
 	this->file.open(this->file_name.c_str(), std::ios::app);
 	if (this->file.is_open() == false)
+	{
 		std::cerr << "LGGER: file " << this->file_name << " open error: "
 			<< strerror(errno) << std::endl;
+	}
 	if (pthread_create(&this->pth, NULL, &serializer, (void *)this) != 0)
 	{
 		std::cerr << "LOGGER: thread creation error: " << strerror(errno)
@@ -44,7 +46,9 @@ Logger::~Logger(void)
 Logger	&Logger::operator=(Logger const &inst)
 {
 	if (this == &inst)
+	{
 		return (*this);
+	}
 	*this = Logger(levels[inst.level], inst.file_name);
 	return (*this);
 }

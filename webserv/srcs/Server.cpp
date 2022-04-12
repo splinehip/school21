@@ -28,8 +28,8 @@ void Server::Run()
 
         if (poll_cnt == -1)
         {
-            std::cerr << "poll: " << strerror(errno) << std::endl;;
-            exit(1);
+            this->log.write(ERROR, "poll: ", strerror(errno));
+            exit(EXIT_FAILURE);
         }
 
         for (size_t i = 0, visited = 0; i < m_SocketsPdfs.size(); ++i)
@@ -70,14 +70,11 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
         {
             AddToPdfs(connected_socket, Server::ReadWriteEvent, sizeof(Server::ReadWriteEvent));
 
-            std::cout
-                    << "New connection from "
-                    << GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address))
-                    << " with socket "
-                    << connected_socket
-                    << " remote address family: "
-                    << (connecting_address.ss_family == AF_INET ? "IPv4" : "IPv6")
-                    << std::endl;
+            this->log.write(INFO, "New connection from %s with socket %i remote\
+address family: %s",
+                GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address)),
+                connected_socket,
+                (connecting_address.ss_family == AF_INET ? "IPv4" : "IPv6"));
         }
     }
     else
@@ -88,11 +85,12 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
         {
             if (bytes_cnt == 0)
             {
-                std::cout << "Socket " << readable_socket << " closed connection" << std::endl;
+                this->log.write(INFO, "Socket %i closed connection",
+                    readable_socket);
             }
             else if (bytes_cnt == -1)
             {
-                std::cerr << "recv: " << strerror(errno) << std::endl;; /// maybe forbidden due subject
+                this->log.write(ERROR, "recv: %s", strerror(errno));
             }
             close(readable_socket);
             DelFromPdfs(socket_index);
@@ -110,7 +108,7 @@ void Server::SendResponse(int sendable_socket)
     /// Check Response and send
     if (send(sendable_socket, "Hello", 5, 0) == -1)
     {
-        std::cerr << "send: " << strerror(errno) << std::endl;; /// maybe forbidden due subject
+        this->log.write(ERROR, "send: %s", strerror(errno));
     }
 }
 
@@ -127,28 +125,29 @@ void Server::Init()
     {
         this->log.write(ERROR, "Getaddrinfo error: %s", gai_strerror(rv));
         this->log.flush();
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     addrinfo *curr;
     for (curr = results; curr != NULL; curr = curr->ai_next)
     {
-        if ((m_ListeningSocket = socket(curr->ai_family, curr->ai_socktype, curr->ai_protocol)) == -1)
+        if ((m_ListeningSocket = socket(
+            curr->ai_family, curr->ai_socktype, curr->ai_protocol)) == -1)
         {
-            std::cerr << "socket: " << strerror(errno) << std::endl;;
+            this->log.write(ERROR, "socket: %s", strerror(errno));
             continue;
         }
 
         int yes = 1; /// may be need char for Sun and Win
         if (setsockopt(m_ListeningSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1) /// skip "Address already in use" when old socket wasn't closed
         {
-            std::cerr << "setsockopt: " << strerror(errno) << std::endl;;
-            exit(1);
+            this->log.write(ERROR, "setsockopt: %s", strerror(errno));
+            exit(EXIT_FAILURE);
         }
 
         if (bind(m_ListeningSocket, curr->ai_addr, curr->ai_addrlen) == -1)
         {
-            std::cerr << "bind: " << strerror(errno) << std::endl;;
+            this->log.write(ERROR, "bind: %s", strerror(errno));
             continue;
         }
         break;
@@ -156,25 +155,22 @@ void Server::Init()
 
     if (curr == NULL)
     {
-        std::cerr << "Error getting listening socket" << std::endl;
-        exit(1);
+        this->log.write(ERROR, "Error getting listening socket");
+        exit(EXIT_FAILURE);
     }
 
-    std::cout
-        << "Host ip: "
-        << GetPrintableIP(curr->ai_addr)
-        << "; Cannon name: "
-        << curr->ai_canonname
-        << "; host address family: "
-        << (curr->ai_family == AF_INET ? "IPv4" : "IPv6")
-        << std::endl;
+    this->log.write(INFO,
+        "Host ip: %s; Cannon name: %s; host address family: %s",
+        GetPrintableIP(curr->ai_addr),
+        curr->ai_canonname,
+        (curr->ai_family == AF_INET ? "IPv4" : "IPv6"));
 
     freeaddrinfo(results);
 
     if (listen(m_ListeningSocket, LISTEN_BACKLOG) == -1)
     {
-        std::cerr << "listen: " << strerror(errno) << std::endl;;
-        exit(1);
+       this->log.write(ERROR, "listen: %s", strerror(errno));
+        exit(EXIT_FAILURE);
     }
 }
 
