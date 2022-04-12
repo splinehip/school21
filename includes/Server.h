@@ -14,6 +14,10 @@
 class Server
 {
 private:
+    static const short ReadEvent[1];
+    static const short WriteEvent[1];
+    static const short ReadWriteEvent[2];
+
     int m_ListeningSocket;
     std::vector<pollfd> m_SocketsPdfs;
 
@@ -40,7 +44,7 @@ private:
     void SendResponse(int sendable_socket);
 
     void Init();
-    void AddToPdfs(int socket, std::vector<short> events);
+    void AddToPdfs(int socket, const short *events, size_t events_size);
     void DelFromPdfs(std::size_t deleted_idx);
 
     void *GetInputAddr(sockaddr *sa) const;
