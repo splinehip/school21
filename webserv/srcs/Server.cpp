@@ -119,7 +119,7 @@ void Server::Init()
     addrinfo hints = {};
     hints.ai_family = AF_UNSPEC; /// auto determining IPv4 or IPv6
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE | AI_CANONNAME; /// use my IP address as host. Write INADDR_ANY to IP address
+    hints.ai_flags = AI_PASSIVE; /// use my IP address as host. Write INADDR_ANY to IP address
 
     addrinfo *results;
     int rv;
