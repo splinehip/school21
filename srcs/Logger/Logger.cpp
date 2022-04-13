@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/13 16:43:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 17:24:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ logger::Log	&logger::Log::run(
 {
 	this->file_name = _file_name;
 	this->setLevel(level);
-	std::cout << this->file_name;
 	this->file.open(this->file_name.c_str(), std::ios::app);
 	if (this->file.is_open() == false)
 	{

@@ -66,7 +66,7 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
         int connected_socket = accept(m_ListeningSocket, reinterpret_cast<sockaddr*>(&connecting_address), &storage_size);
         if (connected_socket == -1)
         {
-            std::cerr << "accept: " << strerror(errno) << std::endl;;
+            log.write(ERROR, "accept: %s", strerror(errno));
         }
         else
         {
@@ -74,7 +74,7 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
 
             log.write(INFO, "New connection from %s with socket %i remote\
 address family: %s",
-                GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address)),
+                GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address)).c_str(),
                 connected_socket,
                 (connecting_address.ss_family == AF_INET ? "IPv4" : "IPv6"));
         }
@@ -162,7 +162,7 @@ void Server::Init()
 
     log.write(INFO,
         "Host ip: %s; Cannon name: %s; host address family: %s",
-        GetPrintableIP(curr->ai_addr),
+        GetPrintableIP(curr->ai_addr).c_str(),
         curr->ai_canonname,
         (curr->ai_family == AF_INET ? "IPv4" : "IPv6"));
 
