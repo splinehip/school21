@@ -35,8 +35,6 @@ private:
      *      Один из методов должен возвращать некий класс HttpRequest, сохраняемый для клиента
      */
     /*Http::HttpManager& m_HttpManager;*/
-public:
-    Logger             log;
 
 public:
     Server();
