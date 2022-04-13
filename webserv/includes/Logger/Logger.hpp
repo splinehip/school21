@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/13 16:45:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 22:08:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <iostream>
 # include <iomanip>
 # include <fstream>
+# include <unistd.h>
 # include <pthread.h>
 # include <string.h>
 # include <errno.h>
@@ -44,7 +45,9 @@ namespace logger
 	{
 	private:
 		pthread_t				pth;
+		pthread_mutex_t			mutex_stop;
 		int						level;
+		int						pth_stop;
 		std::deque<std::string>	que;
 		std::ofstream			file;
 
@@ -74,6 +77,16 @@ namespace logger
 			return (log);
 		}
 
+		inline int	stop(void)
+		{
+			register int	ret;
+
+			pthread_mutex_lock(&this->mutex_stop);
+			ret = this->pth_stop && this->que.empty();
+			pthread_mutex_unlock(&this->mutex_stop);
+			return (ret);
+		}
+
 		inline void	setLevel(std::string const &level)
 		{
 			this->level = 0;
@@ -85,7 +98,7 @@ namespace logger
 				}
 				this->level++;
 			}
-			std::cerr << "LOG: Invalide log level" << std::endl;
+			std::cerr << "LOGGER: set_level: Invalid level" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 		inline int	getLevel(void)
@@ -101,14 +114,12 @@ namespace logger
 				this->que.pop_front();
 			}
 		}
-		inline int	is_open(void)
-		{
-			return (this->file.is_open());
-		}
+
 		inline void	serialize(std::string &msg)
 		{
 			this->file << msg << std::endl;
 		}
+
 		void		write(int const level, const char *fmt, ...);
 	};
 }

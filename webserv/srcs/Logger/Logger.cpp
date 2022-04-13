@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/13 17:24:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 22:09:44 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ const std::string	logger::Log::levels[] = {
 
 logger::Log::~Log(void)
 {
-	while (this->que.empty() == false);
-	this->file.close();
+	pthread_mutex_lock(&this->mutex_stop);
+	this->pth_stop = true;
+	pthread_mutex_unlock(&this->mutex_stop);
 	pthread_join(this->pth, NULL);
 }
 
 logger::Log	&logger::Log::run(
 	std::string const &level, std::string const &_file_name)
 {
+	this->pth_stop = false;
 	this->file_name = _file_name;
 	this->setLevel(level);
 	this->file.open(this->file_name.c_str(), std::ios::app);
@@ -49,9 +51,13 @@ void	logger::Log::write(int const level, const char *fmt, ...)
 	std::string 		msg;
 
 	msg = time_stamp();
-	if (level < 0 || level > this->level)
+	if (level < 0 || level >= LEVELS_CNT)
 	{
-		std::cerr << "LOGGER: invalid logger level" << std::endl;
+		std::cerr << "LOGGER: write: invalid level" << std::endl;
+		return ;
+	}
+	if (level > this->level)
+	{
 		return ;
 	}
 	msg += levels[level] + ": ";

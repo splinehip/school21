@@ -162,8 +162,7 @@ void Server::Init()
 
     log.write(INFO,
         "Host ip: %s; Cannon name: %s; host address family: %s",
-        GetPrintableIP(curr->ai_addr).c_str(),
-        curr->ai_canonname,
+        GetPrintableIP(curr->ai_addr).c_str(), curr->ai_canonname,
         (curr->ai_family == AF_INET ? "IPv4" : "IPv6"));
 
     freeaddrinfo(results);
