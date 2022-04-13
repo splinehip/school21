@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/12 21:00:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:45:19 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <iostream>
 # include <iomanip>
 # include <fstream>
-# include <unistd.h>
 # include <pthread.h>
 # include <string.h>
 # include <errno.h>
@@ -39,69 +38,79 @@ enum e_levels
 	LEVELS_CNT
 };
 
-class Logger
+namespace logger
 {
-private:
-	pthread_t				pth;
-	int						level;
-	std::deque<std::string>	que;
-	std::ofstream			file;
-
-public:
-	static const std::string	levels[];
-	const std::string			file_name;
-
-public:
-	Logger(void){};
-	Logger(std::string const &level, std::string const &file_name);
-	Logger(Logger const &inst);
-	~Logger(void);
-
-	Logger	&operator=(Logger const &inst);
-
-	inline void	setLevel(std::string const &level)
+	class Log
 	{
-		this->level = 0;
-		while (this->level < LEVELS_CNT)
+	private:
+		pthread_t				pth;
+		int						level;
+		std::deque<std::string>	que;
+		std::ofstream			file;
+
+	private:
+		Log(void){};
+		Log(Log const &inst);
+		Log	&operator=(Log const &inst);
+
+		logger::Log	&run(std::string const &level, std::string const &file_name);
+
+	public:
+		std::string					file_name;
+		static const std::string	levels[];
+
+	public:
+		~Log(void);
+
+		static logger::Log	&inst(void)
 		{
-			if (this->levels[this->level] == level)
+			static logger::Log	log;
+			return (log);
+		}
+		static logger::Log	&init(
+			std::string const &level, std::string const &file_name)
+		{
+			static logger::Log	&log = logger::Log::inst().run(level, file_name);
+			return (log);
+		}
+
+		inline void	setLevel(std::string const &level)
+		{
+			this->level = 0;
+			while (this->level < LEVELS_CNT)
 			{
-				return ;
+				if (this->levels[this->level] == level)
+				{
+					return ;
+				}
+				this->level++;
 			}
-			this->level++;
+			std::cerr << "LOG: Invalide log level" << std::endl;
+			exit(EXIT_FAILURE);
 		}
-		std::cerr << "LOGGER: Invalide logger level" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	inline int	getLevel(void)
-	{
-		return (this->level);
-	}
-	inline void	nextMsg(std::string &msg)
-	{
-		msg.clear();
-		if (this->que.empty() == false)
+		inline int	getLevel(void)
 		{
-			msg = this->que.front();
-			this->que.pop_front();
+			return (this->level);
 		}
-	}
-	inline int	is_open(void)
-	{
-		return (this->file.is_open());
-	}
-	inline void	serialize(std::string &msg)
-	{
-		this->file << msg << std::endl;
-	}
-	inline void	flush(void)
-	{
-		while(this->que.empty() == false);
-		this->file.flush();
-		usleep(500);
-
-	}
-	void		write(int const level, const char *fmt, ...);
-};
+		inline void	nextMsg(std::string &msg)
+		{
+			msg.clear();
+			if (this->que.empty() == false)
+			{
+				msg = this->que.front();
+				this->que.pop_front();
+			}
+		}
+		inline int	is_open(void)
+		{
+			return (this->file.is_open());
+		}
+		inline void	serialize(std::string &msg)
+		{
+			this->file << msg << std::endl;
+		}
+		void		write(int const level, const char *fmt, ...);
+	};
+}
 
 #endif

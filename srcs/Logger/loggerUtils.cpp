@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 12:23:58 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/12 20:59:47 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 13:36:36 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	*serializer(void *_this)
 {
-	Logger		*log;
+	logger::Log	*log;
 	std::string	msg;
 
-	log = reinterpret_cast<Logger *>(_this);
+	log = reinterpret_cast<logger::Log *>(_this);
 	while (log->is_open())
 	{
 		log->nextMsg(msg);

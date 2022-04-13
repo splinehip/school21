@@ -10,11 +10,13 @@
 
 #define POLL_TIMEOUT -1
 
+static logger::Log &log = logger::Log::inst();
+
 const short Server::ReadEvent[1] = {POLLIN};
 const short Server::WriteEvent[1] = {POLLOUT};
 const short Server::ReadWriteEvent[2] = {POLLIN, POLLOUT};
 
-Server::Server(): log("DEBUG", "webserv.log")
+Server::Server()
 {
     Init();
     AddToPdfs(m_ListeningSocket, Server::ReadEvent, sizeof(Server::ReadEvent));
@@ -28,7 +30,7 @@ void Server::Run()
 
         if (poll_cnt == -1)
         {
-            this->log.write(ERROR, "poll: ", strerror(errno));
+            log.write(ERROR, "poll: ", strerror(errno));
             exit(EXIT_FAILURE);
         }
 
@@ -70,7 +72,7 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
         {
             AddToPdfs(connected_socket, Server::ReadWriteEvent, sizeof(Server::ReadWriteEvent));
 
-            this->log.write(INFO, "New connection from %s with socket %i remote\
+            log.write(INFO, "New connection from %s with socket %i remote\
 address family: %s",
                 GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address)),
                 connected_socket,
@@ -85,12 +87,12 @@ address family: %s",
         {
             if (bytes_cnt == 0)
             {
-                this->log.write(INFO, "Socket %i closed connection",
+                log.write(INFO, "Socket %i closed connection",
                     readable_socket);
             }
             else if (bytes_cnt == -1)
             {
-                this->log.write(ERROR, "recv: %s", strerror(errno));
+                log.write(ERROR, "recv: %s", strerror(errno));
             }
             close(readable_socket);
             DelFromPdfs(socket_index);
@@ -108,7 +110,7 @@ void Server::SendResponse(int sendable_socket)
     /// Check Response and send
     if (send(sendable_socket, "Hello", 5, 0) == -1)
     {
-        this->log.write(ERROR, "send: %s", strerror(errno));
+        log.write(ERROR, "send: %s", strerror(errno));
     }
 }
 
@@ -123,8 +125,7 @@ void Server::Init()
     int rv;
     if ((rv = getaddrinfo(NULL, DEF_PORT, &hints, &results)) != 0)
     {
-        this->log.write(ERROR, "Getaddrinfo error: %s", gai_strerror(rv));
-        this->log.flush();
+        log.write(ERROR, "Getaddrinfo error: %s", gai_strerror(rv));
         exit(EXIT_FAILURE);
     }
 
@@ -134,20 +135,20 @@ void Server::Init()
         if ((m_ListeningSocket = socket(
             curr->ai_family, curr->ai_socktype, curr->ai_protocol)) == -1)
         {
-            this->log.write(ERROR, "socket: %s", strerror(errno));
+            log.write(ERROR, "socket: %s", strerror(errno));
             continue;
         }
 
         int yes = 1; /// may be need char for Sun and Win
         if (setsockopt(m_ListeningSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1) /// skip "Address already in use" when old socket wasn't closed
         {
-            this->log.write(ERROR, "setsockopt: %s", strerror(errno));
+            log.write(ERROR, "setsockopt: %s", strerror(errno));
             exit(EXIT_FAILURE);
         }
 
         if (bind(m_ListeningSocket, curr->ai_addr, curr->ai_addrlen) == -1)
         {
-            this->log.write(ERROR, "bind: %s", strerror(errno));
+            log.write(ERROR, "bind: %s", strerror(errno));
             continue;
         }
         break;
@@ -155,11 +156,11 @@ void Server::Init()
 
     if (curr == NULL)
     {
-        this->log.write(ERROR, "Error getting listening socket");
+        log.write(ERROR, "Error getting listening socket");
         exit(EXIT_FAILURE);
     }
 
-    this->log.write(INFO,
+    log.write(INFO,
         "Host ip: %s; Cannon name: %s; host address family: %s",
         GetPrintableIP(curr->ai_addr),
         curr->ai_canonname,
@@ -169,7 +170,7 @@ void Server::Init()
 
     if (listen(m_ListeningSocket, LISTEN_BACKLOG) == -1)
     {
-       this->log.write(ERROR, "listen: %s", strerror(errno));
+       log.write(ERROR, "listen: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
 }

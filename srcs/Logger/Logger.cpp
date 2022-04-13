@@ -6,18 +6,28 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/12 21:02:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:43:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Logger/Logger.hpp"
 
-const std::string	Logger::levels[] = {"INFO", "WARNING", "ERROR", "DEBUG"};
+const std::string	logger::Log::levels[] = {
+	"INFO", "WARNING", "ERROR", "DEBUG"};
 
-Logger::Logger(std::string const &level, std::string const &_file_name)
-	: file_name(_file_name)
+logger::Log::~Log(void)
 {
+	while (this->que.empty() == false);
+	this->file.close();
+	pthread_join(this->pth, NULL);
+}
+
+logger::Log	&logger::Log::run(
+	std::string const &level, std::string const &_file_name)
+{
+	this->file_name = _file_name;
 	this->setLevel(level);
+	std::cout << this->file_name;
 	this->file.open(this->file_name.c_str(), std::ios::app);
 	if (this->file.is_open() == false)
 	{
@@ -30,30 +40,10 @@ Logger::Logger(std::string const &level, std::string const &_file_name)
 			<< std::endl;
 		exit(EXIT_FAILURE);
 	}
-}
-
-Logger::Logger(Logger const &inst)
-{
-	*this = inst;
-}
-
-Logger::~Logger(void)
-{
-	this->file.close();
-	pthread_join(this->pth, NULL);
-}
-
-Logger	&Logger::operator=(Logger const &inst)
-{
-	if (this == &inst)
-	{
-		return (*this);
-	}
-	*this = Logger(levels[inst.level], inst.file_name);
 	return (*this);
 }
 
-void	Logger::write(int const level, const char *fmt, ...)
+void	logger::Log::write(int const level, const char *fmt, ...)
 {
 	va_list				ap;
 	int					size;
