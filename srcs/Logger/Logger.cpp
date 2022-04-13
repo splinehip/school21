@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/13 22:09:44 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/13 22:43:16 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,31 @@ void	logger::Log::write(int const level, const char *fmt, ...)
 	vsprintf(&msg[msg.size() - size], fmt, ap);
 	this->que.push_back(msg);
 	va_end(ap);
+}
+
+void		logger::Log::serialize(void)
+{
+	std::string	msg;
+
+	while (this->stop() == false)
+	{
+		if (this->que.empty() == false)
+		{
+			msg = this->que.front();
+			if (this->level > WARNING)
+			{
+				std::cerr << msg << std::endl;
+			}
+			else
+			{
+				std::cout << msg << std::endl;
+			}
+			this->file << msg << std::endl;
+			this->que.pop_front();
+		}
+		else
+		{
+			usleep(900);
+		}
+	}
 }
