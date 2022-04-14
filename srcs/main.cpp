@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Server.h"
-#include "Logger/Logger.hpp"
+#include "Logger/Logger.h"
 
 int main(int ac, char **av)
 {
@@ -9,7 +9,7 @@ int main(int ac, char **av)
     (void)av;
     if (ac < 2)
     {
-        log.write(INFO,
+        log.write(logger::INFO,
             "Config file not set. Using default configuration.");
     }
     Server webserv;
