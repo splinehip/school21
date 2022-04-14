@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "Logger/Logger.h"
+#include "logger/Log.h"
 #include "VirtualServer.h"
 
 #define DEF_PORT "8080"

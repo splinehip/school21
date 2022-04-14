@@ -8,7 +8,7 @@ OBJS_DIR	= objs
 
 OBJS		= ${addprefix ${OBJS_DIR}/, ${SRCS:.cpp=.o}}
 
-HEADERS	= -Iheaders -Iincludes
+HEADERS	= -Iheaders
 
 CC			= c++
 

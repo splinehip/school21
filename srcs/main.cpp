@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Server.h"
-#include "Logger/Logger.h"
+#include "logger/Log.h"
 
 int main(int ac, char **av)
 {

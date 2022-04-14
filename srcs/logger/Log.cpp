@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Logger.cpp                                         :+:      :+:    :+:   */
+/*   Log.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/14 12:02:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/14 16:06:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Logger/Logger.h"
+#include "logger/Log.h"
 
 const std::string	logger::Log::levels[] = {
 	"INFO", "WARNING", "ERROR", "DEBUG"};
@@ -24,7 +24,7 @@ logger::Log::~Log(void)
 	this->file.close();
 }
 
-logger::Log	&logger::Log::run(
+logger::Log	&logger::Log::start(
 	std::string const &level, std::string const &_file_name)
 {
 	this->pth_stop = false;
