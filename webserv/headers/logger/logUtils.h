@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loggerUtils.h                                      :+:      :+:    :+:   */
+/*   logUtils.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 12:27:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/14 12:09:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/14 15:42:33 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-# include "Logger/Logger.h"
+# include "logger/Log.h"
 
 std::string time_stamp(void);
 void        *serializer(void *this_);

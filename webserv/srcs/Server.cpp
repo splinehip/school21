@@ -10,7 +10,7 @@
 
 #define POLL_TIMEOUT -1
 
-static logger::Log &log = logger::Log::inst();
+static logger::Log &log = logger::Log::getInst();
 
 const short Server::ReadEvent[1] = {POLLIN};
 const short Server::WriteEvent[1] = {POLLOUT};
