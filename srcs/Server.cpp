@@ -26,7 +26,8 @@ void Server::Run()
 {
     while(true)
     {
-        int poll_cnt = poll(m_SocketsPdfs.data(), m_SocketsPdfs.size(), POLL_TIMEOUT);
+        int poll_cnt = poll(
+            m_SocketsPdfs.data(), m_SocketsPdfs.size(), POLL_TIMEOUT);
 
         if (poll_cnt == -1)
         {
@@ -63,20 +64,23 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
     {
         sockaddr_storage connecting_address = {};
         socklen_t storage_size = sizeof(connecting_address);
-        int connected_socket = accept(m_ListeningSocket, reinterpret_cast<sockaddr*>(&connecting_address), &storage_size);
+        int connected_socket = accept(m_ListeningSocket,
+            reinterpret_cast<sockaddr*>(&connecting_address), &storage_size);
         if (connected_socket == -1)
         {
             log.write(logger::ERROR, "accept: %s", strerror(errno));
         }
         else
         {
-            AddToPdfs(connected_socket, Server::ReadWriteEvent, sizeof(Server::ReadWriteEvent));
+            AddToPdfs(connected_socket, Server::ReadWriteEvent,
+                sizeof(Server::ReadWriteEvent));
 
-            log.write(logger::INFO, "New connection from %s with socket %i remote\
-address family: %s",
-                GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address)).c_str(),
-                connected_socket,
-                (connecting_address.ss_family == AF_INET ? "IPv4" : "IPv6"));
+            log.write(logger::INFO,
+                "New connection from %s with socket %i remote AF_INET: %s",
+                GetPrintableIP(
+                    reinterpret_cast<sockaddr*>(&connecting_address)).c_str(),
+                    connected_socket, (connecting_address.ss_family
+                        == AF_INET ? "IPv4" : "IPv6"));
         }
     }
     else
@@ -119,7 +123,8 @@ void Server::Init()
     addrinfo hints = {};
     hints.ai_family = AF_UNSPEC; /// auto determining IPv4 or IPv6
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE; /// use my IP address as host. Write INADDR_ANY to IP address
+    /// use my IP address as host. Write INADDR_ANY to IP address
+    hints.ai_flags = AI_PASSIVE;
 
     addrinfo *results;
     int rv;
@@ -140,7 +145,9 @@ void Server::Init()
         }
 
         int yes = 1; /// may be need char for Sun and Win
-        if (setsockopt(m_ListeningSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1) /// skip "Address already in use" when old socket wasn't closed
+        /// skip "Address already in use" when old socket wasn't closed
+        if (setsockopt(m_ListeningSocket, SOL_SOCKET, SO_REUSEADDR, &yes,
+                sizeof(yes)) == -1)
         {
             log.write(logger::ERROR, "setsockopt: %s", strerror(errno));
             exit(EXIT_FAILURE);
@@ -160,8 +167,7 @@ void Server::Init()
         exit(EXIT_FAILURE);
     }
 
-    log.write(logger::INFO,
-        "Host ip: %s; Cannon name: %s; host address family: %s",
+    log.write(logger::INFO, "Host ip: %s; Cannon name: %s; AF_INET: %s",
         GetPrintableIP(curr->ai_addr).c_str(), curr->ai_canonname,
         (curr->ai_family == AF_INET ? "IPv4" : "IPv6"));
 
@@ -177,7 +183,8 @@ void Server::Init()
 std::string Server::GetPrintableIP(sockaddr *addr_info) const
 {
     static char ip[INET6_ADDRSTRLEN];
-    return inet_ntop(addr_info->sa_family, GetInputAddr(addr_info), ip, sizeof(ip));
+    return inet_ntop(addr_info->sa_family,
+            GetInputAddr(addr_info), ip, sizeof(ip));
 }
 
 void Server::AddToPdfs(int socket, const short *events, size_t events_size)
