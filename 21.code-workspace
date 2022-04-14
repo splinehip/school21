@@ -60,7 +60,7 @@
         "smartsemicolon.autoLineChange": true,
 
         "editor.tabSize": 4,
-        "editor.insertSpaces": false,
+        "editor.insertSpaces": true,
         "editor.renderWhitespace": "all",
         "editor.cursorBlinking": "phase",
         "editor.rulers": [

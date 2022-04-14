@@ -30,7 +30,7 @@ void Server::Run()
 
         if (poll_cnt == -1)
         {
-            log.write(ERROR, "poll: ", strerror(errno));
+            log.write(logger::ERROR, "poll: ", strerror(errno));
             exit(EXIT_FAILURE);
         }
 
@@ -66,13 +66,13 @@ void Server::ReceiveRequest(int readable_socket, size_t socket_index)
         int connected_socket = accept(m_ListeningSocket, reinterpret_cast<sockaddr*>(&connecting_address), &storage_size);
         if (connected_socket == -1)
         {
-            log.write(ERROR, "accept: %s", strerror(errno));
+            log.write(logger::ERROR, "accept: %s", strerror(errno));
         }
         else
         {
             AddToPdfs(connected_socket, Server::ReadWriteEvent, sizeof(Server::ReadWriteEvent));
 
-            log.write(INFO, "New connection from %s with socket %i remote\
+            log.write(logger::INFO, "New connection from %s with socket %i remote\
 address family: %s",
                 GetPrintableIP(reinterpret_cast<sockaddr*>(&connecting_address)).c_str(),
                 connected_socket,
@@ -87,12 +87,12 @@ address family: %s",
         {
             if (bytes_cnt == 0)
             {
-                log.write(INFO, "Socket %i closed connection",
+                log.write(logger::INFO, "Socket %i closed connection",
                     readable_socket);
             }
             else if (bytes_cnt == -1)
             {
-                log.write(ERROR, "recv: %s", strerror(errno));
+                log.write(logger::ERROR, "recv: %s", strerror(errno));
             }
             close(readable_socket);
             DelFromPdfs(socket_index);
@@ -110,7 +110,7 @@ void Server::SendResponse(int sendable_socket)
     /// Check Response and send
     if (send(sendable_socket, "Hello", 5, 0) == -1)
     {
-        log.write(ERROR, "send: %s", strerror(errno));
+        log.write(logger::ERROR, "send: %s", strerror(errno));
     }
 }
 
@@ -125,7 +125,7 @@ void Server::Init()
     int rv;
     if ((rv = getaddrinfo(NULL, DEF_PORT, &hints, &results)) != 0)
     {
-        log.write(ERROR, "Getaddrinfo error: %s", gai_strerror(rv));
+        log.write(logger::ERROR, "Getaddrinfo error: %s", gai_strerror(rv));
         exit(EXIT_FAILURE);
     }
 
@@ -135,20 +135,20 @@ void Server::Init()
         if ((m_ListeningSocket = socket(
             curr->ai_family, curr->ai_socktype, curr->ai_protocol)) == -1)
         {
-            log.write(ERROR, "socket: %s", strerror(errno));
+            log.write(logger::ERROR, "socket: %s", strerror(errno));
             continue;
         }
 
         int yes = 1; /// may be need char for Sun and Win
         if (setsockopt(m_ListeningSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) == -1) /// skip "Address already in use" when old socket wasn't closed
         {
-            log.write(ERROR, "setsockopt: %s", strerror(errno));
+            log.write(logger::ERROR, "setsockopt: %s", strerror(errno));
             exit(EXIT_FAILURE);
         }
 
         if (bind(m_ListeningSocket, curr->ai_addr, curr->ai_addrlen) == -1)
         {
-            log.write(ERROR, "bind: %s", strerror(errno));
+            log.write(logger::ERROR, "bind: %s", strerror(errno));
             continue;
         }
         break;
@@ -156,11 +156,11 @@ void Server::Init()
 
     if (curr == NULL)
     {
-        log.write(ERROR, "Error getting listening socket");
+        log.write(logger::ERROR, "Error getting listening socket");
         exit(EXIT_FAILURE);
     }
 
-    log.write(INFO,
+    log.write(logger::INFO,
         "Host ip: %s; Cannon name: %s; host address family: %s",
         GetPrintableIP(curr->ai_addr).c_str(), curr->ai_canonname,
         (curr->ai_family == AF_INET ? "IPv4" : "IPv6"));
@@ -169,7 +169,7 @@ void Server::Init()
 
     if (listen(m_ListeningSocket, LISTEN_BACKLOG) == -1)
     {
-       log.write(ERROR, "listen: %s", strerror(errno));
+       log.write(logger::ERROR, "listen: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
 }

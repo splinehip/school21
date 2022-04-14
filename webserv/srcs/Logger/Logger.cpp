@@ -6,11 +6,11 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/13 22:43:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/14 12:02:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Logger/Logger.hpp"
+#include "Logger/Logger.h"
 
 const std::string	logger::Log::levels[] = {
 	"INFO", "WARNING", "ERROR", "DEBUG"};
@@ -21,6 +21,7 @@ logger::Log::~Log(void)
 	this->pth_stop = true;
 	pthread_mutex_unlock(&this->mutex_stop);
 	pthread_join(this->pth, NULL);
+	this->file.close();
 }
 
 logger::Log	&logger::Log::run(
@@ -42,6 +43,31 @@ logger::Log	&logger::Log::run(
 		exit(EXIT_FAILURE);
 	}
 	return (*this);
+}
+
+void	logger::Log::setLevel(std::string const &level)
+{
+	this->level = 0;
+	while (this->level < LEVELS_CNT)
+	{
+		if (this->levels[this->level] == level)
+		{
+			return ;
+		}
+		this->level++;
+	}
+	std::cerr << "LOGGER: set_level: Invalid level" << std::endl;
+	exit(EXIT_FAILURE);
+}
+
+int		logger::Log::stop(void)
+{
+	register int	ret;
+
+	pthread_mutex_lock(&this->mutex_stop);
+	ret = this->pth_stop && this->que.empty();
+	pthread_mutex_unlock(&this->mutex_stop);
+	return (ret);
 }
 
 void	logger::Log::write(int const level, const char *fmt, ...)
@@ -77,7 +103,7 @@ void	logger::Log::write(int const level, const char *fmt, ...)
 	va_end(ap);
 }
 
-void		logger::Log::serialize(void)
+void	logger::Log::do_serialize(void)
 {
 	std::string	msg;
 
