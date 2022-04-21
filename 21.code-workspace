@@ -138,7 +138,15 @@
           "*.tpp": "cpp",
           "list": "cpp",
           "cstring": "cpp",
-          "map": "cpp"
+          "map": "cpp",
+          "csignal": "cpp",
+          "bitset": "cpp",
+          "complex": "cpp",
+          "set": "cpp",
+          "thread": "cpp",
+          "cinttypes": "cpp",
+          "typeindex": "cpp",
+          "variant": "cpp"
         },
       },
 }

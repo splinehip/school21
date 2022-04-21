@@ -14,7 +14,7 @@ CC			= c++
 
 CFLAGS		= -Wall -Wextra -Werror -pthread -std=c++98
 
-OPTFLAGS	= -MMD -MP -g
+OPTFLAGS	= -MMD -MP -ggdb
 
 RM			= rm -rf
 
