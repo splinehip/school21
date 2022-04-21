@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/14 16:10:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:34:52 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,11 @@
 const std::string   logger::Log::levels[] = {
     "INFO", "WARNING", "ERROR", "DEBUG"};
 
-logger::Log::~Log(void)
-{
-    pthread_mutex_lock(&this->mutex_stop);
-    this->pth_stop = true;
-    pthread_mutex_unlock(&this->mutex_stop);
-    pthread_join(this->pth, NULL);
-    this->file.close();
-}
-
-logger::Log	&logger::Log::start(
-    std::string const &level, std::string const &_file_name)
+logger::Log::Log(const std::string &file_name_)
+    : file_name(file_name_)
 {
     this->pth_stop = false;
-    this->file_name = _file_name;
-    this->setLevel(level);
+    this->setLevel("INFO");
     this->file.open(this->file_name.c_str(), std::ios::app);
     if (this->file.is_open() == false)
     {
@@ -42,10 +32,18 @@ logger::Log	&logger::Log::start(
             << std::endl;
         exit(EXIT_FAILURE);
     }
-    return (*this);
 }
 
-void    logger::Log::setLevel(std::string const &level)
+logger::Log::~Log(void)
+{
+    pthread_mutex_lock(&this->mutex_stop);
+    this->pth_stop = true;
+    pthread_mutex_unlock(&this->mutex_stop);
+    pthread_join(this->pth, NULL);
+    this->file.close();
+}
+
+void    logger::Log::setLevel(const std::string &level)
 {
     this->level = 0;
     while (this->level < LEVELS_CNT)
@@ -70,7 +68,7 @@ int     logger::Log::stop(void)
     return (ret);
 }
 
-void    logger::Log::write(int const level, const char *fmt, ...)
+void    logger::Log::write(const int level, const char *fmt, ...)
 {
     va_list     ap;
     int         size;

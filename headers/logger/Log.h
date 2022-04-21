@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/14 15:42:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:33:39 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,40 +50,33 @@ private:
     std::ofstream       	file;
 
 private:
-    Log(void){};
+    Log(const std::string &file_name);
+    Log(const Log &inst);
 
-    Log(Log const &inst);
     ~Log(void);
-    Log	&operator=(Log const &inst);
 
-    void        *operator new(std::size_t);
-    void        *operator new[](std::size_t);
+    Log     &operator=(const Log &inst);
 
-    void        operator delete(void *);
-    void        operator delete[](void *);
+    void    *operator new(std::size_t);
+    void    *operator new[](std::size_t);
 
-    Log	&start(std::string const &level, std::string const &file_name);
-
-public:
-    std::string             	file_name;
-    static const std::string	levels[];
+    void    operator delete(void *);
+    void    operator delete[](void *);
 
 public:
-    static Log	&getInst(void)
+    const std::string           file_name;
+    static const std::string    levels[];
+
+public:
+    static Log	&getInst(const std::string &file_name = "webserv.log")
     {
-        static Log  log;
-        return (log);
-    }
-    static Log	&init(
-        std::string const &level, std::string const &file_name)
-    {
-        static Log	&log = Log::getInst().start(level, file_name);
+        static Log  log(file_name);
         return (log);
     }
 
-    void    setLevel(std::string const &level);
+    void    setLevel(const std::string &level);
     int     stop(void);
-    void    write(int const level, const char *fmt, ...);
+    void    write(const int level, const char *fmt, ...);
     void    do_serialize(void);
 };
 }

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 12:23:58 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/14 16:09:36 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:28:02 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void    *serializer(void *this_)
 
     log = reinterpret_cast<logger::Log *>(this_);
     log->do_serialize();
-    exit(EXIT_SUCCESS);
+    return (EXIT_SUCCESS);
 }
