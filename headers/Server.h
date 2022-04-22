@@ -10,7 +10,6 @@
 #include <errno.h>
 
 #include "logger/Log.h"
-#include "VirtualServer.h"
 
 #define DEF_PORT "8080"
 #define LISTEN_BACKLOG 10
