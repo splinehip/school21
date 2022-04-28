@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:36:42 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/21 16:34:52 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/28 16:20:54 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ logger::Log::Log(const std::string &file_name_)
     : file_name(file_name_)
 {
     this->pth_stop = false;
-    this->setLevel("INFO");
+    this->setLevel("ERROR");
     this->file.open(this->file_name.c_str(), std::ios::app);
     if (this->file.is_open() == false)
     {
@@ -43,32 +43,7 @@ logger::Log::~Log(void)
     this->file.close();
 }
 
-void    logger::Log::setLevel(const std::string &level)
-{
-    this->level = 0;
-    while (this->level < LEVELS_CNT)
-    {
-        if (this->levels[this->level] == level)
-        {
-            return ;
-        }
-        this->level++;
-    }
-    std::cerr << "LOGGER: set_level: Invalid level" << std::endl;
-    exit(EXIT_FAILURE);
-}
-
-int     logger::Log::stop(void)
-{
-    register int    ret;
-
-    pthread_mutex_lock(&this->mutex_stop);
-    ret = this->pth_stop && this->que.empty();
-    pthread_mutex_unlock(&this->mutex_stop);
-    return (ret);
-}
-
-void    logger::Log::write(const int level, const char *fmt, ...)
+void    logger::Log::operator()(const int level, const char *fmt, ...)
 {
     va_list     ap;
     int         size;
@@ -99,6 +74,31 @@ void    logger::Log::write(const int level, const char *fmt, ...)
     vsprintf(&msg[msg.size() - size], fmt, ap);
     this->que.push_back(msg);
     va_end(ap);
+}
+
+void    logger::Log::setLevel(const std::string &level)
+{
+    this->level = 0;
+    while (this->level < LEVELS_CNT)
+    {
+        if (this->levels[this->level] == level)
+        {
+            return ;
+        }
+        this->level++;
+    }
+    std::cerr << "LOGGER: set_level: Invalid level" << std::endl;
+    exit(EXIT_FAILURE);
+}
+
+int     logger::Log::stop(void)
+{
+    register int    ret;
+
+    pthread_mutex_lock(&this->mutex_stop);
+    ret = this->pth_stop && this->que.empty();
+    pthread_mutex_unlock(&this->mutex_stop);
+    return (ret);
 }
 
 void    logger::Log::do_serialize(void)

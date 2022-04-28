@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 12:09:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/21 16:33:39 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:09:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,16 @@ public:
     static const std::string    levels[];
 
 public:
-    static Log	&getInst(const std::string &file_name = "webserv.log")
+    static Log	&getInst(const std::string &file_name = "LOGGER")
     {
-        static Log  log(file_name);
+        static Log  log(file_name + ".log");
         return (log);
     }
 
+    void    operator()(const int level, const char *fmt, ...);
+
     void    setLevel(const std::string &level);
     int     stop(void);
-    void    write(const int level, const char *fmt, ...);
     void    do_serialize(void);
 };
 }

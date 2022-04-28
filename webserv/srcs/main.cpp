@@ -4,7 +4,7 @@
 #include "Server.h"
 #include "logger/Log.h"
 
-static std::string sigstr(int signum)
+std::string sigstr(int signum)
 {
     switch (signum)
     {
@@ -19,12 +19,12 @@ static std::string sigstr(int signum)
     }
 }
 
-static void signal_handler(int signum)
+void signal_handler(int signum)
 {
     logger::Log &log = logger::Log::getInst();
 
     std::cout << std::endl;
-    log.write(logger::INFO, "Signal received: %i (%s), do exit.", signum,
+    log(logger::INFO, "Signal received: %i (%s), do exit.", signum,
         sigstr(signum).c_str());
     exit(signum);
 }
@@ -35,15 +35,14 @@ int main(int argc, char **argv)
     signal(SIGABRT, signal_handler);
     signal(SIGTERM, signal_handler);
 
-    logger::Log &log = logger::Log::getInst();
-    log.setLevel("DEBUG");
+    logger::Log &log = logger::Log::getInst(argv[0]);
 
-    if (argc < 2)
+    if (argc > 2)
     {
-        (void)argv;
-        log.write(logger::INFO,
-            "Config file not set. Using default configuration.");
+        log(logger::ERROR,
+            "Invalid arguments numbers. Use: %s path_to_config_file", argv[0]);
+        exit(EXIT_FAILURE);
     }
-    Server webserv;
-    webserv.Run();
+    Server  srv(argv);
+    return (0);
 }

@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
+/*   Config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/27 17:25:12 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/28 11:31:19 by cflorind         ###   ########.fr       */
+/*   Created: 2022/04/27 17:51:35 by cflorind          #+#    #+#             */
+/*   Updated: 2022/04/28 11:30:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.h"
+#pragma once
 
-Server::Server(char **argv)
-    : cfg(cfg::Config(argv))
+#include "logger/Log.h"
+
+namespace cfg
 {
-}
+class Config
+{
+private:
+    const std::string   cfg_file;
 
-Server::~Server(){};
+public:
+    Config(char **argv);
+    ~Config(void);
+
+    void    setDefCfg(void){};
+    void    doParse(void);
+};
+}
