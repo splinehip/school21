@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Config.h                                           :+:      :+:    :+:   */
+/*   serverUtils.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/27 17:51:35 by cflorind          #+#    #+#             */
-/*   Updated: 2022/04/28 11:30:37 by cflorind         ###   ########.fr       */
+/*   Created: 2022/05/05 15:39:41 by cflorind          #+#    #+#             */
+/*   Updated: 2022/05/05 16:04:15 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "Server.h"
 
-#include "logger/Log.h"
-
-namespace cfg
+in_addr_t    aton(std::string cp)
 {
-class Config
+    struct  in_addr addr;
+
+    logger::Log &log = logger::Log::getInst();
+    if (inet_aton(cp.c_str(), &addr))
+        return (addr.s_addr);
+    log(logger::ERROR, "Invalid address convertion, %s to in_addr.", cp);
+    return (0);
+}
+
+char    *ntoa(in_addr_t in_addr)
 {
-private:
-    const std::string   cfg_file;
+    struct  in_addr addr;
 
-public:
-    Config(char **argv);
-    ~Config(void);
-
-    void    setDefCfg(void){};
-    void    doParse(void);
-};
+    addr.s_addr = in_addr;
+    return (inet_ntoa(addr));
 }
