@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:25:12 by cflorind          #+#    #+#             */
-/*   Updated: 2022/05/05 16:32:16 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:37:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    Server::parseCfg(void)
         << this->srvs[aton("127.0.0.1")][80]["localhost"]["listen_addr"]
         << std::endl;
     std::cout << ntoa(this->srvs.find(aton("127.0.0.1"))->first) << std::endl;
-    std::map<in_addr_t, t_listens>::iterator lsrvs = this->srvs.find(aton("127.0.0.1"));
+    t_srvs::iterator lsrvs = this->srvs.find(aton("127.0.0.1"));
     if (lsrvs != this->srvs.end())
         std::cout << ntoa(lsrvs->first) << std::endl;
 }

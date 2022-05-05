@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:25:38 by cflorind          #+#    #+#             */
-/*   Updated: 2022/05/05 16:24:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:44:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@
 
 class Server
 {
-typedef std::map<std::string, std::string>  t_srv_cfg;
-typedef std::map<std::string, t_srv_cfg>    t_srvs_cfg;
-typedef std::map<int, t_srvs_cfg>           t_listens;
-typedef std::map<in_addr_t, t_listens>      t_srvs;
+typedef std::map<std::string, std::string>  t_mime;
+
+typedef std::map<std::string, std::string>  t_cfg;
+typedef std::map<std::string, t_cfg>        t_name_srvs;
+typedef std::map<int, t_name_srvs>          t_listen_srvs;
+typedef std::map<in_addr_t, t_listen_srvs>  t_srvs;
 
 private:
-    std::string                        cfg_file;
-    std::map<std::string, std::string> mime_types;
-    t_srvs                             srvs;
+    std::string cfg_file;
+    t_mime      mime_types;
+    t_srvs      srvs;
 
 private:
     void    parseCfg(void);
