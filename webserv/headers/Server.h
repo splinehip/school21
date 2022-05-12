@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 17:25:38 by cflorind          #+#    #+#             */
-/*   Updated: 2022/05/11 23:25:23 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:27:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@
 class Server
 {
 struct Cfg;
-typedef std::map<std::string, std::string>  t_cfg;
-typedef std::map<std::string, t_cfg *>      t_name_srvs;
-typedef std::map<int, struct Cfg>           t_listen_ports;
-typedef std::map<in_addr_t, t_listen_ports> t_srvs;
+typedef std::map<std::string, std::string>      t_cfg;
+typedef std::map<std::string, t_cfg>            t_srv_loc_cfg;
+typedef std::map<std::string, t_srv_loc_cfg>    t_cfgs;
+typedef std::map<std::string, t_cfgs *>         t_name_srvs;
+typedef std::map<int, struct Cfg>               t_listen_ports;
+typedef std::map<in_addr_t, t_listen_ports>     t_srvs;
 
-typedef std::map<std::string, std::string>  t_mime;
+typedef std::map<std::string, std::string>      t_mime;
 
 private:
     std::string cfg_file;
@@ -49,8 +51,8 @@ struct Server::Cfg
     t_name_srvs name_srvs;
 
     ~Cfg(void);
-    t_cfg   &operator[](const std::string &key);
-    t_cfg   &addAlterName(const std::string &name_server,
+    t_cfgs   &operator[](const std::string &key);
+    t_cfgs   &addAlterName(const std::string &name_server,
                 const std::string &alter_name_server);
 };
 
