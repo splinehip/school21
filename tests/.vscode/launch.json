@@ -177,6 +177,27 @@
 			],
 			"preLaunchTask": "C/C++: gcc сборка miniRT",
 			"miDebuggerPath": "/usr/bin/gdb"
+		},
+		{
+			"name": "webserv",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/../webserv/webserv",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Включить автоматическое форматирование для gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			],
+			"preLaunchTask": "C/C++: gcc сборка webserv",
+			"miDebuggerPath": "/usr/bin/gdb"
 		}
 	]
 }

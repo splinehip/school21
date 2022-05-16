@@ -138,6 +138,23 @@
             },
             "detail": "C/C++: gcc сборка miniTR"
         },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc сборка webserv",
+            "options": {
+                "cwd": "${workspaceFolder}/../webserv"
+            },
+            "command": "make",
+            "args": ["all"],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "C/C++: gcc сборка webserv"
+        },
     ],
     "version": "2.0.0"
 }
