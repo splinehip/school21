@@ -6,13 +6,13 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:39:41 by cflorind          #+#    #+#             */
-/*   Updated: 2022/05/05 16:04:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/05/17 12:08:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.h"
 
-in_addr_t    aton(std::string cp)
+in_addr_t    srv::aton(std::string cp)
 {
     struct  in_addr addr;
 
@@ -23,7 +23,7 @@ in_addr_t    aton(std::string cp)
     return (0);
 }
 
-char    *ntoa(in_addr_t in_addr)
+char    *srv::ntoa(in_addr_t in_addr)
 {
     struct  in_addr addr;
 
