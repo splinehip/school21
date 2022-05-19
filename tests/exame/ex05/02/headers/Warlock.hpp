@@ -12,13 +12,15 @@ private:
     std::string title;
     SpellBook   book;
 
-public:
-    Warlock();
-    Warlock(const std::string &name, const std::string &titel);
+private:
+    Warlock(void);
     Warlock(const Warlock &inst);
-    ~Warlock(void);
 
     Warlock &operator=(const Warlock &inst);
+
+public:
+    Warlock(const std::string &name, const std::string &titel);
+    ~Warlock(void);
 
     const std::string   &getName(void) const;
     const std::string   &getTitle(void) const;
