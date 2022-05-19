@@ -1,0 +1,10 @@
+# MAIN
+MAIN	= main.cpp Warlock.cpp ASpell.cpp ATarget.cpp Fwoosh.cpp Dummy.cpp\
+		  Fireball.cpp Polymorph.cpp SpellBook.cpp TargetGenerator.cpp\
+		  BrickWall.cpp
+# end MAIN
+
+# SRCS
+SRCS		=\
+${MAIN}
+# end SRCS

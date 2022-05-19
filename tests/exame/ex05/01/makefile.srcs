@@ -1,0 +1,8 @@
+# MAIN
+MAIN	= main.cpp Warlock.cpp ASpell.cpp ATarget.cpp Fwoosh.cpp Dummy.cpp
+# end MAIN
+
+# SRCS
+SRCS		=\
+${MAIN}
+# end SRCS

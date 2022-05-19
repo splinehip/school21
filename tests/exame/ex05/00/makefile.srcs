@@ -1,0 +1,8 @@
+# MAIN
+MAIN	= main.cpp Warlock.cpp
+# end MAIN
+
+# SRCS
+SRCS		=\
+${MAIN}
+# end SRCS
