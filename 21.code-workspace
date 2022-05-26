@@ -36,6 +36,9 @@
       {
         "path": "webserv"
       },
+      {
+        "path": "ft_containers"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
