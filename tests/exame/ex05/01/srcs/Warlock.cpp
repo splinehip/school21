@@ -12,12 +12,12 @@ Warlock::~Warlock(void)
     std::cout << this->getName() << ": My job here is done!" << std::endl;
 }
 
-const std::string   &Warlock::getName(void) const
+const std::string   &Warlock::getName(void)
 {
     return (this->name);
 }
 
-const std::string   &Warlock::getTitle(void) const
+const std::string   &Warlock::getTitle(void)
 {
     return (this->title);
 }
@@ -27,7 +27,7 @@ void                Warlock::setTitle(const std::string &title)
     this->title = title;
 }
 
-void                Warlock::introduce() const
+void                Warlock::introduce()
 {
     std::cout << this->name << ": I am " << this->name << ", " << this->title
         << std::endl;
@@ -45,10 +45,10 @@ void    Warlock::forgetSpell(const std::string &name)
     }
 }
 
-void    Warlock::launchSpell(const std::string &name, const ATarget &target)
+void    Warlock::launchSpell(const std::string &name, ATarget &target)
 {
     if (this->m_spells.find(name) != this->m_spells.end())
     {
-        this->m_spells.find(name)->second->launch(target);
+        this->m_spells[name]->launch(target);
     }
 }

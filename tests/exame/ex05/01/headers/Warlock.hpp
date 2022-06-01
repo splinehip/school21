@@ -22,12 +22,11 @@ public:
     Warlock(const std::string &name, const std::string &titel);
     ~Warlock(void);
 
-    const std::string   &getName(void) const;
-    const std::string   &getTitle(void) const;
+    const std::string   &getName(void);
+    const std::string   &getTitle(void);
     void                setTitle(const std::string &title);
-    void                introduce(void) const;
+    void                introduce(void);
     void                learnSpell(ASpell *spell);
     void                forgetSpell(const std::string &name);
-    void                launchSpell(const std::string &name,
-                                        const ATarget &target);
+    void                launchSpell(const std::string &name, ATarget &target);
 };
