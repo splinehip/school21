@@ -1,5 +1,5 @@
 # MAIN
-MAIN	= main.cpp
+MAIN	= mymain.cpp
 # end MAIN
 
 # SRCS
