@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/05 14:48:27 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:21:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ public:
     void        shrink_to_fit(void){if (len == cap) return; realloc(len);}
 
     //Modifiers:
-    template <class InputIterator>
+    template <typename InputIterator>
     void    assign(InputIterator first, InputIterator last);
     void    assign(const size_type n, const value_type &val);
     void    push_back(const value_type &value);
@@ -105,6 +105,12 @@ bool    operator<(const vector<T, Allocator> f, const vector<T, Allocator> s);
 
 template<typename T, typename Allocator>
 bool    operator<=(const vector<T, Allocator> f, const vector<T, Allocator> s);
+
+template<typename T, typename Allocator>
+bool    operator>(const vector<T, Allocator> f, const vector<T, Allocator> s);
+
+template<typename T, typename Allocator>
+bool    operator>=(const vector<T, Allocator> f, const vector<T, Allocator> s);
 
 //std::swap:
 template<typename T, typename Allocator>

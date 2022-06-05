@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/05 14:49:59 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/05 15:23:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void    ft::vector<T, Allocator>::resize(
 
 //Modifiers:
 template<typename T, typename Allocator>
-template <class InputIterator>
+template <typename InputIterator>
 void    ft::vector<T, Allocator>::assign(
     InputIterator first, InputIterator last)
 {
@@ -204,4 +204,18 @@ bool    ft::operator<=(
     const vector<T, Allocator> f, const vector<T, Allocator> s)
 {
     return !(s < f);
+}
+
+template<typename T, typename Allocator>
+bool    ft::operator>(
+    const vector<T, Allocator> f, const vector<T, Allocator> s)
+{
+    return s < f;
+}
+
+template<typename T, typename Allocator>
+bool    ft::operator>=(
+    const vector<T, Allocator> f, const vector<T, Allocator> s)
+{
+    return !(s > f);
 }
