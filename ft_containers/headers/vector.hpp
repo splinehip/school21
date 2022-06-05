@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/02 18:18:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:48:27 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <cstddef>
 #include <memory>
 #include <stdexcept>
+
+#include "utils.hpp"
 
 namespace ft
 {
@@ -49,20 +51,21 @@ public:
 
     vector          &operator=(const vector &inst);
 
+    //Iterators:
+    //iterator   begin(void){return arr;}
+    //iterator   end(void){return arr + len;}
+    //rbegin Return reverse iterator to reverse beginning (public member function )
+    //rend Return reverse iterator to reverse end (public member function )
+    //const_iterator cbegin(void) const {return arr;}
+    //const_iterator cend(void) const {return arr + len;}
+    //crbegin Return const_reverse_iterator to reverse beginning (public member function )
+    //crend Return const_reverse_iterator to reverse end (public member function )
+
     //Element access:
     reference       operator[](const size_type i){return arr[i];}
     const_reference operator[](const size_type i) const {return arr[i];}
-
-    reference       at(size_type n){if (n < len) return arr[n];
-                        char err[128];
-                        snprintf(err, 128, OOR_MSG.c_str(), n, len);
-                        throw std::out_of_range(err);}
-
-    const_reference at(size_type n) const {if (n < len) return arr[n];
-                        char err[128];
-                        snprintf(err, 128, OOR_MSG.c_str(), n, len);
-                        throw std::out_of_range(err);}
-
+    reference       at(const size_type n);
+    const_reference at(const size_type n) const {return at(n);}
     reference       front(void){return arr;}
     const_reference front(void) const {return arr;}
     reference       back(void){return arr[len - 1];}
@@ -71,28 +74,41 @@ public:
     //Capacity:
     size_type   size(void) const {return len;}
     size_type   max_size(void) const {return alloc.max_size();}
-    void        resize(size_type n, value_type val = value_type());
+    void        resize(const size_type n, const value_type val = value_type());
     size_type   capacity(void) const {return cap;}
     bool        empty(void) const {return len == false;}
-    void        reserve(size_type n);
-    void        shrink_to_fit(void);
+    void        reserve(const size_type n){if (n <= cap) return; realloc(n);}
+    void        shrink_to_fit(void){if (len == cap) return; realloc(len);}
 
     //Modifiers:
     template <class InputIterator>
     void    assign(InputIterator first, InputIterator last);
-    void    assign(size_type n, const value_type &val);
+    void    assign(const size_type n, const value_type &val);
     void    push_back(const value_type &value);
     void    pop_back(void){if (len) alloc.destroy(&arr[--len]);}
     //insert Insert elements (public member function )
     //erase Erase elements (public member function )
 
-    void    swap(vector& x){if (this == &x) return ;
-                value_type  *xarr = x.arr; size_type   xlen = x.len;
-                size_type   xcap = x.cap; x.arr = arr; x.len = len; x.cap = cap;
-                arr = xarr; len = xlen; cap = xcap;}
-
+    void    swap(vector &x);
     void    clear(void);
 };
+
+//Compaire operators:
+template<typename T, typename Allocator>
+bool    operator==(const vector<T, Allocator> f, const vector<T, Allocator> s);
+
+template<typename T, typename Allocator>
+bool    operator!=(const vector<T, Allocator> f, const vector<T, Allocator> s);
+
+template<typename T, typename Allocator>
+bool    operator<(const vector<T, Allocator> f, const vector<T, Allocator> s);
+
+template<typename T, typename Allocator>
+bool    operator<=(const vector<T, Allocator> f, const vector<T, Allocator> s);
+
+//std::swap:
+template<typename T, typename Allocator>
+void    swap(vector<T, Allocator> l, vector<T, Allocator> r){l.swap(r);}
 
 #include "vector.tpp"
 }

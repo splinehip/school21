@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/02 15:28:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/05 14:49:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ void    ft::vector<T, Allocator>::realloc(
     arr = tmp;
 }
 
+//Element acsses:
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::reference
+    ft::vector<T, Allocator>::at(const size_type n)
+{
+    if (n < len)
+        return arr[n];
+    char err[128];
+    snprintf(err, 128, OOR_MSG.c_str(), n, len);
+    throw std::out_of_range(err);
+}
+
 template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::destroy(void)
 {
@@ -75,9 +87,8 @@ void    ft::vector<T, Allocator>::destroy(void)
 
 //Capacity:
 template<typename T, typename Allocator>
-    void    ft::vector<T, Allocator>::resize(
-        typename ft::vector<T, Allocator>::size_type n,
-        typename ft::vector<T, Allocator>::value_type val)
+void    ft::vector<T, Allocator>::resize(
+    const size_type n, const value_type val)
 {
     if (n == len)
         return ;
@@ -93,22 +104,6 @@ template<typename T, typename Allocator>
     }
 }
 
-template<typename T, typename Allocator>
-void    ft::vector<T, Allocator>::reserve(ft::vector<T, Allocator>::size_type n)
-{
-    if (n <= cap)
-        return ;
-    realloc(n);
-}
-
-template<typename T, typename Allocator>
-void    ft::vector<T, Allocator>::shrink_to_fit(void)
-{
-    if (len == cap)
-        return ;
-    realloc(len);
-}
-
 //Modifiers:
 template<typename T, typename Allocator>
 template <class InputIterator>
@@ -122,8 +117,7 @@ void    ft::vector<T, Allocator>::assign(
 
 template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::assign(
-    ft::vector<T, Allocator>::size_type n,
-    const ft::vector<T, Allocator>::value_type &val)
+    const size_type n, const value_type &val)
 {
     destroy();
     while (len != n)
@@ -131,8 +125,7 @@ void    ft::vector<T, Allocator>::assign(
 }
 
 template<typename T, typename Allocator>
-void    ft::vector<T, Allocator>::push_back(
-    const ft::vector<T, Allocator>::value_type &value)
+void    ft::vector<T, Allocator>::push_back(const value_type &value)
 {
     if (arr)
     {
@@ -156,4 +149,59 @@ void    ft::vector<T, Allocator>::clear()
     arr = NULL;
 }
 
+template<typename T, typename Allocator>
+void    ft::vector<T, Allocator>::swap(vector<T, Allocator> &x)
+{
+    if (this == &x)
+        return ;
 
+    value_type  *xarr = x.arr;
+    size_type   xlen = x.len;
+    size_type   xcap = x.cap;
+
+    x.arr = arr;
+    x.len = len;
+    x.cap = cap;
+
+    arr = xarr;
+    len = xlen;
+    cap = xcap;
+}
+
+//Compaire operators:
+template<typename T, typename Allocator>
+bool    ft::operator==(
+    const vector<T, Allocator> f, const vector<T, Allocator> s)
+{
+    if (f.size() != s.size())
+        return false;
+    size_t i = 0;
+    while (i < f.size())
+    {
+        if (f[i] != s[i])
+            return false;
+        i++;
+    }
+    return true;
+}
+
+template<typename T, typename Allocator>
+bool    ft::operator!=(
+    const vector<T, Allocator> f, const vector<T, Allocator> s)
+{
+    return !(f == s);
+}
+
+template<typename T, typename Allocator>
+bool    ft::operator<(
+    const vector<T, Allocator> f, const vector<T, Allocator> s)
+{
+    return ft::lexicographical_compare(f.begin(), f.end(), s.begin(), s.end());
+}
+
+template<typename T, typename Allocator>
+bool    ft::operator<=(
+    const vector<T, Allocator> f, const vector<T, Allocator> s)
+{
+    return !(s < f);
+}

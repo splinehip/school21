@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <map>
 #include <stdio.h>
 #include <vector.hpp>
@@ -100,9 +101,9 @@ int main(void)
   std::cout << "bar contains:";
   for (unsigned i=0; i<bar.size(); i++)
     std::cout << ' ' << bar[i];
-  std::cout << "\nfoo.swap(bar)\n";
+  std::cout << "\nswap(foo, bar)\n";
 
-  foo.swap(bar);
+  swap(foo, bar);
 
   std::cout << "foo contains:";
   for (unsigned i=0; i<foo.size(); i++)
@@ -113,6 +114,15 @@ int main(void)
   for (unsigned i=0; i<bar.size(); i++)
     std::cout << ' ' << bar[i];
   std::cout << '\n';
-    my.at(100);
+    my.at(1);
+    const Mymain &ref = my.at(1);
+    std::cout << "const Mymain &ref: "; ref.printName();
+    std::cout << "foo == bar = " << std::boolalpha << (foo == bar) << std::endl;
+    std::cout << "foo != bar = " << std::boolalpha << (foo != bar) << std::endl;
+    foo = bar;
+    std::cout << "foo = bar: foo == bar = "
+        << std::boolalpha << (foo == bar) << std::endl;
+    std::cout << "foo != bar = " << std::boolalpha << (foo != bar) << std::endl;
+    //std::cout << "foo != bar = " << std::boolalpha << (foo < bar) << std::endl;
     return 0;
 }
