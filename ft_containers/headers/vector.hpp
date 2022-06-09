@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/05 15:21:20 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:22:26 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdexcept>
 
 #include "utils.hpp"
+#include "iterators.hpp"
 
 namespace ft
 {
@@ -40,6 +41,7 @@ private:
     allocator_type  alloc;
 
 private:
+    //Utils:
     void    realloc(size_type newcap);
     void    destroy(void);
 
@@ -52,8 +54,9 @@ public:
     vector          &operator=(const vector &inst);
 
     //Iterators:
-    //iterator   begin(void){return arr;}
-    //iterator   end(void){return arr + len;}
+    struct iterator;
+    iterator   begin(void){return iterator(arr);}
+    iterator   end(void){return iterator(arr + len);}
     //rbegin Return reverse iterator to reverse beginning (public member function )
     //rend Return reverse iterator to reverse end (public member function )
     //const_iterator cbegin(void) const {return arr;}
@@ -91,6 +94,7 @@ public:
 
     void    swap(vector &x);
     void    clear(void);
+
 };
 
 //Compaire operators:
@@ -114,7 +118,14 @@ bool    operator>=(const vector<T, Allocator> f, const vector<T, Allocator> s);
 
 //std::swap:
 template<typename T, typename Allocator>
-void    swap(vector<T, Allocator> l, vector<T, Allocator> r){l.swap(r);}
+void    swap(vector<T, Allocator> f, vector<T, Allocator> s){f.swap(s);}
+
+//Iterators common overload operator:
+template<typename Iter>
+Iter   operator+(const typename Iter::difference_type n, const Iter &iter)
+{
+    return iter + n;
+}
 
 #include "vector.tpp"
 }

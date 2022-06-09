@@ -5,6 +5,8 @@
 #include <vector.hpp>
 #include <vector>
 
+#include "iterators.hpp"
+
 class Mymain
 {
 private:
@@ -124,5 +126,33 @@ int main(void)
         << std::boolalpha << (foo == bar) << std::endl;
     std::cout << "foo != bar = " << std::boolalpha << (foo != bar) << std::endl;
     //std::cout << "foo != bar = " << std::boolalpha << (foo < bar) << std::endl;
+    std::vector<int> vv(10, 100);
+    std::vector<int>::iterator it = vv.begin();
+    ft::advance(it, 5);
+    it[1] = 34;
+    std::cout << "DDD: " << *((1 + it).base()) << " dis: " << ft::distance(it, vv.end()) << std::endl;
+    std::vector<Mymain> cc(10, Mymain("KRAYA"));
+    std::vector<Mymain>::iterator itb = cc.begin();
+    itb->printName();
+
+    ft::vector<int> bb(10, 100);
+    ft::vector<int>::iterator itt;
+    itt = bb.begin();
+    bb[1] = 141414;
+    ft::advance(itt, 1);
+    ft::vector<int>::iterator itt2(itt);
+    *itt2 = 500;
+    std::cout << "*itt " << *itt << " dis: " << ft::distance(itt, bb.end()) << std::endl;
+    std::cout << "*itt2++ " << *itt2++ << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
+    std::cout << "*itt2 " << *itt2 << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
+    bb[3] = 144;
+    bb[4] = 45;
+    std::cout << "++itt2 " << *(++itt2) << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
+    std::cout << "itt2 " << itt2[0] << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
+    std::cout << "*(1 + itt2) " << *(1 + itt2) << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
+
+    ft::vector<Mymain> ss(10, Mymain("KRAYA"));
+    ft::vector<Mymain>::iterator its = ss.begin();
+    its->printName();
     return 0;
 }

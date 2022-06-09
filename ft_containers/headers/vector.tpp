@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/05 15:23:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:25:14 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,3 +219,51 @@ bool    ft::operator>=(
 {
     return !(s > f);
 }
+
+template<typename T, typename Allocator>
+struct ft::vector<T, Allocator>::iterator
+    : public iterator_base<std::random_access_iterator_tag, value_type>
+{
+typedef typename iterator::iterator_base::difference_type   difference_type;
+
+private:
+    value_type  *item;
+
+public:
+    iterator(void){item = NULL;}
+    iterator(value_type *_item){item = _item;}
+    iterator(const iterator &inst){*this = inst;}
+    ~iterator(void){}
+
+    iterator    &operator=(const iterator &inst)
+    {
+        if (this == &inst)
+            return *this;
+        item = inst.item;
+        return *this;
+    }
+
+    iterator        operator+(const difference_type n) const
+        {return iterator(item + n);}
+    iterator        operator-(const difference_type n) const
+        {return iterator(item - n);}
+    difference_type operator-(const iterator &rhs) const
+        {return item - rhs.item;}
+
+    iterator        &operator+=(const difference_type n)
+        {item += n; return *this;}
+    iterator        &operator-=(const difference_type n)
+        {item -= n; return *this;}
+
+    iterator        &operator++(void){++item; return *this;}
+    iterator        operator++(int){return iterator(item++);}
+    iterator        &operator--(void){--item; return *this;}
+    iterator        operator--(int){return iterator(item--);}
+
+    value_type      &operator*() const {return *item;}
+    value_type      *operator->(void) const {return item;}
+    value_type      &operator[](const difference_type n) const
+        {return item[n];}
+    value_type      *base(void) const {return item;}
+
+};
