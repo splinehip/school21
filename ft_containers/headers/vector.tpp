@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/09 19:25:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/14 17:55:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ void    ft::vector<T, Allocator>::resize(
 //Modifiers:
 template<typename T, typename Allocator>
 template <typename InputIterator>
-void    ft::vector<T, Allocator>::assign(
-    InputIterator first, InputIterator last)
+typename ft::IsBiDirIter<InputIterator>::type
+ft::vector<T, Allocator>::assign(InputIterator first, InputIterator last)
 {
     destroy();
     while (first != last)
@@ -221,49 +221,54 @@ bool    ft::operator>=(
 }
 
 template<typename T, typename Allocator>
-struct ft::vector<T, Allocator>::iterator
-    : public iterator_base<std::random_access_iterator_tag, value_type>
+template<bool IsConst>
+struct ft::vector<T, Allocator>::common_iterator
+    : public iterator_base<std::random_access_iterator_tag,
+            typename conditional<IsConst, value_type, const value_type>::type>
 {
-typedef typename iterator::iterator_base::difference_type   difference_type;
+typedef typename common_iterator::iterator_base::difference_type    diff_type;
+
+typedef typename conditional_t<IsConst, diff_type,
+    const diff_type>::type  diff_t;
+
+typedef typename conditional_t<IsConst, value_type,
+    const value_type>::type value_t;
+
+typedef typename conditional_t<IsConst, iterator,
+    const_iterator>::type   iter_t;
 
 private:
-    value_type  *item;
+    value_t  *item;
 
 public:
-    iterator(void){item = NULL;}
-    iterator(value_type *_item){item = _item;}
-    iterator(const iterator &inst){*this = inst;}
-    ~iterator(void){}
+    common_iterator(void){item = NULL;}
+    common_iterator(value_t *_item){item = _item;}
+    common_iterator(const iter_t &inst){*this = inst;}
+    ~common_iterator(void){}
 
-    iterator    &operator=(const iterator &inst)
+    iter_t    &operator=(const iterator &inst)
     {
-        if (this == &inst)
+        if (item == inst.base())
             return *this;
-        item = inst.item;
+        item = inst.base();
         return *this;
     }
 
-    iterator        operator+(const difference_type n) const
-        {return iterator(item + n);}
-    iterator        operator-(const difference_type n) const
-        {return iterator(item - n);}
-    difference_type operator-(const iterator &rhs) const
-        {return item - rhs.item;}
+    iter_t  operator+(diff_t n) const {return iter_t(item + n);}
+    iter_t  operator-(diff_t n) const {return iter_t(item - n);}
+    diff_t  operator-(iter_t &rhs) const {return item - rhs.item;}
 
-    iterator        &operator+=(const difference_type n)
-        {item += n; return *this;}
-    iterator        &operator-=(const difference_type n)
-        {item -= n; return *this;}
+    iter_t  &operator+=(diff_t n){item += n; return *this;}
+    iter_t  &operator-=(diff_t n) {item -= n; return *this;}
 
-    iterator        &operator++(void){++item; return *this;}
-    iterator        operator++(int){return iterator(item++);}
-    iterator        &operator--(void){--item; return *this;}
-    iterator        operator--(int){return iterator(item--);}
+    iter_t  &operator++(void){++item; return *this;}
+    iter_t  operator++(int){return iterator(item++);}
+    iter_t  &operator--(void){--item; return *this;}
+    iter_t  operator--(int){return iterator(item--);}
 
-    value_type      &operator*() const {return *item;}
-    value_type      *operator->(void) const {return item;}
-    value_type      &operator[](const difference_type n) const
-        {return item[n];}
-    value_type      *base(void) const {return item;}
+    value_t &operator*(void) const {return *item;}
+    value_t *operator->(void) const {return item;}
+    value_t &operator[](diff_t n) const {return item[n];}
+    value_t *base(void) const {return item;}
 
 };

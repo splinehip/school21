@@ -57,6 +57,7 @@ iterator_category(const Iterator&)
     return category();
 }
 
+//Distance:
 template<typename InputIterator>
 typename iterator_traits<InputIterator>::difference_type
 distance_impl(InputIterator first, InputIterator last, std::input_iterator_tag)
@@ -83,6 +84,7 @@ distance(InputIterator first, InputIterator last)
     return distance_impl(first, last, iterator_category(first));
 }
 
+//Advance:
 template<typename InputIterator, typename Distance>
 void advance_impl(InputIterator &iter, Distance d, std::input_iterator_tag)
 {
@@ -112,6 +114,71 @@ template<typename InputIterator, typename Distance>
 void advance(InputIterator &iter, Distance d)
 {
     advance_impl(iter, d, iterator_category(iter));
+}
+
+//Iterators common operators overload:
+template<typename IteratorF, typename IteratorS>
+bool    operator_eq_impl(const IteratorF f, const IteratorS s,
+    std::random_access_iterator_tag, std::random_access_iterator_tag)
+{
+    return f.base() == s.base();
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator_less_impl(const IteratorF f, const IteratorS s,
+    std::random_access_iterator_tag, std::random_access_iterator_tag)
+{
+    return f.base() < s.base();
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator_less_eq_impl(const IteratorF f, const IteratorS s,
+    std::random_access_iterator_tag, std::random_access_iterator_tag)
+{
+    return f.base() <= s.base();
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator==(const IteratorF f, const IteratorS s)
+{
+    return operator_eq_impl(f, s, iterator_category(f), iterator_category(s));
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator!=(const IteratorF f, const IteratorS s)
+{
+    return !operator_eq_impl(f, s, iterator_category(f), iterator_category(s));
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator<(const IteratorF f, const IteratorS s)
+{
+    return operator_less_impl(f, s, iterator_category(f), iterator_category(s));
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator>(const IteratorF f, const IteratorS s)
+{
+    return operator_less_impl(s, f, iterator_category(f), iterator_category(s));
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator<=(const IteratorF f, const IteratorS s)
+{
+    return operator_less_eq_impl(f, s, iterator_category(f), iterator_category(s));
+}
+
+template<typename IteratorF, typename IteratorS>
+bool    operator>=(const IteratorF f, const IteratorS s)
+{
+    return operator_less_eq_impl(s, f, iterator_category(f), iterator_category(s));
+}
+
+template<typename Iterator>
+Iterator   operator+(
+    const typename Iterator::difference_type n, const Iterator &iter)
+{
+    return iter + n;
 }
 
 }

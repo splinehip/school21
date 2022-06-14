@@ -14,6 +14,7 @@ private:
 public:
     Mymain(): name(""){}
     Mymain(const std::string &_name): name(_name){}
+    const Mymain& operator=(const Mymain&)const{return *this;}
     ~Mymain(){};
     void printName() const {std::cout << name << std::endl;}
 };
@@ -76,7 +77,7 @@ int main(void)
     stdmy.push_back(Mymain("One"));
     stdmy.push_back(Mymain("Two"));
     my.assign(stdmy.begin(), stdmy.end());
-    std::cout << "my.size: " << my.size() << " cap: " << my.capacity() << std::endl;
+    std::cout << "IterAssign: " << "my.size: " << my.size() << " cap: " << my.capacity() << std::endl;
     for (size_t i = 0; i < my.size(); i++)
     {
         my[i].printName();
@@ -137,6 +138,7 @@ int main(void)
 
     ft::vector<int> bb(10, 100);
     ft::vector<int>::iterator itt;
+    ft::vector<int>::const_iterator ittc;
     itt = bb.begin();
     bb[1] = 141414;
     ft::advance(itt, 1);
@@ -152,7 +154,34 @@ int main(void)
     std::cout << "*(1 + itt2) " << *(1 + itt2) << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
 
     ft::vector<Mymain> ss(10, Mymain("KRAYA"));
-    ft::vector<Mymain>::iterator its = ss.begin();
+    ft::vector<Mymain>::iterator  itsr = ss.begin();
+    ft::vector<Mymain>::const_iterator  itsc;
+    ft::vector<Mymain>::const_iterator its = ss.cbegin();
     its->printName();
+    itsc = itsr;
+    itsc = its;
+    itsc->printName();
+    *its = Mymain("ruururu");
+    its->printName();
+    std::map<int, int> f;
+    f[0] = 1;
+    f[1] = 2;
+    std::map<int, int>::iterator itf;
+
+    std::cout << "itt == itt = " << std::boolalpha << (itt == itt) << std::endl;
+    ittc = itt;
+    //ittc[0] = 10;
+    std::cout << "itt == ittc = " << std::boolalpha << (itt == ittc) << std::endl;
+    std::cout << "itt != itt = " << std::boolalpha << (itt != itt) << std::endl;
+    std::cout << "itt < itt = " << std::boolalpha << (itt < itt) << std::endl;
+    std::cout << "itt <= itt = " << std::boolalpha << (itt <= itt) << std::endl;
+    std::cout << "itt > itt = " << std::boolalpha << (itt > itt) << std::endl;
+    std::cout << "itt >= itt = " << std::boolalpha << (itt >= itt) << std::endl;
+    std::cout << "is_same(itt, itt) = " << std::boolalpha
+      << ft::is_same<ft::vector<int>, ft::vector<int> >::value << std::endl;
+
+    ft::vector<int> vi;
+    vi.assign(bb.begin(), bb.end());
+    std::cout << "vi.size: " << vi.size() << " v[0]: " << vi[0] << std::endl;
     return 0;
 }

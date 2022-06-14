@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/09 19:22:26 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/14 17:44:48 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef typename allocator_type::pointer            pointer;
 typedef typename allocator_type::const_pointer      const_pointer;
 typedef typename allocator_type::size_type          size_type;
 
+template<bool IsConst>
+struct common_iterator;
+
 private:
     value_type     *arr;
     size_type       len;
@@ -46,6 +49,10 @@ private:
     void    destroy(void);
 
 public:
+typedef vector::common_iterator<false> iterator;
+typedef vector::common_iterator<true>  const_iterator;
+
+public:
     vector(void): arr(NULL), len(0), cap(0), alloc(allocator_type()){}
     vector(const size_type n, const value_type &val);
     vector(const vector &inst){*this = inst;}
@@ -54,13 +61,12 @@ public:
     vector          &operator=(const vector &inst);
 
     //Iterators:
-    struct iterator;
-    iterator   begin(void){return iterator(arr);}
-    iterator   end(void){return iterator(arr + len);}
+    iterator   begin(void) const {return iterator(arr);}
+    iterator   end(void) const {return iterator(arr + len);}
     //rbegin Return reverse iterator to reverse beginning (public member function )
     //rend Return reverse iterator to reverse end (public member function )
-    //const_iterator cbegin(void) const {return arr;}
-    //const_iterator cend(void) const {return arr + len;}
+    const_iterator cbegin(void) const {return const_iterator(arr);}
+    const_iterator cend(void) const {return const_iterator(arr + len);}
     //crbegin Return const_reverse_iterator to reverse beginning (public member function )
     //crend Return const_reverse_iterator to reverse end (public member function )
 
@@ -85,7 +91,9 @@ public:
 
     //Modifiers:
     template <typename InputIterator>
-    void    assign(InputIterator first, InputIterator last);
+    typename IsBiDirIter<InputIterator>::type
+    assign(InputIterator first, InputIterator last);
+
     void    assign(const size_type n, const value_type &val);
     void    push_back(const value_type &value);
     void    pop_back(void){if (len) alloc.destroy(&arr[--len]);}
@@ -97,7 +105,7 @@ public:
 
 };
 
-//Compaire operators:
+//Compaire operators overloads:
 template<typename T, typename Allocator>
 bool    operator==(const vector<T, Allocator> f, const vector<T, Allocator> s);
 
@@ -119,13 +127,6 @@ bool    operator>=(const vector<T, Allocator> f, const vector<T, Allocator> s);
 //std::swap:
 template<typename T, typename Allocator>
 void    swap(vector<T, Allocator> f, vector<T, Allocator> s){f.swap(s);}
-
-//Iterators common overload operator:
-template<typename Iter>
-Iter   operator+(const typename Iter::difference_type n, const Iter &iter)
-{
-    return iter + n;
-}
 
 #include "vector.tpp"
 }
