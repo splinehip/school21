@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/14 17:55:13 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/15 18:45:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void    ft::vector<T, Allocator>::resize(
 //Modifiers:
 template<typename T, typename Allocator>
 template <typename InputIterator>
-typename ft::IsBiDirIter<InputIterator>::type
+typename ft::IsForwardIter<InputIterator>::type
 ft::vector<T, Allocator>::assign(InputIterator first, InputIterator last)
 {
     destroy();
@@ -168,10 +168,10 @@ void    ft::vector<T, Allocator>::swap(vector<T, Allocator> &x)
     cap = xcap;
 }
 
-//Compaire operators:
+//Compaire operators for vector:
 template<typename T, typename Allocator>
 bool    ft::operator==(
-    const vector<T, Allocator> f, const vector<T, Allocator> s)
+    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 {
     if (f.size() != s.size())
         return false;
@@ -187,38 +187,96 @@ bool    ft::operator==(
 
 template<typename T, typename Allocator>
 bool    ft::operator!=(
-    const vector<T, Allocator> f, const vector<T, Allocator> s)
+    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 {
     return !(f == s);
 }
 
 template<typename T, typename Allocator>
 bool    ft::operator<(
-    const vector<T, Allocator> f, const vector<T, Allocator> s)
+    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 {
     return ft::lexicographical_compare(f.begin(), f.end(), s.begin(), s.end());
 }
 
 template<typename T, typename Allocator>
 bool    ft::operator<=(
-    const vector<T, Allocator> f, const vector<T, Allocator> s)
+    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 {
     return !(s < f);
 }
 
 template<typename T, typename Allocator>
 bool    ft::operator>(
-    const vector<T, Allocator> f, const vector<T, Allocator> s)
+    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 {
     return s < f;
 }
 
 template<typename T, typename Allocator>
 bool    ft::operator>=(
-    const vector<T, Allocator> f, const vector<T, Allocator> s)
+    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 {
     return !(s > f);
 }
+
+//Iterators:
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::iterator
+ft::vector<T, Allocator>::begin(void) const
+{
+    return iterator(arr);
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::iterator
+ft::vector<T, Allocator>::end(void) const
+{
+    return iterator(arr + len);
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::reverse_iterator
+ft::vector<T, Allocator>::rbegin(void) const
+{
+    return reverse_iterator(iterator(arr + len - 1));
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::reverse_iterator
+ft::vector<T, Allocator>::rend(void) const
+{
+    return reverse_iterator(iterator(arr - len));
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_iterator
+ft::vector<T, Allocator>::cbegin(void) const
+{
+    return const_iterator(arr);
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_iterator
+ft::vector<T, Allocator>::cend(void) const
+{
+    return const_iterator(arr + len);
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_reverse_iterator
+ft::vector<T, Allocator>::crbegin(void) const
+{
+    return const_reverse_iterator(const_iterator(arr + len - 1));
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_reverse_iterator
+ft::vector<T, Allocator>::crend(void) const
+{
+    return const_reverse_iterator(const_iterator(arr - len));
+}
+
 
 template<typename T, typename Allocator>
 template<bool IsConst>
@@ -226,16 +284,19 @@ struct ft::vector<T, Allocator>::common_iterator
     : public iterator_base<std::random_access_iterator_tag,
             typename conditional<IsConst, value_type, const value_type>::type>
 {
-typedef typename common_iterator::iterator_base::difference_type    diff_type;
+typedef
+typename common_iterator::iterator_base::difference_type            diff_type;
 
-typedef typename conditional_t<IsConst, diff_type,
-    const diff_type>::type  diff_t;
+typedef
+typename conditional_t<IsConst, diff_type, const diff_type>::type   diff_t;
 
-typedef typename conditional_t<IsConst, value_type,
-    const value_type>::type value_t;
+typedef
+typename conditional_t<IsConst, value_type, const value_type>::type value_t;
 
-typedef typename conditional_t<IsConst, iterator,
-    const_iterator>::type   iter_t;
+typedef
+typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
+
+typedef iter_t  iterator_type;
 
 private:
     value_t  *item;
@@ -270,5 +331,8 @@ public:
     value_t *operator->(void) const {return item;}
     value_t &operator[](diff_t n) const {return item[n];}
     value_t *base(void) const {return item;}
+
+    void    swap(iter_t &rhs)
+    {value_t *tmp = item; item = rhs.item; rhs.item = tmp;}
 
 };

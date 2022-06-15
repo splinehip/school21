@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/14 17:44:48 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:59:21 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ private:
     void    destroy(void);
 
 public:
-typedef vector::common_iterator<false> iterator;
-typedef vector::common_iterator<true>  const_iterator;
+typedef vector::common_iterator<false>          iterator;
+typedef vector::common_iterator<true>           const_iterator;
+typedef common_reverse_iterator<iterator>       reverse_iterator;
+typedef common_reverse_iterator<const_iterator> const_reverse_iterator;
 
 public:
     vector(void): arr(NULL), len(0), cap(0), alloc(allocator_type()){}
@@ -61,14 +63,14 @@ public:
     vector          &operator=(const vector &inst);
 
     //Iterators:
-    iterator   begin(void) const {return iterator(arr);}
-    iterator   end(void) const {return iterator(arr + len);}
-    //rbegin Return reverse iterator to reverse beginning (public member function )
-    //rend Return reverse iterator to reverse end (public member function )
-    const_iterator cbegin(void) const {return const_iterator(arr);}
-    const_iterator cend(void) const {return const_iterator(arr + len);}
-    //crbegin Return const_reverse_iterator to reverse beginning (public member function )
-    //crend Return const_reverse_iterator to reverse end (public member function )
+    iterator                begin(void) const;
+    iterator                end(void) const;
+    reverse_iterator        rbegin(void) const;
+    reverse_iterator        rend(void) const;
+    const_iterator          cbegin(void) const;
+    const_iterator          cend(void) const;
+    const_reverse_iterator  crbegin(void) const;
+    const_reverse_iterator  crend(void) const;
 
     //Element access:
     reference       operator[](const size_type i){return arr[i];}
@@ -91,7 +93,7 @@ public:
 
     //Modifiers:
     template <typename InputIterator>
-    typename IsBiDirIter<InputIterator>::type
+    typename IsForwardIter<InputIterator>::type
     assign(InputIterator first, InputIterator last);
 
     void    assign(const size_type n, const value_type &val);
@@ -105,28 +107,13 @@ public:
 
 };
 
-//Compaire operators overloads:
-template<typename T, typename Allocator>
-bool    operator==(const vector<T, Allocator> f, const vector<T, Allocator> s);
-
-template<typename T, typename Allocator>
-bool    operator!=(const vector<T, Allocator> f, const vector<T, Allocator> s);
-
-template<typename T, typename Allocator>
-bool    operator<(const vector<T, Allocator> f, const vector<T, Allocator> s);
-
-template<typename T, typename Allocator>
-bool    operator<=(const vector<T, Allocator> f, const vector<T, Allocator> s);
-
-template<typename T, typename Allocator>
-bool    operator>(const vector<T, Allocator> f, const vector<T, Allocator> s);
-
-template<typename T, typename Allocator>
-bool    operator>=(const vector<T, Allocator> f, const vector<T, Allocator> s);
 
 //std::swap:
 template<typename T, typename Allocator>
-void    swap(vector<T, Allocator> f, vector<T, Allocator> s){f.swap(s);}
+void    swap(vector<T, Allocator> &f, vector<T, Allocator> &s){f.swap(s);}
+
+template<typename Iterator>
+void    swap(Iterator &f, Iterator &s){f.swap(s);}
 
 #include "vector.tpp"
 }

@@ -126,7 +126,7 @@ int main(void)
     std::cout << "foo = bar: foo == bar = "
         << std::boolalpha << (foo == bar) << std::endl;
     std::cout << "foo != bar = " << std::boolalpha << (foo != bar) << std::endl;
-    //std::cout << "foo != bar = " << std::boolalpha << (foo < bar) << std::endl;
+    std::cout << "foo != bar = " << std::boolalpha << (foo < bar) << std::endl;
     std::vector<int> vv(10, 100);
     std::vector<int>::iterator it = vv.begin();
     ft::advance(it, 5);
@@ -170,7 +170,10 @@ int main(void)
 
     std::cout << "itt == itt = " << std::boolalpha << (itt == itt) << std::endl;
     ittc = itt;
-    //ittc[0] = 10;
+    /* ft::vector<int>::iterator ittt(itt);
+    ft::vector<int>::iterator ittt2(ittc);
+    ft::vector<int>::const_iterator ittt3(ittc); */
+    itt[0] = ittc[10];
     std::cout << "itt == ittc = " << std::boolalpha << (itt == ittc) << std::endl;
     std::cout << "itt != itt = " << std::boolalpha << (itt != itt) << std::endl;
     std::cout << "itt < itt = " << std::boolalpha << (itt < itt) << std::endl;
@@ -183,5 +186,19 @@ int main(void)
     ft::vector<int> vi;
     vi.assign(bb.begin(), bb.end());
     std::cout << "vi.size: " << vi.size() << " v[0]: " << vi[0] << std::endl;
+    ft::vector<int>::reverse_iterator rit;
+    rit = bb.rbegin();
+    std::cout << "*rit: " << *rit << std::endl;
+    std::cout << "rit[0]: " << rit[0] << std::endl;
+    ft::vector<int>::const_reverse_iterator crit = bb.crbegin();
+
+    ft::vector<Mymain>::const_reverse_iterator crits = ss.crbegin();
+    crits->printName();
+    std::cout << "rit == crit: " << std::boolalpha << (rit == crit) << std::endl;
+    ft::vector<int>::reverse_iterator rit2;
+    swap(itt, itt2);
+    swap(rit, rit2);
+
+    std::cout << "*(1 - itt2) " << *(1 - itt2) << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
     return 0;
 }
