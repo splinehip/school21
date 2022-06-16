@@ -5,6 +5,8 @@
 
 namespace ft
 {
+static const bool setVoid = true;
+
 template <typename InputIterator1, typename InputIterator2>
 bool lexicographical_compare (
     InputIterator1 first1, InputIterator1 last1,
@@ -67,6 +69,15 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
     return true;
 }
 
+template<bool SetVoidType, typename T>
+struct SetType {};
+
+template<typename T>
+struct SetType<true, T> {typedef void type;};
+
+template<typename T>
+struct SetType<false, T> {typedef T type;};
+
 template<bool B, typename NotConst, typename Const>
 struct conditional {typedef NotConst   type;};
 
@@ -82,7 +93,7 @@ template<bool B, typename T = void>
 struct enable_if {};
 
 template<typename T>
-struct enable_if<true, T> { typedef T type; };
+struct enable_if<true, T> {typedef T type;};
 
 
 template<typename T, typename U>
@@ -105,7 +116,7 @@ private:
 typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
 
 public:
-typedef typename enable_if<is_same<IteratorTag, iter_category>::value>
+typedef typename enable_if<is_same<IteratorTag, iter_category>::value, Iterator>
     ::type  type;
 };
 
@@ -118,7 +129,8 @@ typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
 
 public:
 typedef typename enable_if<
-    is_same<std::output_iterator_tag, iter_category>::value>::type  type;
+    is_same<std::output_iterator_tag, iter_category>::value, Iterator>
+        ::type  type;
 };
 
 template<typename Iterator>
@@ -129,7 +141,8 @@ typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
 
 public:
 typedef typename enable_if<
-    is_same<std::random_access_iterator_tag, iter_category>::value>::type  type;
+    is_same<std::random_access_iterator_tag, iter_category>::value, Iterator>
+        ::type  type;
 };
 
 template<typename Iterator>
@@ -141,7 +154,7 @@ typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
 public:
 typedef typename enable_if<
     is_same<std::bidirectional_iterator_tag, iter_category>::value
-    || is_same<std::random_access_iterator_tag, iter_category>::value>
+    || is_same<std::random_access_iterator_tag, iter_category>::value, Iterator>
         ::type  type;
 };
 
@@ -152,14 +165,15 @@ private:
 typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
 
 public:
-typedef typename enable_if<
+typedef
+typename enable_if<
     is_same<std::forward_iterator_tag, iter_category>::value
     || is_same<std::bidirectional_iterator_tag, iter_category>::value
-    || is_same<std::random_access_iterator_tag, iter_category>::value>
+    || is_same<std::random_access_iterator_tag, iter_category>::value, Iterator>
         ::type  type;
 };
 
-template<typename Iterator>
+template<typename Iterator, bool SetVoidType = false>
 struct IsInputIter
 {
 private:
@@ -170,7 +184,8 @@ typedef typename enable_if<
     is_same<std::input_iterator_tag, iter_category>::value
     || is_same<std::forward_iterator_tag, iter_category>::value
     || is_same<std::bidirectional_iterator_tag, iter_category>::value
-    || is_same<std::random_access_iterator_tag, iter_category>::value>
+    || is_same<std::random_access_iterator_tag, iter_category>::value,
+        typename SetType<SetVoidType, Iterator>::type>
         ::type  type;
 };
 

@@ -61,18 +61,19 @@ typedef typename Iterator::difference_type     difference_type;
 typedef typename Iterator::pointer             pointer;
 typedef typename Iterator::reference           reference;
 
-typedef common_reverse_iterator<Iterator>       iter_t;
-typedef iter_t                                  iterator_type;
+typedef common_reverse_iterator<Iterator>      iter_t;
+typedef iter_t                                 iterator_type;
 
 private:
     typedef typename iterator_traits<Iterator>::value_type      value_t;
     typedef typename iterator_traits<Iterator>::difference_type diff_t;
 
-    Iterator iter;
+    typename Iterator::iterator_type iter;
 
 public:
     common_reverse_iterator(void){};
-    common_reverse_iterator(const Iterator &_iter){iter = _iter;}
+    common_reverse_iterator(const typename Iterator::iterator_type &_iter)
+        : iter(_iter){}
     common_reverse_iterator(const iter_t &_iter){*this = _iter;}
     ~common_reverse_iterator(void){};
 
@@ -100,10 +101,10 @@ public:
     value_t *operator->(void) const {return &(*iter);}
     value_t &operator[](diff_t n) const {return iter[n];}
 
-    Iterator    base(void) const {return iter;}
+    typename Iterator::iterator_type    base(void) const {return iter;}
 
-    void    swap(iter_t &rhs)
-    {Iterator &tmp = iter; iter = rhs.iter; rhs.iter = tmp;}
+    void    swap(iter_t &rhs){typename Iterator::iterator_type &tmp = iter;
+                                iter = rhs.iter; rhs.iter = tmp;}
 
 };
 

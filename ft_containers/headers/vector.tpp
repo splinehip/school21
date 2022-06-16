@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/15 18:45:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/16 14:34:28 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void    ft::vector<T, Allocator>::resize(
 //Modifiers:
 template<typename T, typename Allocator>
 template <typename InputIterator>
-typename ft::IsForwardIter<InputIterator>::type
+typename ft::IsInputIter<InputIterator, ft::setVoid>::type
 ft::vector<T, Allocator>::assign(InputIterator first, InputIterator last)
 {
     destroy();
@@ -148,6 +148,59 @@ void    ft::vector<T, Allocator>::clear()
     cap = 0;
     arr = NULL;
 }
+
+template<typename T, typename Allocator>
+template <typename InputIterator>
+typename ft::IsInputIter<InputIterator>::type
+ft::vector<T, Allocator>::erase(InputIterator position)
+ {
+    InputIterator ret;
+    InputIterator it = position;
+    InputIterator end = this->end();
+
+    if (position == end)
+        return position;
+    alloc.destroy(position.base());
+    position++;
+    ret = position;
+    len--;
+    if (position == end)
+        return position;
+    while (position != end)
+    {
+        alloc.construct(it.base(), *position);
+        alloc.destroy(position.base());
+        it++;
+        position++;
+    }
+    return ret;
+ }
+
+template<typename T, typename Allocator>
+template <typename InputIterator>
+typename ft::IsInputIter<InputIterator>::type
+ ft::vector<T, Allocator>::erase(InputIterator first, InputIterator last)
+ {
+    InputIterator it = first;
+    InputIterator ret = last;
+    InputIterator end = this->end();
+
+    while (first != last)
+    {
+       alloc.destroy(first.base());
+       first++;
+       len--;
+    }
+    if (last == end)
+        return ret;
+    while (last != end)
+    {
+       alloc.construct(it.base(), *last);
+       it++;
+       last++;
+    }
+    return ret;
+ }
 
 template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::swap(vector<T, Allocator> &x)

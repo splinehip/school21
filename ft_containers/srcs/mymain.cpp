@@ -187,18 +187,32 @@ int main(void)
     vi.assign(bb.begin(), bb.end());
     std::cout << "vi.size: " << vi.size() << " v[0]: " << vi[0] << std::endl;
     ft::vector<int>::reverse_iterator rit;
-    rit = bb.rbegin();
+    std::vector<int> bbb(10, 200);
+    rit = bb.begin();
     std::cout << "*rit: " << *rit << std::endl;
     std::cout << "rit[0]: " << rit[0] << std::endl;
     ft::vector<int>::const_reverse_iterator crit = bb.crbegin();
+
+    //rit = crit;
+    //crit = rit;
 
     ft::vector<Mymain>::const_reverse_iterator crits = ss.crbegin();
     crits->printName();
     std::cout << "rit == crit: " << std::boolalpha << (rit == crit) << std::endl;
     ft::vector<int>::reverse_iterator rit2;
     swap(itt, itt2);
-    swap(rit, rit2);
+    //swap(rit, rit2);
 
     std::cout << "*(1 - itt2) " << *(1 - itt2) << " dis: " << ft::distance(itt2, bb.end()) << std::endl;
+
+    std::cout << "itt before erase: " << *itt << " itt + 2: " << *(itt + 2) << std::endl;
+    itt = bb.erase(itt);
+    std::cout << "itt after erase: " << *itt << std::endl;
+
+    ft::vector<int> k(10, 35);
+    k.erase(k.begin(), k.end() - 2);
+    for (ft::vector<int>::iterator it = k.begin(); it != k.end(); it++)
+      std::cout << *it << ", ";
+    std::cout << "k.size: " << k.size() << " k.capasity: " << k.capacity() << std::endl;
     return 0;
 }

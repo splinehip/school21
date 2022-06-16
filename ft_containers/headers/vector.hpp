@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/15 17:59:21 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/16 14:31:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,22 @@ public:
 
     //Modifiers:
     template <typename InputIterator>
-    typename IsForwardIter<InputIterator>::type
+    typename IsInputIter<InputIterator, ft::setVoid>::type
     assign(InputIterator first, InputIterator last);
 
     void    assign(const size_type n, const value_type &val);
     void    push_back(const value_type &value);
     void    pop_back(void){if (len) alloc.destroy(&arr[--len]);}
-    //insert Insert elements (public member function )
-    //erase Erase elements (public member function )
+
+    template <typename InputIterator>
+    typename IsInputIter<InputIterator>::type
+    erase(InputIterator position);
+
+    template <typename InputIterator>
+    typename IsInputIter<InputIterator>::type
+    erase(InputIterator first, InputIterator last);
+
+    allocator_type  get_allocator(void) const {return alloc;}
 
     void    swap(vector &x);
     void    clear(void);
