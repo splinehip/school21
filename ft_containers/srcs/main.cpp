@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#if 0 //CREATE A REAL STL EXAMPLE
+#include <cstdio>
+#if 1 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -10,6 +11,7 @@
 	#include <map.hpp>
 	#include <stack.hpp>
 	#include <vector.hpp>
+	#include <pair.hpp>
 #endif
 
 #include <stdlib.h>
@@ -114,3 +116,6 @@ int main(int argc, char** argv) {
 	std::cout << std::endl;
 	return (0);
 }
+
+
+

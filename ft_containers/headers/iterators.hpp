@@ -51,64 +51,9 @@ typedef const T&                        reference;
 
 };
 
-//Revers iterator:
-template<typename Iterator>
-struct common_reverse_iterator
-{
-typedef typename Iterator::iterator_category   iterator_category;
-typedef typename Iterator::value_type          value_type;
-typedef typename Iterator::difference_type     difference_type;
-typedef typename Iterator::pointer             pointer;
-typedef typename Iterator::reference           reference;
-
-typedef common_reverse_iterator<Iterator>      iter_t;
-typedef iter_t                                 iterator_type;
-
-private:
-    typedef typename iterator_traits<Iterator>::value_type      value_t;
-    typedef typename iterator_traits<Iterator>::difference_type diff_t;
-
-    typename Iterator::iterator_type iter;
-
-public:
-    common_reverse_iterator(void){};
-    common_reverse_iterator(const typename Iterator::iterator_type &_iter)
-        : iter(_iter){}
-    common_reverse_iterator(const iter_t &_iter){*this = _iter;}
-    ~common_reverse_iterator(void){};
-
-    iter_t    &operator=(const iter_t &inst)
-    {
-        if (this == &inst)
-            return *this;
-        iter = inst.iter;
-        return *this;
-    }
-
-    iter_t  operator+(diff_t n) const {return iter_t(iter - n);}
-    iter_t  operator-(diff_t n) const {return iter_t(iter + n);}
-    diff_t  operator-(iter_t &rhs) const {return iter + rhs.item;}
-
-    iter_t  &operator+=(diff_t n){iter -= n; return *this;}
-    iter_t  &operator-=(diff_t n) {iter += n; return *this;}
-
-    iter_t  &operator++(void){--iter; return *this;}
-    iter_t  operator++(int){return iter_t(iterator(iter--));}
-    iter_t  &operator--(void){++iter; return *this;}
-    iter_t  operator--(int){return iter_t(iterator(iter++));}
-
-    value_t operator*(void) const {return *iter;}
-    value_t *operator->(void) const {return &(*iter);}
-    value_t &operator[](diff_t n) const {return iter[n];}
-
-    typename Iterator::iterator_type    base(void) const {return iter;}
-
-    void    swap(iter_t &rhs){typename Iterator::iterator_type &tmp = iter;
-                                iter = rhs.iter; rhs.iter = tmp;}
-
-};
-
-
+//Reverse iterator:
+/* template<typename Iterator>
+struct common_reverse_iterator; */
 
 
 template<typename Iterator>

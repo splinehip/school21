@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/16 14:31:51 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:45:18 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 #include <cstddef>
 #include <memory>
 #include <stdexcept>
+#include <cstdio>
 
 #include "utils.hpp"
 #include "iterators.hpp"
+#include "common_reverse_iterator.hpp"
 
 namespace ft
 {
@@ -60,7 +62,15 @@ public:
     vector(const vector &inst){*this = inst;}
     ~vector(void){clear();}
 
-    vector          &operator=(const vector &inst);
+    vector  &operator=(const vector &inst);
+
+    //Compaire operators:
+    bool    operator==(const vector &s);
+    bool    operator!=(const vector &s);
+    bool    operator<(const vector &s);
+    bool    operator<=(const vector &s);
+    bool    operator>(const vector &s);
+    bool    operator>=(const vector &s);
 
     //Iterators:
     iterator                begin(void) const;
@@ -73,12 +83,12 @@ public:
     const_reverse_iterator  crend(void) const;
 
     //Element access:
-    reference       operator[](const size_type i){return arr[i];}
+    reference       operator[](const size_type i) {return arr[i];}
     const_reference operator[](const size_type i) const {return arr[i];}
     reference       at(const size_type n);
     const_reference at(const size_type n) const {return at(n);}
-    reference       front(void){return arr;}
-    const_reference front(void) const {return arr;}
+    reference       front(void){return *arr;}
+    const_reference front(void) const {return *arr;}
     reference       back(void){return arr[len - 1];}
     const_reference back(void) const {return arr[len - 1];}
 
@@ -114,7 +124,6 @@ public:
     void    clear(void);
 
 };
-
 
 //std::swap:
 template<typename T, typename Allocator>

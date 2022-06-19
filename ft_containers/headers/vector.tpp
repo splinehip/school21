@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/16 14:34:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:46:12 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,43 @@ ft::vector<T, Allocator>    &ft::vector<T, Allocator>::operator=(
     return (*this);
 }
 
+//Compaire operators:
+template<typename T, typename Allocator>
+bool	ft::vector<T, Allocator>::operator==(const vector<T, Allocator> &s)
+{
+    return ft::equal(begin(), end(), s.begin(), s.end());
+}
+
+template<typename T, typename Allocator>
+bool	ft::vector<T, Allocator>::operator!=(const vector<T, Allocator> &s)
+{
+    return !(*this == s);
+}
+
+template<typename T, typename Allocator>
+bool	ft::vector<T, Allocator>::operator<(const vector<T, Allocator> &s)
+{
+    return ft::lexicographical_compare(begin(), end(), s.begin(), s.end());
+}
+
+template<typename T, typename Allocator>
+bool	ft::vector<T, Allocator>::operator<=(const vector<T, Allocator> &s)
+{
+    return (*this < s) || (*this == s);
+}
+
+template<typename T, typename Allocator>
+bool	ft::vector<T, Allocator>::operator>(const vector<T, Allocator> &s)
+{
+    return !(*this < s) && (*this != s);
+}
+
+template<typename T, typename Allocator>
+bool	ft::vector<T, Allocator>::operator>=(const vector<T, Allocator> &s)
+{
+    return (*this > s) || (*this == s);
+}
+
 //Utils:
 template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::realloc(
@@ -55,9 +92,22 @@ void    ft::vector<T, Allocator>::realloc(
     for (size_t i = 0; i < len; i++)
     {
         if (i < newcap)
-            alloc.construct(&tmp[i], arr[i]);
-        alloc.destroy(&arr[i]);
+        {
+            try
+            {
+               alloc.construct(&tmp[i], arr[i]);
+            }
+            catch(...)
+            {
+                for (size_t j = 0; j < i; j++)
+                    alloc.destroy(&tmp[i]);
+                alloc.deallocate(tmp, newcap);
+                throw ;
+            }
+        }
     }
+    for (size_t i = 0; i < len; i++)
+         alloc.destroy(&arr[i]);
     alloc.deallocate(arr, cap);
     cap = newcap;
     if (len > cap)
@@ -137,7 +187,8 @@ void    ft::vector<T, Allocator>::push_back(const value_type &value)
         cap = 2;
         arr = alloc.allocate(cap);
     }
-    alloc.construct(&arr[len++], value);
+    alloc.construct(&arr[len], value);
+    len++;
 }
 
 template<typename T, typename Allocator>
@@ -153,7 +204,7 @@ template<typename T, typename Allocator>
 template <typename InputIterator>
 typename ft::IsInputIter<InputIterator>::type
 ft::vector<T, Allocator>::erase(InputIterator position)
- {
+{
     InputIterator ret;
     InputIterator it = position;
     InputIterator end = this->end();
@@ -174,33 +225,33 @@ ft::vector<T, Allocator>::erase(InputIterator position)
         position++;
     }
     return ret;
- }
+}
 
 template<typename T, typename Allocator>
 template <typename InputIterator>
 typename ft::IsInputIter<InputIterator>::type
- ft::vector<T, Allocator>::erase(InputIterator first, InputIterator last)
- {
+ft::vector<T, Allocator>::erase(InputIterator first, InputIterator last)
+{
     InputIterator it = first;
     InputIterator ret = last;
     InputIterator end = this->end();
 
     while (first != last)
     {
-       alloc.destroy(first.base());
-       first++;
-       len--;
+        alloc.destroy(first.base());
+        first++;
+        len--;
     }
     if (last == end)
         return ret;
     while (last != end)
     {
-       alloc.construct(it.base(), *last);
-       it++;
-       last++;
+        alloc.construct(it.base(), *last);
+        it++;
+        last++;
     }
     return ret;
- }
+}
 
 template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::swap(vector<T, Allocator> &x)
@@ -221,57 +272,6 @@ void    ft::vector<T, Allocator>::swap(vector<T, Allocator> &x)
     cap = xcap;
 }
 
-//Compaire operators for vector:
-template<typename T, typename Allocator>
-bool    ft::operator==(
-    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
-{
-    if (f.size() != s.size())
-        return false;
-    size_t i = 0;
-    while (i < f.size())
-    {
-        if (f[i] != s[i])
-            return false;
-        i++;
-    }
-    return true;
-}
-
-template<typename T, typename Allocator>
-bool    ft::operator!=(
-    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
-{
-    return !(f == s);
-}
-
-template<typename T, typename Allocator>
-bool    ft::operator<(
-    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
-{
-    return ft::lexicographical_compare(f.begin(), f.end(), s.begin(), s.end());
-}
-
-template<typename T, typename Allocator>
-bool    ft::operator<=(
-    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
-{
-    return !(s < f);
-}
-
-template<typename T, typename Allocator>
-bool    ft::operator>(
-    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
-{
-    return s < f;
-}
-
-template<typename T, typename Allocator>
-bool    ft::operator>=(
-    const vector<T, Allocator> &f, const vector<T, Allocator> &s)
-{
-    return !(s > f);
-}
 
 //Iterators:
 template<typename T, typename Allocator>
@@ -292,14 +292,14 @@ template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::reverse_iterator
 ft::vector<T, Allocator>::rbegin(void) const
 {
-    return reverse_iterator(iterator(arr + len - 1));
+    return reverse_iterator(iterator(arr + len - 1), 0);
 }
 
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::reverse_iterator
 ft::vector<T, Allocator>::rend(void) const
 {
-    return reverse_iterator(iterator(arr - len));
+    return reverse_iterator(iterator(arr - len), 0);
 }
 
 template<typename T, typename Allocator>
@@ -320,14 +320,14 @@ template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::crbegin(void) const
 {
-    return const_reverse_iterator(const_iterator(arr + len - 1));
+    return const_reverse_iterator(const_iterator(arr + len - 1), 0);
 }
 
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::crend(void) const
 {
-    return const_reverse_iterator(const_iterator(arr - len));
+    return const_reverse_iterator(const_iterator(arr - len), 0);
 }
 
 
@@ -360,7 +360,7 @@ public:
     common_iterator(const iter_t &inst){*this = inst;}
     ~common_iterator(void){}
 
-    iter_t    &operator=(const iterator &inst)
+    iter_t  &operator=(const iterator &inst)
     {
         if (item == inst.base())
             return *this;
@@ -389,3 +389,4 @@ public:
     {value_t *tmp = item; item = rhs.item; rhs.item = tmp;}
 
 };
+
