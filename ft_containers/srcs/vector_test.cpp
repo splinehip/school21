@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 15:56:46 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/19 21:28:19 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/25 11:16:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ std::ostream    &operator<<(std::ostream &out, const Mymain &inst)
     return out;
 }
 
-template<typename T, typename Allocator>
-void    printVec(ft::vector<T, Allocator> &v, std::string name)
+template<typename T>
+void    printVec(T &v, std::string name)
 {
     std::cout << name << ":\t";
     for (size_t i = 0; i < v.size(); i++)
-        std::cout << i << ": " << v[i] << ", ";
+        std::cout << "[" << i << "]:  " << v[i] << ",   ";
     std::cout << std::endl << std::endl;
 }
 
@@ -178,5 +178,86 @@ void    vector_test(void)
     std::cout << "vMymain >= vMymain_2: " << std::boolalpha << (vMymain >= vMymain_2) << std::endl;
     std::cout << "vMymain <= vMymain_2: " << std::boolalpha << (vMymain <= vMymain_2) << std::endl;
     std::cout << "vMymain > vMymain_2: " << std::boolalpha << (vMymain > vMymain_2) << std::endl;
-    std::cout << "vMymain < vMymain_2: " << std::boolalpha << (vMymain < vMymain_2) << std::endl;
+    std::cout << "vMymain < vMymain_2: " << std::boolalpha << (vMymain < vMymain_2) << std::endl << std::endl;
+
+    std::cout << "### FT::VECTOR: Reverse iterator:" << std::endl;
+    std::cout << "simple reverse print vint" << std::endl;
+    printVec(vint, "vint norm");
+    std::cout << "vint rit:\t";
+    int i = 0;
+    ft::vector<int>::reverse_iterator rit = vint.rbegin();
+    for (; rit != vint.rend(); rit++)
+        std::cout << i++ << ": " << *rit << ", ";
+    std::cout << std::endl;
+
+    ft::vector<int>::const_reverse_iterator crit = vint.crbegin();
+    crit = --rit;
+    //*crit.base() = 34;
+    //rit = crit;
+
+    ft::vector<int>::iterator it = vint.begin();
+    ft::vector<int>::const_iterator cit = vint.cbegin();
+
+    cit = it;
+    //*cit.base() = 34;
+    //it = cit;
+
+    std::cout << std::endl << "### FT::VECTOR: clear vint.clear()" << std::endl;
+    vint.clear();
+    printVec(vint, "vint");
+
+    std::cout << std::endl << "### FT::VECTOR: insert" << std::endl;
+    vint.push_back(15);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.begin, 5)" << std::endl;
+    vint.insert(vint.begin(), 5);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.end, 4)" << std::endl;
+    vint.insert(vint.end(), 4);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(++vint.begin, 3)" << std::endl;
+    vint.insert(++vint.begin(), 3);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.begin, 3, 5)" << std::endl;
+    vint.insert(vint.begin(), 3, 5);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.end, 3, 0)" << std::endl;
+    vint.insert(vint.end(), 3, 0);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.begin + 3, 2, 6)" << std::endl;
+    vint.insert(vint.begin() + 3, 2, 6);
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.begin, stdv.begin, stdv.begin + 3)" << std::endl;
+    vint.insert(vint.begin(), stdv.begin(), stdv.begin() + 3);
+    printVec(stdv, "stdv");
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.end, stdv.begin, stdv.begin + 3)" << std::endl;
+    vint.insert(vint.end(), stdv.begin(), stdv.begin() + 3);
+    printVec(stdv, "stdv");
+    std::cout << "stdv.begin() + 3: " << *(stdv.begin() + 3) << std::endl;
+    printVec(vint, "vint");
+
+    std::cout << "vint.insert(vint.begin + 1, stdv.begin, stdv.begin + 3)" << std::endl;
+    vint.insert(vint.begin() + 1, stdv.begin(), stdv.begin() + 3);
+    printVec(stdv, "stdv");
+    printVec(vint, "vint");
+
+    std::cout << std::endl << "### FT::VECTOR: erase" << std::endl;
+    printVec(vint, "vint");
+    std::cout << "vint.erase(vint.begin())" << std::endl;
+    vint.erase(vint.begin());
+    printVec(vint, "vint");
+
+    std::cout << std::endl << "vint.erase(vint.begin(), vint.end() - 3)" << std::endl;
+    vint.erase(vint.begin(), vint.end() - 3);
+    printVec(vint, "vint");
+
 }

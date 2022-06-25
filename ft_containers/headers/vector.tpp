@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/19 21:46:12 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/25 11:02:53 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,203 @@ void    ft::vector<T, Allocator>::push_back(const value_type &value)
 }
 
 template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::iterator
+ft::vector<T, Allocator>::insert(iterator position, const value_type &val)
+{
+    size_t i;
+
+    if (position.base() == end().base())
+    {
+        push_back(val);
+        return end() - 1;
+    }
+    else if (position.base() == begin().base())
+    {
+        reserve(len + 1);
+        i = len - 1;
+        while (i < len)
+        {
+            alloc.construct(&arr[i + 1], arr[i]);
+            alloc.destroy(&arr[i--]);
+        }
+        alloc.construct(arr, val);
+        len++;
+        return begin();
+    }
+    else
+    {
+        reserve(len + 1);
+        i = len - 1;
+        while (arr + i >= position.base())
+        {
+            alloc.construct(&arr[i + 1], arr[i]);
+            alloc.destroy(&arr[i--]);
+        }
+        alloc.construct(&arr[i + 1], val);
+        len++;
+        return position;
+    }
+}
+
+template<typename T, typename Allocator>
+void    ft::vector<T, Allocator>::insert(
+    iterator position, size_t n, const value_type &val)
+{
+    size_t i;
+    size_t j;
+    value_type  *tmp;
+
+    if (position.base() == end().base())
+    {
+        while (n--)
+            push_back(val);
+    }
+    else if (position.base() == begin().base())
+    {
+        tmp = alloc.allocate(n + size());
+        try
+        {
+            i = 0;
+            while (i < n + size())
+            {
+                if (i < n)
+                    alloc.construct(&tmp[i], val);
+                else
+                    alloc.construct(&tmp[i], arr[i - n]);
+                i++;
+            }
+        }
+        catch(...)
+        {
+            j = 0;
+            while (j < i)
+                alloc.destroy(&tmp[j++]);
+            alloc.deallocate(tmp, n + size());
+            throw ;
+        }
+        j = 0;
+        while (j < len)
+            alloc.destroy(&arr[j++]);
+        alloc.deallocate(arr, cap);
+        arr = tmp;
+        len = i;
+        cap = i;
+
+    }
+    else
+    {
+        tmp = alloc.allocate(n + size());
+        try
+        {
+            i = 0;
+            j = 0;
+            while (arr + i < position.base())
+                alloc.construct(&tmp[j++], arr[i++]);
+            while (j < i + n)
+                alloc.construct(&tmp[j++], val);
+            while (i < len)
+                alloc.construct(&tmp[j++], arr[i++]);
+        }
+        catch(...)
+        {
+            i = 0;
+            while (i < j)
+                alloc.destroy(&tmp[i++]);
+            alloc.deallocate(tmp, n + size());
+            throw ;
+        }
+        i = 0;
+        while (i < len)
+            alloc.destroy(&arr[i++]);
+        alloc.deallocate(arr, cap);
+        arr = tmp;
+        len = j;
+        cap = j;
+    }
+}
+
+template<typename T, typename Allocator>
+template <typename InputIterator>
+void    ft::vector<T, Allocator>::insert(iterator position, InputIterator first,
+            typename IsInputIter<InputIterator>::type last)
+{
+    size_t i;
+    size_t j;
+    size_t tmp_size;
+    value_type  *tmp;
+
+    if (position.base() == end().base())
+    {
+        while (first != last)
+            push_back(*first++);
+    }
+    else if (position.base() == begin().base())
+    {
+        tmp_size = ft::distance(first, last) + size();
+        tmp = alloc.allocate(tmp_size);
+        try
+        {
+            i = 0;
+            while (first != last)
+                alloc.construct(&tmp[i++], *first++);
+            j = 0;
+            while (j < len)
+                alloc.construct(&tmp[i++], arr[j++]);
+        }
+        catch(...)
+        {
+            j = 0;
+            while (j < i)
+                alloc.destroy(&tmp[j++]);
+            alloc.deallocate(tmp, tmp_size);
+            throw ;
+        }
+        j = 0;
+        while (j < len)
+            alloc.destroy(&arr[j++]);
+        alloc.deallocate(arr, cap);
+        arr = tmp;
+        len = i;
+        cap = i;
+    }
+    else
+    {
+        tmp_size = ft::distance(first, last) + size();
+        tmp = alloc.allocate(tmp_size);
+        try
+        {
+            i = 0;
+            j = 0;
+            while (arr + i < position.base())
+            {
+                alloc.construct(&tmp[i], arr[i]);
+                i++;
+            }
+            j = i;
+            while (first != last)
+                alloc.construct(&tmp[i++], *first++);
+            while (j < len)
+                alloc.construct(&tmp[i++], arr[j++]);
+        }
+        catch(...)
+        {
+            j = 0;
+            while (j < i)
+                alloc.destroy(&tmp[j++]);
+            alloc.deallocate(tmp, tmp_size);
+            throw ;
+        }
+        j = 0;
+        while (j < len)
+            alloc.destroy(&arr[j++]);
+        alloc.deallocate(arr, cap);
+        arr = tmp;
+        len = i;
+        cap = i;
+    }
+}
+
+template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::clear()
 {
     destroy();
@@ -236,6 +433,8 @@ ft::vector<T, Allocator>::erase(InputIterator first, InputIterator last)
     InputIterator ret = last;
     InputIterator end = this->end();
 
+    if (last.base() <= first.base())
+        throw std::out_of_range("ft::vector::insert: iterator out of range");
     while (first != last)
     {
         alloc.destroy(first.base());
@@ -292,14 +491,14 @@ template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::reverse_iterator
 ft::vector<T, Allocator>::rbegin(void) const
 {
-    return reverse_iterator(iterator(arr + len - 1), 0);
+    return reverse_iterator(arr + len - 1);
 }
 
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::reverse_iterator
 ft::vector<T, Allocator>::rend(void) const
 {
-    return reverse_iterator(iterator(arr - len), 0);
+    return reverse_iterator(arr - 1);
 }
 
 template<typename T, typename Allocator>
@@ -320,14 +519,14 @@ template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::crbegin(void) const
 {
-    return const_reverse_iterator(const_iterator(arr + len - 1), 0);
+    return const_reverse_iterator(arr + len - 1);
 }
 
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::crend(void) const
 {
-    return const_reverse_iterator(const_iterator(arr - len), 0);
+    return const_reverse_iterator(arr - 1);
 }
 
 

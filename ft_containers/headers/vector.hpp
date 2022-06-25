@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/19 21:45:18 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/24 01:35:29 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 #include "utils.hpp"
 #include "iterators.hpp"
-#include "common_reverse_iterator.hpp"
 
 namespace ft
 {
@@ -51,8 +50,8 @@ private:
     void    destroy(void);
 
 public:
-typedef vector::common_iterator<false>          iterator;
-typedef vector::common_iterator<true>           const_iterator;
+typedef vector::common_iterator<NotConst>       iterator;
+typedef vector::common_iterator<Const>          const_iterator;
 typedef common_reverse_iterator<iterator>       reverse_iterator;
 typedef common_reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -106,9 +105,17 @@ public:
     typename IsInputIter<InputIterator, ft::setVoid>::type
     assign(InputIterator first, InputIterator last);
 
-    void    assign(const size_type n, const value_type &val);
-    void    push_back(const value_type &value);
-    void    pop_back(void){if (len) alloc.destroy(&arr[--len]);}
+    void        assign(const size_type n, const value_type &val);
+    void        push_back(const value_type &value);
+    void        pop_back(void){if (len) alloc.destroy(&arr[--len]);}
+
+    iterator    insert(iterator position, const value_type &val);
+
+    void        insert(iterator position, size_t n, const value_type &val);
+
+    template <typename InputIterator>
+    void        insert(iterator position, InputIterator first,
+                    typename IsInputIter<InputIterator>::type last);
 
     template <typename InputIterator>
     typename IsInputIter<InputIterator>::type
