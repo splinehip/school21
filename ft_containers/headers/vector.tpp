@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/27 13:42:37 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:48:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,18 @@ void    ft::vector<T, Allocator>::uptocap(
     ft::vector<T, Allocator>::value_type    *tmp;
 
     tmp = alloc.allocate(newcap);
-    for (size_t i = 0; i < len; i++)
+    for (size_t i = 0; i < len && i < newcap; i++)
     {
-        if (i < newcap)
+        try
         {
-            try
-            {
-               alloc.construct(&tmp[i], arr[i]);
-            }
-            catch(...)
-            {
-                for (size_t j = 0; j < i; j++)
-                    alloc.destroy(&tmp[j]);
-                alloc.deallocate(tmp, newcap);
-                throw ;
-            }
+            alloc.construct(&tmp[i], arr[i]);
+        }
+        catch(...)
+        {
+            for (size_t j = 0; j < i; j++)
+                alloc.destroy(&tmp[j]);
+            alloc.deallocate(tmp, newcap);
+            throw ;
         }
     }
     for (size_t i = 0; i < len; i++)
