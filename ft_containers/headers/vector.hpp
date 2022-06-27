@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/27 13:43:06 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:46:01 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ public:
     size_type   capacity(void) const {return cap;}
     bool        empty(void) const {return len == false;}
     void        reserve(const size_type n){if (n <= cap) return; uptocap(n);}
-    void        shrink_to_fit(void){if (len == cap) return; realloc(len);}
+    void        shrink_to_fit(void){if (len == cap) return; uptocap(len);}
 
     //Modifiers:
     template <typename InputIterator>
