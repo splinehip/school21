@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/24 01:35:29 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:43:06 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ const std::string OOR_MSG =
 template<typename T, typename Allocator = std::allocator<T> >
 class vector
 {
+template<bool IsConst>
+struct common_iterator;
+
+public:
 typedef T                                           value_type;
 typedef Allocator                                   allocator_type;
 typedef typename allocator_type::reference          reference;
@@ -35,25 +39,22 @@ typedef typename allocator_type::pointer            pointer;
 typedef typename allocator_type::const_pointer      const_pointer;
 typedef typename allocator_type::size_type          size_type;
 
-template<bool IsConst>
-struct common_iterator;
+typedef vector::common_iterator<NotConst>           iterator;
+typedef vector::common_iterator<Const>              const_iterator;
+typedef common_reverse_iterator<iterator>           reverse_iterator;
+typedef common_reverse_iterator<const_iterator>     const_reverse_iterator;
+
 
 private:
-    value_type     *arr;
+    value_type     *arr = NULL;
     size_type       len;
     size_type       cap;
     allocator_type  alloc;
 
 private:
     //Utils:
-    void    realloc(size_type newcap);
+    void    uptocap(size_type newcap);
     void    destroy(void);
-
-public:
-typedef vector::common_iterator<NotConst>       iterator;
-typedef vector::common_iterator<Const>          const_iterator;
-typedef common_reverse_iterator<iterator>       reverse_iterator;
-typedef common_reverse_iterator<const_iterator> const_reverse_iterator;
 
 public:
     vector(void): arr(NULL), len(0), cap(0), alloc(allocator_type()){}
@@ -97,7 +98,7 @@ public:
     void        resize(const size_type n, const value_type val = value_type());
     size_type   capacity(void) const {return cap;}
     bool        empty(void) const {return len == false;}
-    void        reserve(const size_type n){if (n <= cap) return; realloc(n);}
+    void        reserve(const size_type n){if (n <= cap) return; uptocap(n);}
     void        shrink_to_fit(void){if (len == cap) return; realloc(len);}
 
     //Modifiers:

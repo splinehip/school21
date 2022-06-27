@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/25 11:02:53 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:42:37 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ ft::vector<T, Allocator>    &ft::vector<T, Allocator>::operator=(
 {
     if (this == &inst)
         return (*this);
+    clear();
     len = inst.len;
     cap = inst.cap;
     if (cap)
@@ -83,7 +84,7 @@ bool	ft::vector<T, Allocator>::operator>=(const vector<T, Allocator> &s)
 
 //Utils:
 template<typename T, typename Allocator>
-void    ft::vector<T, Allocator>::realloc(
+void    ft::vector<T, Allocator>::uptocap(
     typename ft::vector<T, Allocator>::size_type newcap)
 {
     ft::vector<T, Allocator>::value_type    *tmp;
@@ -100,7 +101,7 @@ void    ft::vector<T, Allocator>::realloc(
             catch(...)
             {
                 for (size_t j = 0; j < i; j++)
-                    alloc.destroy(&tmp[i]);
+                    alloc.destroy(&tmp[j]);
                 alloc.deallocate(tmp, newcap);
                 throw ;
             }
@@ -180,7 +181,7 @@ void    ft::vector<T, Allocator>::push_back(const value_type &value)
     if (arr)
     {
         if (len == cap)
-            realloc(cap * 2);
+            uptocap(cap * 2);
     }
     else
     {
@@ -389,10 +390,13 @@ void    ft::vector<T, Allocator>::insert(iterator position, InputIterator first,
 }
 
 template<typename T, typename Allocator>
-void    ft::vector<T, Allocator>::clear()
+void    ft::vector<T, Allocator>::clear(void)
 {
-    destroy();
-    alloc.deallocate(arr, cap);
+    if (arr)
+    {
+        destroy();
+        alloc.deallocate(arr, cap);
+    }
     cap = 0;
     arr = NULL;
 }
@@ -551,7 +555,7 @@ typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
 typedef iter_t  iterator_type;
 
 private:
-    value_t  *item;
+    value_t  *item = NULL;
 
 public:
     common_iterator(void){item = NULL;}
@@ -588,4 +592,3 @@ public:
     {value_t *tmp = item; item = rhs.item; rhs.item = tmp;}
 
 };
-
