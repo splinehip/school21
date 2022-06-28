@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 15:56:46 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/27 13:43:28 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/28 15:29:45 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ class Mymain
 {
 protected:
     std::string name;
-    int *p = NULL;
+    int *p;
 public:
     Mymain(): name(""), p(NULL){}
-    Mymain(const Mymain &inst){*this = inst;}
+    Mymain(const Mymain &inst): name(""), p(NULL){*this = inst;}
     Mymain(const std::string &_name): name(_name), p(new int(10)){}
     Mymain& operator=(const Mymain &inst)
     {name = inst.name; if (p) delete p; p = new int(*inst.p); return *this;}

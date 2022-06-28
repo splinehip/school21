@@ -36,51 +36,51 @@ bool    is_same_type(const T &f, const U &s)
     return typeid(f) == typeid(s);
 }
 
-//ft::__is_integral: Helper for ft::is_integral.
+//ft::_is_integral: Helper for ft::is_integral.
 template< bool Value, typename T>
-struct __is_integral{typedef T type; static const bool value = Value;};
+struct _is_integral{typedef T type; static const bool value = Value;};
 
 //ft::is_integral: Checks whether T is an integral type.
 template<typename T>
-struct is_integral: public __is_integral<false, T>{};
+struct is_integral: public _is_integral<false, T>{};
 
 template <>
-struct is_integral<bool>: public __is_integral<true, bool> {};
+struct is_integral<bool>: public _is_integral<true, bool> {};
 
 template <>
-struct is_integral<char>: public __is_integral<true, char> {};
+struct is_integral<char>: public _is_integral<true, char> {};
 
 template <>
-struct is_integral<signed char>: public __is_integral<true, signed char> {};
+struct is_integral<signed char>: public _is_integral<true, signed char> {};
 
 template <>
-struct is_integral<short int>: public __is_integral<true, short int> {};
+struct is_integral<short int>: public _is_integral<true, short int> {};
 
 template <>
-struct is_integral<int>: public __is_integral<true, int> {};
+struct is_integral<int>: public _is_integral<true, int> {};
 
 template <>
-struct is_integral<long int>: public __is_integral<true, long int> {};
+struct is_integral<long int>: public _is_integral<true, long int> {};
 
 template <>
-struct is_integral<long long int>: public __is_integral<true, long long int> {};
+struct is_integral<long long int>: public _is_integral<true, long long int> {};
 
 template <>
-struct is_integral<unsigned char>: public __is_integral<true, unsigned char> {};
+struct is_integral<unsigned char>: public _is_integral<true, unsigned char> {};
 
 template <>
 struct is_integral<unsigned short int>
-    : public __is_integral<true, unsigned short int> {};
+    : public _is_integral<true, unsigned short int> {};
 
 template <>
-struct is_integral<unsigned int>: public __is_integral<true, unsigned int> {};
+struct is_integral<unsigned int>: public _is_integral<true, unsigned int> {};
 
 template <>
 struct is_integral<unsigned long int>
-    : public __is_integral<true, unsigned long int> {};
+    : public _is_integral<true, unsigned long int> {};
 
 template <>
 struct is_integral<unsigned long long int>
-    : public __is_integral<true, unsigned long long int> {};
+    : public _is_integral<true, unsigned long long int> {};
 
 }
