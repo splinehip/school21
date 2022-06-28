@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/27 13:48:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/28 12:42:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,9 @@ template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::destroy(void)
 {
     for(size_t i = 0; i < len; i++)
+    {
         alloc.destroy(&arr[i]);
+    }
     len = 0;
 }
 
@@ -552,12 +554,12 @@ typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
 typedef iter_t  iterator_type;
 
 private:
-    value_t  *item = NULL;
+    value_t  *item;
 
 public:
-    common_iterator(void){item = NULL;}
+    common_iterator(void): item(NULL){}
     common_iterator(value_t *_item){item = _item;}
-    common_iterator(const iter_t &inst){*this = inst;}
+    common_iterator(const iter_t &inst): item(NULL){*this = inst;}
     ~common_iterator(void){}
 
     iter_t  &operator=(const iterator &inst)

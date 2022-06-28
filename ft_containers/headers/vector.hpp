@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/27 13:46:01 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/28 12:36:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef common_reverse_iterator<const_iterator>     const_reverse_iterator;
 
 
 private:
-    value_type     *arr = NULL;
+    value_type     *arr;
     size_type       len;
     size_type       cap;
     allocator_type  alloc;
@@ -59,7 +59,8 @@ private:
 public:
     vector(void): arr(NULL), len(0), cap(0), alloc(allocator_type()){}
     vector(const size_type n, const value_type &val);
-    vector(const vector &inst){*this = inst;}
+    vector(const vector &inst)
+        : arr(NULL), len(0), cap(0), alloc(allocator_type()){*this = inst;}
     ~vector(void){clear();}
 
     vector  &operator=(const vector &inst);
