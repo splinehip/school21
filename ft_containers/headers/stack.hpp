@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:52:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/28 12:35:15 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/01 12:27:59 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,43 +51,37 @@ public:
     friend bool operator==(
         const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
-        return static_cast<container_type>(lhs.c)
-                == static_cast<container_type>(rhs.c);
+        return lhs.c == rhs.c;
     }
 
     friend bool operator!=(
         const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
-        return static_cast<container_type>(lhs.c)
-                != static_cast<container_type>(rhs.c);
+        return lhs.c != rhs.c;
     }
 
     friend bool operator<(
         const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
-        return static_cast<container_type>(lhs.c)
-                < static_cast<container_type>(rhs.c);
+        return lhs.c < rhs.c;
     }
 
     friend bool operator<=(
         const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
-        return static_cast<container_type>(lhs.c)
-                <= static_cast<container_type>(rhs.c);
+        return lhs.c <= rhs.c;
     }
 
     friend bool operator>(
         const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
-        return static_cast<container_type>(lhs.c)
-                > static_cast<container_type>(rhs.c);
+        return lhs.c > rhs.c;
     }
 
     friend bool operator>=(
         const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
-        return static_cast<container_type>(lhs.c)
-                >= static_cast<container_type>(rhs.c);
+        return lhs.c >= rhs.c;
     }
 };
 
