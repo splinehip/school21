@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:01:27 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/28 12:03:50 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/01 12:23:51 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ bool operator!=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 template <class T1, class T2>
 bool operator<(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
 {
-    return (lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second));
+    return (lhs.first < rhs.first
+        || (!(rhs.first < lhs.first) && lhs.second < rhs.second));
 }
 
 template <class T1, class T2>

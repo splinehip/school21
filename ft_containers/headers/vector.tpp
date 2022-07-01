@@ -6,15 +6,16 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 13:21:18 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/28 12:42:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/01 18:30:00 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 
 template<typename T, typename Allocator>
-ft::vector<T, Allocator>::vector(const size_type n, const value_type &val)
-    : arr(NULL), len(n), cap(n), alloc(allocator_type())
+ft::vector<T, Allocator>::vector(
+    const size_type n, const value_type &val, const allocator_type &_alloc)
+    : arr(NULL), len(n), cap(n), alloc(_alloc)
 {
     arr = alloc.allocate(cap);
     for(size_t i = 0; i < len; i++)
@@ -43,43 +44,6 @@ ft::vector<T, Allocator>    &ft::vector<T, Allocator>::operator=(
         arr = NULL;
     }
     return (*this);
-}
-
-//Compaire operators:
-template<typename T, typename Allocator>
-bool	ft::vector<T, Allocator>::operator==(const vector<T, Allocator> &s)
-{
-    return ft::equal(begin(), end(), s.begin(), s.end());
-}
-
-template<typename T, typename Allocator>
-bool	ft::vector<T, Allocator>::operator!=(const vector<T, Allocator> &s)
-{
-    return !(*this == s);
-}
-
-template<typename T, typename Allocator>
-bool	ft::vector<T, Allocator>::operator<(const vector<T, Allocator> &s)
-{
-    return ft::lexicographical_compare(begin(), end(), s.begin(), s.end());
-}
-
-template<typename T, typename Allocator>
-bool	ft::vector<T, Allocator>::operator<=(const vector<T, Allocator> &s)
-{
-    return (*this < s) || (*this == s);
-}
-
-template<typename T, typename Allocator>
-bool	ft::vector<T, Allocator>::operator>(const vector<T, Allocator> &s)
-{
-    return !(*this < s) && (*this != s);
-}
-
-template<typename T, typename Allocator>
-bool	ft::vector<T, Allocator>::operator>=(const vector<T, Allocator> &s)
-{
-    return (*this > s) || (*this == s);
 }
 
 //Utils:
@@ -126,6 +90,17 @@ typename ft::vector<T, Allocator>::reference
 }
 
 template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_reference
+    ft::vector<T, Allocator>::at(const size_type n) const
+{
+    if (n < len)
+        return arr[n];
+    char err[128];
+    snprintf(err, 128, OOR_MSG.c_str(), n, len);
+    throw std::out_of_range(err);
+}
+
+template<typename T, typename Allocator>
 void    ft::vector<T, Allocator>::destroy(void)
 {
     for(size_t i = 0; i < len; i++)
@@ -142,7 +117,7 @@ void    ft::vector<T, Allocator>::resize(
 {
     if (n == len)
         return ;
-    else if (n < len)
+    if (n < len)
     {
         while (len != n)
             pop_back();
@@ -195,7 +170,8 @@ template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::iterator
 ft::vector<T, Allocator>::insert(iterator position, const value_type &val)
 {
-    size_t i;
+    size_t  i;
+    size_t  j;
 
     if (position.base() == end().base())
     {
@@ -215,19 +191,17 @@ ft::vector<T, Allocator>::insert(iterator position, const value_type &val)
         len++;
         return begin();
     }
-    else
+    j = distance(begin(), position);
+    reserve(len + 1);
+    i = len;
+    while (i > j)
     {
-        reserve(len + 1);
-        i = len - 1;
-        while (arr + i >= position.base())
-        {
-            alloc.construct(&arr[i + 1], arr[i]);
-            alloc.destroy(&arr[i--]);
-        }
-        alloc.construct(&arr[i + 1], val);
-        len++;
-        return position;
+        alloc.construct(&arr[i], arr[i - 1]);
+        alloc.destroy(&arr[--i]);
     }
+    alloc.construct(&arr[j], val);
+    len++;
+    return begin() + j;
 }
 
 template<typename T, typename Allocator>
@@ -405,7 +379,7 @@ template <typename InputIterator>
 typename ft::IsInputIter<InputIterator>::type
 ft::vector<T, Allocator>::erase(InputIterator position)
 {
-    InputIterator ret;
+    InputIterator ret = position;
     InputIterator it = position;
     InputIterator end = this->end();
 
@@ -413,10 +387,9 @@ ft::vector<T, Allocator>::erase(InputIterator position)
         return position;
     alloc.destroy(position.base());
     position++;
-    ret = position;
     len--;
     if (position == end)
-        return position;
+        return this->end();
     while (position != end)
     {
         alloc.construct(it.base(), *position);
@@ -433,7 +406,7 @@ typename ft::IsInputIter<InputIterator>::type
 ft::vector<T, Allocator>::erase(InputIterator first, InputIterator last)
 {
     InputIterator it = first;
-    InputIterator ret = last;
+    InputIterator ret = first;
     InputIterator end = this->end();
 
     if (last.base() <= first.base())
@@ -445,7 +418,7 @@ ft::vector<T, Allocator>::erase(InputIterator first, InputIterator last)
         len--;
     }
     if (last == end)
-        return ret;
+        return this->end();
     while (last != end)
     {
         alloc.construct(it.base(), *last);
@@ -478,30 +451,58 @@ void    ft::vector<T, Allocator>::swap(vector<T, Allocator> &x)
 //Iterators:
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::iterator
-ft::vector<T, Allocator>::begin(void) const
+ft::vector<T, Allocator>::begin(void)
 {
     return iterator(arr);
 }
 
 template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_iterator
+ft::vector<T, Allocator>::begin(void) const
+{
+    return const_iterator(arr);
+}
+
+template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::iterator
-ft::vector<T, Allocator>::end(void) const
+ft::vector<T, Allocator>::end(void)
 {
     return iterator(arr + len);
 }
 
 template<typename T, typename Allocator>
-typename ft::vector<T, Allocator>::reverse_iterator
-ft::vector<T, Allocator>::rbegin(void) const
+typename ft::vector<T, Allocator>::const_iterator
+ft::vector<T, Allocator>::end(void) const
 {
-    return reverse_iterator(arr + len - 1);
+    return const_iterator(arr + len);
 }
 
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::reverse_iterator
+ft::vector<T, Allocator>::rbegin(void)
+{
+    return reverse_iterator(end());
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_reverse_iterator
+ft::vector<T, Allocator>::rbegin(void) const
+{
+    return const_reverse_iterator(const_iterator(cend()));
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::reverse_iterator
+ft::vector<T, Allocator>::rend(void)
+{
+    return reverse_iterator(begin());
+}
+
+template<typename T, typename Allocator>
+typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::rend(void) const
 {
-    return reverse_iterator(arr - 1);
+    return const_reverse_iterator(cbegin());
 }
 
 template<typename T, typename Allocator>
@@ -522,14 +523,14 @@ template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::crbegin(void) const
 {
-    return const_reverse_iterator(arr + len - 1);
+    return const_reverse_iterator(arr + len);
 }
 
 template<typename T, typename Allocator>
 typename ft::vector<T, Allocator>::const_reverse_iterator
 ft::vector<T, Allocator>::crend(void) const
 {
-    return const_reverse_iterator(arr - 1);
+    return const_reverse_iterator(arr);
 }
 
 
@@ -551,15 +552,13 @@ typename conditional_t<IsConst, value_type, const value_type>::type value_t;
 typedef
 typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
 
-typedef iter_t  iterator_type;
-
 private:
     value_t  *item;
 
 public:
     common_iterator(void): item(NULL){}
     common_iterator(value_t *_item){item = _item;}
-    common_iterator(const iter_t &inst): item(NULL){*this = inst;}
+    common_iterator(const iterator &inst): item(NULL){*this = inst;}
     ~common_iterator(void){}
 
     iter_t  &operator=(const iterator &inst)
@@ -572,15 +571,16 @@ public:
 
     iter_t  operator+(diff_t n) const {return iter_t(item + n);}
     iter_t  operator-(diff_t n) const {return iter_t(item - n);}
-    diff_t  operator-(iter_t &rhs) const {return item - rhs.item;}
+    diff_t  operator-(const iter_t &rhs) {return item - rhs.item;}
+    diff_t  operator-(const common_iterator &rhs) const {return item - rhs.item;}
 
     iter_t  &operator+=(diff_t n){item += n; return *this;}
     iter_t  &operator-=(diff_t n) {item -= n; return *this;}
 
     iter_t  &operator++(void){++item; return *this;}
-    iter_t  operator++(int){return iterator(item++);}
+    iter_t  operator++(int){return iter_t(item++);}
     iter_t  &operator--(void){--item; return *this;}
-    iter_t  operator--(int){return iterator(item--);}
+    iter_t  operator--(int){return iter_t(item--);}
 
     value_t &operator*(void) const {return *item;}
     value_t *operator->(void) const {return item;}

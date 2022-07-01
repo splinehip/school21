@@ -27,7 +27,7 @@ typedef typename Iterator::value_type           value_type;
 typedef typename Iterator::difference_type      difference_type;
 typedef typename Iterator::pointer              pointer;
 typedef typename Iterator::reference            reference;
-typedef typename Iterator::iterator_type               iterator_type;
+typedef Iterator                                iterator_type;
 
 };
 
@@ -64,20 +64,21 @@ typedef typename Iterator::pointer             pointer;
 typedef typename Iterator::reference           reference;
 
 typedef common_reverse_iterator<Iterator>      iter_t;
-typedef iter_t                                 iterator_type;
 
 private:
     typedef typename iterator_traits<Iterator>::value_type      value_t;
     typedef typename iterator_traits<Iterator>::difference_type diff_t;
 
+protected:
     Iterator iter;
-
-    common_reverse_iterator(const Iterator &_iter): iter(_iter){}
 
 public:
     common_reverse_iterator(void){};
-    common_reverse_iterator(value_t *endIterElem): iter(Iterator(endIterElem)){}
-    common_reverse_iterator(const iter_t &_iter){*this = _iter;}
+    common_reverse_iterator(const Iterator &_iter): iter(_iter){}
+
+    template<typename Iter>
+    common_reverse_iterator(const common_reverse_iterator<Iter> &_iter)
+        : iter(Iterator(_iter.base())){}
     ~common_reverse_iterator(void){};
 
     iter_t  &operator=(const iter_t &inst)
@@ -99,7 +100,11 @@ public:
 
     iter_t  operator+(diff_t n) const {return iter_t(iter - n);}
     iter_t  operator-(diff_t n) const {return iter_t(iter + n);}
-    diff_t  operator-(iter_t &rhs) const {return iter + rhs.item;}
+    diff_t  operator-(iter_t &rhs) const {return distance(iter, rhs.iter);}
+    diff_t  operator-(const common_reverse_iterator &rhs) const
+    {
+        return distance(iter, rhs.iter);
+    }
 
     iter_t  &operator+=(diff_t n){iter -= n; return *this;}
     iter_t  &operator-=(diff_t n) {iter += n; return *this;}
@@ -109,9 +114,9 @@ public:
     iter_t  &operator--(void){++iter; return *this;}
     iter_t  operator--(int){return iter_t(iter++);}
 
-    value_t operator*(void) const {return *iter;}
-    value_t *operator->(void) const {return &(*iter);}
-    value_t &operator[](diff_t n) const {return iter[n];}
+    value_t &operator*(void) const {return *(iter - 1);}
+    value_t *operator->(void) const {return &(*(iter - 1));}
+    value_t &operator[](diff_t n) const {return (iter - 1)[-n];}
 
     Iterator    base(void) const {return iter;}
 
@@ -119,6 +124,68 @@ public:
                                 iter = rhs.iter; rhs.iter = tmp;}
 
 };
+
+//Compaire operator for reverse_iterator
+template<typename Iterator>
+bool    operator==(const common_reverse_iterator<Iterator> &f,
+            const common_reverse_iterator<Iterator> &s)
+{ return f.base() == s.base(); }
+
+template<typename Iterator>
+bool    operator<(const common_reverse_iterator<Iterator> &f,
+            const common_reverse_iterator<Iterator> &s)
+{ return s.base() < f.base(); }
+
+template<typename Iterator>
+bool    operator!=(const common_reverse_iterator<Iterator> &f,
+            const common_reverse_iterator<Iterator> &s)
+{ return !(f == s); }
+
+template<typename Iterator>
+bool    operator>(const common_reverse_iterator<Iterator> &f,
+            const common_reverse_iterator<Iterator> &s)
+{ return s < f; }
+
+template<typename Iterator>
+bool    operator<=(const common_reverse_iterator<Iterator> &f,
+            const common_reverse_iterator<Iterator> &s)
+{ return !(s < f); }
+
+template<typename Iterator>
+bool    operator>=(const common_reverse_iterator<Iterator> &f,
+            const common_reverse_iterator<Iterator> &s)
+{ return !(f < s); }
+
+//Comparison of reverse_iterator to const reverse_iterator.
+template<typename IteratorF, typename IteratorS>
+bool    operator==(const common_reverse_iterator<IteratorF> &f,
+            const common_reverse_iterator<IteratorS> &s)
+{ return f.base() == s.base(); }
+
+template<typename IteratorF, typename IteratorS>
+bool    operator<(const common_reverse_iterator<IteratorF> &f,
+            const common_reverse_iterator<IteratorS> &s)
+{ return s.base() < f.base(); }
+
+template<typename IteratorF, typename IteratorS>
+bool    operator!=(const common_reverse_iterator<IteratorF> &f,
+            const common_reverse_iterator<IteratorS> &s)
+{ return !(f == s); }
+
+template<typename IteratorF, typename IteratorS>
+bool    operator>(const common_reverse_iterator<IteratorF> &f,
+            const common_reverse_iterator<IteratorS> &s)
+{ return s < f; }
+
+template<typename IteratorF, typename IteratorS>
+bool    operator<=(const common_reverse_iterator<IteratorF> &f,
+            const common_reverse_iterator<IteratorS> &s)
+{ return !(s < f); }
+
+template<typename IteratorF, typename IteratorS>
+bool    operator>=(const common_reverse_iterator<IteratorF> &f,
+            const common_reverse_iterator<IteratorS> &s)
+{ return !(f < s); }
 
 
 //Category:
@@ -239,7 +306,7 @@ bool equal_impl(InputIterator1 first1, InputIterator1 last1,
         first1++;
         first2++;
     }
-    return true;
+    return (first1 == last1) && (first2 == last2);
 }
 
 template <typename InputIterator1, typename InputIterator2, typename Comp>
@@ -254,7 +321,7 @@ bool equal_impl(InputIterator1 first1, InputIterator1 last1,
         first1++;
         first2++;
     }
-    return true;
+    return (first1 == last1) && (first2 == last2);
 }
 
 
@@ -316,7 +383,7 @@ bool    operator_less_eq_impl(const IteratorF f, const IteratorS s,
 }
 
 template<typename IteratorF, typename IteratorS>
-bool    operator==(const IteratorF f, const IteratorS s)
+bool    operator==(const IteratorF &f, const IteratorS &s)
 {
     return operator_eq_impl(f, s, iterator_category(f), iterator_category(s));
 }
@@ -355,14 +422,14 @@ bool    operator>=(const IteratorF f, const IteratorS s)
 
 template<typename Iterator>
 typename Iterator::iter_t
-operator+(const typename Iterator::difference_type n, const Iterator &iter)
+operator+(const typename Iterator::difference_type n, Iterator &iter)
 {
     return iter + n;
 }
 
 template<typename Iterator>
 typename Iterator::iter_t
-operator-(const typename Iterator::difference_type n, const Iterator &iter)
+operator-(const typename Iterator::difference_type n, Iterator &iter)
 {
     return iter - n;
 }
@@ -484,6 +551,27 @@ typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
 public:
 typedef typename enable_if<
     is_same<std::input_iterator_tag, iter_category>::value
+    || is_same<std::forward_iterator_tag, iter_category>::value
+    || is_same<std::bidirectional_iterator_tag, iter_category>::value
+    || is_same<std::random_access_iterator_tag, iter_category>::value,
+        typename SetType<SetVoidType, Iterator>::type>::type  type;
+};
+
+//IsIter:
+template<typename Iterator, bool SetVoidType = false,
+    bool IsIntegral = is_integral<Iterator>::value>
+struct IsIter{};
+
+template<typename Iterator, bool SetVoidType>
+struct IsIter<Iterator, SetVoidType, false>
+{
+private:
+typedef typename iterator_traits<Iterator>::iterator_category   iter_category;
+
+public:
+typedef typename enable_if<
+    is_same<std::output_iterator_tag, iter_category>::value
+    || is_same<std::input_iterator_tag, iter_category>::value
     || is_same<std::forward_iterator_tag, iter_category>::value
     || is_same<std::bidirectional_iterator_tag, iter_category>::value
     || is_same<std::random_access_iterator_tag, iter_category>::value,

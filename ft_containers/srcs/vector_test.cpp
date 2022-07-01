@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 15:56:46 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/28 15:29:45 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/06/30 10:28:39 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,17 @@ void    vector_test(void)
     std::cout << "init ft::vector<int> vint_2(10, 100)" << std::endl;
     ft::vector<int> vint_2(10, 100);
     printVec(vint_2, "vint_2");
-
+    std::vector<int> stdvint_2(10, 100);
+    std::vector<int>::const_iterator stdit = stdvint_2.begin();
+    ft::vector<int>::const_iterator ftcit = vint_2.begin();
+    std::cout << "111111\n";
+    ft::vector<int>::iterator ftit = vint_2.begin();
+    std::cout << "2222222\n";
+    //ftcit = ftit;
+    std::cout << "3333333\n";
+    std::cout << *stdit << *ftcit << std::endl;
+    ft::vector<int> test(vint_2.begin(), vint_2.end());
+    printVec(test, "test");
     std::cout << "init ft::vector<Mymain> vMymain_2(10, Mymain(\"Mymain\"))" << std::endl;
     ft::vector<Mymain> vMymain_2(10, Mymain("Mymain"));
     printVec(vMymain_2, "vMymain_2");

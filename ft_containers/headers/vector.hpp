@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/06/28 12:36:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/01 12:02:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,33 @@ private:
     void    destroy(void);
 
 public:
-    vector(void): arr(NULL), len(0), cap(0), alloc(allocator_type()){}
-    vector(const size_type n, const value_type &val);
+    vector(const allocator_type &_alloc = allocator_type())
+        : arr(NULL), len(0), cap(0), alloc(_alloc){}
+
+    vector(const size_type n, const value_type &val = value_type(),
+            const allocator_type &_alloc = allocator_type());
+
+    template <class InputIterator>
+    vector(InputIterator first, typename IsInputIter<InputIterator>::type last,
+            const allocator_type &_alloc = allocator_type())
+            : arr(NULL), len(0), cap(0), alloc(_alloc){assign(first, last);}
+
     vector(const vector &inst)
         : arr(NULL), len(0), cap(0), alloc(allocator_type()){*this = inst;}
+
     ~vector(void){clear();}
 
     vector  &operator=(const vector &inst);
 
-    //Compaire operators:
-    bool    operator==(const vector &s);
-    bool    operator!=(const vector &s);
-    bool    operator<(const vector &s);
-    bool    operator<=(const vector &s);
-    bool    operator>(const vector &s);
-    bool    operator>=(const vector &s);
-
     //Iterators:
-    iterator                begin(void) const;
-    iterator                end(void) const;
-    reverse_iterator        rbegin(void) const;
-    reverse_iterator        rend(void) const;
+    iterator                begin(void);
+    const_iterator          begin(void) const;
+    iterator                end(void);
+    const_iterator          end(void) const;
+    reverse_iterator        rbegin(void);
+    const_reverse_iterator  rbegin(void) const;
+    reverse_iterator        rend(void);
+    const_reverse_iterator  rend(void) const;
     const_iterator          cbegin(void) const;
     const_iterator          cend(void) const;
     const_reverse_iterator  crbegin(void) const;
@@ -87,7 +93,7 @@ public:
     reference       operator[](const size_type i) {return arr[i];}
     const_reference operator[](const size_type i) const {return arr[i];}
     reference       at(const size_type n);
-    const_reference at(const size_type n) const {return at(n);}
+    const_reference at(const size_type n) const;
     reference       front(void){return *arr;}
     const_reference front(void) const {return *arr;}
     reference       back(void){return arr[len - 1];}
@@ -133,6 +139,43 @@ public:
     void    clear(void);
 
 };
+
+//Compaire operators:
+template<typename T, typename Allocator>
+bool    operator==(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
+{
+    return equal(f.begin(), f.end(), s.begin(), s.end());
+}
+
+template<typename T, typename Allocator>
+bool    operator!=(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
+{
+    return !(f == s);
+}
+
+template<typename T, typename Allocator>
+bool    operator<(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
+{
+    return ft::lexicographical_compare(f.begin(), f.end(), s.begin(), s.end());
+}
+
+template<typename T, typename Allocator>
+bool    operator<=(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
+{
+    return (f < s) || (f == s);
+}
+
+template<typename T, typename Allocator>
+bool    operator>(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
+{
+    return !(f < s) && (f != s);
+}
+
+template<typename T, typename Allocator>
+bool    operator>=(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
+{
+    return (f > s) || (f == s);
+}
 
 //std::swap:
 template<typename T, typename Allocator>
