@@ -6,11 +6,14 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/08 21:25:14 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/11 21:53:03 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+#include <cstdlib>
+#include <functional>
+
 #include "utils.hpp"
 #include "pair.hpp"
 
@@ -19,22 +22,30 @@ namespace ft
 const int BLACK = 0;
 const int RED = 1;
 
-template<typename Data>
+template<typename Data, typename Allocator>
 struct RBTree_node
 {
-typedef RBTree_node<Data>   node_t;
+typedef Data                            data_t;
+typedef RBTree_node<Data, Allocator>    node_t;
 
     unsigned int    color: 1;
     node_t          *parent;
     node_t          *left;
     node_t          *right;
-    Data            data;
+    data_t           data;
 
-    RBTree_node(void): color(BLACK), parent(NULL), left(NULL), right(NULL){}
-    RBTree_node(int c, const Data &d, node_t *p = NULL, node_t *l = NULL,
+private:
+    Allocator   alloc;
+
+public:
+    RBTree_node(void)
+        : color(BLACK), parent(NULL), left(NULL), right(NULL),
+            alloc(Allocator()){}
+    RBTree_node(int c, const data_t &d, node_t *p = NULL, node_t *l = NULL,
                     node_t *r = NULL)
-        : color(c), parent(p), left(l), right(r), data(d){}
-    RBTree_node(const node_t &inst): left(NULL), right(NULL){*this = inst;}
+        : color(c), parent(p), left(l), right(r), data(d), alloc(Allocator()){}
+    RBTree_node(const node_t &inst)
+        : left(NULL), right(NULL), alloc(Allocator()){*this = inst;}
 
     node_t  &operator=(const node_t &inst)
     {
@@ -44,8 +55,15 @@ typedef RBTree_node<Data>   node_t;
         parent = inst.parent;
         left = inst.left;
         right = inst.right;
-        data = inst.data;
+        alloc.destroy(&data);
+        alloc.construct(&data, inst.data);
         return *this;
+    }
+
+    void    setData(const data_t &new_data)
+    {
+        alloc.destroy(&data);
+        alloc.construct(&data, new_data);
     }
 
     unsigned int    leftColor(void)
@@ -65,47 +83,70 @@ typedef RBTree_node<Data>   node_t;
 };
 
 template<
-typename Key, typename Value = void*,
-typename Allocator = std::allocator<RBTree_node<pair<Key, Value> > > >
+typename Data = pair<const int, void*>,
+typename Compair = std::less<typename Data::first_type>,
+typename DataAllocator = std::allocator<Data>,
+typename Allocator = std::allocator<RBTree_node<Data, DataAllocator> > >
 class RBTree
 {
 public:
-typedef pair<Key, Value>    Data;
-typedef RBTree_node<Data>   node_t;
+typedef Data                                data_t;
+typedef typename Data::first_type           t_key;
+typedef typename Data::second_type          value_t;
+typedef RBTree_node<Data, DataAllocator>    node_t;
+typedef Compair                             comp_t;
 
 private:
-    Allocator       alloc;
-    node_t          *root;
+    Allocator   alloc;
+    comp_t      comp;
+    node_t      *root;
+    size_t      len;
 
 private:
-    node_t *findNode(const Key &key) const
+    void clear(node_t *node)
+    {
+        if (node == NULL)
+            return ;
+        clear(node->left);
+        clear(node->right);
+        alloc.destroy(node);
+        alloc.deallocate(node, 1);
+    }
+
+    node_t *findNode(t_key &key) const
     {
         node_t *res = root;
-        while (res && res->data.first != key)
+        while (res && !eq(res->data.first, key))
         {
-            res = res->data.first > key ? res->left : res->right;
+            res = more(res->data.first, key) ? res->left : res->right;
         }
         return res;
     }
 
-    node_t *getParent(const Key &key) const
+    node_t *getParent(t_key &key) const
     {
         node_t *next = root;
         node_t *res = next;
         while (next)
         {
             res = next;
-            next = next->data.first > key ? next->left : next->right;
+            if (eq(next->data.first, key))
+                break ;
+            else
+                next = more(next->data.first, key) ? next->left : next->right;
         }
         return res;
     }
 
-    node_t  *findNodeToRemove(const Key &key)
+    node_t  *findNodeToRemove(t_key &key)
     {
         node_t *next;
+
         node_t *node = findNode(key);
         if (node == NULL)
+        {
             return node;
+        }
         if (node->left && node->right)
         {
             next = node->right;
@@ -113,20 +154,22 @@ private:
             {
                 next = next->left;
             }
-            node->data = next->data;
+            node->setData(next->data);
             node = next;
         }
         return node;
     }
 
-    void    leftRotate(node_t *parentNode, bool SC = true)
+    void    leftRotate(node_t *parentNode, bool swap_c = true)
     {
         node_t  *right = parentNode->right;
         parentNode->right = right->left;
+        if (parentNode->right)
+            parentNode->right->parent = parentNode;
         right->left = parentNode;
         right->parent = parentNode->parent;
         parentNode->parent = right;
-        if (SC)
+        if (swap_c)
         {
             parentNode->color++;
             right->color++;
@@ -135,7 +178,7 @@ private:
         {
             if (right->parent->right == parentNode)
                 right->parent->right = right;
-            else if (right->parent->left == parentNode)
+            else
                 right->parent->left = right;
         }
         if (parentNode == root)
@@ -145,14 +188,16 @@ private:
         }
     }
 
-    void    rightRotate(node_t *parentNode, bool SC = true)
+    void    rightRotate(node_t *parentNode, bool swap_c = true)
     {
         node_t  *left = parentNode->left;
         parentNode->left = left->right;
+        if (parentNode->left)
+            parentNode->left->parent = parentNode;
         left->right = parentNode;
         left->parent = parentNode->parent;
         parentNode->parent = left;
-        if (SC)
+        if (swap_c)
         {
             parentNode->color++;
             left->color++;
@@ -161,7 +206,7 @@ private:
         {
             if (left->parent->left == parentNode)
                 left->parent->left = left;
-            else if (left->parent->right == parentNode)
+            else
                 left->parent->right = left;
         }
         if (parentNode == root)
@@ -174,11 +219,17 @@ private:
     void    swapColor(node_t *parentNode)
     {
         if (parentNode->left)
+        {
             parentNode->left->color++;
+        }
         if (parentNode->right)
+        {
             parentNode->right->color++;
+        }
         if (parentNode != root)
+        {
             parentNode->color++;
+        }
     }
 
     void    doBalancingAfterInsert(node_t *parentNode)
@@ -204,11 +255,12 @@ private:
 
         if (uncle_color == RED)
         {
-            std::cout << "NOT BALANCED (SWAP_C): node color: " << parentNode->color
-                << " node key: " << parentNode->data.first << std::endl;
-            printBT("", this->root, false);
             swapColor(parentNode->parent);
-            doBalancingAfterInsert(parentNode->parent->parent);
+            if (parentNode->parent->parent
+                && parentNode->parent->parent->color == RED)
+            {
+                doBalancingAfterInsert(parentNode->parent->parent);
+            }
         }
         else
         {
@@ -216,17 +268,11 @@ private:
             {
                 if (parentNode->rightColor() == RED)
                 {
-                    std::cout << "NOT BALANCED (RIGHT_R_LR): node color: " << parentNode->color
-                    << " node key: " << parentNode->data.first << std::endl;
-                    printBT("", this->root, false);
                     leftRotate(parentNode, false);
                     rightRotate(parentNode->parent->parent);
                 }
                 else
                 {
-                    std::cout << "NOT BALANCED (RIGHT_R): node color: " << parentNode->color
-                    << " node key: " << parentNode->data.first << std::endl;
-                    printBT("", this->root, false);
                     rightRotate(parentNode->parent);
                 }
             }
@@ -234,116 +280,116 @@ private:
             {
                 if (parentNode->leftColor() == RED)
                 {
-                    std::cout << "NOT BALANCED (LEFT_R_RR): node color: " << parentNode->color
-                    << " node key: " << parentNode->data.first << std::endl;
-                    printBT("", this->root, false);
                     rightRotate(parentNode, false);
                     leftRotate(parentNode->parent->parent);
                 }
                 else
                 {
-                    std::cout << "NOT BALANCED (LEFT_R): node color: " << parentNode->color
-                    << " node key: " << parentNode->data.first << std::endl;
-                    printBT("", this->root, false);
                     leftRotate(parentNode->parent);
                 }
             }
         }
     }
 
-    void    doBalancingAfterRemove(node_t *node)
+    void    doBalancingAfterRemove(node_t *node, node_t *brother)
     {
-        node_t *parent = node->parent;
-        if (parent == NULL)
-            return;
-        if (parent->left == node && parent->right->color == RED)
+        if (node == NULL)
+            return ;
+
+        if (node->rightColor() == RED)
         {
-            leftRotate(parent);
+            leftRotate(node);
+            brother = node->right;
+
         }
-        else if (parent->right == node && parent->left->color == RED)
+        else if (node->leftColor() == RED)
         {
-            rightRotate(parent);
-        }
-        if (parent->left == node && parent->right->color == BLACK
-            && parent->right->rightColor() == BLACK
-            && parent->right->leftColor() == BLACK)
-        {
-            parent->right->color++;
-            if (parent->color == RED)
-            {
-                parent->color++;
-                return ;
-            }
-            doBalancingAfterRemove(parent);
-        }
-        else if (parent->right == node && parent->left->color == BLACK
-            && parent->left->rightColor() == BLACK
-            && parent->left->leftColor() == BLACK)
-        {
-            parent->left->color++;
-            if (parent->color == RED)
-            {
-                parent->color++;
-                return ;
-            }
-            doBalancingAfterRemove(parent);
+            rightRotate(node);
+            brother = node->left;
         }
 
-        if (parent->left == node && parent->right->color == BLACK
-            && parent->right->rightColor() == RED
-            && parent->right->leftColor() == BLACK)
+        if (brother->leftColor() == BLACK && brother->rightColor() == BLACK)
         {
-            rightRotate(parent->right);
-        }
-        else if (parent->right == node && parent->left->color == BLACK
-            && parent->left->leftColor() == RED
-            && parent->right->rightColor() == BLACK)
-        {
-            leftRotate(parent->left);
-        }
-        else if (parent->left == node && parent->right->color == BLACK
-            && parent->right->rightColor() == RED)
-        {
-            leftRotate(parent);
-            parent->parent->color = parent->color + 1;
-            parent->parent->right->color = BLACK;
-            parent->color = BLACK;
+            brother->color = RED;
+            if (node == root)
+            {
+                return ;
+            }
+            else if (node->color == RED)
+            {
+                node->color = BLACK;
+                return ;
+            }
+
+            if (node->parent->left == node)
+            {
+                brother = node->parent->right;
+            }
+            else
+            {
+                brother = node->parent->left;
+            }
+            node = node->parent;
+            doBalancingAfterRemove(node, brother);
             return ;
         }
-        else if (parent->right == node && parent->left->color == BLACK
-            && parent->left->rightColor() == RED)
+        else if (node->left == brother
+            && brother->leftColor() == BLACK && brother->rightColor() == RED)
         {
-            rightRotate(parent);
-            parent->parent->color = parent->color + 1;
-            parent->parent->left->color = BLACK;
-            parent->color = BLACK;
-            return ;
+            leftRotate(brother);
+            brother = brother->parent;
+        }
+        else if (node->right == brother
+            && brother->leftColor() == RED && brother->rightColor() == BLACK)
+        {
+            rightRotate(brother);
+            brother = brother->parent;
+        }
+
+        if (node->right == brother)
+        {
+            leftRotate(node, false);
+            node->parent->color = node->color;
+            node->parent->right->color = BLACK;
+            node->color = BLACK;
+        }
+        else
+        {
+            rightRotate(node, false);
+            node->parent->color = node->color;
+            node->parent->left->color = BLACK;
+            node->color = BLACK;
         }
     }
 
-public:
-    RBTree(void): alloc(Allocator()), root(NULL){}
-    ~RBTree(void){clear();}
+    bool    eq(t_key &f, t_key &s) const {return !comp(f, s) && !comp(s, f);}
+    bool    more(t_key &f, t_key &s) const {return comp(s, f);}
+    bool    less(t_key &f, t_key &s) const {return comp(f, s);}
+    bool    more_eq(t_key &f, t_key &s) const {return more(f, s) || eq(f, s);}
+    bool    less_eq(t_key &f, t_key &s) const {return less(f, s) || eq(f, s);}
 
-    void insert(const Data &data)
+public:
+    RBTree(void): alloc(Allocator()), comp(Compair()), root(NULL), len(0){}
+    ~RBTree(void){clear(root);}
+
+    void insert(const data_t &data)
     {
         if (root == NULL)
         {
             root = alloc.allocate(1);
             alloc.construct(root, node_t(BLACK, data));
-            std::cout << "BALANCED" << std::endl;
-            printBT("", this->root, false);
+            len++;
             return ;
         }
         node_t *parent = getParent(data.first);
-        if (parent->data.first == data.first)
+        if (eq(parent->data.first, data.first))
         {
             parent->data.second = data.second;
             return ;
         }
         node_t *node = alloc.allocate(1);
         alloc.construct(node, node_t(RED, data));
-        if (parent->data.first > data.first)
+        if (more(parent->data.first, data.first))
         {
             parent->left = node;
             node->parent = parent;
@@ -355,16 +401,15 @@ public:
         }
         if (parent->color == RED)
             doBalancingAfterInsert(parent);
-        std::cout << "BALANCED" << std::endl;
-        printBT("", this->root, false);
+        len++;
     }
 
-    void insert(const Key &key, const Value val = NULL)
+    void insert(t_key &key, value_t val = NULL)
     {
         insert(ft::make_pair(key, val));
     }
 
-    void remove(const Key &key)
+    void remove(t_key &key)
     {
         node_t *parent;
         node_t *node = findNodeToRemove(key);
@@ -374,46 +419,70 @@ public:
         if (parent == NULL)
         {
             if (node->left)
+            {
                 root = node->left;
+            }
             else
+            {
                 root = node->right;
+            }
+            if (root)
+            {
+                root->color = BLACK;
+                root->parent = NULL;
+            }
         }
         else if (node->color == RED)
         {
             if (parent->left == node)
+            {
                 parent->left = NULL;
+            }
             else
+            {
                 parent->right = NULL;
+            }
         }
         else if (node->color == BLACK)
         {
             if (node->left)
             {
-                node->data = node->left->data;
+                node->setData(node->left->data);
+                parent = node;
                 node = node->left;
+                parent->left = NULL;
             }
             else if (node->right)
             {
-                node->data = node->right->data;
+                node->setData(node->right->data);
+                parent = node;
                 node = node->right;
+                parent->right = NULL;
             }
             else
             {
-                doBalancingAfterRemove(node);
                 if (parent->left == node)
+                {
                     parent->left = NULL;
+                    doBalancingAfterRemove(node->parent, node->parent->right);
+                }
                 else
+                {
                     parent->right = NULL;
+                    doBalancingAfterRemove(node->parent, node->parent->left);
+                }
             }
         }
         alloc.destroy(node);
         alloc.deallocate(node, 1);
-        printBT("", this->root, false);
+        len--;
     }
 
-    void remove(const Data &data){remove(data.first);}
+    void remove(const data_t &data){remove(data.first);}
 
-    Data *find(const Key &key) const
+    size_t  size(void) const {return len;}
+
+    data_t *find(t_key &key) const
     {
         node_t *res = findNode(key);
         if (res)
@@ -421,17 +490,65 @@ public:
         return NULL;
     }
 
-    Data *find(const Data &data) const
+    data_t *find(const data_t &data) const
     {
         return find(data.first);
     }
 
-    void clear(void){}
+    void clear(void){clear(root);}
+
+    void checkBalance(node_t *node)
+    {
+        if (node == NULL)
+            return;
+        if (node->color == RED
+            && (node->leftColor() == RED || node->rightColor() == RED))
+        {
+            std::cout << "NOT BALANCED: doble red: node: "
+                << node->data.first << std::endl;
+            exit(1);
+        }
+        if (node->color == RED
+            && ((node->left == NULL && node->right && node->right->color == BLACK)
+                || (node->right == NULL && node->left && node->left->color == BLACK)))
+        {
+            std::cout << "NOT BALANCED: red and NULL and BLACK: node: "
+                << node->data.first << std::endl;
+            exit(1);
+        }
+        if (node->color == BLACK)
+        {
+            if (node->left == NULL && node->right && node->rightColor() == BLACK)
+            {
+                std::cout << "NOT BALANCED: black end NULL: node: "
+                << node->data.first << std::endl;
+                exit(1);
+            }
+            else if (node->right == NULL && node->left && node->leftColor() == BLACK)
+            {
+                std::cout << "NOT BALANCED: black end NULL: node: "
+                << node->data.first << std::endl;
+                exit(1);
+            }
+        }
+        checkBalance(node->left);
+        checkBalance(node->right);
+    }
+
+    void    checkBalance(void)
+    {
+        checkBalance(root);
+    }
+
+    void    print(void)
+    {
+        printBT("", root, false);
+    }
 };
 
-template<typename Data>
+template<typename Data, typename DataAllocator>
 void printBT(const std::string& prefix,
-    const typename ft::RBTree_node<Data> *nodeV, bool isLeft)
+    const typename ft::RBTree_node<Data, DataAllocator> *nodeV, bool isLeft)
 {
     std::cout << prefix;
     std::cout << (!isLeft ? "├──" : "└──" );
@@ -439,7 +556,7 @@ void printBT(const std::string& prefix,
         std::cout <<"\033[0;36m"<< "nil" << "\033[0m"<<std::endl;
         return ;
     }
-    // print the value of the node
+    // print the value_t of the node
     if (nodeV->color == 0)
         std::cout <<"\033[0;36m"<< nodeV->data.first<<"\033[0m"<<std::endl;
     else
