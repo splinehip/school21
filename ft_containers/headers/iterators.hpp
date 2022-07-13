@@ -114,14 +114,27 @@ public:
     iter_t  &operator--(void){++iter; return *this;}
     iter_t  operator--(int){return iter_t(iter++);}
 
-    value_t &operator*(void) const {return *(iter - 1);}
-    value_t *operator->(void) const {return &(*(iter - 1));}
-    value_t &operator[](diff_t n) const {return (iter - 1)[-n];}
+    value_t &operator*(void) const {iter_t res = iter; return *(--res.iter);}
+    value_t *operator->(void) const
+    {
+        iter_t res = iter;
+        return &(*(--res.iter));
+    }
+
+    value_t &operator[](diff_t n) const
+    {
+        iter_t res = iter;
+        return (--res.iter)[-n];
+    }
 
     Iterator    base(void) const {return iter;}
 
-    void    swap(iter_t &rhs){Iterator &tmp = iter;
-                                iter = rhs.iter; rhs.iter = tmp;}
+    void    swap(iter_t &rhs)
+    {
+        Iterator &tmp = iter;
+        iter = rhs.iter;
+        rhs.iter = tmp;
+    }
 
 };
 

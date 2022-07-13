@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/11 21:53:03 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/13 23:07:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <functional>
 
 #include "utils.hpp"
+#include "iterators.hpp"
 #include "pair.hpp"
 
 namespace ft
@@ -60,27 +61,88 @@ public:
         return *this;
     }
 
-    void    setData(const data_t &new_data)
+    node_t  &operator=(const data_t &new_data)
     {
+        if (this->data == data)
+            return *this;
         alloc.destroy(&data);
         alloc.construct(&data, new_data);
+        return *this;
     }
 
-    unsigned int    leftColor(void)
+    unsigned int    leftColor(void) const
     {
         if (left)
             return left->color;
         return BLACK;
     }
 
-    unsigned int    rightColor(void)
+    unsigned int    rightColor(void) const
     {
         if (right)
             return right->color;
         return BLACK;
     }
 
+    node_t  *operator++(void)
+    {
+        node_t *next;
+
+        if (right)
+        {
+            if (right->left)
+            {
+                next = right;
+                while (next->left)
+                {
+                    next = next->left;
+                }
+                return next;
+            }
+            return right;
+        }
+        if (parent->data.first < data.first)
+        {
+            next = parent;
+            while (next->data.first < data.first)
+            {
+                next = next->parent;
+            }
+            return next;
+        }
+        return parent;
+    }
+    node_t  *operator--(void)
+    {
+        node_t *next;
+
+        if (left)
+        {
+            if (left->right)
+            {
+                next = left;
+                while (next->right)
+                {
+                    next = next->right;
+                }
+                return next;
+            }
+            return left;
+        }
+        if (parent->data.first > data.first)
+        {
+            next = parent;
+            while (next->data.first > data.first)
+            {
+                next = next->parent;
+            }
+            return next;
+        }
+        return parent;
+    }
+
 };
+
 
 template<
 typename Data = pair<const int, void*>,
@@ -89,17 +151,29 @@ typename DataAllocator = std::allocator<Data>,
 typename Allocator = std::allocator<RBTree_node<Data, DataAllocator> > >
 class RBTree
 {
+template<bool IsConst>
+struct common_iterator;
+
 public:
-typedef Data                                data_t;
-typedef typename Data::first_type           t_key;
-typedef typename Data::second_type          value_t;
-typedef RBTree_node<Data, DataAllocator>    node_t;
-typedef Compair                             comp_t;
+typedef Data                                            data_t;
+typedef typename Data::first_type                       t_key;
+typedef typename Data::second_type                      value_t;
+typedef RBTree_node<Data, DataAllocator>                node_t;
+typedef RBTree<Data, Compair, DataAllocator, Allocator> rbtree_t;
+typedef Compair                                         comp_t;
+
+typedef RBTree::common_iterator<NotConst>           iterator;
+typedef RBTree::common_iterator<Const>              const_iterator;
+typedef common_reverse_iterator<iterator>           reverse_iterator;
+typedef common_reverse_iterator<const_iterator>     const_reverse_iterator;
 
 private:
     Allocator   alloc;
     comp_t      comp;
     node_t      *root;
+    node_t      *min;
+    node_t      *max;
+    node_t      *pend;
     size_t      len;
 
 private:
@@ -138,6 +212,26 @@ private:
         return res;
     }
 
+    node_t  *getMin(void) const
+    {
+        node_t *res = root;
+        while (res && res->left)
+        {
+            res = res->left;
+        }
+        return res;
+    }
+
+    node_t  *getMax(void) const
+    {
+        node_t *res = root;
+        while (res && res->right)
+        {
+            res = res->right;
+        }
+        return res;
+    }
+
     node_t  *findNodeToRemove(t_key &key)
     {
         node_t *next;
@@ -154,7 +248,7 @@ private:
             {
                 next = next->left;
             }
-            node->setData(next->data);
+            node = next->data;
             node = next;
         }
         return node;
@@ -369,8 +463,38 @@ private:
     bool    less_eq(t_key &f, t_key &s) const {return less(f, s) || eq(f, s);}
 
 public:
-    RBTree(void): alloc(Allocator()), comp(Compair()), root(NULL), len(0){}
+    RBTree(void): alloc(Allocator()), comp(Compair()), root(NULL), min(NULL),
+        max(NULL), pend(NULL), len(0){}
+
+    RBTree(const rbtree_t &inst): alloc(Allocator()), comp(Compair()),
+        root(NULL), min(NULL), max(NULL), pend(NULL), len(0)
+    {
+        copyTree(inst.root);
+    }
+
     ~RBTree(void){clear(root);}
+
+    rbtree_t    &operator=(const rbtree_t &inst)
+    {
+        if (this == &inst)
+            return *this;
+        root = inst.root;
+        min = inst.min;
+        max = inst.max;
+        pend = inst.pend;
+        len = inst.len;
+        return *this;
+    }
+
+    void        copyTree(const node_t *node)
+    {
+        if (node == NULL)
+            return ;
+        insert(node->data);
+        copyTree(node->left);
+        copyTree(node->right);
+
+    }
 
     void insert(const data_t &data)
     {
@@ -378,6 +502,9 @@ public:
         {
             root = alloc.allocate(1);
             alloc.construct(root, node_t(BLACK, data));
+            min = root;
+            max = root;
+            pend = max + 1;
             len++;
             return ;
         }
@@ -401,6 +528,15 @@ public:
         }
         if (parent->color == RED)
             doBalancingAfterInsert(parent);
+        if (node->data.first < min->data.first)
+        {
+            min = node;
+        }
+        else if (node->data.first > max->data.first)
+        {
+            max = node;
+            pend = max + 1;
+        }
         len++;
     }
 
@@ -447,14 +583,14 @@ public:
         {
             if (node->left)
             {
-                node->setData(node->left->data);
+                node = node->left->data;
                 parent = node;
                 node = node->left;
                 parent->left = NULL;
             }
             else if (node->right)
             {
-                node->setData(node->right->data);
+                node = node->right->data;
                 parent = node;
                 node = node->right;
                 parent->right = NULL;
@@ -475,6 +611,16 @@ public:
         }
         alloc.destroy(node);
         alloc.deallocate(node, 1);
+        node = NULL;
+        if (min == NULL)
+        {
+            min = getMin();
+        }
+        else if (max == NULL)
+        {
+            max = getMax();
+            pend = max + 1;
+        }
         len--;
     }
 
@@ -497,53 +643,209 @@ public:
 
     void clear(void){clear(root);}
 
-    void checkBalance(node_t *node)
+    //Iterators:
+    iterator                begin(void)
     {
-        if (node == NULL)
-            return;
-        if (node->color == RED
-            && (node->leftColor() == RED || node->rightColor() == RED))
-        {
-            std::cout << "NOT BALANCED: doble red: node: "
-                << node->data.first << std::endl;
-            exit(1);
-        }
-        if (node->color == RED
-            && ((node->left == NULL && node->right && node->right->color == BLACK)
-                || (node->right == NULL && node->left && node->left->color == BLACK)))
-        {
-            std::cout << "NOT BALANCED: red and NULL and BLACK: node: "
-                << node->data.first << std::endl;
-            exit(1);
-        }
-        if (node->color == BLACK)
-        {
-            if (node->left == NULL && node->right && node->rightColor() == BLACK)
-            {
-                std::cout << "NOT BALANCED: black end NULL: node: "
-                << node->data.first << std::endl;
-                exit(1);
-            }
-            else if (node->right == NULL && node->left && node->leftColor() == BLACK)
-            {
-                std::cout << "NOT BALANCED: black end NULL: node: "
-                << node->data.first << std::endl;
-                exit(1);
-            }
-        }
-        checkBalance(node->left);
-        checkBalance(node->right);
+        return iterator(&min, &max, false);
     }
 
-    void    checkBalance(void)
+    const_iterator          begin(void) const {}
+    iterator                end(void)
     {
-        checkBalance(root);
+        return iterator(&min, &max, true);
+    }
+    const_iterator          end(void) const {}
+    reverse_iterator        rbegin(void){}
+    const_reverse_iterator  rbegin(void) const {}
+    reverse_iterator        rend(void){}
+    const_reverse_iterator  rend(void) const {}
+    const_iterator          cbegin(void) const
+    {
+        return const_iterator(&min, &max, false);
+    }
+
+    const_iterator          cend(void) const {}
+    const_reverse_iterator  crbegin(void) const {}
+    const_reverse_iterator  crend(void) const {}
+
+    void    checkBalance(void) const
+    {
+        checkBalanceBT(root);
     }
 
     void    print(void)
     {
         printBT("", root, false);
     }
+
+};
+
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+template<bool IsConst>
+struct ft::RBTree<Data, Compair, DataAllocator, Allocator>::common_iterator
+    : public iterator_base<std::bidirectional_iterator_tag,
+            typename conditional<IsConst, node_t, const node_t>::type>
+{
+typedef
+typename common_iterator::iterator_base::difference_type            diff_type;
+
+typedef
+typename conditional_t<IsConst, diff_type, const diff_type>::type   diff_t;
+
+typedef
+typename conditional_t<IsConst, value_t, const value_t>::type       second_t;
+
+typedef
+typename conditional_t<IsConst, node_t, const node_t>::type         t_node;
+
+typedef
+typename conditional_t<IsConst, data_t, const data_t>::type         t_data;
+
+typedef
+typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
+
+private:
+    t_node  *node;
+    t_node  **min;
+    t_node  **max;
+    bool    end;
+
+public:
+    common_iterator(void): node(NULL), min(NULL), max(NULL){}
+    common_iterator(t_node **_min, t_node **_max, bool _end)
+        : node(NULL), min(_min), max(_max), end(_end){}
+    common_iterator(t_node *_node, t_node **_min, t_node **_max, bool _end)
+        : node(_node), min(_min), max(_max), end(_end){}
+    common_iterator(const iterator &inst){*this = inst;}
+    ~common_iterator(void){}
+
+    iter_t  &operator=(const iterator &inst)
+    {
+        if (this == &inst)
+            return *this;
+        node = inst.node;
+        min = inst.min;
+        max = inst.max;
+        end = inst.end;
+        return *this;
+    }
+
+    iter_t  &operator++(void)
+    {
+        if (node == NULL)
+        {
+            if (end)
+                node = *max;
+            else
+                node = *min;
+        }
+        if (node == *max)
+            node = *max + 1;
+        else
+           node = ++*node;
+        return *this;
+    }
+
+    iter_t  operator++(int)
+    {
+        node_t *cur = node;
+
+        if (node == NULL)
+        {
+            if (end)
+                node = *max;
+            else
+                node = *min;
+        }
+        if (node == *max)
+            node = *max + 1;
+        else
+            node = ++*node;
+        return iter_t(cur, min, max, end);
+    }
+
+    iter_t  &operator--(void)
+    {
+        if (node == NULL)
+        {
+            if (end)
+                node = *max + 1;
+            else
+                node = *min;
+        }
+        if (node == *max + 1)
+            node = *max;
+        else
+            node = --*node;
+        return *this;
+    }
+
+    iter_t  operator--(int)
+    {
+        node_t **cur = node;
+        if (node == NULL)
+        {
+            if (end)
+                node = *max + 1;
+            else
+                node = *min;
+        }
+        if (*node == *max + 1)
+            node = *max;
+        else
+            node --*node;
+        return iter_t(cur, min, max, end);
+    }
+
+    t_data  &operator*(void) const
+    {
+        if (node == NULL)
+        {
+            if (end)
+                return (*max)->data;
+            return (*min)->data;
+        }
+        return node->data;
+    }
+
+    t_data  *operator->(void) const
+    {
+        if (node == NULL)
+        {
+            if (end)
+                return &(*max)->data;
+            return &(*min)->data;
+        }
+        return &node->data;
+    }
+
+    t_node  *base(void) const
+    {
+        if (node == NULL)
+        {
+            if (end)
+                return *max + 1;
+            return *min;
+        }
+        return node;
+    }
+
+    void    swap(iter_t &rhs)
+    {
+        t_node *tmp = node;
+        t_node **ptmp = min;
+        node = rhs.node;
+        rhs.node = tmp;
+        ptmp = min;
+        min = rhs.min;
+        rhs.min = ptmp;
+        ptmp = max;
+        max = rhs.max;
+        rhs.max = ptmp;
+        end = rhs.end;
+    }
+
 };
 
 template<typename Data, typename DataAllocator>
@@ -563,6 +865,45 @@ void printBT(const std::string& prefix,
         std::cout <<"\033[0;31m"<< nodeV->data.first << "\033[0m"<<std::endl;
     printBT( prefix + (!isLeft ? "│   " : "    "), nodeV->right, false);
     printBT( prefix + (!isLeft ? "│   " : "    "), nodeV->left, true);
+}
+
+template<typename Data, typename DataAllocator>
+void checkBalanceBT(const typename ft::RBTree_node<Data, DataAllocator> *node)
+{
+    if (node == NULL)
+        return;
+    if (node->color == RED
+        && (node->leftColor() == RED || node->rightColor() == RED))
+    {
+        std::cout << "NOT BALANCED: doble red: node: "
+            << node->data.first << std::endl;
+        exit(1);
+    }
+    if (node->color == RED
+        && ((node->left == NULL && node->right && node->right->color == BLACK)
+            || (node->right == NULL && node->left && node->left->color == BLACK)))
+    {
+        std::cout << "NOT BALANCED: red and NULL and BLACK: node: "
+            << node->data.first << std::endl;
+        exit(1);
+    }
+    if (node->color == BLACK)
+    {
+        if (node->left == NULL && node->right && node->rightColor() == BLACK)
+        {
+            std::cout << "NOT BALANCED: black end NULL: node: "
+            << node->data.first << std::endl;
+            exit(1);
+        }
+        else if (node->right == NULL && node->left && node->leftColor() == BLACK)
+        {
+            std::cout << "NOT BALANCED: black end NULL: node: "
+            << node->data.first << std::endl;
+            exit(1);
+        }
+    }
+    checkBalanceBT(node->left);
+    checkBalanceBT(node->right);
 }
 
 }
