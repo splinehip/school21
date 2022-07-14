@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/13 23:07:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/14 16:41:07 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ private:
     node_t      *root;
     node_t      *min;
     node_t      *max;
-    node_t      *pend;
     size_t      len;
 
 private:
@@ -462,12 +461,35 @@ private:
     bool    more_eq(t_key &f, t_key &s) const {return more(f, s) || eq(f, s);}
     bool    less_eq(t_key &f, t_key &s) const {return less(f, s) || eq(f, s);}
 
+    data_t  *getNodeValuePtr(node_t *node) const
+    {
+        if (node == NULL)
+            return &max->data;
+        return &node->data;
+    }
+
+    node_t  *increment_node(node_t *node) const
+    {
+        if (node == NULL || node == max)
+            return NULL;
+        return ++*node;
+    }
+
+    node_t  *decrement_node(node_t *node) const
+    {
+        if (node == NULL)
+            return max;
+        else if (node == min)
+            return NULL;
+        return --*node;
+    }
+
 public:
     RBTree(void): alloc(Allocator()), comp(Compair()), root(NULL), min(NULL),
-        max(NULL), pend(NULL), len(0){}
+        max(NULL), len(0){}
 
     RBTree(const rbtree_t &inst): alloc(Allocator()), comp(Compair()),
-        root(NULL), min(NULL), max(NULL), pend(NULL), len(0)
+        root(NULL), min(NULL), max(NULL), len(0)
     {
         copyTree(inst.root);
     }
@@ -481,7 +503,6 @@ public:
         root = inst.root;
         min = inst.min;
         max = inst.max;
-        pend = inst.pend;
         len = inst.len;
         return *this;
     }
@@ -504,7 +525,6 @@ public:
             alloc.construct(root, node_t(BLACK, data));
             min = root;
             max = root;
-            pend = max + 1;
             len++;
             return ;
         }
@@ -535,7 +555,6 @@ public:
         else if (node->data.first > max->data.first)
         {
             max = node;
-            pend = max + 1;
         }
         len++;
     }
@@ -619,7 +638,6 @@ public:
         else if (max == NULL)
         {
             max = getMax();
-            pend = max + 1;
         }
         len--;
     }
@@ -644,29 +662,34 @@ public:
     void clear(void){clear(root);}
 
     //Iterators:
-    iterator                begin(void)
+    iterator                begin(void){return iterator(min, this);}
+    const_iterator          begin(void) const {return const_iterator(min, this);}
+    iterator                end(void) {return iterator(NULL, this);}
+    const_iterator          end(void) const {return const_iterator(NULL, this);}
+    reverse_iterator        rbegin(void){return reverse_iterator(end());}
+    const_reverse_iterator  rbegin(void) const
     {
-        return iterator(&min, &max, false);
+        return const_reverse_iterator(cend());
     }
 
-    const_iterator          begin(void) const {}
-    iterator                end(void)
+    reverse_iterator        rend(void){return reverse_iterator(begin());}
+    const_reverse_iterator  rend(void) const
     {
-        return iterator(&min, &max, true);
-    }
-    const_iterator          end(void) const {}
-    reverse_iterator        rbegin(void){}
-    const_reverse_iterator  rbegin(void) const {}
-    reverse_iterator        rend(void){}
-    const_reverse_iterator  rend(void) const {}
-    const_iterator          cbegin(void) const
-    {
-        return const_iterator(&min, &max, false);
+        return const_reverse_iterator(cbegin());
     }
 
-    const_iterator          cend(void) const {}
-    const_reverse_iterator  crbegin(void) const {}
-    const_reverse_iterator  crend(void) const {}
+    const_iterator          cbegin(void) const {return const_iterator(min, this);}
+
+    const_iterator          cend(void) const {return const_iterator(NULL, this);}
+    const_reverse_iterator  crbegin(void) const
+    {
+        return const_reverse_iterator(cend());
+    }
+
+    const_reverse_iterator  crend(void) const
+    {
+        return const_reverse_iterator(cbegin());
+    }
 
     void    checkBalance(void) const
     {
@@ -685,16 +708,16 @@ typename Data, typename Compair, typename DataAllocator, typename Allocator>
 template<bool IsConst>
 struct ft::RBTree<Data, Compair, DataAllocator, Allocator>::common_iterator
     : public iterator_base<std::bidirectional_iterator_tag,
-            typename conditional<IsConst, node_t, const node_t>::type>
+            typename conditional<IsConst, data_t, const data_t>::type>
 {
+typedef
+typename RBTree<Data, Compair, DataAllocator, Allocator>::rbtree_t  t_rbtree;
+
 typedef
 typename common_iterator::iterator_base::difference_type            diff_type;
 
 typedef
 typename conditional_t<IsConst, diff_type, const diff_type>::type   diff_t;
-
-typedef
-typename conditional_t<IsConst, value_t, const value_t>::type       second_t;
 
 typedef
 typename conditional_t<IsConst, node_t, const node_t>::type         t_node;
@@ -706,17 +729,14 @@ typedef
 typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
 
 private:
-    t_node  *node;
-    t_node  **min;
-    t_node  **max;
-    bool    end;
+    t_node      *node;
+    rbtree_t    *rbtree;
 
 public:
-    common_iterator(void): node(NULL), min(NULL), max(NULL){}
-    common_iterator(t_node **_min, t_node **_max, bool _end)
-        : node(NULL), min(_min), max(_max), end(_end){}
-    common_iterator(t_node *_node, t_node **_min, t_node **_max, bool _end)
-        : node(_node), min(_min), max(_max), end(_end){}
+    common_iterator(void): node(NULL), rbtree(NULL){}
+    common_iterator(t_node *_node, rbtree_t *_rbtree)
+        : node(_node), rbtree(_rbtree){}
+
     common_iterator(const iterator &inst){*this = inst;}
     ~common_iterator(void){}
 
@@ -725,125 +745,59 @@ public:
         if (this == &inst)
             return *this;
         node = inst.node;
-        min = inst.min;
-        max = inst.max;
-        end = inst.end;
+        rbtree = inst.rbtree;
         return *this;
     }
 
     iter_t  &operator++(void)
     {
-        if (node == NULL)
-        {
-            if (end)
-                node = *max;
-            else
-                node = *min;
-        }
-        if (node == *max)
-            node = *max + 1;
-        else
-           node = ++*node;
+        node = rbtree->increment_node(node);
         return *this;
     }
 
     iter_t  operator++(int)
     {
         node_t *cur = node;
-
-        if (node == NULL)
-        {
-            if (end)
-                node = *max;
-            else
-                node = *min;
-        }
-        if (node == *max)
-            node = *max + 1;
-        else
-            node = ++*node;
-        return iter_t(cur, min, max, end);
+        node = rbtree->increment_node(node);
+        return iter_t(cur, rbtree);
     }
 
     iter_t  &operator--(void)
     {
-        if (node == NULL)
-        {
-            if (end)
-                node = *max + 1;
-            else
-                node = *min;
-        }
-        if (node == *max + 1)
-            node = *max;
-        else
-            node = --*node;
+        node = rbtree->decrement_node(node);
         return *this;
     }
 
     iter_t  operator--(int)
     {
-        node_t **cur = node;
-        if (node == NULL)
-        {
-            if (end)
-                node = *max + 1;
-            else
-                node = *min;
-        }
-        if (*node == *max + 1)
-            node = *max;
-        else
-            node --*node;
-        return iter_t(cur, min, max, end);
+        node_t *cur = node;
+        node = rbtree->decrement_node(node);
+        return iter_t(cur, rbtree);
     }
 
-    t_data  &operator*(void) const
+    t_data  &operator*(void)
     {
-        if (node == NULL)
-        {
-            if (end)
-                return (*max)->data;
-            return (*min)->data;
-        }
-        return node->data;
+        return *rbtree->getNodeValuePtr(node);
     }
 
-    t_data  *operator->(void) const
+    t_data  *operator->(void)
     {
-        if (node == NULL)
-        {
-            if (end)
-                return &(*max)->data;
-            return &(*min)->data;
-        }
-        return &node->data;
+        return rbtree->getNodeValuePtr(node);
     }
 
     t_node  *base(void) const
     {
-        if (node == NULL)
-        {
-            if (end)
-                return *max + 1;
-            return *min;
-        }
         return node;
     }
 
     void    swap(iter_t &rhs)
     {
-        t_node *tmp = node;
-        t_node **ptmp = min;
+        t_node *_node = node;
+        rbtree_t _rbtree = rbtree;
         node = rhs.node;
-        rhs.node = tmp;
-        ptmp = min;
-        min = rhs.min;
-        rhs.min = ptmp;
-        ptmp = max;
-        max = rhs.max;
-        rhs.max = ptmp;
-        end = rhs.end;
+        rhs.node = _node;
+        rbtree = rhs.rbtree;
+        rhs.rbtree = _rbtree;
     }
 
 };

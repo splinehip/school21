@@ -96,30 +96,31 @@ void    rbtree_test(void)
 
     std::map<int, std::string> m;
 
-    for (int i = 1; i < 11000; i++)
+    for (int i = 1; i < 11; i++)
     {
         rbtree.insert(i, "empty");
-    }
-    //rbtree.print();
-    for (int i = 1; i < 11000; i++)
-    {
         m[i] = "empty";
     }
+    //rbtree.print();
+    /* for (int i = 1; i < 11000; i++)
+    {
+        m[i] = "empty";
+    } */
 
     ft::RBTree<ft::pair<const int, std::string> >::iterator it = rbtree.begin();
     ft::RBTree<ft::pair<const int, std::string> >::iterator ite = rbtree.end();
     std::map<int, std::string>::iterator mit = m.begin();
-    //std::map<int, std::string>::iterator mite = m.end();
-    rbtree.insert(0, "empty");
-    m[0] = "empty";
-    std::cout << "mit->first: " << mit->first
+    std::map<int, std::string>::iterator mite = m.end();
+    /* rbtree.insert(0, "empty");
+    m[0] = "empty"; */
+    /* std::cout << "mit->first: " << mit->first
         << " mit->second: " << mit->second << "\t"
-        << "ite->first " << it->first << " it->second: " << it->second << std::endl;
+        << "ite->first " << it->first << " it->second: " << it->second << std::endl; */
     //mit = m.begin();
-    --mit;
+    /* --mit;
     std::cout << "mit->first: " << mit->first
         << " mit->second: " << mit->second << "\t"
-        << "ite->first " << it->first << " it->second: " << it->second << std::endl;
+        << "ite->first " << it->first << " it->second: " << it->second << std::endl; */
 
     //rbtree.insert(-1, "");
     /* std::cout << "mit->first: " << mit->first
@@ -146,12 +147,56 @@ void    rbtree_test(void)
     //std::cout << std::endl;
     //mit = m.begin();
     //it = rbtree.begin();
-    /* while (ite != it)
+    /* m[11] = "GGGGGG";
+    while (mit != mite)
     {
-        std::cout << "ite->first: " << ite->first
+        std::cout << "mit->first: " << mit->first
+        << " mit->second: " << mit->second << std::endl;
+        ++mit;
+    } */
+    //m[12] = "KKKKKKKK";
+    //m[14] = "KKKKKKKK";
+    //rbtree.insert(12, "JJJJJJJJJ");
+    //rbtree.insert(14, "JJJJJJJJJ");
+    while (it != ite)
+    {
+        std::cout << "mit->first: " << mit->first
+        << " mit->second: " << mit->second << "\t"
+        << "it->first: " << it->first
+        << " it->second: " << it->second << std::endl;
+        ++it;
+        ++mit;
+    }
+    std::cout << "\nreverse" << std::endl;
+    mit = m.begin();
+    it = rbtree.begin();
+    //m[11] = "GGGGGGG";
+    //rbtree.insert(11, "HHHHHHH");
+    //ite = rbtree.end();
+    while (ite != it)
+    {
+        std::cout << "mite->first: " << mite->first
+        << " mite->second: " << mite->second << "\t"
+        << "ite->first: " << ite->first
         << " ite->second: " << ite->second << std::endl;
         --ite;
-    } */
+        --mite;
+    }
+
+    ft::RBTree<ft::pair<const int, std::string> >::reverse_iterator rit = rbtree.rbegin();
+    ft::RBTree<ft::pair<const int, std::string> >::reverse_iterator rite = rbtree.rend();
+    std::map<int, std::string>::reverse_iterator mrit = m.rbegin();
+    //std::map<int, std::string>::reverse_iterator mrite = m.rend();
+    std::cout << "\nreverse iter:" << std::endl;
+    while (rit != rite)
+    {
+        std::cout << "mrit->first: " << mrit->first
+        << " mrit->second: " << mrit->second << "\t"
+        << "rit->first: " << rit->first
+        << " rit->second: " << rit->second << std::endl;
+        ++rit;
+        ++mrit;
+    }
 
     /* while (mite != mit)
     {
