@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/14 16:41:07 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/15 12:58:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,10 @@ typedef RBTree_node<Data, DataAllocator>                node_t;
 typedef RBTree<Data, Compair, DataAllocator, Allocator> rbtree_t;
 typedef Compair                                         comp_t;
 
-typedef RBTree::common_iterator<NotConst>           iterator;
-typedef RBTree::common_iterator<Const>              const_iterator;
-typedef common_reverse_iterator<iterator>           reverse_iterator;
-typedef common_reverse_iterator<const_iterator>     const_reverse_iterator;
+typedef RBTree::common_iterator<NotConst>       iterator;
+typedef RBTree::common_iterator<Const>          const_iterator;
+typedef common_reverse_iterator<iterator>       reverse_iterator;
+typedef common_reverse_iterator<const_iterator> const_reverse_iterator;
 
 private:
     Allocator   alloc;
@@ -247,7 +247,7 @@ private:
             {
                 next = next->left;
             }
-            node = next->data;
+            *node = next->data;
             node = next;
         }
         return node;
@@ -602,14 +602,14 @@ public:
         {
             if (node->left)
             {
-                node = node->left->data;
+                *node = node->left->data;
                 parent = node;
                 node = node->left;
                 parent->left = NULL;
             }
             else if (node->right)
             {
-                node = node->right->data;
+                *node = node->right->data;
                 parent = node;
                 node = node->right;
                 parent->right = NULL;
@@ -628,18 +628,17 @@ public:
                 }
             }
         }
-        alloc.destroy(node);
-        alloc.deallocate(node, 1);
-        node = NULL;
-        if (min == NULL)
+        if (node == min)
         {
             min = getMin();
         }
-        else if (max == NULL)
+        else if (node == max)
         {
             max = getMax();
         }
         len--;
+        alloc.destroy(node);
+        alloc.deallocate(node, 1);
     }
 
     void remove(const data_t &data){remove(data.first);}
@@ -659,7 +658,26 @@ public:
         return find(data.first);
     }
 
-    void clear(void){clear(root);}
+    void    clear(void){clear(root);}
+
+    void    swap(rbtree_t &rhs)
+    {
+        node_t  *tmp;
+        size_t  tmp_len;
+
+        tmp = root;
+        root = rhs.root;
+        rhs.root = tmp;
+        tmp = min;
+        min = rhs.min;
+        rhs.min = tmp;
+        tmp = max;
+        max = rhs.max;
+        rhs.max = tmp;
+        tmp_len = len;
+        len = rhs.len;
+        rhs.len = tmp_len;
+    }
 
     //Iterators:
     iterator                begin(void){return iterator(min, this);}
@@ -714,13 +732,13 @@ typedef
 typename RBTree<Data, Compair, DataAllocator, Allocator>::rbtree_t  t_rbtree;
 
 typedef
+typename RBTree<Data, Compair, DataAllocator, Allocator>::node_t    t_node;
+
+typedef
 typename common_iterator::iterator_base::difference_type            diff_type;
 
 typedef
 typename conditional_t<IsConst, diff_type, const diff_type>::type   diff_t;
-
-typedef
-typename conditional_t<IsConst, node_t, const node_t>::type         t_node;
 
 typedef
 typename conditional_t<IsConst, data_t, const data_t>::type         t_data;
@@ -729,12 +747,12 @@ typedef
 typename conditional_t<IsConst, iterator, const_iterator>::type     iter_t;
 
 private:
-    t_node      *node;
-    rbtree_t    *rbtree;
+    t_node          *node;
+    const rbtree_t  *rbtree;
 
 public:
     common_iterator(void): node(NULL), rbtree(NULL){}
-    common_iterator(t_node *_node, rbtree_t *_rbtree)
+    common_iterator(t_node *_node, const rbtree_t *_rbtree)
         : node(_node), rbtree(_rbtree){}
 
     common_iterator(const iterator &inst){*this = inst;}
@@ -793,7 +811,7 @@ public:
     void    swap(iter_t &rhs)
     {
         t_node *_node = node;
-        rbtree_t _rbtree = rbtree;
+        const rbtree_t *_rbtree = rbtree;
         node = rhs.node;
         rhs.node = _node;
         rbtree = rhs.rbtree;
@@ -801,6 +819,64 @@ public:
     }
 
 };
+
+//Compaire operators:
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+bool    operator==(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    return equal(f.begin(), f.end(), s.begin(), s.end());
+}
+
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+bool    operator!=(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    return !(f == s);
+}
+
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+bool    operator<(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    return ft::lexicographical_compare(f.begin(), f.end(), s.begin(), s.end());
+}
+
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+bool    operator<=(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    return (f < s) || (f == s);
+}
+
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+bool    operator>(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    return !(f < s) && (f != s);
+}
+
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+bool    operator>=(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    return (f > s) || (f == s);
+}
+
+//std::swap:
+template<
+typename Data, typename Compair, typename DataAllocator, typename Allocator>
+void    swap(ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
+ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+{
+    f.swap(s);
+}
 
 template<typename Data, typename DataAllocator>
 void printBT(const std::string& prefix,

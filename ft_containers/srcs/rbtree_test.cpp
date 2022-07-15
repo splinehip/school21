@@ -101,6 +101,7 @@ void    rbtree_test(void)
         rbtree.insert(i, "empty");
         m[i] = "empty";
     }
+    //interactive(rbtree);
     //rbtree.print();
     /* for (int i = 1; i < 11000; i++)
     {
@@ -198,6 +199,27 @@ void    rbtree_test(void)
         ++mrit;
     }
 
+    ft::RBTree<ft::pair<const int, std::string> > rbtree2(rbtree);
+
+    std::cout << "rbtree == rbtree2: " << std::boolalpha << (rbtree == rbtree2) << std::endl;
+    rbtree2.insert(25, "DDDDD");
+    std::cout << "rbtree == rbtree2: " << std::boolalpha << (rbtree == rbtree2) << std::endl;
+    std::cout << "rbtree > rbtree2: " << std::boolalpha << (rbtree > rbtree2) << std::endl;
+    rbtree2.remove(25);
+    std::cout << "rbtree >= rbtree2: " << std::boolalpha << (rbtree >= rbtree2) << std::endl;
+    rbtree2.insert(25, "DDDDDDD");
+    std::cout << "rbtree > rbtree2: " << std::boolalpha << (rbtree > rbtree2) << std::endl;
+    swap(rbtree, rbtree2);
+    std::cout << "rbtree > rbtree2: " << std::boolalpha << (rbtree > rbtree2) << std::endl;
+    it = rbtree.begin();
+    ite = rbtree.end();
+    swap(it, ite);
+    while (ite != it)
+    {
+        std::cout << "ite->first: " << ite->first
+        << " ite->second: " << ite->second << std::endl;
+        ++ite;
+    }
     /* while (mite != mit)
     {
         std::cout << "mite->first: " << mite->first
