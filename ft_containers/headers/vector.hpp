@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 12:49:25 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/01 12:02:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/15 12:46:17 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,6 @@ bool    operator>=(const vector<T, Allocator> &f, const vector<T, Allocator> &s)
 //std::swap:
 template<typename T, typename Allocator>
 void    swap(vector<T, Allocator> &f, vector<T, Allocator> &s){f.swap(s);}
-
-template<typename Iterator>
-void    swap(Iterator &f, Iterator &s){f.swap(s);}
 
 #include "vector.tpp"
 }

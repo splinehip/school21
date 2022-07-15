@@ -447,6 +447,9 @@ operator-(const typename Iterator::difference_type n, Iterator &iter)
     return iter - n;
 }
 
+template<typename Iterator>
+void    swap(Iterator &f, Iterator &s){f.swap(s);}
+
 
 //Utils:
 static const bool setVoid = true;
