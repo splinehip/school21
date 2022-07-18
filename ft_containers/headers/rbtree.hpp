@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/18 13:10:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:59:29 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,9 +545,10 @@ public:
         return ft::make_pair<iterator, bool>(iterator(node, this), true);
     }
 
-    pair<iterator, bool>    insert(t_key &key, value_t val = NULL)
+    pair<iterator, bool>    insert(
+        t_key &key, value_t val = NULL, node_t *pos = NULL)
     {
-        return insert(ft::make_pair(key, val));
+        return insert(ft::make_pair(key, val), pos);
     }
 
     size_t remove(t_key &key)
@@ -730,7 +731,13 @@ typename Data, typename Compare, typename DataAllocator, typename Allocator>
 template<bool IsConst>
 struct ft::RBTree<Data, Compare, DataAllocator, Allocator>::common_iterator
     : public iterator_base<std::bidirectional_iterator_tag,
-            typename conditional<IsConst, data_t, const data_t>::type>
+                typename conditional<IsConst,
+                    typename conditional_t<is_same<
+                        typename data_t::second_type, void*>::value,
+                    data_t, typename data_t::first_type>::type,
+                const typename conditional_t<is_same<
+                        typename data_t::second_type, void*>::value,
+                    data_t, typename data_t::first_type>::type>::type>
 {
 typedef
 typename RBTree<Data, Compare, DataAllocator, Allocator>::rbtree_t  t_rbtree;
@@ -758,6 +765,26 @@ private:
     friend const rbtree_t  *baseTree(const iter_t &inst)
     {
         return inst.rbtree;
+    }
+
+    t_data  &asterisk_impl(t_data*) const
+    {
+        return *rbtree->getNodeValuePtr(node);
+    }
+
+    t_key  &asterisk_impl(t_key*) const
+    {
+        return rbtree->getNodeValuePtr(node)->first;
+    }
+
+    t_data  *arrow_impl(t_data*) const
+    {
+        return rbtree->getNodeValuePtr(node);
+    }
+
+    t_key  *arrow_impl(t_key*) const
+    {
+        return &rbtree->getNodeValuePtr(node)->first;
     }
 
 public:
@@ -801,14 +828,24 @@ public:
         return iter_t(cur, rbtree);
     }
 
-    t_data  &operator*(void) const
+    typename conditional_t<is_same<typename t_data::second_type, void*>::value,
+    t_data, typename t_data::first_type>::type
+    &operator*(void) const
     {
-        return *rbtree->getNodeValuePtr(node);
+        typename conditional_t<
+            is_same<typename t_data::second_type, void*>::value,
+                t_data, typename t_data::first_type>::type  *val = NULL;
+        return asterisk_impl(val);
     }
 
-    t_data  *operator->(void) const
+    typename conditional_t<is_same<typename t_data::second_type, void*>::value,
+    t_data, typename t_data::first_type>::type
+    *operator->(void) const
     {
-        return rbtree->getNodeValuePtr(node);
+        typename conditional_t<
+            is_same<typename t_data::second_type, void*>::value,
+                t_data, typename t_data::first_type>::type  *val = NULL;
+        return arrow_impl(val);
     }
 
     t_node  *base(void) const
