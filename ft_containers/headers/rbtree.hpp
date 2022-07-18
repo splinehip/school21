@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:41:14 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/15 12:58:17 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/18 13:10:40 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ public:
     RBTree_node(const node_t &inst)
         : left(NULL), right(NULL), alloc(Allocator()){*this = inst;}
 
-    node_t  &operator=(const node_t &inst)
+    node_t          &operator=(const node_t &inst)
     {
         if (this == &inst)
             return *this;
@@ -61,13 +61,12 @@ public:
         return *this;
     }
 
-    node_t  &operator=(const data_t &new_data)
+    void            setData(const data_t &new_data)
     {
-        if (this->data == data)
-            return *this;
+        if (this->data == new_data)
+            return ;
         alloc.destroy(&data);
         alloc.construct(&data, new_data);
-        return *this;
     }
 
     unsigned int    leftColor(void) const
@@ -84,69 +83,12 @@ public:
         return BLACK;
     }
 
-    node_t  *operator++(void)
-    {
-        node_t *next;
-
-        if (right)
-        {
-            if (right->left)
-            {
-                next = right;
-                while (next->left)
-                {
-                    next = next->left;
-                }
-                return next;
-            }
-            return right;
-        }
-        if (parent->data.first < data.first)
-        {
-            next = parent;
-            while (next->data.first < data.first)
-            {
-                next = next->parent;
-            }
-            return next;
-        }
-        return parent;
-    }
-    node_t  *operator--(void)
-    {
-        node_t *next;
-
-        if (left)
-        {
-            if (left->right)
-            {
-                next = left;
-                while (next->right)
-                {
-                    next = next->right;
-                }
-                return next;
-            }
-            return left;
-        }
-        if (parent->data.first > data.first)
-        {
-            next = parent;
-            while (next->data.first > data.first)
-            {
-                next = next->parent;
-            }
-            return next;
-        }
-        return parent;
-    }
-
 };
 
 
 template<
 typename Data = pair<const int, void*>,
-typename Compair = std::less<typename Data::first_type>,
+typename Compare = std::less<typename Data::first_type>,
 typename DataAllocator = std::allocator<Data>,
 typename Allocator = std::allocator<RBTree_node<Data, DataAllocator> > >
 class RBTree
@@ -159,8 +101,8 @@ typedef Data                                            data_t;
 typedef typename Data::first_type                       t_key;
 typedef typename Data::second_type                      value_t;
 typedef RBTree_node<Data, DataAllocator>                node_t;
-typedef RBTree<Data, Compair, DataAllocator, Allocator> rbtree_t;
-typedef Compair                                         comp_t;
+typedef RBTree<Data, Compare, DataAllocator, Allocator> rbtree_t;
+typedef Compare                                         comp_t;
 
 typedef RBTree::common_iterator<NotConst>       iterator;
 typedef RBTree::common_iterator<Const>          const_iterator;
@@ -186,20 +128,18 @@ private:
         alloc.deallocate(node, 1);
     }
 
-    node_t *findNode(t_key &key) const
+    node_t *getParent(t_key &key, node_t *pos = NULL) const
     {
-        node_t *res = root;
-        while (res && !eq(res->data.first, key))
-        {
-            res = more(res->data.first, key) ? res->left : res->right;
-        }
-        return res;
-    }
+        node_t *next;
+        node_t *res;
 
-    node_t *getParent(t_key &key) const
-    {
-        node_t *next = root;
-        node_t *res = next;
+        if (max && more(key, max->data.first))
+            return max;
+        if (pos)
+            next = pos;
+        else
+            next = root;
+        res = next;
         while (next)
         {
             res = next;
@@ -247,7 +187,7 @@ private:
             {
                 next = next->left;
             }
-            *node = next->data;
+            node->setData(next->data);
             node = next;
         }
         return node;
@@ -470,29 +410,76 @@ private:
 
     node_t  *increment_node(node_t *node) const
     {
+        node_t *next;
+
         if (node == NULL || node == max)
             return NULL;
-        return ++*node;
+
+        if (node->right)
+        {
+            if (node->right->left)
+            {
+                next = node->right;
+                while (next->left)
+                {
+                    next = next->left;
+                }
+                return next;
+            }
+            return node->right;
+        }
+        if (less(node->parent->data.first, node->data.first))
+        {
+            next = node->parent;
+            while (less(next->data.first, node->data.first))
+            {
+                next = next->parent;
+            }
+            return next;
+        }
+        return node->parent;
     }
 
     node_t  *decrement_node(node_t *node) const
     {
+        node_t *next;
+
         if (node == NULL)
             return max;
         else if (node == min)
             return NULL;
-        return --*node;
+
+        if (node->left)
+        {
+            if (node->left->right)
+            {
+                next = node->left;
+                while (next->right)
+                {
+                    next = next->right;
+                }
+                return next;
+            }
+            return node->left;
+        }
+        if (more(node->parent->data.first, node->data.first))
+        {
+            next = node->parent;
+            while (more(next->data.first, node->data.first))
+            {
+                next = next->parent;
+            }
+            return next;
+        }
+        return node->parent;
     }
 
 public:
-    RBTree(void): alloc(Allocator()), comp(Compair()), root(NULL), min(NULL),
+    RBTree(void): alloc(Allocator()), comp(Compare()), root(NULL), min(NULL),
         max(NULL), len(0){}
 
-    RBTree(const rbtree_t &inst): alloc(Allocator()), comp(Compair()),
-        root(NULL), min(NULL), max(NULL), len(0)
-    {
-        copyTree(inst.root);
-    }
+    RBTree(const rbtree_t &inst): alloc(Allocator()), comp(Compare()),
+        root(NULL), min(NULL), max(NULL), len(0){*this = inst;}
 
     ~RBTree(void){clear(root);}
 
@@ -500,10 +487,9 @@ public:
     {
         if (this == &inst)
             return *this;
-        root = inst.root;
-        min = inst.min;
-        max = inst.max;
-        len = inst.len;
+        if (root)
+            clear();
+        copyTree(inst.root);
         return *this;
     }
 
@@ -517,7 +503,7 @@ public:
 
     }
 
-    void insert(const data_t &data)
+    pair<iterator, bool>    insert(const data_t &data, node_t *parent = NULL)
     {
         if (root == NULL)
         {
@@ -526,13 +512,12 @@ public:
             min = root;
             max = root;
             len++;
-            return ;
+            return ft::make_pair<iterator, bool>(iterator(root, this), true);
         }
-        node_t *parent = getParent(data.first);
+        parent = getParent(data.first, parent);
         if (eq(parent->data.first, data.first))
         {
-            parent->data.second = data.second;
-            return ;
+            return ft::make_pair<iterator, bool>(iterator(parent, this), false);
         }
         node_t *node = alloc.allocate(1);
         alloc.construct(node, node_t(RED, data));
@@ -548,28 +533,29 @@ public:
         }
         if (parent->color == RED)
             doBalancingAfterInsert(parent);
-        if (node->data.first < min->data.first)
+        if (less(node->data.first, min->data.first))
         {
             min = node;
         }
-        else if (node->data.first > max->data.first)
+        else if (more(node->data.first, max->data.first))
         {
             max = node;
         }
         len++;
+        return ft::make_pair<iterator, bool>(iterator(node, this), true);
     }
 
-    void insert(t_key &key, value_t val = NULL)
+    pair<iterator, bool>    insert(t_key &key, value_t val = NULL)
     {
-        insert(ft::make_pair(key, val));
+        return insert(ft::make_pair(key, val));
     }
 
-    void remove(t_key &key)
+    size_t remove(t_key &key)
     {
         node_t *parent;
         node_t *node = findNodeToRemove(key);
         if (node == NULL)
-            return ;
+            return 0;
         parent = node->parent;
         if (parent == NULL)
         {
@@ -602,14 +588,14 @@ public:
         {
             if (node->left)
             {
-                *node = node->left->data;
+                node->setData(node->left->data);
                 parent = node;
                 node = node->left;
                 parent->left = NULL;
             }
             else if (node->right)
             {
-                *node = node->right->data;
+                node->setData(node->right->data);
                 parent = node;
                 node = node->right;
                 parent->right = NULL;
@@ -639,11 +625,24 @@ public:
         len--;
         alloc.destroy(node);
         alloc.deallocate(node, 1);
+        return 1;
     }
 
-    void remove(const data_t &data){remove(data.first);}
+    size_t remove(const data_t &data){return remove(data.first);}
 
     size_t  size(void) const {return len;}
+
+    size_t  max_size(void) const {return alloc.max_size();}
+
+    node_t *findNode(t_key &key) const
+    {
+        node_t *res = root;
+        while (res && !eq(res->data.first, key))
+        {
+            res = more(res->data.first, key) ? res->left : res->right;
+        }
+        return res;
+    }
 
     data_t *find(t_key &key) const
     {
@@ -658,7 +657,12 @@ public:
         return find(data.first);
     }
 
-    void    clear(void){clear(root);}
+    void    clear(void)
+    {
+        clear(root);
+        root = min = max = NULL;
+        len = 0;
+    }
 
     void    swap(rbtree_t &rhs)
     {
@@ -722,17 +726,17 @@ public:
 };
 
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
 template<bool IsConst>
-struct ft::RBTree<Data, Compair, DataAllocator, Allocator>::common_iterator
+struct ft::RBTree<Data, Compare, DataAllocator, Allocator>::common_iterator
     : public iterator_base<std::bidirectional_iterator_tag,
             typename conditional<IsConst, data_t, const data_t>::type>
 {
 typedef
-typename RBTree<Data, Compair, DataAllocator, Allocator>::rbtree_t  t_rbtree;
+typename RBTree<Data, Compare, DataAllocator, Allocator>::rbtree_t  t_rbtree;
 
 typedef
-typename RBTree<Data, Compair, DataAllocator, Allocator>::node_t    t_node;
+typename RBTree<Data, Compare, DataAllocator, Allocator>::node_t    t_node;
 
 typedef
 typename common_iterator::iterator_base::difference_type            diff_type;
@@ -750,6 +754,12 @@ private:
     t_node          *node;
     const rbtree_t  *rbtree;
 
+private:
+    friend const rbtree_t  *baseTree(const iter_t &inst)
+    {
+        return inst.rbtree;
+    }
+
 public:
     common_iterator(void): node(NULL), rbtree(NULL){}
     common_iterator(t_node *_node, const rbtree_t *_rbtree)
@@ -760,10 +770,8 @@ public:
 
     iter_t  &operator=(const iterator &inst)
     {
-        if (this == &inst)
-            return *this;
-        node = inst.node;
-        rbtree = inst.rbtree;
+        node = inst.base();
+        rbtree = baseTree(inst);
         return *this;
     }
 
@@ -793,12 +801,12 @@ public:
         return iter_t(cur, rbtree);
     }
 
-    t_data  &operator*(void)
+    t_data  &operator*(void) const
     {
         return *rbtree->getNodeValuePtr(node);
     }
 
-    t_data  *operator->(void)
+    t_data  *operator->(void) const
     {
         return rbtree->getNodeValuePtr(node);
     }
@@ -820,60 +828,60 @@ public:
 
 };
 
-//Compaire operators:
+//Comparee operators:
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-bool    operator==(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+bool    operator==(const ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     return equal(f.begin(), f.end(), s.begin(), s.end());
 }
 
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-bool    operator!=(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+bool    operator!=(const ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     return !(f == s);
 }
 
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-bool    operator<(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+bool    operator<(const ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     return ft::lexicographical_compare(f.begin(), f.end(), s.begin(), s.end());
 }
 
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-bool    operator<=(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+bool    operator<=(const ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     return (f < s) || (f == s);
 }
 
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-bool    operator>(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+bool    operator>(const ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     return !(f < s) && (f != s);
 }
 
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-bool    operator>=(const ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-const ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+bool    operator>=(const ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+const ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     return (f > s) || (f == s);
 }
 
 //std::swap:
 template<
-typename Data, typename Compair, typename DataAllocator, typename Allocator>
-void    swap(ft::RBTree<Data, Compair, DataAllocator, Allocator> &f,
-ft::RBTree<Data, Compair, DataAllocator, Allocator> &s)
+typename Data, typename Compare, typename DataAllocator, typename Allocator>
+void    swap(ft::RBTree<Data, Compare, DataAllocator, Allocator> &f,
+ft::RBTree<Data, Compare, DataAllocator, Allocator> &s)
 {
     f.swap(s);
 }
