@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:49:21 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/18 13:28:22 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/07/18 14:40:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typename Allocator = std::allocator<pair<const Key, Value> > >
 class map
 {
 typedef typename
-ft::RBTree<pair<const Key, Value>, Compare, Allocator>  rbtree_t;
+ft::RBTree<typename Allocator::value_type, Compare, Allocator>  rbtree_t;
 
 public:
 typedef Key                                         key_type;
