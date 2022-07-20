@@ -34,13 +34,13 @@
         "path": "cpp"
       },
       {
-        "path": "webserv"
-      },
-      {
         "path": "ft_containers"
       },
       {
         "path": "ft_inception"
+      },
+      {
+        "path": "ft_webserver"
       },
     ],
     "settings": {
