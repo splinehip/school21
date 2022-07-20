@@ -1,4 +1,4 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/oleg/Документы/git/school21/tests'
 make: Leaving directory '/home/oleg/Документы/git/school21/tests'
  

@@ -39,6 +39,9 @@
       {
         "path": "ft_containers"
       },
+      {
+        "path": "ft_inception"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
