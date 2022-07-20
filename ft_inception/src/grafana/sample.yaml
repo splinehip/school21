@@ -1,0 +1,12 @@
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    database: telegraf
+    user: telegraf
+    url: http://grafana:8086
+    jsonData:
+      httpMode: GET
+    secureJsonData:
+      password: root
+

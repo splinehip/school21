@@ -1,0 +1,23 @@
+FROM debian:buster
+
+RUN apt upgrade -y
+RUN apt-get update -y
+
+
+RUN apt-get install vim -y
+RUN apt install redis-server -y
+RUN apt install wget -y
+RUN apt install make gcc -y
+
+
+RUN apt-get install php-redis -y
+
+RUN wget http://download.redis.io/redis-stable.tar.gz &&tar xvzf redis-stable.tar.gz
+RUN wget http://downloads.sourceforge.net/tcl/tcl8.6.1-src.tar.gz && tar xzvf tcl8.6.1-src.tar.gz  -C/usr/local/  
+WORKDIR /usr/local/tcl8.6.1/unix/
+RUN ./configure   && make && make install
+
+RUN cd /redis-stable && make
+COPY ./redis.conf /redis.conf
+CMD redis-server --protected-mode no
+
