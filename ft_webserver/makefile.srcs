@@ -8,7 +8,7 @@ LOGGER = $(addprefix ${LOGGER_DIR}/, Log.cpp logUtils.cpp)
 # end LOGGER
 
 # SERVER
-SERVER	= Server.cpp serverUtils.cpp
+SERVER	=
 # end SERVER
 
 # SRCS
