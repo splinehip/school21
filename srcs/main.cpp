@@ -1,8 +1,8 @@
 #include <iostream>
 #include <csignal>
 
-#include "Server.h"
 #include "logger/Log.h"
+#include "Config.hpp"
 
 std::string sigstr(int signum)
 {
@@ -44,37 +44,12 @@ int main(int argc, char **argv)
             "Invalid arguments numbers. Use: %s path_to_config_file", argv[0]);
         exit(EXIT_FAILURE);
     }
-    srv::Server  srv(argv);
-    std::cout
-        << "127.0.0.1:80:localhost:listen_addr: "
-        << srv[srv::aton("127.0.0.1")][80]["localhost"]["server"]["listen_addr"]
-        << "\n127.0.0.1:80:localhost:server_name: "
-        << srv[srv::aton("127.0.0.1")][80]["localhost"]["server"]["server_name"]
-        << "\n127.0.0.1:80:alterhost:server_name: "
-        << srv[srv::aton("127.0.0.1")][80]["alterhost"]["server"]["server_name"]
-        << "\n127.0.0.1:80:localhost:loc: "
-        << srv[srv::aton("127.0.0.1")][80]["localhost"].find("/docs/")->first
-        << srv[srv::aton("127.0.0.1")][80]["localhost"]["/docs/"]["root"]
-        << std::endl;
-    std::cout
-        << "127.0.0.1:80::testhost:server_name: "
-        << srv[srv::aton("127.0.0.1")][80]["testhost"]["server"]["server_name"]
-        << std::endl;
-    srv[srv::aton("127.0.0.1")][443]["localhost"]["server"]["listen_addr"]
-                                                                = "127.0.0.1";
-    std::cout
-        << "127.0.0.1:443:localhost:listen_addr: "
-        << srv[srv::aton("127.0.0.1")][443]["localhost"]["server"]["listen_addr"]
-        << std::endl;
-    srv::t_srvs::iterator s = srv.find(srv::aton("127.0.0.1"));
-    if (s != srv.end())
+    else if (argc < 2)
     {
-        std::cout << srv::ntoa(s->first) << ":" << std::endl;
-        for (srv::t_ports::iterator ns
-                = s->second.begin(); ns != s->second.end(); ns++)
-        {
-            std::cout << "\t" << ns->first << std::endl;
-        }
+        log(logger::INFO,
+            "No path_to_config_file, default config will use.");
+        exit(EXIT_FAILURE);
     }
+
     return (0);
 }

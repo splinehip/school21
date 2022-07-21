@@ -24,6 +24,8 @@ cgi_pass: path to cgi binary, std::string full_path_to_cgi
 
 namespace cfg
 {
+struct Location;
+
 typedef unsigned short int                  short_t;
 typedef std::set<std::string>               methods_t;
 typedef std::map<short_t, std::string>      returns_t;
