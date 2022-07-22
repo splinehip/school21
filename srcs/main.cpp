@@ -48,8 +48,15 @@ int main(int argc, char **argv)
     {
         log(logger::INFO,
             "No path_to_config_file, default config will use.");
-        exit(EXIT_FAILURE);
     }
+    cfg::Config cfg;
+    cfg.locs["/"] = cfg::Location();
+    cfg.locs["/"].index_fd = open("README.md", O_RDONLY);
+    fstat(cfg.locs["/"].index_fd, &cfg.locs["/"].index_fd_st);
+    utl::readFileToString(cfg.locs["/"].index_fd, cfg.locs["/"].index);
+    std::cout << "index\n" << cfg.getLocIndex(cfg.locs.find("/")) << std::endl;
+    sleep(5);
+    std::cout << "second\n" << cfg.getLocIndex(cfg.locs.find("/")) << std::endl;
 
     return (0);
 }
