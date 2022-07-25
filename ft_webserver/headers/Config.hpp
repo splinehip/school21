@@ -3,6 +3,7 @@
 #include <set>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <netinet/in.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -37,13 +38,6 @@ typedef std::set<std::string>               server_names_t;
 typedef std::map<short_t, std::string>      error_pages_t;
 typedef std::map<std::string, Location>     location_t;
 
-static const int POST = 0x01;
-static const int GET = 0x02;
-static const int PUT = 0x04;
-static const int DELETE = 0x08;
-
-short_t  httpMethod(const std::string &str);
-
 
 struct Location
 {
@@ -60,14 +54,15 @@ struct Location
 
     Location(void)
     {
-        methods = GET;
+        methods = utl::GET;
+        index_fd = 0;
         autoindex = true;
         file_upload = false;
         client_max_body_size = 1024 * 1024;
     }
 
     Location(const Location &inst){*this = inst;}
-    ~Location(void){close(index_fd);}
+    ~Location(void){if (index_fd) close(index_fd);}
 
     Location    &operator=(const Location &inst)
     {
@@ -91,6 +86,7 @@ struct Location
 class Config
 {
 public:
+    int             num;
     std::string     addr;
     short_t         port;
     bool            is_default;
@@ -122,6 +118,7 @@ public:
         error_pages = error_pages_t(inst.error_pages);
         client_max_body_size = inst.client_max_body_size;
         locs = location_t(inst.locs);
+        return *this;
     }
 
     std::string &getLocIndex(location_t::iterator it)
@@ -154,19 +151,56 @@ public:
         }
         return it->second.index;
     }
+
+    void    clear(void)
+    {
+        *this = Config();
+    }
 };
 
-short_t  httpMethod(const std::string &str)
+bool    getNextConfig(int fd, Config *conf)
 {
-    if (str == "POST")
-        return POST;
-    if (str == "GET")
-        return GET;
-    if (str == "PUT")
-        return PUT;
-    if (str == "DELETE")
-        return DELETE;
-    return 0;
+    (void)fd;
+    static int count;
+    logger::Log &log = logger::Log::getInst();
+
+    if (count > 1)
+        return false;
+    if (conf == NULL)
+    {
+        log(logger::ERROR, "getNextConfig, conf pointer is null");
+        exit(EXIT_FAILURE);
+    }
+    conf->clear();
+    if (count == 0)
+    {
+        conf->addr = "127.0.0.1";
+        conf->port = 80;
+        conf->is_default = true;
+        conf->locs["/"].index = "README.md";
+    }
+    else
+    {
+        conf->addr = "127.0.0.1";
+        conf->port = 8081;
+        conf->locs["/"].index = "makefile.srcs";
+    }
+    count++;
+    return true;
 }
+
+struct lessCfg
+{
+    bool    operator()(const cfg::Config &f, const cfg::Config &s)
+    {
+        if (f.is_default)
+            return false;
+        else if (s.is_default)
+            return true;
+        else
+            return f.num < s.num;
+    }
+};
+
 
 }
