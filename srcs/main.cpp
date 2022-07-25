@@ -2,7 +2,7 @@
 #include <csignal>
 
 #include "logger/Log.h"
-#include "Config.hpp"
+#include "Server.hpp"
 
 std::string sigstr(int signum)
 {
@@ -49,14 +49,35 @@ int main(int argc, char **argv)
         log(logger::INFO,
             "No path_to_config_file, default config will use.");
     }
-    cfg::Config cfg;
-    cfg.locs["/"] = cfg::Location();
-    cfg.locs["/"].index_fd = open("README.md", O_RDONLY);
-    fstat(cfg.locs["/"].index_fd, &cfg.locs["/"].index_fd_st);
-    utl::readFileToString(cfg.locs["/"].index_fd, cfg.locs["/"].index);
-    std::cout << "index\n" << cfg.getLocIndex(cfg.locs.find("/")) << std::endl;
-    sleep(5);
-    std::cout << "second\n" << cfg.getLocIndex(cfg.locs.find("/")) << std::endl;
+    srv::m_srvs_t srvs = srv::initServers("config");
+
+    srv::m_srvs_t::iterator it = srvs.begin();
+    while (it != srvs.end())
+    {
+        in_addr addr;
+        addr.s_addr = it->first;
+        std::cout << "ip: " << inet_ntoa(addr);
+
+        srv::m_srv_t::iterator it2 = it->second.begin();
+        while (it2 != it->second.end())
+        {
+            std::cout << "\n\tport: " << ntohs(it2->first) << "\n\t\t";
+            srv::cfgs_t::iterator it3 = it2->second.cfgs.begin();
+            while (it3 != it2->second.cfgs.end())
+            {
+                cfg::location_t::const_iterator it4 = it3->locs.begin();
+                while (it4 != it3->locs.end())
+                {
+                    std::cout << "location: " << it4->first << ", ";
+                    std::cout << "index: " << it4->second.index << std::endl;
+                    it4++;
+                }
+                it3++;
+            }
+            it2++;
+        }
+        it++;
+    }
 
     return (0);
 }
