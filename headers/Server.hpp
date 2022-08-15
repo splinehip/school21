@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/07/25 17:52:40 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/08/15 18:39:57 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,23 @@ public:
 
 m_srvs_t  initServers(const std::string &cfg_file)
 {
-    int         fd;
-    m_srvs_t    srvs;
-    cfg::Config conf;
-    in_addr     addr;
+//    int         fd;
+	std::ifstream	config_file;
+    m_srvs_t    	srvs;
+    cfg::Config 	conf;
+    in_addr     	addr;
     logger::Log &log = logger::Log::getInst();
 
-    fd = open(cfg_file.c_str(), O_RDONLY);
-    if (fd < 0)
+//    fd = open(cfg_file.c_str(), O_RDONLY);
+	config_file.open(cfg_file.c_str());
+//    if (fd < 0)
+	if(!config_file)
     {
         log(logger::ERROR, "Config file open error: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
-    while(cfg::getNextConfig(fd, &conf))
+    while(cfg::getNextConfig(config_file, &conf))
     {
         if (inet_aton(conf.addr.c_str(), &addr) == false)
         {
@@ -83,7 +86,8 @@ m_srvs_t  initServers(const std::string &cfg_file)
         srvs[address][port].initLisetnSocket();
         it++;
     }
-    close(fd);
+	config_file.close();
+//    close(fd);
     return srvs;
 }
 
