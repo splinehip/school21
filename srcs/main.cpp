@@ -1,8 +1,8 @@
 #include <iostream>
 #include <csignal>
 
-#include "logger/Log.h"
-#include "Server.hpp"
+#include "../headers/logger/Log.h"
+#include "../headers/Server.hpp"
 
 std::string sigstr(int signum)
 {

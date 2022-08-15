@@ -6,6 +6,9 @@
 #include <netinet/in.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <list>
+#include <stack>
+#include <algorithm>
 
 #include "logger/Log.h"
 #include "utils.hpp"
@@ -158,13 +161,17 @@ public:
     }
 };
 
-bool    getNextConfig(int fd, Config *conf)
-{
-    (void)fd;
-    static int count;
-    logger::Log &log = logger::Log::getInst();
+//void	tokenizeFile(s)
 
-    if (count > 1)
+bool    getNextConfig(std::ifstream &config_file, Config *conf)
+{
+    static int count = 0;
+    logger::Log &log = logger::Log::getInst();
+	std::string token;
+	std::list<std::string> tokenList;
+	int braces = 0;
+
+    if (count > 0)
         return false;
     if (conf == NULL)
     {
@@ -172,22 +179,67 @@ bool    getNextConfig(int fd, Config *conf)
         exit(EXIT_FAILURE);
     }
     conf->clear();
-    if (count == 0)
-    {
-        conf->addr = "127.0.0.1";
-        conf->port = 80;
-        conf->is_default = true;
-        conf->locs["/"].index = "README.md";
-    }
-    else
-    {
-        conf->addr = "127.0.0.1";
-        conf->port = 8081;
-        conf->locs["/"].index = "makefile.srcs";
-    }
-    count++;
-    return true;
+
+	for (std::string line; std::getline(config_file, line); ) {
+		token.clear();
+		for (std::string::iterator it = line.begin(); it != line.end(); ++it) {
+			if (std::isspace(*it) || *it == '#' || *it == ';') {
+				if (!token.empty()) {
+					tokenList.push_back(token);
+					token.clear();
+				}
+				if (*it == '#')
+					break;
+				continue;
+			}
+			token.push_back(*it);
+		}
+		if (!token.empty()) {
+			if (token == "{") {
+				braces++;
+			}
+			if (token == "}")
+				braces--;
+			if (braces == 0) {
+				break;
+			}
+		}
+	}
+//	for(std::list<string>::iterator it = tokenList.begin(); it != tokenList.end(); ++it){
+//		if (*it != "server")
+//			log(logger::ERROR, "server token not found in file");
+//		if (*it == "listen")
+//			conf->addr = *(++it);
+//		if (*it == "port")
+//	}
+	std::list<std::string>::iterator findIter;
+	findIter = std::find(tokenList.begin(), tokenList.end(), "server");
+	conf->addr = *(++findIter);
+	findIter = std::find(tokenList.begin(), tokenList.end(), "port");
+//	conf->port = *(++findIter);
+//	findIter = std::find(tokenList.begin(), tokenList.end(), "client_max_body_size");
+//	conf->client_max_body_size = *(++findIter);
+//	findIter = std::find(tokenList.begin(), tokenList.end(), "mime_conf_path");
+	count++;
+	return true;
 }
+
+//			if (line == "server")
+//			std::cout << line << std::endl;
+//	}
+//    if (count == 0)
+//    {
+//        conf->addr = "127.0.0.1";
+//        conf->port = 80;
+//        conf->is_default = true;
+//        conf->locs["/"].index = "README.md";
+//    }
+//    else
+//    {
+//        conf->addr = "127.0.0.1";
+//        conf->port = 8081;
+//        conf->locs["/"].index = "makefile.srcs";
+//    }}
 
 struct lessCfg
 {
