@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jul 19 17:15:41 2022
+# Make data base, printed on Mon Aug 15 15:33:45 2022
 
 # Variables
 
@@ -45,11 +43,11 @@ CURDIR := /home/oleg/Документы/git/school21/tests
 # makefile
 SHELL = /bin/sh
 # environment
-VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"f1271d778ec77496b280bb178e5ed275.ru","_translationsConfigFile":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/tcf.json","_cacheRoot":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru","_resolvedLanguagePackCoreLocation":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"f1271d778ec77496b280bb178e5ed275.ru","_translationsConfigFile":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/tcf.json","_cacheRoot":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru","_resolvedLanguagePackCoreLocation":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/6d9b74a70ca9c7733b29f0456fd8195364076dda","_corruptedFile":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 9:107167
+JOURNAL_STREAM = 9:69732
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile
@@ -71,7 +69,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 tarantino_DEBUG = True
 # environment
-MANAGERPID = 2444
+MANAGERPID = 1825
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -87,7 +85,7 @@ PATH = /home/oleg/bin:/home/oleg/.local/bin:/home/oleg/bin:/home/oleg/.local/bin
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/L-T460-7C5G:@/tmp/.ICE-unix/2665,unix/L-T460-7C5G:/tmp/.ICE-unix/2665
+SESSION_MANAGER = local/L-T460-7C5G:@/tmp/.ICE-unix/2168,unix/L-T460-7C5G:/tmp/.ICE-unix/2168
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -97,7 +95,7 @@ XDG_MENU_PREFIX = gnome-
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 14fe60a34f25408cb694d5f380469636
+INVOCATION_ID = 28af9aa8fc2b4268beb4147df18949fe
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -107,7 +105,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1840502
+GIO_LAUNCHED_DESKTOP_FILE_PID = 612349
 # automatic
 %F = $(notdir $%)
 # environment
@@ -119,7 +117,7 @@ QT_QPA_PLATFORMTHEME = appmenu-qt5
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2631
+SSH_AGENT_PID = 2104
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -131,11 +129,11 @@ HOME = /home/oleg
 # environment
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
-VSCODE_CODE_CACHE_PATH = /home/oleg/.config/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
+VSCODE_CODE_CACHE_PATH = /home/oleg/.config/Code/CachedData/6d9b74a70ca9c7733b29f0456fd8195364076dda
 # environment
 LOGNAME = oleg
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
 # environment
@@ -183,7 +181,7 @@ MAKE_COMMAND := make
 # environment
 LANGUAGE = ru_RU:en
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-196d05ac-1.69.2-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-196d05ac-1.70.1-main.sock
 # makefile
 MAKEFLAGS = pqrR
 # environment
@@ -233,7 +231,7 @@ LC_ADDRESS = ru_RU.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 1840502
+VSCODE_PID = 612349
 # variable set hash-table stats:
 # Load=111/1024=11%, Rehash=0, Collisions=16/133=12%
 
@@ -243,7 +241,7 @@ VSCODE_PID = 1840502
 
 # Directories
 
-# . (device 2049, inode 7684773): 8 files, no impossibilities.
+# . (device 2049, inode 7692984): 8 files, no impossibilities.
 
 # 8 files, no impossibilities in 1 directories.
 
@@ -288,10 +286,12 @@ GNUmakefile:
 #  Failed to be updated.
 
 # files hash-table stats:
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 # Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
 # VPATH Search Paths
 
- 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
@@ -302,6 +302,6 @@ GNUmakefile:
 # strcache performance: lookups = 19 / hit rate = 15%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=1/19=5%
-# Finished Make data base on Tue Jul 19 17:15:41 2022
+# Finished Make data base on Mon Aug 15 15:33:45 2022
 
  
