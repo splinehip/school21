@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug 15 15:33:45 2022
+# Make data base, printed on Mon Aug 15 18:33:11 2022
 
 # Variables
 
@@ -43,7 +45,7 @@ CURDIR := /home/oleg/Документы/git/school21/tests
 # makefile
 SHELL = /bin/sh
 # environment
-VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"f1271d778ec77496b280bb178e5ed275.ru","_translationsConfigFile":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/tcf.json","_cacheRoot":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru","_resolvedLanguagePackCoreLocation":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/6d9b74a70ca9c7733b29f0456fd8195364076dda","_corruptedFile":"/home/oleg/.config/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"bb5033a0de544313f5d945d2959de1f0.ru","_translationsConfigFile":"/home/oleg/.config/Code/clp/bb5033a0de544313f5d945d2959de1f0.ru/tcf.json","_cacheRoot":"/home/oleg/.config/Code/clp/bb5033a0de544313f5d945d2959de1f0.ru","_resolvedLanguagePackCoreLocation":"/home/oleg/.config/Code/clp/bb5033a0de544313f5d945d2959de1f0.ru/6d9b74a70ca9c7733b29f0456fd8195364076dda","_corruptedFile":"/home/oleg/.config/Code/clp/bb5033a0de544313f5d945d2959de1f0.ru/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/share/code/code
 # environment
@@ -105,7 +107,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 612349
+GIO_LAUNCHED_DESKTOP_FILE_PID = 630356
 # automatic
 %F = $(notdir $%)
 # environment
@@ -133,7 +135,7 @@ VSCODE_CODE_CACHE_PATH = /home/oleg/.config/Code/CachedData/6d9b74a70ca9c7733b29
 # environment
 LOGNAME = oleg
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
 +F = $(notdir $+)
 # environment
@@ -231,7 +233,7 @@ LC_ADDRESS = ru_RU.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 612349
+VSCODE_PID = 630356
 # variable set hash-table stats:
 # Load=111/1024=11%, Rehash=0, Collisions=16/133=12%
 
@@ -287,8 +289,6 @@ GNUmakefile:
 
 # files hash-table stats:
  
-make: *** No rule to make target 'all'.  Stop.
-
 # Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
 # VPATH Search Paths
 
@@ -302,6 +302,6 @@ make: *** No rule to make target 'all'.  Stop.
 # strcache performance: lookups = 19 / hit rate = 15%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=1/19=5%
-# Finished Make data base on Mon Aug 15 15:33:45 2022
+# Finished Make data base on Mon Aug 15 18:33:11 2022
 
  
