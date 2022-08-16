@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/08/15 18:39:57 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:04:08 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ public:
     Server(void){};
     ~Server(void){};
 
-    void    insert_conf(cfg::Config &conf)
+    void    insertConf(cfg::Config &conf)
     {
         cfgs.insert(conf);
     }
@@ -56,7 +56,6 @@ m_srvs_t  initServers(const std::string &cfg_file)
 	std::ifstream	config_file;
     m_srvs_t    	srvs;
     cfg::Config 	conf;
-    in_addr     	addr;
     logger::Log &log = logger::Log::getInst();
 
 //    fd = open(cfg_file.c_str(), O_RDONLY);
@@ -70,13 +69,7 @@ m_srvs_t  initServers(const std::string &cfg_file)
 
     while(cfg::getNextConfig(config_file, &conf))
     {
-        if (inet_aton(conf.addr.c_str(), &addr) == false)
-        {
-            log(logger::ERROR,
-                "initServers, invalid address: %s", conf.addr.c_str());
-            exit(EXIT_FAILURE);
-        }
-        srvs[addr.s_addr][htons(conf.port)].insert_conf(conf);
+        srvs[conf.addr.s_addr][htons(conf.port)].insertConf(conf);
     }
     m_srvs_t::iterator it = srvs.begin();
     while (it != srvs.end())

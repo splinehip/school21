@@ -48,8 +48,8 @@ struct Location
     returns_t   returns;
     std::string root;
     std::string index;
-    int         index_fd;
-    struct stat index_fd_st;
+    int         fd_index;
+    struct stat st_fd_index;
     bool        autoindex;
     bool        file_upload;
     size_t      client_max_body_size;
@@ -58,14 +58,14 @@ struct Location
     Location(void)
     {
         methods = utl::GET;
-        index_fd = 0;
+        fd_index = 0;
         autoindex = true;
         file_upload = false;
         client_max_body_size = 1024 * 1024;
     }
 
     Location(const Location &inst){*this = inst;}
-    ~Location(void){if (index_fd) close(index_fd);}
+    ~Location(void){if (fd_index) close(fd_index);}
 
     Location    &operator=(const Location &inst)
     {
@@ -75,8 +75,8 @@ struct Location
         returns = returns_t(inst.returns);
         root = inst.root;
         index = inst.index;
-        index_fd = inst.index_fd;
-        index_fd_st = inst.index_fd_st;
+        fd_index = inst.fd_index;
+        st_fd_index = inst.st_fd_index;
         autoindex = inst.autoindex;
         file_upload = inst.file_upload;
         client_max_body_size = inst.client_max_body_size;
@@ -89,8 +89,8 @@ struct Location
 class Config
 {
 public:
-    int             num;
-    std::string     addr;
+    int             id;
+    in_addr         addr;
     short_t         port;
     bool            is_default;
     server_names_t  server_names;
@@ -100,7 +100,8 @@ public:
 
     Config(void)
     {
-        addr = "0.0.0.0";
+        id = 0;
+        addr.s_addr = 0;
         port = 80;
         is_default = false;
         client_max_body_size = 1024 * 1024;
@@ -114,6 +115,7 @@ public:
     {
         if (this == &inst)
             return *this;
+        id = inst.id;
         addr = inst.addr;
         port = inst.port;
         is_default = inst.is_default;
@@ -124,30 +126,42 @@ public:
         return *this;
     }
 
+    void    setAddr(const std::string &addr)
+    {
+        logger::Log &log = logger::Log::getInst();
+
+        if (inet_aton(addr.c_str(), &this->addr) == false)
+        {
+            log(logger::ERROR,
+                "initServers, invalid address: %s", addr.c_str());
+            exit(EXIT_FAILURE);
+        }
+    }
+
     std::string &getLocIndex(location_t::iterator it)
     {
         struct stat st;
         logger::Log &log = logger::Log::getInst();
 
-        if (fstat(it->second.index_fd, &st) != 0)
+        if (fstat(it->second.fd_index, &st) != 0)
         {
             log(logger::ERROR,
                 "Location %s, fstat %s", it->first.c_str(), strerror(errno));
             return it->second.index;
         }
-        if (st.st_mtim > it->second.index_fd_st.st_mtim)
+        if (st.st_mtim > it->second.st_fd_index.st_mtim)
         {
-            it->second.index_fd_st = st;
+            it->second.st_fd_index = st;
             log(logger::INFO,
                 "Location %s, index file was changed, reread it.",
                     it->first.c_str());
-            if (lseek(it->second.index_fd, 0, SEEK_SET) < 0)
+            if (lseek(it->second.fd_index, 0, SEEK_SET) < 0)
             {
                 log(logger::ERROR, "Location, %s, lseek %s", it->first.c_str(),
                     strerror(errno));
                 return it->second.index;
             }
-            int res = utl::readFileToString(it->second.index_fd, it->second.index);
+            int res = utl::readFileToString(it->second.fd_index, it->second.index);
             if (res < 0)
                 log(logger::ERROR,
                     "Location, %s, read %s", it->first.c_str(), strerror(errno));
@@ -213,7 +227,7 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
 //	}
 	std::list<std::string>::iterator findIter;
 	findIter = std::find(tokenList.begin(), tokenList.end(), "server");
-	conf->addr = *(++findIter);
+	//conf->addr = *(++findIter); TO DO ne type
 	findIter = std::find(tokenList.begin(), tokenList.end(), "port");
 //	conf->port = *(++findIter);
 //	findIter = std::find(tokenList.begin(), tokenList.end(), "client_max_body_size");
@@ -249,7 +263,7 @@ struct lessCfg
         else if (s.is_default)
             return true;
         else
-            return f.num < s.num;
+            return f.id < s.id;
     }
 };
 
