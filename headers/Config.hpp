@@ -35,6 +35,8 @@ namespace cfg
 {
 static const int PORT_MIN = 1;
 static const int PORT_MAX = 65535;
+static const int HTTP_CODE_MIN = 100;
+static const int HTTP_CODE_MAX = 599;
 
 struct Location;
 
@@ -157,6 +159,40 @@ public:
         this->port = port_val;
     }
 
+    void    setErrorPage(const std::string &code, const std::string &path)
+    {
+        logger::Log &log = logger::Log::getInst();
+
+        int code_val = 0;
+        std::istringstream s(code);
+
+        std::ifstream   f;
+        std::string     str;
+        std::string     page;
+
+        s >> code_val;
+        if (code_val < HTTP_CODE_MIN || code_val > HTTP_CODE_MAX)
+        {
+            log(logger::ERROR,
+                "setErrorPage: http code %s out of range: %i - %i",
+                    code.c_str(), HTTP_CODE_MIN, HTTP_CODE_MAX);
+            exit(EXIT_FAILURE);
+        }
+        f.open(path.c_str());
+        if (f.is_open() == false)
+        {
+            log(logger::ERROR, "setErrorPage: file %s, open error: %s",
+                path.c_str(), strerror(errno));
+            exit(EXIT_FAILURE);
+        }
+        while (getline(f, str))
+        {
+            page.append(str.append("\n"));
+        }
+        f.close();
+        error_pages[code_val] = page;
+    }
+
     std::string &getLocIndex(location_t::iterator it)
     {
         struct stat st;
@@ -254,6 +290,8 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
 //	conf->client_max_body_size = *(++findIter);
 //	findIter = std::find(tokenList.begin(), tokenList.end(), "mime_conf_path");
 	count++;
+    conf->id = count;
+    //conf->setErrorPage("500", "defaultConfig");
 	return true;
 }
 

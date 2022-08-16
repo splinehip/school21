@@ -72,6 +72,8 @@ int main(int argc, char **argv)
             srv::cfgs_t::iterator it3 = it2->second.cfgs.begin();
             while (it3 != it2->second.cfgs.end())
             {
+                //cfg::error_pages_t ep = it3->error_pages;
+                //std::cout << "error_pages\n" << ep[500] << std::endl;
                 cfg::location_t::const_iterator it4 = it3->locs.begin();
                 while (it4 != it3->locs.end())
                 {
