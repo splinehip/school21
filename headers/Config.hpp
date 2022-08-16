@@ -193,6 +193,17 @@ public:
         error_pages[code_val] = page;
     }
 
+    void    setServerNames(const std::string &names)
+    {
+        std::string name;
+        std::istringstream s(names);
+
+        while (s >> name)
+        {
+            server_names.insert(name);
+        }
+    }
+
     std::string &getLocIndex(location_t::iterator it)
     {
         struct stat st;
@@ -292,6 +303,7 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
 	count++;
     conf->id = count;
     //conf->setErrorPage("500", "defaultConfig");
+    conf->setServerNames("test1 test2 test3");
 	return true;
 }
 

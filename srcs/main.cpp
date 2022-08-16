@@ -74,6 +74,13 @@ int main(int argc, char **argv)
             {
                 //cfg::error_pages_t ep = it3->error_pages;
                 //std::cout << "error_pages\n" << ep[500] << std::endl;
+                cfg::server_names_t::iterator snit = it3->server_names.begin();
+                std::cout << "server_names: ";
+                while (snit != it3->server_names.end())
+                {
+                    std::cout << *snit++ << " ";
+                }
+                std::cout << std::endl;
                 cfg::location_t::const_iterator it4 = it3->locs.begin();
                 while (it4 != it3->locs.end())
                 {
