@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/08/16 11:04:08 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/08/16 11:11:49 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,22 @@ public:
         cfgs.insert(conf);
     }
 
-    int initLisetnSocket(void)
+    void    initLisetnSocket(void)
     {
-        return true;
+        //TO DO
     }
 
 };
 
 m_srvs_t  initServers(const std::string &cfg_file)
 {
-//    int         fd;
+    logger::Log &log = logger::Log::getInst();
+
 	std::ifstream	config_file;
     m_srvs_t    	srvs;
     cfg::Config 	conf;
-    logger::Log &log = logger::Log::getInst();
 
-//    fd = open(cfg_file.c_str(), O_RDONLY);
 	config_file.open(cfg_file.c_str());
-//    if (fd < 0)
 	if(!config_file)
     {
         log(logger::ERROR, "Config file open error: %s", strerror(errno));
@@ -80,7 +78,6 @@ m_srvs_t  initServers(const std::string &cfg_file)
         it++;
     }
 	config_file.close();
-//    close(fd);
     return srvs;
 }
 
