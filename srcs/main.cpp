@@ -35,6 +35,8 @@ int main(int argc, char **argv)
     signal(SIGABRT, signal_handler);
     signal(SIGTERM, signal_handler);
 
+    std::string configFile = "defaultConfig";
+
     logger::Log &log = logger::Log::getInst(argv[0]);
     log.setLevel("DEBUG");
 
@@ -49,8 +51,13 @@ int main(int argc, char **argv)
         log(logger::INFO,
             "No path_to_config_file, default config will use.");
     }
-    srv::m_srvs_t srvs = srv::initServers("config");
-
+    else
+    {
+        log(logger::INFO,
+            "Next config will use: %s", argv[1]);
+        configFile = argv[1];
+    }
+    srv::m_srvs_t srvs = srv::initServers(configFile);
     srv::m_srvs_t::iterator it = srvs.begin();
     while (it != srvs.end())
     {
