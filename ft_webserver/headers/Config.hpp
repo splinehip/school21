@@ -15,7 +15,7 @@
 
 /*
 listen(addr): ip address for socet, string, default 0.0.0.0
-port: port for socet, unsigned short int 0 - 65535, default 80
+port: port for socet, unsigned short int 1 - 65535, default 80
 default: flag for default server, bool turned off by default
 server_names: fqdn, std::set<std::string>
 error_pages: http_error_code, path_to_html_file: std::map<short_t, std::string>
@@ -33,6 +33,9 @@ cgi_pass: path to cgi binary, std::string full_path_to_cgi
 
 namespace cfg
 {
+static const int PORT_MIN = 1;
+static const int PORT_MAX = 65535;
+
 struct Location;
 
 typedef unsigned short int                  short_t;
@@ -133,9 +136,25 @@ public:
         if (inet_aton(addr.c_str(), &this->addr) == false)
         {
             log(logger::ERROR,
-                "initServers, invalid address: %s", addr.c_str());
+                "Server::setAddr, invalid address: %s", addr.c_str());
             exit(EXIT_FAILURE);
         }
+    }
+
+    void    setPort(const std::string &port)
+    {
+        logger::Log &log = logger::Log::getInst();
+        int port_val = 0;
+
+        std::istringstream s(port);
+        s >> port_val;
+        if (port_val < PORT_MIN || port_val > PORT_MAX)
+        {
+            log(logger::ERROR, "Port %s out of range %i - %i",
+                port.c_str(), PORT_MIN, PORT_MAX);
+            exit(EXIT_FAILURE);
+        }
+        this->port = port_val;
     }
 
     std::string &getLocIndex(location_t::iterator it)
@@ -227,9 +246,10 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
 //	}
 	std::list<std::string>::iterator findIter;
 	findIter = std::find(tokenList.begin(), tokenList.end(), "server");
-	//conf->addr = *(++findIter); TO DO ne type
+    ++findIter; //is hack, ned to refactoring
+	conf->setAddr(*(++findIter));
 	findIter = std::find(tokenList.begin(), tokenList.end(), "port");
-//	conf->port = *(++findIter);
+    conf->setPort(*(++findIter));
 //	findIter = std::find(tokenList.begin(), tokenList.end(), "client_max_body_size");
 //	conf->client_max_body_size = *(++findIter);
 //	findIter = std::find(tokenList.begin(), tokenList.end(), "mime_conf_path");
