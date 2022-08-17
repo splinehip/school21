@@ -7,8 +7,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <vector>
 
 #include "logger/Log.h"
 #include "utils.hpp"
@@ -143,6 +145,10 @@ public:
         }
     }
 
+	void    setAddr(const std::vector<std::string> &strs) {
+		return;
+	}
+
     void    setPort(const std::string &port)
     {
         logger::Log &log = logger::Log::getInst();
@@ -159,8 +165,12 @@ public:
         this->port = port_val;
     }
 
-    void    setErrorPage(const std::string &code, const std::string &path)
-    {
+	void    setPort(const std::vector<std::string> &strs) {
+		return;
+	}
+
+	void    setErrorPage(const std::string &code, const std::string &path)
+	{
         logger::Log &log = logger::Log::getInst();
 
         int code_val = 0;
@@ -193,16 +203,30 @@ public:
         error_pages[code_val] = page;
     }
 
-    void    setServerNames(const std::string &names)
-    {
-        std::string name;
-        std::istringstream s(names);
+	void    addErrorPage(const std::vector<std::string> &strs) {
+		return;
+	}
 
-        while (s >> name)
-        {
-            server_names.insert(name);
-        }
-    }
+	void    setServerName(const std::string &name)
+    {
+		server_names.insert(name);
+	}
+
+	void    setServerName(const std::vector<std::string> &strs) {
+		return;
+	}
+
+	void    setClientMaxBody(const std::vector<std::string> &strs) {
+		return;
+	}
+
+	void    addLocation(const std::vector<std::string> &strs) {
+		return;
+	}
+
+	void	setMimeConfPath(const std::vector<std::string> &strs) {
+		return;
+	}
 
     std::string &getLocIndex(location_t::iterator it)
     {
@@ -241,14 +265,54 @@ public:
     }
 };
 
-//void	tokenizeFile(s)
+bool	setAttributesFromTokens(const std::vector<std::string> &tokenList, Config *conf)
+{
+	static const std::string dirArr[] = {"listen","port", "server_name",
+										 "error_page", "client_max_body_size", "mime_conf_path",
+										 "location"};
+	static const std::vector<std::string> directives (dirArr, dirArr + sizeof(dirArr)/sizeof(dirArr[0]));
+	static const std::string UDirArr[] = {"server","listen","port","server_name",
+										  "client_max_body_size","mime_conf_path"};
+	logger::Log &log = logger::Log::getInst();
+	static const std::vector<std::string> uniqueDirectives (UDirArr, UDirArr + sizeof(UDirArr)/sizeof(UDirArr[0]));
+	typedef void(Config::*setters)(const std::vector<std::string> &arg);
+	setters setters_ptr[7];
+	setters_ptr[0] = &Config::setAddr;
+	setters_ptr[1] = &Config::setPort;
+	setters_ptr[2] = &Config::setServerName;
+	setters_ptr[3] = &Config::addErrorPage;
+	setters_ptr[4] = &Config::setClientMaxBody;
+	setters_ptr[5] = &Config::setMimeConfPath;
+	setters_ptr[6] = &Config::addLocation;
+
+	if (tokenList[0] != "server") {
+		log(logger::ERROR, "server token not found in file");
+		return false;
+	}
+
+	std::vector<std::string>::const_iterator itBegin = tokenList.begin();
+	for (int i = 1; i < tokenList.size(); ++i){
+		std::vector<std::string>::const_iterator itFind = std::find(directives.begin(), directives.end(), tokenList[i]);
+		if (itFind != directives.end()){
+			std::vector<std::string> strs;
+			i++;
+			while (std::find(directives.begin(), directives.end(), tokenList[i]) == directives.end()){
+				strs.push_back(tokenList[i]);
+				++i;
+			}
+			i--;
+			(conf->*setters_ptr[itFind - directives.begin()])(strs);
+ 		}
+	}
+	return true;
+}
 
 bool    getNextConfig(std::ifstream &config_file, Config *conf)
 {
     static int count = 0;
     logger::Log &log = logger::Log::getInst();
 	std::string token;
-	std::list<std::string> tokenList;
+	std::vector<std::string> tokenList;
 	int braces = 0;
 
     if (count > 0)
@@ -259,6 +323,8 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
         exit(EXIT_FAILURE);
     }
     conf->clear();
+	if (config_file.eof())
+		return false;
 	for (std::string line; std::getline(config_file, line); ) {
 		token.clear();
 		for (std::string::iterator it = line.begin(); it != line.end(); ++it) {
@@ -274,55 +340,20 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
 			token.push_back(*it);
 		}
 		if (!token.empty()) {
-			if (token == "{") {
+			if (token == "{")
 				braces++;
-			}
-			if (token == "}")
+			else if (token == "}")
 				braces--;
+			else
+				tokenList.push_back(token);
 			if (braces == 0) {
 				break;
 			}
 		}
 	}
-//	for(std::list<string>::iterator it = tokenList.begin(); it != tokenList.end(); ++it){
-//		if (*it != "server")
-//			log(logger::ERROR, "server token not found in file");
-//		if (*it == "listen")
-//			conf->addr = *(++it);
-//		if (*it == "port")
-//	}
-	std::list<std::string>::iterator findIter;
-	findIter = std::find(tokenList.begin(), tokenList.end(), "server");
-    ++findIter; //is hack, ned to refactoring
-	conf->setAddr(*(++findIter));
-	findIter = std::find(tokenList.begin(), tokenList.end(), "port");
-    conf->setPort(*(++findIter));
-//	findIter = std::find(tokenList.begin(), tokenList.end(), "client_max_body_size");
-//	conf->client_max_body_size = *(++findIter);
-//	findIter = std::find(tokenList.begin(), tokenList.end(), "mime_conf_path");
-	count++;
-    conf->id = count;
-    //conf->setErrorPage("500", "defaultConfig");
-    conf->setServerNames("test1 test2 test3");
-	return true;
+	conf->id = count;
+	return setAttributesFromTokens(tokenList, conf);
 }
-
-//			if (line == "server")
-//			std::cout << line << std::endl;
-//	}
-//    if (count == 0)
-//    {
-//        conf->addr = "127.0.0.1";
-//        conf->port = 80;
-//        conf->is_default = true;
-//        conf->locs["/"].index = "README.md";
-//    }
-//    else
-//    {
-//        conf->addr = "127.0.0.1";
-//        conf->port = 8081;
-//        conf->locs["/"].index = "makefile.srcs";
-//    }}
 
 struct lessCfg
 {
@@ -336,6 +367,4 @@ struct lessCfg
             return f.id < s.id;
     }
 };
-
-
 }
