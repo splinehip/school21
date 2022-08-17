@@ -146,7 +146,12 @@ public:
     }
 
 	void    setAddr(const std::vector<std::string> &strs) {
-        (void )strs;
+        logger::Log &log = logger::Log::getInst();
+        if (strs.size() > 1) {
+            log(logger::ERROR, "Wrong format in configuration file: waiting for single token after \"listen\"");
+            exit(EXIT_FAILURE);
+        }
+        setAddr(strs[0]);
         return;
 	}
 
@@ -167,7 +172,12 @@ public:
     }
 
 	void    setPort(const std::vector<std::string> &strs) {
-        (void)strs;
+        logger::Log &log = logger::Log::getInst();
+        if (strs.size() > 1) {
+            log(logger::ERROR, "Wrong format in configuration file: waiting for single token after \"port\"");
+            exit(EXIT_FAILURE);
+        }
+        setPort(strs[0]);
         return;
 	}
 
@@ -205,6 +215,16 @@ public:
         error_pages[code_val] = page;
     }
 
+    void    addErrorPage(const std::vector<std::string> &strs) {
+        logger::Log &log = logger::Log::getInst();
+        if (strs.size() != 2) {
+            log(logger::ERROR, "Wrong format in configuration file: waiting for two parameters after \"error_page\"");
+            exit(EXIT_FAILURE);
+        }
+        setErrorPage(strs[0], strs[1]);
+        return;
+    }
+
     void    setServerNames(const std::string &names)
     {
         std::string name;
@@ -216,18 +236,15 @@ public:
         }
     }
 
-	void    addErrorPage(const std::vector<std::string> &strs) {
-        (void )strs;
-        return;
-	}
-
 	void    setServerName(const std::string &name)
     {
 		server_names.insert(name);
 	}
 
-	void    setServerName(const std::vector<std::string> &strs) {
-        (void )strs;
+	void    setServerNames(const std::vector<std::string> &strs) {
+        std::vector<std::string>::const_iterator it = strs.begin();
+        for (; it != strs.end(); ++it)
+            setServerName(*it);
         return;
 	}
 
@@ -294,29 +311,22 @@ bool	setAttributesFromTokens(const std::vector<std::string> &tokenList, Config *
 	logger::Log &log = logger::Log::getInst();
 	static const std::vector<std::string> uniqueDirectives (UDirArr, UDirArr + sizeof(UDirArr)/sizeof(UDirArr[0]));
 	typedef void(Config::*setters)(const std::vector<std::string> &arg);
-	setters setters_ptr[7];
-	setters_ptr[0] = &Config::setAddr;
-	setters_ptr[1] = &Config::setPort;
-	setters_ptr[2] = &Config::setServerName;
-	setters_ptr[3] = &Config::addErrorPage;
-	setters_ptr[4] = &Config::setClientMaxBody;
-	setters_ptr[5] = &Config::setMimeConfPath;
-	setters_ptr[6] = &Config::addLocation;
-
+	setters setters_ptr[7] = { &Config::setAddr, &Config::setPort,&Config::setServerNames,
+                               &Config::addErrorPage,&Config::setClientMaxBody,&Config::setMimeConfPath,
+                               &Config::addLocation };
 	if (tokenList[0] != "server") {
 		log(logger::ERROR, "server token not found in file");
 		return false;
 	}
 
-//	std::vector<std::string>::const_iterator itBegin = tokenList.begin();
 	for (long unsigned int i = 1; i < tokenList.size(); ++i){
-		std::vector<std::string>::const_iterator itFind = std::find(directives.begin(), directives.end(), tokenList[i]);
+		std::vector<std::string>::const_iterator itFind = std::find(directives.begin(), directives.end(), tokenList[i++]);
 		if (itFind != directives.end()){
 			std::vector<std::string> strs;
-			i++;
-			while (std::find(directives.begin(), directives.end(), tokenList[i]) == directives.end()){
-				strs.push_back(tokenList[i]);
-				++i;
+			while (std::find(directives.begin(), directives.end(), tokenList[i]) == directives.end()
+                && i < tokenList.size())
+            {
+				strs.push_back(tokenList[i++]);
 			}
 			i--;
 			(conf->*setters_ptr[itFind - directives.begin()])(strs);
