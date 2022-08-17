@@ -146,7 +146,8 @@ public:
     }
 
 	void    setAddr(const std::vector<std::string> &strs) {
-		return;
+        (void )strs;
+        return;
 	}
 
     void    setPort(const std::string &port)
@@ -166,7 +167,8 @@ public:
     }
 
 	void    setPort(const std::vector<std::string> &strs) {
-		return;
+        (void)strs;
+        return;
 	}
 
 	void    setErrorPage(const std::string &code, const std::string &path)
@@ -215,7 +217,8 @@ public:
     }
 
 	void    addErrorPage(const std::vector<std::string> &strs) {
-		return;
+        (void )strs;
+        return;
 	}
 
 	void    setServerName(const std::string &name)
@@ -224,18 +227,22 @@ public:
 	}
 
 	void    setServerName(const std::vector<std::string> &strs) {
-		return;
+        (void )strs;
+        return;
 	}
 
 	void    setClientMaxBody(const std::vector<std::string> &strs) {
-		return;
+        (void )strs;
+        return;
 	}
 
 	void    addLocation(const std::vector<std::string> &strs) {
-		return;
+        (void )strs;
+        return;
 	}
 
 	void	setMimeConfPath(const std::vector<std::string> &strs) {
+        (void )strs;
 		return;
 	}
 
@@ -301,8 +308,8 @@ bool	setAttributesFromTokens(const std::vector<std::string> &tokenList, Config *
 		return false;
 	}
 
-	std::vector<std::string>::const_iterator itBegin = tokenList.begin();
-	for (int i = 1; i < tokenList.size(); ++i){
+//	std::vector<std::string>::const_iterator itBegin = tokenList.begin();
+	for (long unsigned int i = 1; i < tokenList.size(); ++i){
 		std::vector<std::string>::const_iterator itFind = std::find(directives.begin(), directives.end(), tokenList[i]);
 		if (itFind != directives.end()){
 			std::vector<std::string> strs;
