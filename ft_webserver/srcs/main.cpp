@@ -94,8 +94,8 @@ int main(int argc, char **argv)
         }
         it++;
     }
-    std::cout << "server 0.0.0.0:8080 id = "
-        << srvs[inet_aton("0.0.0.0", &addr)][8080]["test_server"].id
+    std::cout << "server 127.0.0.1:8080 id = "
+        << srvs[inet_aton("127.0.0.1", &addr)][8080]["test_server"].id
         << std::endl;
     return (0);
 }
