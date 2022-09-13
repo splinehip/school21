@@ -6,128 +6,15 @@
 #root directories should be set up with trailing "/"
 #location paths should end with "/" if designed for folders
 #error_page: error_code relative_path (relative to root)
-server {
-    listen 127.0.0.1;
-    port 8080;
-    error_page 404 /FULL_PATH_TO_FILE/webserv/www/error/404.html;
-    error_page 405 /FULL_PATH_TO_FILE/webserv/www/error/405.html;
-    client_max_body_size 1024;
-    mime_conf_path /FULL_PATH_TO_FILE/webserv/mime.conf
-
-    location / {
-        root /FULL_PATH_TO_FILE/webserv/www/final/;
-        methods POST GET;
-        autoindex on; #turned on by default;
-        #index index.html; #specify default file
-    }
-
-    location /images/hero.jpg
-    {
-        root /FULL_PATH_TO_FILE/webserv/www/final/;
-        return /images/profile.jpg; #301 redirect
-    }
-
-    location /upload
-    {
-        root /FULL_PATH_TO_FILE/webserv/www/final/;
-        file_upload on;
-        methods POST GET DELETE PUT;
-    }
-
-    location /images
-    {
-        root /FULL_PATH_TO_FILE/webserv/www/final/images/;
-        autoindex on;
-        methods POST GET DELETE;
-    }
-
-    location *.php {
-        root /FULL_PATH_TO_FILE/webserv/www/final/; #FOR CGI PATH SHOULD BE ABSOLUTE
-        cgi_pass /opt/homebrew/opt/php@7.4/bin/php-cgi; #IS NOT VALID CGI specify full path
-    }
-}
 
 server {
     listen 127.0.0.1;
     port 8081;
-    error_page 404 /FULL_PATH_TO_FILE/webserv/www/test1/404.html;
-    client_max_body_size 1024;
-    mime_conf_path /FULL_PATH_TO_FILE/webserv/mime.conf
 
     location / {
-        root /FULL_PATH_TO_FILE/webserv/www/test1/;
+        root ./;
         methods POST GET;
-        #autoindex on; #turned on by default;
-        index index.html; #specify default file
+        index index.html;
         }
 }
 
-server {
-    listen 127.0.0.1;
-    port 8081;
-    server_name test2;
-    client_max_body_size 1024;
-    mime_conf_path /FULL_PATH_TO_FILE/webserv/mime.conf;
-
-    location / {
-        root /FULL_PATH_TO_FILE/webserv/www/test2/;
-        methods POST GET DELETE PUT;
-        file_upload on;
-        #index index.html; #specify default file
-        client_max_body_size 100000000;
-        autoindex off;
-    }
-}
-
-server {
-    listen 127.0.0.1;
-    port 8081;
-    server_name test3
-    client_max_body_size 1024;
-    mime_conf_path /FULL_PATH_TO_FILE/webserv/mime.conf
-
-    location / {
-        root /FULL_PATH_TO_FILE/webserv/www/test3/;
-        methods POST GET;
-        #autoindex on; #turned on by default;
-        #index index.html; #specify default file
-    }
-}
-
-server {
-    listen 127.0.0.1;
-    port 8080;
-    server_name localhost;
-    client_max_body_size 1024;
-    mime_conf_path /FULL_PATH_TO_FILE/webserv/mime.conf
-
-    location / {
-        root /FULL_PATH_TO_FILE/webserv/www/42_tester/YoupiBanane/;
-        methods GET;
-        autoindex on;
-    }
-
-    location /put_test
-    {
-        root /FULL_PATH_TO_FILE/webserv/www/42_tester/YoupiBanane/upload/;
-        client_max_body_size 10000000;
-        file_upload on;
-        methods GET PUT DELETE;
-    }
-
-  location /post_body
-  {
-      root /FULL_PATH_TO_FILE/webserv/www/42_tester/YoupiBanane/;
-      client_max_body_size 100;
-      root /FULL_PATH_TO_FILE/webserv/www/42_tester/YoupiBanane/;
-      methods POST;
-  }
-
-    location /directory
-    {
-        root /FULL_PATH_TO_FILE/webserv/www/42_tester/YoupiBanane/;
-        methods GET POST;
-        index youpi.bad_extension;
-        autoindex off;
-    }
- }

@@ -57,11 +57,11 @@ int main(int argc, char **argv)
             "Next config will use: %s", argv[1]);
         configFile = argv[1];
     }
+    in_addr addr;
     srv::m_srvs_t srvs = srv::initServers(configFile);
     srv::m_srvs_t::iterator it = srvs.begin();
     while (it != srvs.end())
     {
-        in_addr addr;
         addr.s_addr = it->first;
         std::cout << "ip: " << inet_ntoa(addr);
 
@@ -94,6 +94,8 @@ int main(int argc, char **argv)
         }
         it++;
     }
-
+    std::cout << "server 0.0.0.0:8080 id = "
+        << srvs[inet_aton("0.0.0.0", &addr)][8080]["test_server"].id
+        << std::endl;
     return (0);
 }

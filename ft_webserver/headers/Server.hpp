@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/08/16 11:11:49 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:33:05 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,20 @@ public:
 public:
     Server(void){};
     ~Server(void){};
+
+    const cfg::Config operator[](const std::string key)
+    {
+        cfgs_t::iterator it = cfgs.begin();
+        cfgs_t::iterator end = cfgs.end();
+        while (it != end)
+        {
+            if (it->hasServerName(key))
+            {
+                return *it;
+            }
+        }
+        return *cfgs.begin();
+    }
 
     void    insertConf(cfg::Config &conf)
     {

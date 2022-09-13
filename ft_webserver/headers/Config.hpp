@@ -139,6 +139,14 @@ public:
         return *this;
     }
 
+    bool    hasServerName(const std::string server_name) const
+    {
+        if (server_names.find(server_name) == server_names.end())
+            return true;
+        else
+            return false;
+    }
+
     void    setAddr(const std::string &addr)
     {
         logger::Log &log = logger::Log::getInst();
