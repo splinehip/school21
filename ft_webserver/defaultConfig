@@ -10,6 +10,7 @@
 server {
     listen 127.0.0.1;
     port 8080;
+    server_names test_server test2_server;
 
     location / {
         root ./;

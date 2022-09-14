@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/09/13 15:33:05 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/09/14 10:27:20 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ public:
             {
                 return *it;
             }
+            it++;
         }
         return *cfgs.begin();
     }
@@ -83,6 +84,7 @@ m_srvs_t  initServers(const std::string &cfg_file)
     {
         srvs[conf.addr.s_addr][htons(conf.port)].insertConf(conf);
     }
+
     m_srvs_t::iterator it = srvs.begin();
     while (it != srvs.end())
     {

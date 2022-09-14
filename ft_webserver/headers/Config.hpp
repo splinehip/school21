@@ -40,10 +40,10 @@ static const int PORT_MAX = 65535;
 static const int HTTP_CODE_MIN = 100;
 static const int HTTP_CODE_MAX = 599;
 
-static const std::string dirArr[] = {"listen", "port", "server_name",
+static const std::string dirArr[] = {"listen", "port", "server_names",
                                      "error_page", "client_max_body_size",
                                      "mime_conf_path", "location"};
-static const std::string UDirArr[] = {"server","listen","port","server_name",
+static const std::string UDirArr[] = {"server","listen","port","server_names",
                                         "client_max_body_size","mime_conf_path"};
 
 struct Location;
@@ -234,8 +234,8 @@ single token after \"port\"");
     void    addErrorPage(const std::vector<std::string> &strs) {
         logger::Log &log = logger::Log::getInst();
         if (strs.size() != 2) {
-            log(logger::ERROR, "Wrong format in configuration file: waiting for\
-two parameters after \"error_page\"");
+            log(logger::ERROR, "addErrorPage: Wrong format in configuration file:\
+waiting for two parameters after \"error_page\"");
             exit(EXIT_FAILURE);
         }
         setErrorPage(strs[0], strs[1]);
@@ -336,9 +336,16 @@ bool    setAttributesFromTokens(
                               &Config::setClientMaxBody, &Config::setMimeConfPath,
                               &Config::addLocation};
 
+    if (tokenList.size() == 0)
+    {
+        log(logger::INFO, "setAttributesFromTokens: Token list is empty");
+        return false;
+    }
+
     if (tokenList[0] != "server")
     {
-        log(logger::ERROR, "server token not found in file");
+        log(logger::ERROR,
+            "setAttributesFromTokens: Server token not found in file");
         return false;
     }
 
@@ -358,6 +365,7 @@ bool    setAttributesFromTokens(
             (conf->*setters_ptr[itFind - directives.begin()])(strs);
         }
     }
+
     return true;
 }
 
@@ -373,7 +381,7 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
         return false;
     if (conf == NULL)
     {
-        log(logger::ERROR, "getNextConfig, conf pointer is null");
+        log(logger::ERROR, "getNextConfig: conf pointer is null");
         exit(EXIT_FAILURE);
     }
     conf->clear();
