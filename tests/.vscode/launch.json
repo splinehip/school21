@@ -182,10 +182,10 @@
 			"name": "webserv",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/../webserv/webserv",
+			"program": "${workspaceFolder}/../ft_webserver/webserv",
 			"args": [],
 			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
+			"cwd": "${workspaceFolder}/../ft_webserver",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
@@ -219,6 +219,6 @@
 			],
 			"preLaunchTask": "C/C++: gcc сборка ft_c",
 			"miDebuggerPath": "/usr/bin/gdb"
-		}		
+		}
 	]
 }

@@ -142,7 +142,7 @@
             "type": "cppbuild",
             "label": "C/C++: gcc сборка webserv",
             "options": {
-                "cwd": "${workspaceFolder}/../webserv"
+                "cwd": "${workspaceFolder}/../ft_webserver"
             },
             "command": "make",
             "args": ["all"],
