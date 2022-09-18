@@ -2,7 +2,7 @@
 #include <csignal>
 
 #include "logger/Log.h"
-#include "Server.hpp"
+#include "connectionsHandler.hpp"
 
 std::string sigstr(int signum)
 {
@@ -57,46 +57,7 @@ int main(int argc, char **argv)
             "Next config will use: %s", argv[1]);
         configFile = argv[1];
     }
-    in_addr addr;
-    srv::m_srvs_t srvs = srv::initServers(configFile);
-    srv::m_srvs_t::iterator it = srvs.begin();
-    while (it != srvs.end())
-    {
-        addr.s_addr = it->first;
-        std::cout << "ip: " << inet_ntoa(addr);
 
-        srv::m_srv_t::iterator it2 = it->second.begin();
-        while (it2 != it->second.end())
-        {
-            std::cout << "\n\tport: " << ntohs(it2->first) << "\n\t\t";
-            srv::cfgs_t::iterator it3 = it2->second.cfgs.begin();
-            while (it3 != it2->second.cfgs.end())
-            {
-                //cfg::error_pages_t ep = it3->error_pages;
-                //std::cout << "error_pages\n" << ep[500] << std::endl;
-                cfg::server_names_t::iterator snit = it3->server_names.begin();
-                std::cout << "server_names: ";
-                while (snit != it3->server_names.end())
-                {
-                    std::cout << *snit++ << " ";
-                }
-                std::cout << std::endl;
-                cfg::location_t::const_iterator it4 = it3->locs.begin();
-                while (it4 != it3->locs.end())
-                {
-                    std::cout << "location: " << it4->first << ", ";
-                    std::cout << "index: " << it4->second.index << std::endl;
-                    it4++;
-                }
-                it3++;
-            }
-            it2++;
-        }
-        it++;
-    }
-    inet_aton("127.0.0.1", &addr);
-    std::cout << "server 127.0.0.1:8080 id = "
-        << srvs[addr.s_addr][htons(8080)]["test_server"].id
-        << std::endl;
+    srv::run(configFile);
     return (0);
 }
