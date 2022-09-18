@@ -40,11 +40,22 @@ static const int PORT_MAX = 65535;
 static const int HTTP_CODE_MIN = 100;
 static const int HTTP_CODE_MAX = 599;
 
-static const std::string dirArr[] = {"listen", "port", "server_names",
-                                     "error_page", "client_max_body_size",
-                                     "mime_conf_path", "location"};
-static const std::string UDirArr[] = {"server","listen","port","server_names",
-                                        "client_max_body_size","mime_conf_path"};
+static const std::string
+dirArr[] = {"listen",
+            "port",
+            "server_names",
+            "error_page",
+            "client_max_body_size",
+            "mime_conf_path",
+            "location"};
+
+static const std::string
+UDirArr[] = {"server",
+             "listen",
+             "port",
+             "server_names",
+             "client_max_body_size",
+             "mime_conf_path"};
 
 struct Location;
 
@@ -136,9 +147,9 @@ public:
     bool    hasServerName(const std::string server_name) const
     {
         if (server_names.find(server_name) == server_names.end())
-            return true;
-        else
             return false;
+        else
+            return true;
     }
 
     void    setErrorPage(const std::string &code, const std::string &path)

@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/09/18 16:05:00 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:37:31 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ public:
         return *cfgs.begin();
     }
 
-    void    insertConf(cfg::Config &conf)
+    void        insertConf(cfg::Config &conf)
     {
         cfgs.insert(conf);
     }
 
-    void    initListenSocket(void)
+    void        initListenSocket(void)
     {
         logger::Log &log = logger::Log::getInst();
 
@@ -80,12 +80,12 @@ public:
         event.events = EPOLLIN;
     }
 
-    char *getAddrStr(void) const
+    char        *getAddrStr(void) const
     {
         return (inet_ntoa(sockAddr.sin_addr));
     }
 
-    in_port_t   getPort(void) const
+    short int   getPort(void) const
     {
         return (ntohs(sockAddr.sin_port));
     }
