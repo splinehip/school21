@@ -18,3 +18,15 @@ server {
         index index.html;
         }
 }
+
+server {
+    listen 127.0.0.1;
+    port 8090;
+    server_names test3_server;
+
+    location / {
+        root ./;
+        methods POST GET;
+        index index.html;
+        }
+}

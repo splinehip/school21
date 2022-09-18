@@ -103,8 +103,6 @@ class Config
 {
 public:
     int             id;
-    in_addr         addr;
-    short_t         port;
     bool            is_default;
     server_names_t  server_names;
     error_pages_t   error_pages;
@@ -114,8 +112,6 @@ public:
     Config(void)
     {
         id = 0;
-        addr.s_addr = 0;
-        port = 80;
         is_default = false;
         client_max_body_size = 1024 * 1024;
 
@@ -129,8 +125,6 @@ public:
         if (this == &inst)
             return *this;
         id = inst.id;
-        addr = inst.addr;
-        port = inst.port;
         is_default = inst.is_default;
         server_names = server_names_t(inst.server_names);
         error_pages = error_pages_t(inst.error_pages);
@@ -145,56 +139,6 @@ public:
             return true;
         else
             return false;
-    }
-
-    void    setAddr(const std::string &addr)
-    {
-        logger::Log &log = logger::Log::getInst();
-
-        if (inet_aton(addr.c_str(), &this->addr) == false)
-        {
-            log(logger::ERROR,
-                "Server::setAddr, invalid address: %s", addr.c_str());
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    void    setAddr(const std::vector<std::string> &strs) {
-        logger::Log &log = logger::Log::getInst();
-        if (strs.size() > 1) {
-            log(logger::ERROR, "Wrong format in configuration file: waiting for \
-single token after \"listen\"");
-            exit(EXIT_FAILURE);
-        }
-        setAddr(strs[0]);
-        return;
-    }
-
-    void    setPort(const std::string &port)
-    {
-        logger::Log &log = logger::Log::getInst();
-        int port_val = 0;
-
-        std::istringstream s(port);
-        s >> port_val;
-        if (port_val < PORT_MIN || port_val > PORT_MAX)
-        {
-            log(logger::ERROR, "Port %s out of range %i - %i",
-                port.c_str(), PORT_MIN, PORT_MAX);
-            exit(EXIT_FAILURE);
-        }
-        this->port = port_val;
-    }
-
-    void    setPort(const std::vector<std::string> &strs) {
-        logger::Log &log = logger::Log::getInst();
-        if (strs.size() > 1) {
-            log(logger::ERROR, "Wrong format in configuration file: waiting for \
-single token after \"port\"");
-            exit(EXIT_FAILURE);
-        }
-        setPort(strs[0]);
-        return;
     }
 
     void    setErrorPage(const std::string &code, const std::string &path)
@@ -319,8 +263,47 @@ waiting for two parameters after \"error_page\"");
     }
 };
 
-bool    setAttributesFromTokens(
-    const std::vector<std::string> &tokenList, Config *conf)
+void
+setAddr(const std::vector<std::string> &strs, struct sockaddr_in &addr)
+{
+    logger::Log &log = logger::Log::getInst();
+
+    if (strs.size() > 1) {
+        log(logger::ERROR, "Wrong format in configuration file: waiting for \
+single token after \"listen\"");
+        exit(EXIT_FAILURE);
+    }
+    if (inet_aton(strs[0].c_str(), &addr.sin_addr) == false)
+    {
+        log(logger::ERROR,
+            "Server::setAddr, invalid address: %s", strs[0].c_str());
+        exit(EXIT_FAILURE);
+    }
+}
+
+void
+setPort(const std::vector<std::string> &strs, struct sockaddr_in &addr)
+{
+    logger::Log &log = logger::Log::getInst();
+    if (strs.size() > 1) {
+        log(logger::ERROR, "Wrong format in configuration file: waiting for \
+single token after \"port\"");
+        exit(EXIT_FAILURE);
+    }
+    in_port_t port_val = 0;
+    std::istringstream s(strs[0]);
+    s >> port_val;
+    if (port_val < PORT_MIN || port_val > PORT_MAX)
+    {
+        log(logger::ERROR, "setPort: Port %s out of range %i - %i",
+            strs[0].c_str(), PORT_MIN, PORT_MAX);
+        exit(EXIT_FAILURE);
+    }
+    addr.sin_port = htons(port_val);
+}
+
+bool    setAttributesFromTokens(const std::vector<std::string> &tokenList,
+            Config &conf, struct sockaddr_in &addr)
 {
     logger::Log &log = logger::Log::getInst();
 
@@ -331,8 +314,7 @@ bool    setAttributesFromTokens(
     uniqueDirectives(UDirArr, UDirArr + sizeof(UDirArr) / sizeof(UDirArr[0]));
 
     typedef void(Config::*setters)(const std::vector<std::string> &arg);
-    setters setters_ptr[7] = {&Config::setAddr, &Config::setPort,
-                              &Config::setServerNames, &Config::addErrorPage,
+    setters setters_ptr[7] = {0, 0, &Config::setServerNames, &Config::addErrorPage,
                               &Config::setClientMaxBody, &Config::setMimeConfPath,
                               &Config::addLocation};
 
@@ -362,14 +344,26 @@ bool    setAttributesFromTokens(
                 strs.push_back(tokenList[i++]);
             }
             i--;
-            (conf->*setters_ptr[itFind - directives.begin()])(strs);
+            if (itFind - directives.begin() == 0)
+            {
+                setAddr(strs, addr);
+            }
+            else if (itFind - directives.begin() == 1)
+            {
+                setPort(strs, addr);
+            }
+            else
+            {
+                (conf.*setters_ptr[itFind - directives.begin()])(strs);
+            }
         }
     }
 
     return true;
 }
 
-bool    getNextConfig(std::ifstream &config_file, Config *conf)
+bool
+getNextConfig(std::ifstream &config_file, Config &conf, struct sockaddr_in &addr)
 {
     static int count = 0;
     logger::Log &log = logger::Log::getInst();
@@ -379,12 +373,8 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
 
     if (count > 0)
         return false;
-    if (conf == NULL)
-    {
-        log(logger::ERROR, "getNextConfig: conf pointer is null");
-        exit(EXIT_FAILURE);
-    }
-    conf->clear();
+
+    conf.clear();
     if (config_file.eof())
         return false;
     for (std::string line; std::getline(config_file, line); )
@@ -419,13 +409,14 @@ bool    getNextConfig(std::ifstream &config_file, Config *conf)
             }
         }
     }
-    conf->id = count;
-    return setAttributesFromTokens(tokenList, conf);
+    conf.id = count;
+    log(logger::DEBUG, "getNextConfig: config count %i", count);
+    return setAttributesFromTokens(tokenList, conf, addr);
 }
 
 struct lessCfg
 {
-    bool    operator()(const cfg::Config &f, const cfg::Config &s)
+    bool    operator()(const cfg::Config &f, const cfg::Config &s) const
     {
         if (f.is_default)
             return false;
