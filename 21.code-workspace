@@ -42,6 +42,9 @@
       {
         "path": "ft_webserver"
       },
+      {
+        "path": "ft_irc"
+      },
     ],
     "settings": {
         "42header.username": "cflorind",
