@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 14:41:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/09/18 16:37:31 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:12:25 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 namespace srv
 {
-const int MAX_EVENTS = SOMAXCONN;
+const int MAX_EVENTS = 512;
 
 class Server;
 
@@ -77,7 +77,7 @@ public:
         utl::sockSetNonBlock(listenSocket);
 
         event.data.fd = listenSocket;
-        event.events = EPOLLIN;
+        event.events = EPOLLIN | EPOLLEXCLUSIVE;
     }
 
     char        *getAddrStr(void) const

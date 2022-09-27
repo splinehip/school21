@@ -6,7 +6,7 @@
 /*   By: cflorind <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 10:59:16 by cflorind          #+#    #+#             */
-/*   Updated: 2022/09/18 15:50:09 by cflorind         ###   ########.fr       */
+/*   Updated: 2022/09/20 16:11:13 by cflorind         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,33 +85,60 @@ void    addPoll(int EPoll, srv::m_srvs_t &srvs)
     }
 }
 
-bool    isListenSocket(int socket, const srv::m_srvs_t &srvs)
+bool    isListenSocket(int socket, const std::set<int> &consockets,
+                        const srv::m_srvs_t &srvs, conargs_t &conargs)
 {
-    sockaddr_in     *addr;
-    struct sockaddr sock_addr;
-    socklen_t       addrlen = sizeof(addr);
+    logger::Log &log = logger::Log::getInst();
 
-    getsockname(socket, &sock_addr, &addrlen);
-    addr = (sockaddr_in *)(&sock_addr);
-    if (srvs.find(*addr) == srvs.end())
+    srv::m_srvs_t::const_iterator   it;
+    sockaddr_in                     *addr;
+    struct sockaddr                 sock_addr;
+    socklen_t                       addrlen = sizeof(addr);
+
+    if (consockets.find(socket) != consockets.end())
+    {
+        log(logger::DEBUG, "isListenSocket: this is connection socket %i", socket);
         return false;
-    return true;
+    }
+
+    if (getsockname(socket, &sock_addr, &addrlen))
+    {
+        log(logger::DEBUG, "isListenSocket: getsockname error: %s",
+            strerror(errno));
+        return false;
+    }
+    addr = (sockaddr_in *)(&sock_addr);
+
+    it = srvs.find(*addr);
+
+    if (it == srvs.end())
+    {
+        log(logger::DEBUG, "isListenSocket: server %s:%i not found.",
+            inet_ntoa(addr->sin_addr), addr->sin_port);
+        return false;
+    }
+    else
+    {
+        conargs.srv = &it->second;
+        log(logger::DEBUG, "isListenSocket: server %s:%i found",
+            conargs.srv->getAddrStr(), conargs.srv->getPort());
+        return true;
+    }
 }
 
 void    run(const std::string &configFile)
 {
     logger::Log &log = logger::Log::getInst();
 
-    int             EPoll;
-    int             conSocket;
-    conargs_t       conargs;
-    pthread_t       thread;
-    sockaddr_in     *addr;
-    struct sockaddr srv_addr;
-    struct sockaddr src_addr;
-    socklen_t       addrlen;
+    int                 EPoll;
+    struct epoll_event  Events[srv::MAX_EVENTS];
+    conargs_t           conargs;
+    pthread_t           thread;
+    struct sockaddr     src_addr;
+    socklen_t           addrlen;
+    std::set<int>       consockets;
 
-    addrlen = sizeof(addr);
+    addrlen = sizeof(sockaddr);
 
     srv::m_srvs_t srvs = srv::initServers(configFile);
 
@@ -126,38 +153,32 @@ void    run(const std::string &configFile)
     }
     addPoll(EPoll, srvs);
 
+    conargs.EPoll = EPoll;
+
     while (true)
     {
-        struct epoll_event Events[srv::MAX_EVENTS];
         int N = epoll_wait(EPoll, Events, srv::MAX_EVENTS, -1);
-
+        log(logger::DEBUG, "run: new %i events hapend", N);
         for (int i = 0; i < N; i++)
         {
-            if (isListenSocket(Events[i].data.fd, srvs))
+            if (isListenSocket(Events[i].data.fd, consockets, srvs, conargs))
             {
-                conSocket = accept(Events[i].data.fd, &src_addr, &addrlen);
-                utl::sockSetNonBlock(conSocket);
-                struct epoll_event event;
-                event.data.fd = conSocket;
-                event.events = EPOLLIN;
-                epoll_ctl(EPoll, EPOLL_CTL_ADD, conSocket, &event);
+                conargs.conSocket = accept(Events[i].data.fd, &src_addr, &addrlen);
+                if (conargs.conSocket < 0 && errno == EAGAIN)
+                {
+                    log(logger::DEBUG, "run: accept return EAGAIN");
+                    continue ;
+                }
+                utl::sockSetNonBlock(conargs.conSocket);
 
+                conargs.client_ip = inet_ntoa(((sockaddr_in *)(&src_addr))->sin_addr);
+                conargs.client_port = ntohs(((sockaddr_in *)(&src_addr))->sin_port);
 
-                conargs.conSocket = conSocket;
-
-                addr = (sockaddr_in *)(&src_addr);
-                conargs.client_ip = inet_ntoa(addr->sin_addr);
-                conargs.client_port = ntohs(addr->sin_port);
-
-                getsockname(conSocket, &srv_addr, &addrlen);
-                addr = (sockaddr_in *)(&srv_addr);
-
-                log(logger::DEBUG, "Accept new connection from: %s:%i, to: %s:%i",
-                        conargs.client_ip, conargs.client_port,
-                        inet_ntoa(addr->sin_addr), ntohs(addr->sin_port));
-
-                conargs.srv = &srvs[*addr];
-
+                log(logger::DEBUG,
+                    "server %s:%i: accept new connection from: %s:%i",
+                    conargs.srv->getAddrStr(), conargs.srv->getPort(),
+                    conargs.client_ip, conargs.client_port);
+                consockets.insert(conargs.conSocket);
                 pthread_create(&thread, NULL, &requestHandler, (void *)(&conargs));
             }
         }
