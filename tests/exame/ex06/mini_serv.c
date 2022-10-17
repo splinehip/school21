@@ -104,12 +104,11 @@ void    rm(int fd)
             send(i, msg, strlen(msg), 0);
     }
     close(fd);
-    fd = maxfd;
-    maxfd = ls;
-    for (int i = 0; i <= fd; i++)
+    fd = ls;
+    for (int i = 0; i <= maxfd; i++)
     {
         if (cls[i].id)
-            maxfd = i;
+            fd = i;
     }
     if (fd == ls && FD_ISSET(4, &cur))
         maxfd = 4;
@@ -124,7 +123,7 @@ void    send_msg(int fd)
     sprintf(hd, "client %d: ", cls[fd].id);
     while (extract_message(&cls[fd].msg, &msg) > 0)
     {
-        for (int i = 0; i < maxfd; i++)
+        for (int i = 0; i <= maxfd; i++)
         {
             if (i != ls && i != fd && FD_ISSET(i, &wr))
             {
